@@ -29,7 +29,7 @@
     width: 91px;
     height: 49px;
     padding: 15px 16px;
-    background-color: rgb(42, 54, 71);
+    background-color: var(--color-primary);
     color: white;
     border-radius: 8px;
     font-weight: 700;
@@ -41,8 +41,8 @@
 }
 
 .registry-button:hover {
-    background-color: rgb(41, 171, 226);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    background-color: var(--color-accent);
+    box-shadow: 0px 4px 4px rgb(182, 182, 182);
 }
 
 .logo {
@@ -74,6 +74,10 @@
     animation: fade-in 1.5s ease forwards;
 }
 
+.d-none{
+    display: none;
+}
+
 h1 {
     line-height: 120%;
     font-weight: 700;
@@ -89,7 +93,7 @@ h1 {
 .line {
     width: 150px;
     height: 0px;
-    border: 3px solid rgb(41, 171, 226);
+    border: 3px solid var(--color-accent);
     margin-top: 10px;
 }
 
@@ -160,7 +164,7 @@ h1 {
     width: 110px;
     height: 48px;
     border-radius: 8px;
-    background-color: rgb(42, 54, 71);
+    background-color: var(--color-primary);
     color: white;
     font-weight: 700;
     font-size: 21px;
@@ -170,16 +174,17 @@ h1 {
 }
 
 .log-in-button:hover {
-    background-color: rgb(41, 171, 226);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    background-color: var(--color-accent);
+    box-shadow: 0px 4px 4px rgb(182, 182, 182);
     border-width: 0px;
 }
 
-.log-in-guest-buton {
+.log-in-guest-button {
     width: 177px;
     height: 48px;
     border-radius: 8px;
     border-color: rgb(82, 92, 106);
+    border-width: 1px;
     background-color: rgb(255, 255, 255);
     font-weight: 700;
     font-size: 21px;
@@ -188,10 +193,27 @@ h1 {
     cursor: pointer;
 }
 
-.log-in-guest-buton:hover {
-    color: rgb(41, 171, 226);
-    border-color: rgb(41, 171, 226);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+.log-in-guest-button:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    border-width: 2px;
+    box-shadow: 0px 4px 4px rgb(182, 182, 182);
+}
+
+.registry-button,
+.log-in-button,
+.log-in-guest-button {
+  transition: all 0.1s ease;
+}
+
+.registry-button,
+.log-in-button,
+.log-in-guest-button {
+  transition: background-color 0.1s ease, 
+              border-color 0.1s ease, 
+              border-width 0.1s ease, 
+              box-shadow 0.1s ease, 
+              color 0.1s ease;
 }
 
 
