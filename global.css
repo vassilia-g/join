@@ -14,6 +14,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    font-family: 'Inter';
 }
 
 header {
@@ -22,4 +23,8 @@ header {
     margin-top: 60px;
     display: flex;
     justify-content: flex-end;
+}
+
+a {
+    text-decoration: none;
 }
