@@ -8,6 +8,7 @@ body {
     padding: 0;
     background-color: rgb(255, 255, 255);
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -19,8 +20,52 @@ body {
     height: 100vh;
     position: relative;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+}
+
+header {
+    width: 100%;
+    height: 116px;
+    margin-top: 60px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.registry-container {
+    width: 279px;
+    height: 49px;
+    display: flex;
+    align-items: center;
+    gap: 35px;
+    margin-right: 117px;
+}
+
+.registry-text {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 120%;
+    letter-spacing: 0%;
+}
+
+.registry-button {
+    width: 91px;
+    height: 49px;
+    padding: 15px 16px;
+    background-color: rgb(42, 54, 71);
+    color: white;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 120%;
+    letter-spacing: 0%;
+    cursor: pointer;
+    border-width: 0px;
+}
+
+.registry-button:hover {
+    background-color: rgb(41, 171, 226);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .logo {
@@ -45,8 +90,8 @@ body {
     }
 
     100% {
-        top: 20px;
-        left: 20px;
+        top: 80px;
+        left: 77px;
         width: 100px;
         height: 100px;
         transform: translate(0, 0);
@@ -54,12 +99,13 @@ body {
 }
 
 .log-in-container {
-    width: 652px;
-    height: 449px;
+    max-width: 652px;
+    max-height: 449px;
     background-color: rgb(255, 255, 255);
     border-radius: 30px;
     padding: 48px 115px;
-    gap: 32px;
+    margin-top: 100px;
+    /* gap: 32px; */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -72,6 +118,7 @@ body {
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }
@@ -81,6 +128,7 @@ h1 {
     line-height: 120%;
     font-weight: 700;
     font-size: 61px;
+    font-style: normal;
     letter-spacing: 0%;
     text-align: center;
     align-self: center;
@@ -92,6 +140,7 @@ h1 {
     width: 150px;
     height: 0px;
     border: 3px solid rgb(41, 171, 226);
+    margin-top: 10px;
 }
 
 .input-main-container {
@@ -100,6 +149,18 @@ h1 {
     gap: 20px;
     display: flex;
     flex-direction: column;
+    cursor: pointer;
+    padding-top: 32px;
+}
+
+.input-email::placeholder,
+.input-password::placeholder {
+    color: rgb(215, 215, 215);
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 120%;
+    letter-spacing: 0%;
+    padding-left: 20px;
 }
 
 .input-symbol {
@@ -142,28 +203,43 @@ h1 {
     height: 48px;
     gap: 35px;
     display: flex;
+    padding-top: 32px;
 }
 
 .log-in-button {
     width: 110px;
     height: 48px;
     border-radius: 8px;
-    background-color: rgb(42,54,71);
+    background-color: rgb(42, 54, 71);
     color: white;
     font-weight: 700;
     font-size: 21px;
     line-height: 120%;
     letter-spacing: 0%;
+    cursor: pointer;
+}
+
+.log-in-button:hover {
+    background-color: rgb(41, 171, 226);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-width: 0px;
 }
 
 .log-in-guest-buton {
     width: 177px;
     height: 48px;
     border-radius: 8px;
-    border-color: rgb(82,92,106);
+    border-color: rgb(82, 92, 106);
     background-color: rgb(255, 255, 255);
     font-weight: 700;
     font-size: 21px;
     line-height: 120%;
     letter-spacing: 0%;
+    cursor: pointer;
+}
+
+.log-in-guest-buton:hover {
+    color: rgb(41, 171, 226);
+    border-color: rgb(41, 171, 226);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }

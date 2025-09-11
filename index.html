@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=h1, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="./global.css">
     <link rel="shortcut icon" href="./images/favicon/Logo for Favicon construction.svg" type="image/x-icon">
@@ -12,18 +12,25 @@
 </head>
 
 <body>
+
     <div id="content-wrapper">
+        <header>
+            <div id="registry-container" class="registry-container">
+                <span class="registry-text">Not a Join user?</span>
+                <button class="registry-button">Sign up</button>
+            </div>
+        </header>
         <img id="logo" class="logo" src="./images/join-logo/Capa 2.svg" alt="Das Logo von Join.">
         <div id="log-in-container" class="log-in-container d-none">
             <h1>Log in</h1>
             <div class="line"></div>
             <div class="input-main-container">
                 <div class="input-email-container">
-                    <input class="input-email" type="email" required>
+                    <input id="input-email" class="input-email" type="email" placeholder="Email" required>
                     <img class="input-symbol" src="./images/symbols/mail.svg" alt="Ein Brief Symbol">
                 </div>
                 <div class="input-password-container">
-                    <input class="input-password" type="password" required>
+                    <input id="input-password" class="input-password" type="password" placeholder="Password" required>
                     <img class="input-symbol" src="./images/symbols/lock.svg" alt="Ein Schloss Symbol">
                 </div>
                 <span>I forgot my Password</span>
