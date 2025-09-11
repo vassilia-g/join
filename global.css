@@ -1,6 +1,3 @@
-.d-none{
-    display: none;
-}
 html {
     margin: 0;
     padding: 0;
@@ -22,4 +19,10 @@ header {
     margin-top: 60px;
     display: flex;
     justify-content: flex-end;
+}
+
+:root {
+  --color-primary: #2a3647; /* main color */
+  --color-secondary: #091931; /* main color hover */
+  --color-accent: #29abe2; /* accents color */
 }
