@@ -40,6 +40,6 @@ p {
 
 .page-content {
     height: 824px;
-    overflow-y: scroll;
+    overflow-y: auto;
     padding: 80px 64px 24px 64px;
 }

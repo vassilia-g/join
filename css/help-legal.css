@@ -23,10 +23,11 @@
     transform: scale(1.1);
 }
 
-.help-content {
+.text-content {
     display: flex;
     flex-direction: column;
     gap: 24px;
+    
 }
 
 .instructions {
