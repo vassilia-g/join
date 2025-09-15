@@ -1,0 +1,12 @@
+.contact-main-section{
+    display: flex;
+    flex-direction: row;
+    height: calc(100% - 96px);
+}
+
+.contact-sidebar{
+    width: 456px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 4px 0 6px -2px rgba(0, 0, 0, 0.096);
+}
