@@ -258,6 +258,7 @@ h1 {
     gap: 34px;
     color: rgb(192, 193, 193);
     font-size: 16px;
+    animation: fade-in 2.5s ease forwards;
 }
 
 .privacy-legal-link {
