@@ -10,7 +10,6 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
     font-family: 'Inter';
 }
 
@@ -18,8 +17,29 @@ a {
     text-decoration: none;
 }
 
+h2 {
+    margin: 0;
+}
+
+p {
+    margin: 0;
+}
+
 :root {
   --color-primary: #2a3647; /* main color */
   --color-secondary: #091931; /* main color hover */
   --color-accent: #29abe2; /* accents color */
+}
+
+.content {
+    margin: auto;
+    height: 1024px;
+    width: 1440px;
+    display: flex;
+}
+
+.page-content {
+    height: 824px;
+    overflow-y: scroll;
+    padding: 80px 64px 24px 64px;
 }
