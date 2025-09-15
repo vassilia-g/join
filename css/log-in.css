@@ -271,10 +271,10 @@ h1 {
     }
 
     100% {
-        top: 80px;
-        left: 77px;
-        width: 100px;
-        height: 100px;
+        top: 64px;
+        left: 65.5px;
+        width: 101px;
+        height: 122px;
         transform: translate(0, 0);
     }
 }
