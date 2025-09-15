@@ -8,5 +8,26 @@
     width: 456px;
     display: flex;
     flex-direction: column;
+    align-items: center;
     box-shadow: 4px 0 6px -2px rgba(0, 0, 0, 0.096);
+    padding: 22px 52px 22px 52px;
+    box-sizing: border-box; 
 }
+
+.add-contact-button{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 56px;
+    width: 100%;
+    border-radius: 8px;
+    background-color: #2A3647;
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    cursor: pointer;
+    border: none;
+}
+
