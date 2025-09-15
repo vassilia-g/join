@@ -31,3 +31,40 @@
     border: none;
 }
 
+.contact-main{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 100px 52px 20px 52px;
+    box-sizing: border-box;
+
+}
+
+.line{
+    height: 59px;
+    width: 3.5px;
+    background-color: #29ABE2;
+    border-radius: 3px;
+
+}
+
+.contact-main-header{
+    height: 59px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 40px;
+}
+
+.h1-contacts{
+    font-family: 'Inter';
+    font-size: 61px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.p-header-contact{
+    font-family: 'Inter';
+    font-size: 27px;
+    font-weight: 400;
+}
