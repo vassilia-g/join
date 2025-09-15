@@ -40,6 +40,7 @@ footer {
     align-items: center;
     gap: 34px;
     margin-right: 117px;
+    animation: fade-in 1.5s ease forwards;
 }
 
 .registry-text {
