@@ -1,50 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Join</title>
 
-        <link rel="stylesheet" href="./css/log-in.css">
-        <link rel="stylesheet" href="./global.css">
-        <link rel="stylesheet" href="./css/fonts.css">
-        <link rel="shortcut icon" href="./assets/icons/favicon/Logo for Favicon construction.svg" type="image/x-icon">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join</title>
 
-        <script src="./script.js"></script>
-        <script src="scripts/log-in.js"></script>
-    </head>
+    <link rel="stylesheet" href="./css/log-in.css">
+    <link rel="stylesheet" href="./global.css">
+    <link rel="stylesheet" href="./css/fonts.css">
+    <link rel="shortcut icon" href="./assets/icons/favicon/Logo for Favicon construction.svg" type="image/x-icon">
 
-    <body>
-        <div id="content-wrapper">
-            <header class="log-in-header">
-                <div id="registry-container" class="registry-container">
-                    <span class="registry-text">Not a Join user?</span>
-                    <button class="registry-button">Sign up</button>
+    <script src="./script.js"></script>
+    <script src="scripts/log-in.js"></script>
+</head>
+
+<body>
+    <div id="content-wrapper">
+        <header class="log-in-header">
+            <div id="registry-container" class="registry-container">
+                <span class="registry-text">Not a Join user?</span>
+                <button class="registry-button">Sign up</button>
+            </div>
+        </header>
+
+        <img id="logo" class="logo" src="./assets/imgs/join-logo/Capa 2.svg" alt="Das Logo von Join.">
+        <div id="log-in-container" class="log-in-container d-none">
+            <h1>Log in</h1>
+            <div class="line"></div>
+            <div class="input-main-container">
+                <div class="input-email-container">
+                    <input id="input-email" class="input-email" type="email" placeholder="Email" required>
+                    <img class="input-symbol" src="./assets/imgs/symbols/mail.svg" alt="Ein Brief Symbol">
                 </div>
-            </header>
 
-            <img id="logo" class="logo" src="./assets/imgs/join-logo/Capa 2.svg" alt="Das Logo von Join.">
-            <div id="log-in-container" class="log-in-container d-none">
-                <h1>Log in</h1>
-                <div class="line"></div>
-                <div class="input-main-container">
-                    <div class="input-email-container">
-                        <input id="input-email" class="input-email" type="email" placeholder="Email" required>
-                        <img class="input-symbol" src="./assets/imgs/symbols/mail.svg" alt="Ein Brief Symbol">
-                    </div>
-
-                    <div class="input-password-container">
-                        <input id="input-password" class="input-password" type="password" placeholder="Password" required>
-                        <img class="input-symbol" src="./assets/imgs/symbols/lock.svg" alt="Ein Schloss Symbol">
-                    </div>
-
-                    <span>I forgot my Password</span>
+                <div class="input-password-container">
+                    <input id="input-password" class="input-password" type="password" placeholder="Password" required>
+                    <img class="input-symbol" src="./assets/imgs/symbols/lock.svg" alt="Ein Schloss Symbol">
                 </div>
-                <div class="log-in-button-container">
-                    <button class="log-in-button">Log in</button>
-                    <button class="log-in-guest-button">Guest Log in</button>
-                </div>
+
+                <span class="forgotten-password">I forgot my Password</span>
+            </div>
+            <div class="log-in-button-container">
+                <button class="log-in-button">Log in</button>
+                <button class="log-in-guest-button">Guest Log in</button>
             </div>
         </div>
-    </body>
+        <div class="privacy-legal-link-container">
+            <a href="./html/privacy-policy.html">Privacy Policy</a>
+            <a href="./html/legal-notice.html">Legal notice</a>
+        </div>
+    </div>
+</body>
+
 </html>
