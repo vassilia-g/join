@@ -39,8 +39,7 @@
 .legal {
     display: flex;
     flex-direction: column;
-    justify-content: end;
-    padding: 243px 0 0 52px;
+    place-self: center;
     gap: 8px;
 }
 
