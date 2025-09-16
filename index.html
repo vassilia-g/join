@@ -21,31 +21,81 @@
             <header class="log-in-header">
                 <div id="registry-container" class="registry-container d-none">
                     <span class="registry-text">Not a Join user?</span>
-                    <button class="registry-button">Sign up</button>
+                    <button id="registry-button" onclick="showSignUpContainer()" class="registry-button">Sign
+                        up</button>
                 </div>
             </header>
 
             <img id="logo" class="logo" src="./assets/imgs/join-logo/Capa 2.svg" alt="Das Logo von Join.">
-            <div id="log-in-container" class="log-in-container d-none">
+            <div id="log-in-container" class="log-in-container">
                 <h1>Log in</h1>
                 <div class="line"></div>
                 <div class="input-main-container">
-                    <div class="input-email-container">
-                        <input id="input-email" class="input-email" type="email" placeholder="Email" required>
-                        <img class="input-symbol" src="./assets/imgs/symbols/mail.svg" alt="Ein Brief Symbol">
-                    </div>
+                    <form class="form-log-in" action="">
+                        <div class="input-email-container">
+                            <input id="input-email" class="input-email" type="email" placeholder="Email" required>
+                            <img class="input-symbol" src="./assets/imgs/symbols/mail.svg" alt="Ein Brief Symbol">
+                        </div>
 
-                    <div class="input-password-container">
-                        <input id="input-password" class="input-password" type="password" placeholder="Password" required>
-                        <img class="input-symbol" src="./assets/imgs/symbols/lock.svg" alt="Ein Schloss Symbol">
-                    </div>
+                        <div class="input-password-container">
+                            <input id="input-password" class="input-password" type="password" placeholder="Password"
+                                required>
+                            <img class="input-symbol" src="./assets/imgs/symbols/lock.svg" alt="Ein Schloss Symbol">
+                        </div>
 
-                    <span class="forgotten-password">I forgot my Password</span>
+                        <span class="forgotten-password">I forgot my Password</span>
                 </div>
                 <div class="log-in-button-container">
                     <button class="log-in-button">Log in</button>
                     <button class="log-in-guest-button">Guest Log in</button>
                 </div>
+                </form>
+            </div>
+
+            <div id="sign-up-container" class="sign-up-container d-none">
+                <h1>Sign up</h1>
+                <div class="line"></div>
+                <div class="input-main-container">
+                    <form class="form-sign-up" action="">
+                        <div class="input-sign-up-name-container">
+                            <input id="input-sign-up-name" class="input-sign-up-name" type="text" placeholder="Name"
+                                required>
+                            <img class="input-symbol" src="./assets/imgs/symbols/person.svg" alt="Ein Peronen Symbol">
+                        </div>
+
+                        <div class="input-sign-up-email-container">
+                            <input id="input-sign-up-email" class="input-sign-up-email" type="email" placeholder="Email"
+                                required>
+                            <img class="input-symbol" src="./assets/imgs/symbols/mail.svg" alt="Ein Brief Symbol">
+                        </div>
+
+                        <div class="input-sign-up-password-container">
+                            <input id="input-sign-up-password" class="input-sign-up-password" type="password"
+                                placeholder="Password" required>
+                            <img class="input-symbol" src="./assets/imgs/symbols/lock.svg" alt="Ein Schloss Symbol">
+                        </div>
+
+                        <div class="input-sign-up-confirm-password-container">
+                            <input id="input-sign-up-confirm-password" class="input-sign-up-confirm-password"
+                                type="password" placeholder="Confirm Password" required>
+                            <img class="input-symbol" src="./assets/imgs/symbols/lock.svg" alt="Ein Schloss Symbol">
+                        </div>
+
+                        <span class="accept-policy">
+                            <img class="custom-checkbox" src="./assets/imgs/symbols/Property 1=Default.svg" alt="checkbox symbol">
+                            <img class="custom-checkbox-hover" src="./assets/imgs/symbols/Property1=hover checked.svg" alt="checkbox-symbol-checked">
+                            <input onchange="enableSignUpButton()" type="checkbox" name="checkbox" id="checkbox"
+                                class="checkbox"> I accept the <a class="link-to-privacy-policy"
+                                href="./html/privacy-policy.html">Privacy policy</a>
+
+                        </span>
+                        <div id="sign-up-form-button-container" class="sign-up-form-button-container">
+                            <button id="sign-up-form-button" class="disabled-sign-up-form-button" type="submit"
+                                disabled>Sign up</button>
+                        </div>
+                    </form>
+                </div>
+
             </div>
 
             <footer>
