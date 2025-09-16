@@ -26,9 +26,12 @@ p {
 }
 
 :root {
-  --color-primary: #2a3647; /* main color */
-  --color-secondary: #091931; /* main color hover */
-  --color-accent: #29abe2; /* accents color */
+    --color-primary: #2a3647;
+    /* main color */
+    --color-secondary: #091931;
+    /* main color hover */
+    --color-accent: #29abe2;
+    /* accents color */
 }
 
 .content {
@@ -39,7 +42,8 @@ p {
 }
 
 .page-content {
-    height: 824px;
+    box-sizing: border-box;
+    height: calc(100vh - 96px);
     overflow-y: auto;
     padding: 80px 64px 24px 64px;
 }
