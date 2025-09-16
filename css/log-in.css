@@ -138,6 +138,7 @@ h1 {
     height: 0px;
     border: 3px solid var(--color-accent);
     margin-top: 10px;
+    border-radius: 3px;
 }
 
 .input-main-container {
@@ -212,7 +213,8 @@ h1 {
 }
 
 .checkbox {
-    display: none;
+    /* display: none; */
+    cursor: pointer;
 }
 
 .custom-checkbox {
