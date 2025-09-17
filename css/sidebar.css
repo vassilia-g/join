@@ -32,6 +32,15 @@
     color: #CDCDCD;
 }
 
+.selected-nav {
+    cursor: default;
+    background-color: var(--color-secondary);
+}
+
+.selected-nav:hover {
+    background-color: var(--color-secondary) !important;
+}
+
 .nav:hover {
     background-color: #2A3D59;
 }
