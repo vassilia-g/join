@@ -82,10 +82,18 @@
                         </div>
 
                         <span class="accept-policy">
-                            <input onchange="enableSignUpButton()" type="checkbox" name="checkbox" id="checkbox"
-                                class="checkbox"> I accept the <a class="link-to-privacy-policy"
-                                href="./html/privacy-policy.html">Privacy policy</a>
+
+                            <label for="sign-up-checkbox">
+                                <input type="checkbox" name="checkbox"
+                                    id="sign-up-checkbox" class="sign-up-checkbox">
+                                    <img id="custom-checkbox" class="custom-checkbox" src="./assets/imgs/symbols/checkbox.svg" alt="leere checkbox" onclick="enableSignUpButton()">
+                                    <img id="custom-checked-checkbox" class="custom-checked-checkbox d-none" src="./assets/imgs/symbols/checked-checkbox.svg" alt="gehakte Checkbox" onclick="disableSignUpButton()">
+                            </label>
+
+                            I accept the <a class="link-to-privacy-policy" href="./html/privacy-policy.html">Privacy
+                                policy</a>
                         </span>
+
                         <div id="sign-up-form-button-container" class="sign-up-form-button-container">
                             <button id="sign-up-form-button" class="disabled-sign-up-form-button" type="submit"
                                 disabled>Sign up</button>
