@@ -23,24 +23,39 @@
                         <p class="line-horizontal"></p>
                     </div>
                     <div class="popup-rightside">
-                        <button onclick="addContact()">X</button>
+                        <button class="close-button" onclick="addContact()">
+                             <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px" fill="#2A3647"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+                        </button>
                         <div class="popup-container">
                           <div class="profile-picture">
-                              <img src="" alt="Profilpicture">
+                               <svg xmlns="http://www.w3.org/2000/svg" height="60px" viewBox="0 -960 960 960" width="60px" fill="#FFFFFF"><path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z"/></svg>
                           </div>
                           <div class="input-container">   
                             <div class="input-group">
-                              <input class="input-add-contact" type="text" id="name" placeholder="Name">
+                              <input class="input-add-contact input-name" type="text" id="name" placeholder="Name">
                             </div>
                             <div class="input-group">
-                              <input class="input-add-contact" type="email" id="email" placeholder="Email">
+                              <input class="input-add-contact input-email" type="email" id="email" placeholder="Email">
                             </div>
                             <div class="input-group">
-                              <input class="input-add-contact" type="tel" id="phone" placeholder="Phone">
+                              <input class="input-add-contact input-phone" type="tel" id="phone" placeholder="Phone">
                             </div>
                             <div class="input-button">
-                                <button>Cancel X</button>
-                                <button>Create contact</button>
+                                <button class="cancel-button">
+                                    Cancel 
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px" fill="#2A3647"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+                                </button>
+                                <button class="create-button">
+                                    Create contact
+                                    <svg width="16" height="15" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <mask id="mask0_75592_9963" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="24">
+                                        <rect x="0.144531" width="24" height="24" fill="#ffffff"/>
+                                        </mask>
+                                        <g mask="url(#mask0_75592_9963)">
+                                        <path d="M9.69474 15.15L18.1697 6.675C18.3697 6.475 18.6072 6.375 18.8822 6.375C19.1572 6.375 19.3947 6.475 19.5947 6.675C19.7947 6.875 19.8947 7.1125 19.8947 7.3875C19.8947 7.6625 19.7947 7.9 19.5947 8.1L10.3947 17.3C10.1947 17.5 9.96141 17.6 9.69474 17.6C9.42807 17.6 9.19474 17.5 8.99474 17.3L4.69474 13C4.49474 12.8 4.3989 12.5625 4.40724 12.2875C4.41557 12.0125 4.51974 11.775 4.71974 11.575C4.91974 11.375 5.15724 11.275 5.43224 11.275C5.70724 11.275 5.94474 11.375 6.14474 11.575L9.69474 15.15Z" fill="#ffffff"/>
+                                        </g>
+                                        </svg>
+                                </button>
                             </div>
                            </div> 
                         </div>
