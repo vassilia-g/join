@@ -228,11 +228,15 @@ p#field-requiered-info::before {
     background-color: var(--color-primary) !important;
 }
 
-.arrowUp {
-    background-color: white !important;
+.arrowUp,
+.arrowDown {
+  background-color: #2A3647;
+  border-radius: 4px;       
+  padding: 2px;              
 }
 
-.arrowDown {
+.arrowUp:hover,
+.arrowDown:hover {
     background-color: white !important;
 }
 
