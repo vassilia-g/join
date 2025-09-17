@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/help-legal.css">
     <link rel="stylesheet" href="../css/add-task.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </head>
 
 <body>
@@ -62,7 +64,10 @@
                             </div>
                             <div class="task-label-divs">
                                 <label id="task-due-date-label">Due Date</label>
-                                <input class="input-border-size" type="date" name="task-due-date" id="task-due-date" placeholder="dd/mm/yyyy">
+                                <div class="input-wrapper">
+                                <input class="input-border-size" type="text" name="task-due-date" id="task-due-date" placeholder="dd/mm/yyyy">
+                                <img onclick="showCalender()" class="placeholder-icon" src="../assets/icons/event.svg" alt="">
+                                </div>
                             </div>
                         </div>
 
@@ -165,6 +170,7 @@
         </div>
     </div>
 
+    <script src="../scripts/add-task.js"></script>
 </body>
 
 </html>

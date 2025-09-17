@@ -19,6 +19,29 @@
     width: 440px;
     border-radius: 10px;
     border: 1px solid #D1D1D1;
+    font-size: 20px;
+}
+
+input::placeholder {
+    color: #D1D1D1;
+}
+
+.input-wrapper {
+    position: relative;
+    width: 440px;
+}
+
+#task-due-date {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 16px;
+}
+
+.placeholder-icon {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    cursor: pointer;
 }
 
 .task-label-divs {
@@ -187,4 +210,65 @@ p#field-requiered-info::before {
 
 #clear-btn:active {
     border-color: #091931;
+}
+
+.flatpickr-month {
+    background-color: var(--color-primary) !important;
+}
+
+.flatpickr-current-month {
+    color: white !important;
+}
+
+.flatpickr-months {
+    border-radius: 12px !important;
+}
+
+.flatpickr-monthDropdown-months {
+    background-color: var(--color-primary) !important;
+}
+
+.arrowUp {
+    background-color: white !important;
+}
+
+.arrowDown {
+    background-color: white !important;
+}
+
+.flatpickr-months .flatpickr-prev-month,
+.flatpickr-months .flatpickr-next-month {
+    color: rgb(255 255 255) !important;
+    fill: rgb(235 235 235) !important;
+}
+
+.flatpickr-months .flatpickr-prev-month:hover svg,
+.flatpickr-months .flatpickr-next-month:hover svg {
+    fill: white !important;
+}
+
+.flatpickr-day.selected,
+.flatpickr-day.startRange,
+.flatpickr-day.endRange,
+.flatpickr-day.selected.inRange,
+.flatpickr-day.startRange.inRange,
+.flatpickr-day.endRange.inRange,
+.flatpickr-day.selected:focus,
+.flatpickr-day.startRange:focus,
+.flatpickr-day.endRange:focus,
+.flatpickr-day.selected:hover,
+.flatpickr-day.startRange:hover,
+.flatpickr-day.endRange:hover,
+.flatpickr-day.selected.prevMonthDay,
+.flatpickr-day.startRange.prevMonthDay,
+.flatpickr-day.endRange.prevMonthDay,
+.flatpickr-day.selected.nextMonthDay,
+.flatpickr-day.startRange.nextMonthDay,
+.flatpickr-day.endRange.nextMonthDay {
+    background: var(--color-primary) !important;
+    border-color: var(--color-primary) !important;
+}
+
+.flatpickr-calendar {
+    border-radius: 12px !important;
 }
