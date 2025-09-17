@@ -25,18 +25,31 @@ function showSignUpContainer() {
 }
 
 function enableSignUpButton() {
-    const checkbox = document.getElementById("checkbox");
     const signUpButton = document.getElementById("sign-up-form-button");
-    
-    if (checkbox && signUpButton) {
-        if (checkbox.checked) {
-            signUpButton.disabled = false;
-            signUpButton.classList.remove("disabled-sign-up-form-button");
-            signUpButton.classList.add("enabled-sign-up-form-button");
-        } else {
-            signUpButton.disabled = true;
-            signUpButton.classList.add("disabled-sign-up-form-button");
-            signUpButton.classList.remove("enabled-sign-up-form-button");
-        }
+    const customCheckbox = document.getElementById("custom-checkbox");
+    const customCheckedCheckbox = document.getElementById("custom-checked-checkbox");
+    if (customCheckbox) {
+        signUpButton.disabled = false;
+        signUpButton.classList.remove("disabled-sign-up-form-button");
+        signUpButton.classList.add("enabled-sign-up-form-button");
+        customCheckbox.classList.add("d-none");
+        customCheckedCheckbox.classList.remove("d-none");
+    } else {
+        signUpButton.disabled = true;
+        signUpButton.classList.add("disabled-sign-up-form-button");
+        signUpButton.classList.remove("enabled-sign-up-form-button");
+    }
+}
+
+function disableSignUpButton(){
+    const signUpButton = document.getElementById("sign-up-form-button");
+    const customCheckbox = document.getElementById("custom-checkbox");
+    const customCheckedCheckbox = document.getElementById("custom-checked-checkbox");
+    if (customCheckedCheckbox) {
+        signUpButton.disabled = true;
+        signUpButton.classList.add("disabled-sign-up-form-button");
+        signUpButton.classList.remove("enabled-sign-up-form-button");
+        customCheckedCheckbox.classList.add("d-none");
+        customCheckbox.classList.remove("d-none");
     }
 }
