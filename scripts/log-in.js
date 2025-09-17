@@ -4,6 +4,7 @@ function moveLogoToTopLeft() {
     const logo = document.getElementById('logo');
     const logInContainer = document.getElementById('log-in-container');
     const registryContainer = document.getElementById('registry-container');
+
     if (logo) {
         setTimeout(() => {
             logo.classList.add('logo-move-to-top-left');
@@ -17,6 +18,7 @@ function showSignUpContainer() {
     const signUpContainer = document.getElementById("sign-up-container");
     const logInContainer = document.getElementById("log-in-container");
     const registryContainer = document.getElementById("registry-container");
+
     if (signUpContainer) {
         signUpContainer.classList.remove("d-none");
         logInContainer.classList.add("d-none");
@@ -28,6 +30,7 @@ function enableSignUpButton() {
     const signUpButton = document.getElementById("sign-up-form-button");
     const customCheckbox = document.getElementById("custom-checkbox");
     const customCheckedCheckbox = document.getElementById("custom-checked-checkbox");
+
     if (customCheckbox) {
         signUpButton.disabled = false;
         signUpButton.classList.remove("disabled-sign-up-form-button");
@@ -45,6 +48,7 @@ function disableSignUpButton(){
     const signUpButton = document.getElementById("sign-up-form-button");
     const customCheckbox = document.getElementById("custom-checkbox");
     const customCheckedCheckbox = document.getElementById("custom-checked-checkbox");
+    
     if (customCheckedCheckbox) {
         signUpButton.disabled = true;
         signUpButton.classList.add("disabled-sign-up-form-button");
