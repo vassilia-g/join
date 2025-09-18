@@ -1,8 +1,12 @@
 .add-task-content {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     height: 100%;
+}
+
+.add-task-title {
+    margin-bottom: 40px !important;
 }
 
 .create-task {
@@ -16,10 +20,17 @@
 
 .input-border-size {
     height: 48px;
+    padding: 12px 21px;
     width: 440px;
     border-radius: 10px;
     border: 1px solid #D1D1D1;
     font-size: 20px;
+    box-sizing: border-box;
+}
+
+.input-border-size:focus {
+    border-color: var(--color-accent) !important;
+    outline: none;
 }
 
 input::placeholder {
@@ -68,6 +79,49 @@ input::placeholder {
     height: 120px;
     border-radius: 10px;
     border: 1px solid #D1D1D1;
+    box-sizing: border-box;
+    resize: vertical;
+    font-size: 20px;
+    font-family: 'Inter';
+    padding: 18px 16px;
+}
+
+#task-description::placeholder {
+    color: #D1D1D1;
+}
+
+#task-description:focus {
+    border-color: var(--color-accent) !important;
+    outline: none;
+}
+
+.subtask {
+    position: relative;
+}
+
+.delete-or-keep-subtask {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    display: flex;
+}
+
+.delete-or-keep-subtask svg {
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.keep-subtask {
+    border-left: 1px solid #E0E0E0;
+    padding-left: 5px;
+}
+
+.delete-subtask {
+    padding-right: 5px;
+}
+
+.delete-or-keep-subtask svg:hover {
+    background-color: #EFEFEF;
 }
 
 #task-due-date-label::after {
@@ -133,13 +187,16 @@ input::placeholder {
     color: #FF8190;
 }
 
+#selected-subtasks {
+    padding-left: 58%;
+}
+
 .task-footer {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    margin-bottom: 4rem;
-    height: 56px;
-    align-items: center;
+    margin-bottom: 16px;
+    flex: 1;
 }
 
 p#field-requiered-info::before {
@@ -230,9 +287,9 @@ p#field-requiered-info::before {
 
 .arrowUp,
 .arrowDown {
-  background-color: #2A3647;
-  border-radius: 4px;       
-  padding: 2px;              
+    background-color: #2A3647;
+    border-radius: 4px;
+    padding: 2px;
 }
 
 .arrowUp:hover,

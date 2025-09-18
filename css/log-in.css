@@ -117,10 +117,6 @@ footer {
     animation: fade-in 1.5s ease forwards;
 }
 
-.d-none {
-    display: none;
-}
-
 h1 {
     line-height: 120%;
     font-weight: 700;
