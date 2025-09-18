@@ -31,30 +31,44 @@
                 <h1>Log in</h1>
                 <div class="line"></div>
                 <div class="input-main-container">
-                    <form class="form-log-in" action="">
+                    <form class="form-log-in" action="" onsubmit="goToOtherPage(event)">
                         <div class="input-email-container">
                             <input id="input-email" class="input-email" type="email" placeholder="Email" required>
                             <img class="input-symbol" src="./assets/imgs/symbols/mail.svg" alt="Ein Brief Symbol">
                         </div>
 
                         <div class="input-password-container">
-                            <input id="input-password" class="input-password" type="password" placeholder="Password"
-                                required>
-                            <img class="input-symbol" src="./assets/imgs/symbols/lock.svg" alt="Ein Schloss Symbol">
+                            <input oninput="changeSymbols()" id="input-password" class="input-password" type="password"
+                                placeholder="Password" required>
+                            <img id="lock-symbol" class="input-symbol" src="./assets/imgs/symbols/lock.svg"
+                                alt="Ein Schloss Symbol">
+                            <img onclick="makePasswordVisible()" id="visibility-off" class="input-symbol d-none"
+                                src="./assets/imgs/symbols/visibility_off.svg" alt="durchgestrichenes Auge Symbol">
+                            <img onclick="hidePassword()" id="visibility-on" class="input-symbol d-none"
+                                src="./assets/imgs/symbols/visibility.svg" alt="offenes Auge Symbol">
                         </div>
 
-                        <span class="forgotten-password">I forgot my Password</span>
+                        <span id="forgotten-password" class="password-matters"><a class="forgotten-password-link"
+                                href="">I forgot my Password</a></span>
+                        <span id="error-password-length" class="password-matters d-none go-red">Check your email and
+                            password. Please try again.</span>
+                        <div class="log-in-button-container">
+                            <button onclick="behavePasswordInput(event)" type="submit" class="log-in-button">Log
+                                in</button>
+                            <button type="button" class="log-in-guest-button">Guest Log in</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="log-in-button-container">
-                    <button class="log-in-button">Log in</button>
-                    <button class="log-in-guest-button">Guest Log in</button>
-                </div>
-                </form>
             </div>
 
             <div id="sign-up-container" class="sign-up-container d-none">
-                <h1>Sign up</h1>
+                <div class="sign-up-header">
+                    <img class="arrow-left" src="./assets/icons/arrow-left-vector.svg" alt="Ein Pfeil nach links">
+                    <h1>Sign up</h1>
+
+                </div>
                 <div class="line"></div>
+
                 <div class="input-main-container">
                     <form class="form-sign-up" action="">
                         <div class="input-sign-up-name-container">
@@ -84,10 +98,13 @@
                         <span class="accept-policy">
 
                             <label for="sign-up-checkbox">
-                                <input type="checkbox" name="checkbox"
-                                    id="sign-up-checkbox" class="sign-up-checkbox">
-                                    <img id="custom-checkbox" class="custom-checkbox" src="./assets/imgs/symbols/checkbox.svg" alt="leere checkbox" onclick="enableSignUpButton()">
-                                    <img id="custom-checked-checkbox" class="custom-checked-checkbox d-none" src="./assets/imgs/symbols/checked-checkbox.svg" alt="gehakte Checkbox" onclick="disableSignUpButton()">
+                                <input type="checkbox" name="checkbox" id="sign-up-checkbox" class="sign-up-checkbox">
+                                <img id="custom-checkbox" class="custom-checkbox"
+                                    src="./assets/imgs/symbols/checkbox.svg" alt="leere checkbox"
+                                    onclick="enableSignUpButton()">
+                                <img id="custom-checked-checkbox" class="custom-checked-checkbox d-none"
+                                    src="./assets/imgs/symbols/checked-checkbox.svg" alt="gehakte Checkbox"
+                                    onclick="disableSignUpButton()">
                             </label>
 
                             I accept the <a class="link-to-privacy-policy" href="./html/privacy-policy.html">Privacy
