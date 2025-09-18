@@ -118,8 +118,8 @@
     top: 50%;
     left: 50%;
     transform: translate(100%, -50%);
-    width: 850px;
-    height: 400px;
+    width: 1212px;
+    height: 592px;
     background-color: white;
     border-radius: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -139,7 +139,7 @@
 }
 
 .popup-leftside{
-    width: 300px;
+    width: 467px;
     height: 100%;
     background-color: #2A3647;
     padding: 20px;
@@ -154,7 +154,7 @@
 }
 
 .popup-rightside{
-    width: 600px;
+    width: calc(100% - 467px);
     height: 100%;
     padding: 40px;
     box-sizing: border-box;
@@ -183,7 +183,7 @@
 }
 
 .input-add-contact{
-    width: 300px;
+    width: 412px;
     height: 40px;
     border-radius: 8px;
     border: 1px solid #D1D5DB;
@@ -238,7 +238,7 @@
     margin-top: 10px;
 }
 
-.cancel-button, .create-button{
+/* .cancel-button, .create-button{
     width: auto;
     height: 40px;
     border-radius: 8px;
@@ -252,39 +252,60 @@
     gap: 6px;
     border: solid 1px #2A3647;
     transition: background-color 0.2s, color 0.2s, border 0.2s, box-shadow 0.2s;
-}
+} */
 
 .cancel-button{
-    background-color: white;
-    color: #2A3647;
-
+    border-radius: 10px;
+    border: 1px solid #2A3647;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 20px;
+    cursor: pointer;
+    background-color: #F6F7F8;
+    width: auto;
+    height: 56px;
+    box-sizing: border-box;
+    justify-content: center;
 }
 
+.create-button{
+    border-radius: 10px;
+    border: 1px solid var(--color-primary);
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 21px;
+    color: #FFFFFF;
+    cursor: pointer;
+    background-color: var(--color-primary);
+    width: auto;
+    box-sizing: border-box;
+    justify-content: center;
+    font-weight: 700;
+    height: 56px;
+}
+
+
 .cancel-button:hover{
-    background-color: white;
-    color: #269DCF;
-    border: solid 1px #269DCF;
+    border: 2px solid var(--color-accent);
+    color: var(--color-accent);
+    box-shadow: 0px 4px 4px 0px #00000040;
 }
 .cancel-button svg path{
     transition: fill 0.2s;
 }
 
 .cancel-button:hover svg path{
-    fill: #269DCF;
-    transition: fill 0.2s;
-}
-
-.create-button{
-    background-color: #2A3647;
-    color: white;
-    font-weight: 600;
+    fill: var(--color-accent);
 }
 
 .create-button:hover{
-    background-color: #269DCF;
-    border: solid 1px #269DCF;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s, color 0.3s, border 0.3s, transform 0.3s, box-shadow 0.3s;
+    background-color: var(--color-accent);
+    box-shadow: 0px 4px 4px 0px #00000040;
+    border: 2px solid var(--color-accent);
 }
 
 
@@ -298,6 +319,6 @@
     align-items: center;
     justify-content: center;
     position: absolute;
-    left: 800px;
-    top: 30px;
+    left: 1132px;
+    top: 48px;
 }
