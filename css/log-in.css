@@ -239,6 +239,10 @@ h1 {
     border-radius: 4px;
 }
 
+.forgotten-password-link{
+    color: #bdbdbd;
+}
+
 .forgotten-password-link:hover {
     color: var(--color-accent);
 }
