@@ -14,6 +14,9 @@ const lowSvgPath = lowSvg.querySelectorAll("path");
 const contactsToSelect = document.getElementById('contacts-to-select');
 const selectedContacts = document.getElementById('selected-contacts');
 const dropdownIcon = document.getElementById('dropdown-icon');
+const categories = document.getElementById('categories');
+const dropdownIconCategories = document.getElementById('dropdown-icon-categories');
+const categoryInput = document.getElementById('input-category');
 let contacts = ['Jule Zieten', 'Marco Rößler', 'Vassilia Gerodimos', 'Anika Schmidt', 'Dustin Condello'];
 
 
@@ -276,4 +279,42 @@ function showSelectedContacts() {
       </svg>
     `;
   }
+}
+
+function openCategories() {
+  if (categories.innerHTML == '') {
+    categories.innerHTML += showCategories();
+    setTimeout(() => {
+      categories.classList.add('show');
+    }, 10);
+  } else {
+    categories.classList.remove('show');
+    setTimeout(() => {
+      categories.innerHTML = '';
+    }, 300);
+  }
+  dropdownIconCategories.classList.toggle("open");
+}
+
+function showCategories() {
+  return `
+    <div class="categories-dropdown">
+      <span onclick="showTechnicalTaskInInput()">Technical Task</span>
+      <span onclick="showUserStoryInInput()">User Story</span>
+    </div>
+  `;
+}
+
+function showTechnicalTaskInInput() {
+  categoryInput.innerHTML = 'Technical Task';
+  dropdownIconCategories.classList.toggle("open");
+  categories.classList.remove('show');
+  categories.innerHTML = '';
+}
+
+function showUserStoryInInput() {
+  categoryInput.innerHTML = 'User Story';
+  dropdownIconCategories.classList.toggle("open");
+  categories.classList.remove('show');
+  categories.innerHTML = '';
 }
