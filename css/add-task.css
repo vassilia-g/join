@@ -1,8 +1,8 @@
 .add-task-content {
     display: flex;
     flex-direction: column;
-    /* justify-content: space-between; */
     height: 100%;
+    overflow: hidden;
 }
 
 .add-task-title {
@@ -80,7 +80,7 @@ input::placeholder {
     border-radius: 10px;
     border: 1px solid #D1D1D1;
     box-sizing: border-box;
-    resize: vertical;
+    resize: none;
     font-size: 20px;
     font-family: 'Inter';
     padding: 18px 16px;
@@ -93,6 +93,78 @@ input::placeholder {
 #task-description:focus {
     border-color: var(--color-accent) !important;
     outline: none;
+}
+
+.description {
+    position: relative;
+}
+
+.description svg {
+    position: absolute;
+    bottom: 4px;
+    right: 71px;
+}
+
+.assign-contacts {
+    display: flex;
+    justify-content: space-between;
+    background-color: #FFFFFF;
+    cursor: pointer;
+}
+
+.assign-contacts:hover {
+    border: 1px solid #A8A8A8;
+}
+
+.assign-contacts svg:hover {
+    background-color: #EFEFEF;
+    border-radius: 50%;
+}
+
+#dropdown-icon {
+  transition: transform 0.3s ease;
+}
+
+#dropdown-icon.open {
+  transform: rotate(180deg);
+}
+
+#contacts-to-select {
+    background-color: #FFFFFF;
+    border-radius: 0 0 10px 10px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out; 
+    z-index: 2;
+}
+
+#contacts-to-select.show {
+    max-height: 280px;
+}
+
+.single-contact {
+    padding: 7px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.single-contact:hover {
+    background-color: #EFEFEF;
+}
+
+.contact-name {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+#selected-contacts {
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .subtask {
@@ -132,7 +204,7 @@ input::placeholder {
 .task-additional-info {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    gap: 24px;
     padding-left: 2rem;
     width: 50%;
     height: 400px;
@@ -208,6 +280,7 @@ p#field-requiered-info::before {
     display: flex;
     gap: 16px;
     box-sizing: border-box;
+    position: relative;
 }
 
 #clear-btn {
