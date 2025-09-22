@@ -308,3 +308,78 @@
     left: 1132px;
     top: 48px;
 }
+
+
+.contact-item {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.contact-item.active {
+    background-color: var(--color-primary);
+    border-radius: 8px;
+    color: white;
+}
+
+.contact-content {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.contact-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;   
+    font-weight: 400;
+    font-size: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.85);
+}
+
+.contact-avatar-show {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;   
+    font-weight: 500;
+    font-size: 47px;
+    border: 4px solid rgba(255, 255, 255, 0.85);
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-info strong {
+    font-size: 20px;
+}
+
+.contact-email {
+    font-size: 16px;
+    text-decoration: underline;
+}
+
+.contact-details{
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 20px;
+}
+
+.show-contact-template{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}

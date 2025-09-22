@@ -10,11 +10,12 @@
     <link rel="stylesheet" href="../css/sidebar.css">
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/contacts.css">
+    <script src="../scripts/contacts-templates.js" ></script>
 </head>
 <body>
 
         <div class="content">
-            <div id="overlay-contact" onclick="addContact()" class="overlay-contact d_none" >
+            <div id="overlay-contact" onclick="addContactOverlay()" class="overlay-contact d_none" >
                 <div onclick="event.stopPropagation()" class="popup-contact">
                     <div class="popup-leftside">
                         <img src="../assets/imgs/join-logo/Logo-white.svg" alt="Join Logo" style="width: 55.6px; height: 66.48px;">
@@ -23,7 +24,7 @@
                         <p class="line-horizontal"></p>
                     </div>
                     <div class="popup-rightside">
-                        <button class="close-button" onclick="addContact()">
+                        <button class="close-button" onclick="addContactOverlay()">
                              <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#2A3647"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
                         </button>
                         <div class="popup-container">
@@ -92,11 +93,11 @@
             <section class="contact-main-section">
 
                 <div class="contact-sidebar">
-                    <button onclick="addContact()" class="add-contact-button">
+                    <button onclick="addContactOverlay()" class="add-contact-button">
                         Add new contact
                         <img src="../assets/icons/person-add.svg" alt="Contacts icon" style="width: 32px; height: 32px; margin-left: 8px; color: white;">
                     </button>
-                    <div class="contacts-list">
+                    <div class="contacts-list" id="contact-list">
                 
                     </div>
                 </div>
@@ -106,10 +107,13 @@
                         <p class="line"></p>
                         <p class="p-header-contact">Better with a team</p>
                     </header>
+                    <div class="contact-details" id="contact-details">
                 </div>
             </section>
         </div>
     </div>
+
+
     
 
     <script src="../scripts/contacts.js"></script>
