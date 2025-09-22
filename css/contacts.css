@@ -364,7 +364,7 @@
 
 .contact-email {
     font-size: 16px;
-    text-decoration: underline;
+    color: #358CF0;
 }
 
 .contact-details{
@@ -381,5 +381,23 @@
 .show-contact-template{
     display: flex;
     align-items: center;
+    gap: 40px;
+}
+
+.edit-delete-buttons{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     gap: 20px;
+}
+
+.edit-delete-button{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: none;
+    border: none;
+    font-size: 16px;
 }

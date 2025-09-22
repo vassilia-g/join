@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,61 +11,80 @@
     <link rel="stylesheet" href="../css/sidebar.css">
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/contacts.css">
-    <script src="../scripts/contacts-templates.js" ></script>
+    <script src="../scripts/contacts-templates.js"></script>
 </head>
+
 <body>
 
-        <div class="content">
-            <div id="overlay-contact" onclick="addContactOverlay()" class="overlay-contact d_none" >
-                <div onclick="event.stopPropagation()" class="popup-contact">
-                    <div class="popup-leftside">
-                        <img src="../assets/imgs/join-logo/Logo-white.svg" alt="Join Logo" style="width: 55.6px; height: 66.48px;">
-                        <h2 class="h2-contacts">Add contact</h2>
-                        <p style="font-size: 27px; font-weight: 400;">Tasks are better with a team!</p>
-                        <p class="line-horizontal"></p>
-                    </div>
-                    <div class="popup-rightside">
-                        <button class="close-button" onclick="addContactOverlay()">
-                             <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#2A3647"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
-                        </button>
-                        <div class="popup-container">
-                          <div class="profile-picture">
-                               <svg xmlns="http://www.w3.org/2000/svg" height="60px" viewBox="0 -960 960 960" width="60px" fill="#FFFFFF"><path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z"/></svg>
-                          </div>
-                          <div class="input-container">   
+    <div class="content">
+        <div id="overlay-contact" onclick="addContactOverlay()" class="overlay-contact d_none">
+            <div onclick="event.stopPropagation()" class="popup-contact">
+                <div class="popup-leftside">
+                    <img src="../assets/imgs/join-logo/Logo-white.svg" alt="Join Logo"
+                        style="width: 55.6px; height: 66.48px;">
+                    <h2 class="h2-contacts">Add contact</h2>
+                    <p style="font-size: 27px; font-weight: 400;">Tasks are better with a team!</p>
+                    <p class="line-horizontal"></p>
+                </div>
+                <div class="popup-rightside">
+                    <button class="close-button" onclick="addContactOverlay()">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px"
+                            fill="#2A3647">
+                            <path
+                                d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+                        </svg>
+                    </button>
+                    <div class="popup-container">
+                        <div class="profile-picture">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="60px" viewBox="0 -960 960 960" width="60px"
+                                fill="#FFFFFF">
+                                <path
+                                    d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z" />
+                            </svg>
+                        </div>
+                        <div class="input-container">
                             <div class="input-group">
-                              <input class="input-add-contact input-name" type="text" id="name" placeholder="Name">
+                                <input class="input-add-contact input-name" type="text" id="name" placeholder="Name">
                             </div>
                             <div class="input-group">
-                              <input class="input-add-contact input-email" type="email" id="email" placeholder="Email">
+                                <input class="input-add-contact input-email" type="email" id="email"
+                                    placeholder="Email">
                             </div>
                             <div class="input-group">
-                              <input class="input-add-contact input-phone" type="tel" id="phone" placeholder="Phone">
+                                <input class="input-add-contact input-phone" type="tel" id="phone" placeholder="Phone">
                             </div>
                             <div class="input-button">
                                 <button class="cancel-button">
-                                    Cancel 
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#2A3647"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+                                    Cancel
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
+                                        width="24px" fill="#2A3647">
+                                        <path
+                                            d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+                                    </svg>
                                 </button>
                                 <button class="create-button">
                                     Create contact
-                                    <svg width="24" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <mask id="mask0_75592_9963" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="24">
-                                        <rect x="0.144531" width="24" height="24" fill="#ffffff"/>
+                                    <svg width="24" height="24" viewBox="0 0 25 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <mask id="mask0_75592_9963" style="mask-type:alpha" maskUnits="userSpaceOnUse"
+                                            x="0" y="0" width="25" height="24">
+                                            <rect x="0.144531" width="24" height="24" fill="#ffffff" />
                                         </mask>
                                         <g mask="url(#mask0_75592_9963)">
-                                        <path d="M9.69474 15.15L18.1697 6.675C18.3697 6.475 18.6072 6.375 18.8822 6.375C19.1572 6.375 19.3947 6.475 19.5947 6.675C19.7947 6.875 19.8947 7.1125 19.8947 7.3875C19.8947 7.6625 19.7947 7.9 19.5947 8.1L10.3947 17.3C10.1947 17.5 9.96141 17.6 9.69474 17.6C9.42807 17.6 9.19474 17.5 8.99474 17.3L4.69474 13C4.49474 12.8 4.3989 12.5625 4.40724 12.2875C4.41557 12.0125 4.51974 11.775 4.71974 11.575C4.91974 11.375 5.15724 11.275 5.43224 11.275C5.70724 11.275 5.94474 11.375 6.14474 11.575L9.69474 15.15Z" fill="#ffffff"/>
+                                            <path
+                                                d="M9.69474 15.15L18.1697 6.675C18.3697 6.475 18.6072 6.375 18.8822 6.375C19.1572 6.375 19.3947 6.475 19.5947 6.675C19.7947 6.875 19.8947 7.1125 19.8947 7.3875C19.8947 7.6625 19.7947 7.9 19.5947 8.1L10.3947 17.3C10.1947 17.5 9.96141 17.6 9.69474 17.6C9.42807 17.6 9.19474 17.5 8.99474 17.3L4.69474 13C4.49474 12.8 4.3989 12.5625 4.40724 12.2875C4.41557 12.0125 4.51974 11.775 4.71974 11.575C4.91974 11.375 5.15724 11.275 5.43224 11.275C5.70724 11.275 5.94474 11.375 6.14474 11.575L9.69474 15.15Z"
+                                                fill="#ffffff" />
                                         </g>
-                                        </svg>
+                                    </svg>
                                 </button>
                             </div>
-                           </div> 
                         </div>
-
                     </div>
-                
+
                 </div>
+
             </div>
+        </div>
         <div class="sidebar">
             <div class="logo">
                 <img src="../assets/imgs/join-logo/Logo-white.svg">
@@ -84,7 +104,8 @@
             <header class="header">
                 <p class="header-text">Kanban Project Management Tool</p>
                 <div class="header-assets">
-                    <a href="./help.html"><img class="help" src="../assets/icons/help.svg" alt="help-icon" style="width: 20px; height: 20px; margin-right: 22px;"></a>
+                    <a href="./help.html"><img class="help" src="../assets/icons/help.svg" alt="help-icon"
+                            style="width: 20px; height: 20px; margin-right: 22px;"></a>
                     <div class="profile-initials">
                         <p class="initials">SM</p>
                     </div>
@@ -95,10 +116,11 @@
                 <div class="contact-sidebar">
                     <button onclick="addContactOverlay()" class="add-contact-button">
                         Add new contact
-                        <img src="../assets/icons/person-add.svg" alt="Contacts icon" style="width: 32px; height: 32px; margin-left: 8px; color: white;">
+                        <img src="../assets/icons/person-add.svg" alt="Contacts icon"
+                            style="width: 32px; height: 32px; margin-left: 8px; color: white;">
                     </button>
                     <div class="contacts-list" id="contact-list">
-                
+
                     </div>
                 </div>
                 <div class="contact-main">
@@ -108,14 +130,12 @@
                         <p class="p-header-contact">Better with a team</p>
                     </header>
                     <div class="contact-details" id="contact-details">
-                </div>
+                    </div>
             </section>
         </div>
     </div>
 
-
-    
-
     <script src="../scripts/contacts.js"></script>
 </body>
+
 </html>
