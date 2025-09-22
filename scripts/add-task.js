@@ -18,6 +18,12 @@ const categories = document.getElementById('categories');
 const dropdownIconCategories = document.getElementById('dropdown-icon-categories');
 const categoryInput = document.getElementById('input-category');
 let contacts = ['Jule Zieten', 'Marco Rößler', 'Vassilia Gerodimos', 'Anika Schmidt', 'Dustin Condello'];
+const createTaskButton = document.getElementById("create-task-btn");
+createTaskButton.disabled = true;
+
+document.getElementById("task-title").addEventListener("input", enableCreateTaskButton);
+document.getElementById("task-due-date").addEventListener("input", enableCreateTaskButton);
+categoryInput.addEventListener("DOMSubtreeModified", enableCreateTaskButton);
 
 
 const picker = flatpickr("#task-due-date", {
@@ -310,6 +316,7 @@ function showTechnicalTaskInInput() {
   dropdownIconCategories.classList.toggle("open");
   categories.classList.remove('show');
   categories.innerHTML = '';
+  enableCreateTaskButton();
 }
 
 function showUserStoryInInput() {
@@ -317,4 +324,75 @@ function showUserStoryInInput() {
   dropdownIconCategories.classList.toggle("open");
   categories.classList.remove('show');
   categories.innerHTML = '';
+  enableCreateTaskButton();
+}
+
+function clearTask() {
+  document.getElementById("task-title").value = '';
+  document.getElementById("task-description").value = '';
+  dateInput.value = '';
+  urgentButton.classList.remove("selected");
+  mediumButton.classList.remove("selected"); 
+  lowButton.classList.remove("selected");
+  createTaskButton.classList.add("d-none");
+  changeUrgentBtnToDefault();
+  changeMediumBtnToDefault();
+  changeLowBtnToDefault();
+  setDefaultToContactCheckboxes();
+  showSelectedContacts();
+  clearSubtaskInput()
+  setDefaultToCategoryDropdown();
+  setDefaultToContactDropdown();
+}
+
+function setDefaultToContactCheckboxes() {
+  document.querySelectorAll('[id^="checkbox-"]').forEach(el => {
+    try {
+      el.classList.remove("checked");
+      const idx = el.id.split('-')[1];
+      if (typeof idx !== 'undefined') {
+        el.innerHTML = showEmptyCheckbox(idx);
+      } else {
+        el.innerHTML = '';
+      }
+    } catch (err) {
+      console.error("Fehler beim Zurücksetzen einer Checkbox:", err);
+    }
+  });
+  document.querySelectorAll('[id^="initials-"]').forEach(el => {
+    el.classList.remove("checked");
+  });
+}
+
+function setDefaultToContactDropdown() {
+  contactsToSelect.innerHTML = '';
+  dropdownIcon.classList.remove('open');
+  setTimeout(() => { contactsToSelect.innerHTML = ''; }, 300);
+}
+
+function setDefaultToCategoryDropdown() {
+  categoryInput.innerHTML = 'Select task category';
+  categories.classList.remove('show');
+  dropdownIconCategories.classList.remove('open');
+  setTimeout(() => { categories.innerHTML = ''; }, 300);
+}
+
+function clearSubtaskInput() {
+  selectedSubtasks.innerHTML = '';
+  subtaskInput.value = '';
+  subtaskPick.classList.add('d-none');
+}
+
+function enableCreateTaskButton() {
+  const title = document.getElementById("task-title").value.trim();
+  const category = document.getElementById("input-category").textContent.trim();
+  const dueDate = document.getElementById("task-due-date").value.trim();
+
+  if (title !== "" && dueDate !== "" && category !== "Select task category") {
+    createTaskButton.classList.remove("d-none");
+    createTaskButton.disabled = false;
+  } else {
+    createTaskButton.classList.add("d-none");
+    createTaskButton.disabled = true;
+}
 }

@@ -336,7 +336,7 @@ p#field-requiered-info::before {
 
 #clear-btn {
     border-radius: 10px;
-    border: 1px solid #2A3647;
+    border: 1px solid var(--color-primary);
     padding: 8px;
     display: flex;
     align-items: center;
@@ -411,7 +411,7 @@ p#field-requiered-info::before {
 
 .arrowUp,
 .arrowDown {
-    background-color: #2A3647;
+    background-color: var(--color-primary);
     border-radius: 4px;
     padding: 2px;
 }
