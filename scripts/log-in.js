@@ -120,7 +120,7 @@ function goToOtherPage(event) {
     const redError = document.getElementById("error-email-password-text");
 
     if (user && user.password === inputPassword.value) {
-        window.location.replace("html/sidebar.html");
+        window.location.replace("html/summary.html");
     } else {
         redError.classList.remove("d-none")
     }
