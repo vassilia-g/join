@@ -122,19 +122,19 @@ input::placeholder {
 }
 
 #dropdown-icon {
-  transition: transform 0.3s ease;
+    transition: transform 0.3s ease;
 }
 
 #dropdown-icon.open {
-  transform: rotate(180deg);
+    transform: rotate(180deg);
 }
 
 #dropdown-icon-categories {
-  transition: transform 0.3s ease;
+    transition: transform 0.3s ease;
 }
 
 #dropdown-icon-categories.open {
-  transform: rotate(180deg);
+    transform: rotate(180deg);
 }
 
 .categories-dropdown {
@@ -156,12 +156,17 @@ input::placeholder {
 }
 
 #categories {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
     background-color: #FFFFFF;
     border-radius: 0 0 10px 10px;
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.3s ease-in-out;
     z-index: 2;
+    box-shadow: 0px 0px 14px 3px rgba(0, 0, 0, 0.04);
 }
 
 #categories.show {
@@ -169,12 +174,17 @@ input::placeholder {
 }
 
 #contacts-to-select {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
     background-color: #FFFFFF;
     border-radius: 0 0 10px 10px;
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.3s ease-in-out; 
+    transition: max-height 0.3s ease-in-out;
     z-index: 2;
+    box-shadow: 0px 0px 14px 3px rgba(0, 0, 0, 0.04);
 }
 
 #contacts-to-select.show {
@@ -197,13 +207,6 @@ input::placeholder {
     display: flex;
     align-items: center;
     gap: 16px;
-}
-
-#selected-contacts {
-    padding: 8px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
 }
 
 .task-category {
@@ -245,6 +248,52 @@ input::placeholder {
 
 .delete-or-keep-subtask svg:hover {
     background-color: #EFEFEF;
+}
+
+#selected-subtasks {
+    padding-left: 58%;
+}
+
+.subtask-list {
+    margin: 8px 0;
+    padding: 3px 0 5px 40px;
+    border-radius: 8px;
+    box-sizing: border-box;
+    height: 30px;
+}
+
+.subtask-list:hover {
+    background-color: #EFEFEF;
+}
+
+.subtask-list-element {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 24px;
+}
+
+.delete-or-edit-icons {
+    display: none;
+}
+
+.subtask-list:hover .delete-or-edit-icons {
+    display: flex;
+    align-items: center;
+}
+
+.delete-or-edit-icons svg {
+    margin: 0 2px 0 2px;
+    cursor: pointer;
+}
+
+.delete-or-edit-icons svg:hover {
+    transform: scale(1.1);
+}
+
+.edit-svg {
+    border-right: 1px solid #E0E0E0;
+    padding-right: 4px;
 }
 
 #task-due-date-label::after {
@@ -308,10 +357,6 @@ input::placeholder {
 #task-category-label::after {
     content: "*";
     color: #FF8190;
-}
-
-#selected-subtasks {
-    padding-left: 58%;
 }
 
 .task-footer {
@@ -378,13 +423,18 @@ p#field-requiered-info::before {
     height: 56px;
 }
 
-#create-task-btn:hover {
+#create-task-btn:disabled {
+    background-color: #3f516b;
+    cursor: default;
+}
+
+#create-task-btn:hover:enabled {
     background-color: var(--color-accent);
     box-shadow: 0px 4px 4px 0px #00000040;
     border: 2px solid var(--color-accent);
 }
 
-#create-task-btn:active {
+#create-task-btn:active:enabled {
     background-color: #091931;
     border-color: #091931;
 }
@@ -456,4 +506,48 @@ p#field-requiered-info::before {
 
 .flatpickr-calendar {
     border-radius: 12px !important;
+}
+
+#contact-input-and-dropdown,
+#category-input-and-dropdown {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+#contacts-to-select {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #FFFFFF;
+    border-radius: 0 0 10px 10px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+    z-index: 2;
+    box-shadow: 0px 0px 14px 3px rgba(0, 0, 0, 0.04);
+}
+
+#selected-contacts {
+    display: flex;
+    align-items: center;
+}
+
+.selected-contacts-svg {
+    padding: 8px 4px;
+}
+
+#categories {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #FFFFFF;
+    border-radius: 0 0 10px 10px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+    z-index: 2;
+    box-shadow: 0px 0px 14px 3px rgba(0, 0, 0, 0.04);
 }
