@@ -55,6 +55,18 @@ input::placeholder {
     cursor: pointer;
 }
 
+.input-border-size.error {
+  border: 2px solid red !important;
+}
+
+.warning {
+  color: red;
+  font-size: 14px;
+  margin-top: 5.5rem;
+  position: absolute;
+  padding-left: 1rem;
+}
+
 .task-label-divs {
     display: flex;
     flex-direction: column;
@@ -426,6 +438,7 @@ p#field-requiered-info::before {
 #create-task-btn:disabled {
     background-color: #3f516b;
     cursor: default;
+    filter: grayscale(0.8) opacity(0.4);
 }
 
 #create-task-btn:hover:enabled {

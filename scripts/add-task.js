@@ -1,4 +1,5 @@
 const dateInput = document.getElementById("task-due-date");
+const dateWarning = document.getElementById("date-warning");
 const subtaskInput = document.getElementById('task-subtasks');
 const subtaskPick = document.getElementById('delete-or-keep-subtask');
 const selectedSubtasks = document.getElementById('selected-subtasks');
@@ -29,10 +30,11 @@ categoryInput.addEventListener("DOMSubtreeModified", enableCreateTaskButton);
 
 
 const picker = flatpickr("#task-due-date", {
-  dateFormat: "d.m.Y",
+  dateFormat: "d/m/Y",
   allowInput: true,
   minDate: "today",
   locale: "en",
+  clickOpens: false,
 
   onReady: checkArrows,
   onChange: checkArrows,
@@ -72,7 +74,34 @@ dateInput.addEventListener("input", function (e) {
   }
 
   e.target.value = formatted;
+  
+  validateDate(formatted);
 });
+
+function validateDate(dateStr) {
+  if (!dateStr || dateStr.length !== 10) {
+    resetDateValidation();
+    return;
+  }
+
+  const [day, month, year] = dateStr.split("/").map(n => parseInt(n, 10));
+  const inputDate = new Date(year, month - 1, day);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  if (inputDate < today) {
+    dateInput.classList.add("error");
+    dateWarning.classList.remove("d-none");
+  } else {
+    resetDateValidation();
+  }
+}
+
+function resetDateValidation() {
+  dateInput.classList.remove("error");
+  dateWarning.classList.add("d-none");
+}
+
 
 function showCalender() {
   picker.open();
