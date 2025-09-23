@@ -133,3 +133,21 @@ function saveContact(event) {
         form.reportValidity();
     }
 }
+
+function addContact(event) {
+
+    event.preventDefault();
+
+    const form = document.getElementById("add-contact-form");
+
+    if (form.checkValidity()) {
+
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const phone = document.getElementById("phone").value.trim();
+
+        console.log("Contact saved:", { name, email, phone });
+    } else {
+        form.reportValidity();
+    }
+}
