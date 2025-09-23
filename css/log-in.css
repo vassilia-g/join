@@ -96,7 +96,8 @@ footer {
     max-height: 449px;
     background-color: rgb(255, 255, 255);
     border-radius: 30px;
-    padding: 48px 115px 140px 115px;
+    /* padding: 48px 115px 140px 115px; */
+    padding: 48px 115px 85px 115px;
     margin-top: 100px;
     display: flex;
     flex-direction: column;
