@@ -128,7 +128,7 @@ function saveContact(event) {
         const email = document.getElementById("edit-email").value.trim();
         const phone = document.getElementById("edit-phone").value.trim();
 
-        console.log("Contact saved:", { name, email, phone });
+
     } else {
         form.reportValidity();
     }
@@ -146,7 +146,11 @@ function addContact(event) {
         const email = document.getElementById("email").value.trim();
         const phone = document.getElementById("phone").value.trim();
 
-        console.log("Contact saved:", { name, email, phone });
+        const contact = { name, email, phone };
+        contacts.push(contact);
+        renderContactList();
+        form.reset();
+        addContactOverlay();
     } else {
         form.reportValidity();
     }
