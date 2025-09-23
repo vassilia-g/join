@@ -75,25 +75,6 @@ renderContactList();
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function addContactOverlay() {
     const overlay = document.getElementById("overlay-contact");
     const popup = overlay.querySelector(".popup-contact");
@@ -136,6 +117,18 @@ function editContactOverlay() {
     }
 }
 
+function fillEditContactForm(contact) {
+    document.getElementById("edit-name").value = contact.name;
+    document.getElementById("edit-email").value = contact.email;
+    document.getElementById("edit-phone").value = contact.phone;
+
+}
+
+function onEditContact(index) {
+    const contact = contacts[index];
+    fillEditContactForm(contact);
+    editContactOverlay();
+}
 
 function saveContact(event) {
 
