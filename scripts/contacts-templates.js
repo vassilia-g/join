@@ -13,7 +13,9 @@ function contactList(contact) {
 }
 
 function showContactContent(contact) {
-    return `
+
+    const detailsDiv = document.getElementById("contact-details");
+    detailsDiv.innerHTML = `
          <div class="show-contact-template">
         <div class="contact-avatar-show" style="background-color:${getRandomColor()}">
          ${getInitials(contact.name)}

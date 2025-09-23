@@ -20,7 +20,8 @@ function renderContactList() {
             list.appendChild(createLetterHeader(currentLetter));
         }
 
-        list.appendChild(createContactItem(contact, index));
+        const contactDiv = createContactItem(contact, index, sortedContacts);
+        list.appendChild(contactDiv);
     });
 }
 
@@ -35,26 +36,25 @@ function createLetterHeader(letter) {
     return letterDiv;
 }
 
-function createContactItem(contact, index) {
+function createContactItem(contact, index, sortedContacts) {
     const div = document.createElement("div");
     div.className = "contact-item";
     div.innerHTML = contactList(contact);
 
     div.onclick = () => {
-        setActiveContact(div, index);
+        setActiveContact(div, sortedContacts[index]);
     };
 
     return div;
 }
 
-function setActiveContact(element, index) {
+function setActiveContact(element, contact) {
     document.querySelectorAll(".contact-item").forEach(item => {
         item.classList.remove("active");
     });
     element.classList.add("active");
-    showContactDetails(index);
+    showContactContent(contact);
 }
-
 
 function getInitials(name) {
     const parts = name.trim().split(" ");
@@ -68,12 +68,6 @@ function getInitials(name) {
 function getRandomColor() {
     const colors = ["#FF6B6B", "#4ECDC4", "#FFD93D", "#6A5ACD", "#FF8C00", "#20B2AA"];
     return colors[Math.floor(Math.random() * colors.length)];
-}
-
-function showContactDetails(index) {
-    const details = document.getElementById("contact-details");
-    const contact = contacts[index];
-    details.innerHTML = showContactContent(contact);
 }
 
 
