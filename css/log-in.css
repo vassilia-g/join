@@ -178,6 +178,10 @@ h1 {
     align-items: center;
 }
 
+.active-border-color {
+    border: 1px solid rgb(11, 173, 237);
+}
+
 .input-email,
 .input-sign-up-email,
 .input-password,
@@ -229,17 +233,20 @@ h1 {
 }
 
 .custom-checkbox:hover {
-    box-shadow: inset 0 0 7px rgb(0, 0, 0, 0.5);
-    border-radius: 4px;
+    background-image: url(../assets/imgs/symbols/unchecked-checkbox-hover.svg);
+    background-size: cover;
 }
 
 .custom-checked-checkbox {
     cursor: pointer;
-    box-shadow: inset 0 0 7px rgba(0, 0, 0, 0.5);
-    border-radius: 4px;
 }
 
-.forgotten-password-link{
+.custom-checked-checkbox:hover {
+    background-image: url(../assets/imgs/symbols/checked-checkbox-hover.svg);
+    background-size: cover;
+}
+
+.forgotten-password-link {
     color: #bdbdbd;
 }
 
@@ -335,7 +342,7 @@ h1 {
     padding-left: 20px;
 }
 
-.go-red {
+.red-colored {
     color: red;
 }
 

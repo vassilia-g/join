@@ -1,11 +1,37 @@
-document.addEventListener('DOMContentLoaded', moveLogoToTopLeft);
-const password = "0000"
+//Funktion wird bei DOMload ausgeführt und führt die Funktions aus moveLogoToTopLeft
+document.addEventListener("DOMContentLoaded", moveLogoToTopLeft)
+const users = [
+    { email: "a@a.com", password: "aaa" },
+    { email: "b@b.com", password: "bbb" },
+    { email: "c@c.com", password: "ccc" }
+];
 
+//Funktion wird bei DOMload ausgeführt und führt die Funktion aus, die das Logo bewegen und den Log in Bereich anzeigen lässt.
+// lässt focussierte Inputfelder blau umrandet erscheinen
+document.addEventListener("DOMContentLoaded",
+    () => {
+        const inputs = document.querySelectorAll(".input-email-container input, .input-password-container input, .input-sign-up-name-container input, .input-sign-up-email-container input, .input-sign-up-password-container input, .input-sign-up-confirm-password-container input");
+
+        inputs.forEach(input => {
+            input.addEventListener("focus", () => {
+                input.parentElement.classList.add("active-border-color");
+            });
+
+            input.addEventListener("blur", () => {
+                input.parentElement.classList.remove("active-border-color");
+            });
+        });
+    });
+
+//Die Funktion wird bei DOMload ausgeführt
+//Das Logo geht links in die Ecke
+//Der Sign up Buton wird sichtbar
+//Der Log in Bereicht wird sichtbar
 function moveLogoToTopLeft() {
     const logo = document.getElementById('logo');
     const logInContainer = document.getElementById('log-in-container');
     const registryContainer = document.getElementById('registry-container');
-    
+
     if (logo) {
         setTimeout(() => {
             logo.classList.add('logo-move-to-top-left');
@@ -15,6 +41,7 @@ function moveLogoToTopLeft() {
     };
 }
 
+//Die Funktion lässt den Log in Bereich zum Sign up Bereich werden
 function showSignUpContainer() {
     const signUpContainer = document.getElementById("sign-up-container");
     const logInContainer = document.getElementById("log-in-container");
@@ -26,7 +53,7 @@ function showSignUpContainer() {
         registryContainer.classList.add("d-none");
     }
 }
-
+//Die Funktion setzt den Button auf enabled, wenn Checkbox aktiviert wurde
 function enableSignUpButton() {
     const signUpButton = document.getElementById("sign-up-form-button");
     const customCheckbox = document.getElementById("custom-checkbox");
@@ -45,6 +72,7 @@ function enableSignUpButton() {
     }
 }
 
+//Die Funktion setzt den Button auf disabled, wenn checkbox deaktiviert wird
 function disableSignUpButton() {
     const signUpButton = document.getElementById("sign-up-form-button");
     const customCheckbox = document.getElementById("custom-checkbox");
@@ -59,60 +87,8 @@ function disableSignUpButton() {
     }
 }
 
-// function behavePasswordInput(event) {
-//     const passwordInput = document.getElementById('input-password');
-//     const passwordValue = passwordInput.value;
-
-//     if (passwordValue.length < 6 && passwordValue.length >= 1 && passwordInput.type === 'password') {
-//         checkVisibilityOff(event);
-//     } else if (passwordValue.length < 6 && passwordValue.length >= 1 && passwordInput.type === 'text') {
-//         checkVisibilityOn(event);
-//     } else if (passwordValue.length < 1) {
-//         checkPasswortIsEmpty(event)
-//     }
-// }
-
-function behavePasswordInput(event) {
-    const passwordInput = document.getElementById('input-password');
-    const passwordValue = passwordInput.value;
-
-    if (passwordValue != password && passwordInput.type === 'password') {
-        checkVisibilityOff(event);
-    } else if (passwordValue != password && passwordInput.type === 'text') {
-        checkVisibilityOn(event);
-    } else if (passwordValue.length == 0) {
-        checkPasswortIsEmpty(event)
-    }
-}
-
-function checkPasswortIsEmpty(event) {
-    event.preventDefault();
-    document.getElementById('visibility-on').classList.add('d-none');
-    document.getElementById('visibility-off').classList.add('d-none');
-    document.getElementById('lock-symbol').classList.remove('d-none');
-    document.getElementById('error-password-length').classList.remove('d-none');
-    document.getElementById('forgotten-password').classList.add('d-none');
-    document.getElementById('input-password').focus();
-}
-
-function checkVisibilityOff(event) {
-    event.preventDefault();
-    document.getElementById('visibility-off').classList.remove('d-none');
-    document.getElementById('visibility-on').classList.add('d-none');
-    document.getElementById('forgotten-password').classList.add('d-none');
-    document.getElementById('error-password-length').classList.remove('d-none');
-    document.getElementById('input-password').focus();
-}
-
-function checkVisibilityOn(event) {
-    event.preventDefault();
-    document.getElementById('visibility-on').classList.remove('d-none');
-    document.getElementById('lock-symbol').classList.add('d-none');
-    document.getElementById('forgotten-password').classList.add('d-none');
-    document.getElementById('error-password-length').classList.remove('d-none');
-    document.getElementById('input-password').focus();
-}
-
+//Funktion wird ausgeführt wenn im Passwortfeld etwas eingegeben wird
+//Es verändert die Symbole des Passwortfeldes bei Eingabe
 function changeSymbols() {
     const passwordInput = document.getElementById('input-password');
     const passwordValue = passwordInput.value;
@@ -134,27 +110,23 @@ function changeSymbols() {
     }
 }
 
-
-// function clearInput() {
-//     const lockSymbol = document.getElementById('lock-symbol');
-//     const visibilityOffSymbol = document.getElementById('visibility-off');
-//     const visibilityOnSymbol = document.getElementById('visibility-on');
-//     if (!visibilityOnSymbol.contains('d-none')) {
-//         return;
-//     } else {
-//         document.getElementById('input-password').value = ''
-//         document.getElementById('error-password-length').classList.add('d-none');
-//         document.getElementById('forgotten-password').classList.remove('d-none');
-//         lockSymbol.classList.remove('d-none');
-//         visibilityOffSymbol.classList.add('d-none');
-//     }
-// }
-
+//Die Funktion prüft Email und Passwort und leitet weiter 
 function goToOtherPage(event) {
     event.preventDefault()
-    window.location.replace("html/sidebar.html");
+
+    const inputEmail = document.getElementById("input-email");
+    const inputPassword = document.getElementById("input-password");
+    const user = users.find(u => u.email === inputEmail.value);
+    const redError = document.getElementById("error-email-password-text");
+
+    if (user && user.password === inputPassword.value) {
+        window.location.replace("html/sidebar.html");
+    } else {
+        redError.classList.remove("d-none")
+    }
 }
 
+//Die Funktion ändert den Type des Passwortes und das Symbol entsprechend
 function makePasswordVisible() {
     const visibilityOffSymbol = document.getElementById('visibility-off');
     const visibilityOnSymbol = document.getElementById('visibility-on');
@@ -163,10 +135,22 @@ function makePasswordVisible() {
     document.getElementById('input-password').type = 'text';
 }
 
+//Die Funktion ändert den Type des Passwortes und das Symbol entsprechend
 function hidePassword() {
     const visibilityOffSymbol = document.getElementById('visibility-off');
     const visibilityOnSymbol = document.getElementById('visibility-on');
     visibilityOnSymbol.classList.add('d-none');
     visibilityOffSymbol.classList.remove('d-none');
     document.getElementById('input-password').type = 'password';
+}
+
+//Funktion führt zum Log in Bereich zurück und disabled eventuel enabled Checkbox
+function backtoLogIn() {
+    const logInContainer = document.getElementById('log-in-container');
+    logInContainer.classList.remove('d-none');
+    const signUpContainer = document.getElementById('sign-up-container');
+    signUpContainer.classList.add('d-none');
+    const registryContainer = document.getElementById('registry-container');
+    registryContainer.classList.remove('d-none');
+    disableSignUpButton();
 }
