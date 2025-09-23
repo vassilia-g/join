@@ -18,11 +18,11 @@ function renderContactList() {
 
         div.onclick = () => {
             document.querySelectorAll(".contact-item").forEach(item => {
-             item.classList.remove("active");
-        });
+                item.classList.remove("active");
+            });
 
-          div.classList.add("active");
-          showContactDetails(index);
+            div.classList.add("active");
+            showContactDetails(index);
         };
 
         list.appendChild(div);
@@ -91,5 +91,45 @@ function addContactOverlay() {
             overlay.classList.add("d_none");
             popup.removeEventListener("transitionend", handler);
         });
+    }
+}
+
+function editContactOverlay() {
+    const overlay = document.getElementById("contact-edit-overlay");
+    const popup = overlay.querySelector(".popup-contact");
+
+    if (overlay.classList.contains("d_none")) {
+        overlay.classList.remove("d_none");
+        setTimeout(() => {
+            overlay.classList.add("active");
+            popup.classList.add("active");
+        }, 10);
+    } else {
+        overlay.classList.remove("active");
+        popup.classList.remove("active");
+
+        popup.addEventListener("transitionend", function handler() {
+            overlay.classList.add("d_none");
+            popup.removeEventListener("transitionend", handler);
+        });
+    }
+}
+
+
+function saveContact(event) {
+
+    event.preventDefault();
+
+    const form = document.getElementById("edit-contact-form");
+
+    if (form.checkValidity()) {
+
+        const name = document.getElementById("edit-name").value.trim();
+        const email = document.getElementById("edit-email").value.trim();
+        const phone = document.getElementById("edit-phone").value.trim();
+
+        console.log("Contact saved:", { name, email, phone });
+    } else {
+        form.reportValidity();
     }
 }
