@@ -402,3 +402,12 @@
     font-size: 16px;
     cursor: pointer;
 }
+
+.contact-letter {
+  font-size: 20px;
+  margin: 10px 0 5px 0;
+  padding: 5px;
+  border-bottom: #D1D5DB 2px solid;  
+  padding-left: 20px;
+  padding-bottom: 20px;
+} 

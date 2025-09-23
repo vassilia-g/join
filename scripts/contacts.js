@@ -9,25 +9,52 @@ function renderContactList() {
     const list = document.getElementById("contact-list");
     list.innerHTML = "";
 
-    contacts.sort((a, b) => a.name.localeCompare(b.name));
+    const sortedContacts = getSortedContacts();
 
-    contacts.forEach((contact, index) => {
-        const div = document.createElement("div");
-        div.className = "contact-item";
-        div.innerHTML = contactList(contact);
+    let currentLetter = "";
+    sortedContacts.forEach((contact, index) => {
+        const firstLetter = contact.name.charAt(0).toUpperCase();
 
-        div.onclick = () => {
-            document.querySelectorAll(".contact-item").forEach(item => {
-                item.classList.remove("active");
-            });
+        if (firstLetter !== currentLetter) {
+            currentLetter = firstLetter;
+            list.appendChild(createLetterHeader(currentLetter));
+        }
 
-            div.classList.add("active");
-            showContactDetails(index);
-        };
-
-        list.appendChild(div);
+        list.appendChild(createContactItem(contact, index));
     });
 }
+
+function getSortedContacts() {
+    return [...contacts].sort((a, b) => a.name.localeCompare(b.name));
+}
+
+function createLetterHeader(letter) {
+    const letterDiv = document.createElement("div");
+    letterDiv.className = "contact-letter";
+    letterDiv.textContent = letter;
+    return letterDiv;
+}
+
+function createContactItem(contact, index) {
+    const div = document.createElement("div");
+    div.className = "contact-item";
+    div.innerHTML = contactList(contact);
+
+    div.onclick = () => {
+        setActiveContact(div, index);
+    };
+
+    return div;
+}
+
+function setActiveContact(element, index) {
+    document.querySelectorAll(".contact-item").forEach(item => {
+        item.classList.remove("active");
+    });
+    element.classList.add("active");
+    showContactDetails(index);
+}
+
 
 function getInitials(name) {
     const parts = name.trim().split(" ");
