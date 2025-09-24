@@ -1,9 +1,19 @@
 
-let contacts = [
-    { name: "Anna Müller", email: "anna@example.com", phone: "+49123456789" },
-    { name: "Max Schmidt", email: "max@example.com", phone: "+49123456788" },
-    { name: "Beate Fischer", email: "beate@example.com", phone: "+49123456787" }
-];
+let contacts = [];
+
+
+async function loadContacts() {
+    try {
+        const response = await fetch("https://join-f759f-default-rtdb.europe-west1.firebasedatabase.app/.json");
+        contacts = await response.json();
+        contacts = Object.values(contacts || {});
+
+        renderContactList();
+    } catch (error) {
+        console.error("Fehler beim Laden:", error);
+    }
+}
+
 
 function renderContactList() {
     const list = document.getElementById("contact-list");
