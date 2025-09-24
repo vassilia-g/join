@@ -87,18 +87,29 @@ function disableSignUpButton() {
     }
 }
 
+//Funktion prüft ob Passwörter übereinstimmen
+function checkSignUpPasswords(event) {
+    event.preventDefault();
+    const password = document.getElementById("input-sign-up-password");
+    const confirmPassword = document.getElementById("input-sign-up-confirm-password");
+    const errorText = document.getElementById("error-text-password-match");
+    if (!(password.value == confirmPassword.value)) {
+        errorText.classList.remove("d-none");
+    } else {
+        errorText.classList.add("d-none");
+        visibleSignUp(event)
+    }
+}
+
 //Funktion lässt optischen Erfolg reinschweben und leitet dann weiter zum Log in
 function visibleSignUp(event) {
     event.preventDefault();
     const successText = document.getElementById("successfully-signed-up")
-    if (successText) {
-
-        setTimeout(() => {
-            showOverlay(event);
-            successText.classList.remove("d-none");
-            successText.classList.add("from-bottom-to-the-mid");
-        }, 500)
-    }
+    setTimeout(() => {
+        showOverlay(event);
+        successText.classList.remove("d-none");
+        successText.classList.add("from-bottom-to-the-mid");
+    }, 500)
     setTimeout(() => {
         hideOverlay();
     }, 2000);
@@ -191,3 +202,4 @@ function clearSignUpForm() {
     const signUpForm = document.getElementById("form-sign-up");
     signUpForm.reset();
 }
+

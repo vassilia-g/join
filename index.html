@@ -73,7 +73,7 @@
                 <div class="line"></div>
 
                 <div class="input-main-container">
-                    <form id="form-sign-up" class="form-sign-up" action="" onsubmit="visibleSignUp(event)">
+                    <form id="form-sign-up" class="form-sign-up" action="" onsubmit="checkSignUpPasswords(event)">
 
                         <div id="input-sign-up-name-container" class="input-sign-up-name-container">
                             <input id="input-sign-up-name" class="input-sign-up-name" type="text" placeholder="Name"
@@ -99,6 +99,11 @@
                                 type="password" placeholder="Confirm Password" required>
                             <img class="input-symbol" src="./assets/imgs/symbols/lock.svg" alt="Ein Schloss Symbol">
                         </div>
+
+                        <span id="error-text-password-match"
+                            class="error-text-password-match password-matters red-colored d-none">
+                            Your passwords don't match. Please try again.
+                        </span>
 
                         <span class="accept-policy">
 
