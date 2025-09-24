@@ -1,12 +1,16 @@
 
 let contacts = [];
 
-
+const BASE_URL = "https://join-f759f-default-rtdb.europe-west1.firebasedatabase.app/contacts";
 async function loadContacts() {
     try {
-        const response = await fetch("https://join-f759f-default-rtdb.europe-west1.firebasedatabase.app/.json");
+        const response = await fetch(BASE_URL + ".json");
         contacts = await response.json();
-        contacts = Object.values(contacts || {});
+        contacts = Object.entries(contacts || {}).map(([id, contact]) => ({
+            id,
+            ...contact
+        }));
+
 
         renderContactList();
     } catch (error) {
@@ -132,6 +136,8 @@ function fillEditContactForm(contact) {
     document.getElementById("edit-email").value = contact.email;
     document.getElementById("edit-phone").value = contact.phone;
 
+    document.getElementById("edit-contact-form").dataset.id = contact.id;
+
 }
 
 function onEditContact(index) {
@@ -140,26 +146,56 @@ function onEditContact(index) {
     editContactOverlay();
 }
 
-function saveContact(event) {
+async function deleteContact(id) {
+    const form = document.getElementById("edit-contact-form");
+    const contactID = form.dataset.id;
+    try {
+        await fetch(`${BASE_URL}/${contactID}.json`, {
+            method: "DELETE"
+        });
+        await loadContacts();
+        document.getElementById("contact-details").innerHTML = "";
+        editContactOverlay();
+    } catch (err) {
+        console.error("Fehler beim Löschen:", err);
+    }
+}
 
+async function saveContact(event) {
     event.preventDefault();
 
     const form = document.getElementById("edit-contact-form");
 
     if (form.checkValidity()) {
-
+        const id = form.dataset.id;
         const name = document.getElementById("edit-name").value.trim();
         const email = document.getElementById("edit-email").value.trim();
         const phone = document.getElementById("edit-phone").value.trim();
 
+        const updatedContact = { name, email, phone };
 
+        try {
+            await fetch(`${BASE_URL}/${id}.json`,
+                {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(updatedContact)
+                }
+            );
+
+            await loadContacts();
+            await renderContactList();
+            editContactOverlay();
+
+        } catch (error) {
+            console.error("Fehler beim Aktualisieren:", error);
+        }
     } else {
         form.reportValidity();
     }
 }
 
-function addContact(event) {
-
+async function addContact(event) {
     event.preventDefault();
 
     const form = document.getElementById("add-contact-form");
@@ -171,11 +207,41 @@ function addContact(event) {
         const phone = document.getElementById("phone").value.trim();
 
         const contact = { name, email, phone };
-        contacts.push(contact);
-        renderContactList();
-        form.reset();
-        addContactOverlay();
+
+        try {
+            const res = await fetch(BASE_URL + ".json", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(contact)
+            });
+
+            const data = await res.json();
+            await loadContacts();
+            form.reset();
+            addContactOverlay();
+
+        } catch (error) {
+            console.error("Error adding contact:", error);
+        }
+
     } else {
         form.reportValidity();
+    }
+}
+
+async function deleteContactById(id) {
+    if (!confirm("Willst du diesen Kontakt wirklich löschen?")) return;
+
+    try {
+        await fetch(`${BASE_URL}/${id}.json`, {
+            method: "DELETE"
+        });
+
+        await loadContacts();
+        document.getElementById("contact-details").innerHTML = "";
+    } catch (err) {
+        console.error("Fehler beim Löschen:", err);
     }
 }
