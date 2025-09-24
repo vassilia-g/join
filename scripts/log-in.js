@@ -87,6 +87,37 @@ function disableSignUpButton() {
     }
 }
 
+//Funktion lässt optischen Erfolg reinschweben und leitet dann weiter zum Log in
+function visibleSignUp(event) {
+    event.preventDefault();
+    const successText = document.getElementById("successfully-signed-up")
+    if (successText) {
+
+        setTimeout(() => {
+            showOverlay(event);
+            successText.classList.remove("d-none");
+            successText.classList.add("from-bottom-to-the-mid");
+        }, 500)
+    }
+    setTimeout(() => {
+        hideOverlay();
+    }, 2000);
+    setTimeout(() => {
+        backtoLogIn();
+    }, 2500);
+}
+
+function showOverlay(event) {
+    event.preventDefault();
+    const overlay = document.getElementById("overlay");
+    overlay.classList.remove("d-none");
+}
+
+function hideOverlay() {
+    const overlay = document.getElementById("overlay");
+    overlay.classList.add("d-none");
+}
+
 //Funktion wird ausgeführt wenn im Passwortfeld etwas eingegeben wird
 //Es verändert die Symbole des Passwortfeldes bei Eingabe
 function changeSymbols() {
@@ -144,7 +175,7 @@ function hidePassword() {
     document.getElementById('input-password').type = 'password';
 }
 
-//Funktion führt zum Log in Bereich zurück und disabled eventuel enabled Checkbox
+//Funktion führt zum Log in Bereich zurück und disabled eventuell enabled Checkbox
 function backtoLogIn() {
     const logInContainer = document.getElementById('log-in-container');
     logInContainer.classList.remove('d-none');
@@ -153,4 +184,10 @@ function backtoLogIn() {
     const registryContainer = document.getElementById('registry-container');
     registryContainer.classList.remove('d-none');
     disableSignUpButton();
+    clearSignUpForm();
+}
+
+function clearSignUpForm() {
+    const signUpForm = document.getElementById("form-sign-up");
+    signUpForm.reset();
 }

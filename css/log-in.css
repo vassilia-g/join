@@ -220,6 +220,44 @@ h1 {
     height: 48px;
 }
 
+.successfully-signed-up {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 321px;
+    height: 74px;
+    padding-inline: 25px;
+    background-color: var(--color-primary);
+    border-radius: 20px;
+    color: white;
+    font-size: 20px;
+    line-height: 120%;
+    letter-spacing: 0%;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    place-self: center;
+}
+
+.overlay {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100vh;
+}
+
+.from-bottom-to-the-mid {
+    animation: move-from-bottom-to-the-mid 500ms ease-in-out forwards;
+    animation-timing-function: linear;
+}
+
+
 .accept-policy {
     color: #bdbdbd;
     cursor: default;
@@ -418,5 +456,20 @@ h1 {
 
     to {
         opacity: 1;
+    }
+}
+
+@keyframes move-from-bottom-to-the-mid {
+    0% {
+        top: 100%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    100% {
+        top: 50%;
+        left: 50%;
+        /* transform: translate(0, 0); */
+        transform: translate(-50%, -50%);
     }
 }
