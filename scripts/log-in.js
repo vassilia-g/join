@@ -1,5 +1,6 @@
 //Funktion wird bei DOMload ausgeführt und führt die Funktions aus moveLogoToTopLeft
-// document.addEventListener("DOMContentLoaded", moveLogoToTopLeft)
+document.addEventListener("DOMContentLoaded", moveLogoToTopLeft)
+
 // const users = [
 //     { email: "a@a.com", password: "aaa" },
 //     { email: "b@b.com", password: "bbb" },
