@@ -1,10 +1,10 @@
 //Funktion wird bei DOMload ausgeführt und führt die Funktions aus moveLogoToTopLeft
-document.addEventListener("DOMContentLoaded", moveLogoToTopLeft)
-const users = [
-    { email: "a@a.com", password: "aaa" },
-    { email: "b@b.com", password: "bbb" },
-    { email: "c@c.com", password: "ccc" }
-];
+// document.addEventListener("DOMContentLoaded", moveLogoToTopLeft)
+// const users = [
+//     { email: "a@a.com", password: "aaa" },
+//     { email: "b@b.com", password: "bbb" },
+//     { email: "c@c.com", password: "ccc" }
+// ];
 
 //Funktion wird bei DOMload ausgeführt und führt die Funktion aus, die das Logo bewegen und den Log in Bereich anzeigen lässt.
 // lässt focussierte Inputfelder blau umrandet erscheinen
