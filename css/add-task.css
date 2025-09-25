@@ -56,15 +56,15 @@ input::placeholder {
 }
 
 .input-border-size.error {
-  border: 2px solid red !important;
+    border: 2px solid red !important;
 }
 
 .warning {
-  color: red;
-  font-size: 14px;
-  margin-top: 5.5rem;
-  position: absolute;
-  padding-left: 1rem;
+    color: red;
+    font-size: 14px;
+    margin-top: 5.5rem;
+    position: absolute;
+    padding-left: 1rem;
 }
 
 .task-label-divs {
@@ -268,13 +268,11 @@ input::placeholder {
 
 .subtask-list {
     margin: 8px 0;
-    padding: 3px 0 5px 40px;
-    border-radius: 8px;
+    padding: 3px 0 5px 0px;
     box-sizing: border-box;
-    height: 30px;
 }
 
-.subtask-list:hover {
+.subtask-list-element:hover {
     background-color: #EFEFEF;
 }
 
@@ -283,13 +281,16 @@ input::placeholder {
     align-items: center;
     justify-content: space-between;
     height: 24px;
+    padding: 5px 5px 5px 40px;
+    border-radius: 8px;
+    cursor: default;
 }
 
 .delete-or-edit-icons {
     display: none;
 }
 
-.subtask-list:hover .delete-or-edit-icons {
+.subtask-list-element:hover .delete-or-edit-icons {
     display: flex;
     align-items: center;
 }

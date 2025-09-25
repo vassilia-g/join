@@ -21,6 +21,7 @@ const categoryInput = document.getElementById('input-category');
 const contactInputAndDropdown = document.getElementById('contact-input-and-dropdown');
 const categoryInputAndDropdown = document.getElementById('category-input-and-dropdown');
 let contacts = ['Jule Zieten', 'Marco Rößler', 'Vassilia Gerodimos', 'Anika Schmidt', 'Dustin Condello'];
+let subtasks = [];
 const createTaskButton = document.getElementById("create-task-btn");
 createTaskButton.disabled = true;
 
@@ -122,12 +123,22 @@ function deleteSubtask() {
 }
 
 function addSubtask() {
-  selectedSubtasks.innerHTML += `
-    <ul class="subtask-list">
+  subtasks.push(subtaskInput.value);
+  console.log(subtasks);
+  selectedSubtasks.innerHTML = "";
+  for (let index = 0; index < subtasks.length; index++) {
+    selectedSubtasks.innerHTML += showSubtask(index);
+  }
+  subtaskInput.value = "";
+  subtaskPick.classList.add('d-none');
+}
+
+function showSubtask(index) {
+  return `
       <div class="subtask-list-element">
-        <li>${subtaskInput.value}</li>
+        <li>${subtasks[index]}</li>
         <div class="delete-or-edit-icons">
-          <svg onclick="editSubtask()" class="edit-svg" width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg id="edit-svg-${index}" onclick="editSubtask()" class="edit-svg" width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <mask id="mask0_75592_9969" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="24">
               <rect x="0.144531" width="24" height="24" fill="#D9D9D9"/>
             </mask>
@@ -135,7 +146,7 @@ function addSubtask() {
               <path d="M5.14453 19H6.54453L15.1695 10.375L13.7695 8.975L5.14453 17.6V19ZM19.4445 8.925L15.1945 4.725L16.5945 3.325C16.9779 2.94167 17.4487 2.75 18.007 2.75C18.5654 2.75 19.0362 2.94167 19.4195 3.325L20.8195 4.725C21.2029 5.10833 21.4029 5.57083 21.4195 6.1125C21.4362 6.65417 21.2529 7.11667 20.8695 7.5L19.4445 8.925ZM17.9945 10.4L7.39453 21H3.14453V16.75L13.7445 6.15L17.9945 10.4Z" fill="#2A3647"/>
             </g>
           </svg>
-          <svg onclick="deleteSubtaskFromList()" width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg id="delete-svg-${index}" onclick="deleteSubtaskFromList()" width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <mask id="mask0_75592_9951" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="24">
               <rect x="0.144531" width="24" height="24" fill="#D9D9D9"/>
             </mask>
@@ -145,9 +156,7 @@ function addSubtask() {
           </svg>
         </div>
       </div>
-    </ul>`;
-  subtaskInput.value = "";
-  subtaskPick.classList.add('d-none');
+    `;
 }
 
 function changePriorityToUrgent() {
