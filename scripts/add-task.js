@@ -1,5 +1,6 @@
 const dateInput = document.getElementById("task-due-date");
 const dateWarning = document.getElementById("date-warning");
+const fieldWarnings = document.querySelectorAll(".field-warning");
 const subtaskInput = document.getElementById('task-subtasks');
 const subtaskPick = document.getElementById('delete-or-keep-subtask');
 const selectedSubtasks = document.getElementById('selected-subtasks');
@@ -77,6 +78,12 @@ dateInput.addEventListener("input", function (e) {
   e.target.value = formatted;
 
   validateDate(formatted);
+});
+
+fieldWarnings.forEach(function(warning) {
+  warning.addEventListener("input", function() {
+    warning.classList.add("d-none");
+  });
 });
 
 function validateDate(dateStr) {
@@ -488,3 +495,27 @@ function enableCreateTaskButton() {
     createTaskButton.disabled = true;
   }
 }
+
+function showFieldWarning(inputElement) {
+  const wrapper = inputElement.closest(".task-label-divs");
+  const warning = wrapper.querySelector(".field-warning");
+  if (warning && inputElement.value.trim() === "") {
+    warning.classList.remove("d-none");
+    inputElement.classList.add("error");
+
+    if (!inputElement.dataset.listenerAdded) {
+      inputElement.addEventListener("input", function () {
+        if (inputElement.value.trim() !== "") {
+          warning.classList.add("d-none");
+          inputElement.classList.remove("error");
+        } else {
+          warning.classList.remove("d-none");
+          inputElement.classList.add("error");
+        }
+      });
+      inputElement.dataset.listenerAdded = "true"; // verhindert mehrfaches Registrieren
+    }
+  }
+};
+
+
