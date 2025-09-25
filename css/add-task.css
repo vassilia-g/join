@@ -55,7 +55,7 @@ input::placeholder {
     cursor: pointer;
 }
 
-.input-border-size.error {
+.input-border-size.error, .task-category.error {
     border: 2px solid red !important;
 }
 

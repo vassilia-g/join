@@ -499,13 +499,44 @@ function enableCreateTaskButton() {
 function showFieldWarning(inputElement) {
   const wrapper = inputElement.closest(".task-label-divs");
   const warning = wrapper.querySelector(".field-warning");
-  if (warning && inputElement.value.trim() === "") {
-    warning.classList.remove("d-none");
-    inputElement.classList.add("error");
+  if (!warning) return;
+  if (inputElement.tagName === "INPUT" || inputElement.tagName === "TEXTAREA") {
+    if (inputElement.value.trim() === "") {
+      warning.classList.remove("d-none");
+      inputElement.classList.add("error");
+      eventListenerForInput(inputElement, warning);
+    }
+  }
+  if (inputElement.classList.contains("task-category")) {
+    const categorySpan = inputElement.querySelector("#input-category");
+    if (categorySpan && categorySpan.textContent.trim() === "Select task category") {
+      warning.classList.remove("d-none");
+      inputElement.classList.add("error");
+    }
+    eventListenerForSelectCategory(inputElement, warning, categorySpan);
+  }
+}
 
-    if (!inputElement.dataset.listenerAdded) {
-      inputElement.addEventListener("input", function () {
-        if (inputElement.value.trim() !== "") {
+
+function eventListenerForInput(inputElement, warning) {
+  if (!inputElement.dataset.listenerAdded) {
+        inputElement.addEventListener("input", function () {
+          if (inputElement.value.trim() !== "") {
+            warning.classList.add("d-none");
+            inputElement.classList.remove("error");
+          } else {
+            warning.classList.remove("d-none");
+            inputElement.classList.add("error");
+          }
+        });
+        inputElement.dataset.listenerAdded = "true";
+      }
+}
+
+function eventListenerForSelectCategory(inputElement, warning, categorySpan) {
+  if (!inputElement.dataset.listenerAdded) {
+      const observer = new MutationObserver(() => {
+        if (categorySpan.textContent.trim() !== "Select task category") {
           warning.classList.add("d-none");
           inputElement.classList.remove("error");
         } else {
@@ -513,9 +544,9 @@ function showFieldWarning(inputElement) {
           inputElement.classList.add("error");
         }
       });
-      inputElement.dataset.listenerAdded = "true"; // verhindert mehrfaches Registrieren
+      observer.observe(categorySpan, { childList: true, characterData: true, subtree: true });
+      inputElement.dataset.listenerAdded = "true";
     }
-  }
-};
+}
 
 

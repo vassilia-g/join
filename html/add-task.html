@@ -77,6 +77,9 @@
                     placeholder="Enter a title"
                     onclick="showFieldWarning(this)"
                   />
+                  <small class="warning field-warning d-none"
+                    >This field is required</small
+                  >
                 </div>
                 <div class="task-label-divs description">
                   <label id="task-description-label">Description</label>
@@ -115,6 +118,7 @@
                       name="task-due-date"
                       id="task-due-date"
                       placeholder="dd/mm/yyyy"
+                      onclick="showFieldWarning(this)"
                     />
                     <img
                       onclick="showCalender()"
@@ -124,7 +128,10 @@
                     />
                   </div>
                   <small id="date-warning" class="warning d-none"
-                    >Datum ungültig</small
+                    >Date must be in the past</small
+                  >
+                  <small class="warning field-warning d-none"
+                    >This field is required</small
                   >
                 </div>
               </div>
@@ -259,7 +266,7 @@
                   <label id="task-category-label">Category</label>
                   <div id="category-input-and-dropdown">
                     <div
-                      onclick="openCategories()"
+                      onclick="openCategories(); showFieldWarning(this)"
                       class="input-border-size task-category"
                     >
                       <span id="input-category">Select task category</span>
@@ -297,6 +304,9 @@
                     </div>
                     <div id="categories"></div>
                   </div>
+                  <small class="warning field-warning d-none"
+                    >This field is required</small
+                  >
                 </div>
                 <div class="task-label-divs">
                   <label id="task-subtasks-label">Subtasks</label>
