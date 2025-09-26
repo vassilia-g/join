@@ -20,7 +20,6 @@ async function postData(path = "", data = {}) {
     return responseToJson;
 }
 
-
 // PUT (Update)
 async function putData(path = "", data = {}) {
     let response = await fetch(BASE_URL + path + ".json", {
