@@ -7,57 +7,48 @@ class User {
         this.status = status;
     }
 }
-// app-integration.js  (NACH seinem Script laden)
-const BASE_URL = "https://join-eeec9-default-rtdb.europe-west1.firebasedatabase.app/";
 
-async function getData(path = "") {
-    const response = await fetch(`${BASE_URL}${path}.json`);
-    return await response.json();
+// load_all_user
+async function loadUsers() {
+    let response = await getData("users");
+    console.log(response);
 }
 
-async function postData(path = "", data = {}) {
-    const response = await fetch(`${BASE_URL}${path}.json`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data),
-    });
-    return await response.json();
+// load_user_by_id
+async function loadUserById(id) {
+    let response = await getData("users/" + id);
+    console.log(response);
 }
 
-async function hydrateUsersGlobal() {
-    const allUsers = await getData("users");
-    const array = [];
-    for (const id in (allUsers || {})) {
-        const u = allUsers[id];
-        if (u?.email && u?.password) array.push({ email: u.email, password: u.password });
-    }
-    window.users = array;
-}
+// Collection
+// async function hydrateUsersGlobal() {
+//     const allUsers = await getData("users");
 
-function getSignUpValues() {
-    return {
-        username: document.getElementById("input-sign-up-name")?.value.trim(),
-        email: document.getElementById("input-sign-up-email")?.value.trim(),
-        pw: document.getElementById("input-sign-up-password")?.value,
-        pw2: document.getElementById("input-sign-up-confirm-password")?.value,
-    };
-}
+//     const array = [];
+//     for (const id in (allUsers || {})) {
+//         const u = allUsers[id];
+//         if (u?.email && u?.password) array.push({ email: u.email, password: u.password });
+//     }
+//     window.users = array;
+// }
 
+
+
+// Internal Counter
 async function getNextUserId() {
     const allUsers = await getData("users") || {};
     const userIds = Object.values(allUsers).map(user => user.id || 0);
     return Math.max(0, ...userIds) + 1;
 }
 
+// Object
 async function saveSignupIfValid(event) {
     const values = getSignUpValues();
     const newID = await getNextUserId();
 
     if (!values.username || !values.email || !values.pw || values.pw !== values.pw2) return;
 
-    if (Array.isArray(window.users) && window.users.some(u => u.email === values.email)) return;
+    // if (Array.isArray(window.users) && window.users.some(u => u.email === values.email)) return;
 
     await postData("users", {
         id: newID,
@@ -68,9 +59,10 @@ async function saveSignupIfValid(event) {
         status: "active",
     });
 
-    (window.users ||= []).push({ email: values.email, password: values.pw }); // sein Login sofort füttern
+    // (window.users ||= []).push({ email: values.email, password: values.pw }); // sein Login sofort füttern
 }
 
+// Listener
 function attachIntegration() {
     document.addEventListener(
         "submit",
@@ -82,7 +74,8 @@ function attachIntegration() {
     );
 }
 
+// Listener
 document.addEventListener("DOMContentLoaded", async () => {
-    await hydrateUsersGlobal();
+    // await hydrateUsersGlobal();
     attachIntegration();
 });
