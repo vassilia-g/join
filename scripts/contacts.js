@@ -63,11 +63,30 @@ function createContactItem(contact, index, sortedContacts) {
 }
 
 function setActiveContact(element, contact) {
+    const isActive = element.classList.contains("active");
+    const panel = document.getElementById("contact-details");
+
     document.querySelectorAll(".contact-item").forEach(item => {
         item.classList.remove("active");
     });
-    element.classList.add("active");
-    showContactContent(contact);
+
+    if (!isActive) {
+        element.classList.add("active");
+        showContactContent(contact);
+        panel.classList.add("is-open");
+    } else {
+        hideContactContent();
+    }
+}
+
+function hideContactContent() {
+    const panel = document.getElementById("contact-details");
+    if (!panel) return;
+
+    panel.classList.remove("is-open");
+    setTimeout(() => {
+        panel.innerHTML = "";
+    }, 100);
 }
 
 function getInitials(name) {
