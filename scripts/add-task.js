@@ -21,6 +21,7 @@ const dropdownIconCategories = document.getElementById('dropdown-icon-categories
 const categoryInput = document.getElementById('input-category');
 const contactInputAndDropdown = document.getElementById('contact-input-and-dropdown');
 const categoryInputAndDropdown = document.getElementById('category-input-and-dropdown');
+const addToBoardDiv = document.querySelector('.add-task-to-board-div');
 let contacts = ['Jule Zieten', 'Marco Rößler', 'Vassilia Gerodimos', 'Anika Schmidt', 'Dustin Condello'];
 let subtasks = [];
 const createTaskButton = document.getElementById("create-task-btn");
@@ -609,5 +610,20 @@ function eventListenerForSelectCategory(inputElement, warning, categorySpan) {
     inputElement.dataset.listenerAdded = "true";
   }
 }
+
+function showTaskDiv() {
+  addToBoardDiv.classList.remove('hide');
+  addToBoardDiv.classList.add('show');
+
+  setTimeout(() => {
+    hideTaskDiv();
+  }, 3000)
+}
+
+function hideTaskDiv() {
+  addToBoardDiv.classList.remove('show');
+  addToBoardDiv.classList.add('hide');
+}
+
 
 
