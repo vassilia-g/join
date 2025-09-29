@@ -156,6 +156,14 @@ button {
     bottom: 6px;
 }
 
+#add-task-overlay .add-task-to-board-div.show {
+    animation: slideUpBoard 0.5s ease-out forwards !important;
+}
+
+#add-task-overlay .add-task-to-board-div.hide {
+    animation: slideDownBoard 0.5s ease-in forwards !important;
+}
+
 .task-footer {
     flex: 0;
 }
@@ -170,4 +178,26 @@ button {
     justify-content: center;
     border: 1px dashed #A8A8A8;
     border-radius: 10px;
+}
+
+@keyframes slideUpBoard {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, 100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -500%);
+    }
+}
+
+@keyframes slideDownBoard {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -500%);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, 100%);
+    }
 }
