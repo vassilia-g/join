@@ -56,7 +56,8 @@ input::placeholder {
     cursor: pointer;
 }
 
-.input-border-size.error, .task-category.error {
+.input-border-size.error,
+.task-category.error {
     border: 2px solid red !important;
 }
 
@@ -595,14 +596,15 @@ p#field-requiered-info::before {
 }
 
 @keyframes slideUp {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, 100%);
-  }
-  100% {
-    opacity: 1;
-    transform: translate(-50%, -1500%);
-  }
+    0% {
+        opacity: 0;
+        transform: translate(-50%, 100%);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -1500%);
+    }
 }
 
 @keyframes slideDown {
@@ -610,6 +612,7 @@ p#field-requiered-info::before {
         opacity: 1;
         transform: translate(-50%, -1500%);
     }
+
     100% {
         opacity: 0;
         transform: translate(-50%, 100%);
@@ -621,6 +624,7 @@ p#field-requiered-info::before {
         opacity: 0;
         transform: translate(-50%, 100%);
     }
+
     100% {
         opacity: 1;
         transform: translate(-50%, -800%);
@@ -632,6 +636,7 @@ p#field-requiered-info::before {
         opacity: 1;
         transform: translate(-50%, -800%)
     }
+
     100% {
         opacity: 0;
         transform: translate(-50%, 100%);
