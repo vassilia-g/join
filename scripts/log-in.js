@@ -1,11 +1,7 @@
 //Funktion wird bei DOMload ausgeführt und führt die Funktions aus moveLogoToTopLeft
 document.addEventListener("DOMContentLoaded", moveLogoToTopLeft)
 
-// const users = [
-//     { email: "a@a.com", password: "aaa" },
-//     { email: "b@b.com", password: "bbb" },
-//     { email: "c@c.com", password: "ccc" }
-// ];
+const users = getAllUsers();
 
 //Funktion wird bei DOMload ausgeführt und führt die Funktion aus, die das Logo bewegen und den Log in Bereich anzeigen lässt.
 // lässt focussierte Inputfelder blau umrandet erscheinen
@@ -154,18 +150,18 @@ function changeSymbols() {
 }
 
 //Die Funktion prüft Email und Passwort und leitet weiter 
-function goToOtherPage(event) {
-    event.preventDefault()
+async function goToOtherPage(event) {
+    event.preventDefault();
 
     const inputEmail = document.getElementById("input-email");
-    const inputPassword = document.getElementById("input-password");
-    const user = users.find(u => u.email === inputEmail.value);
-    const redError = document.getElementById("error-email-password-text");
+    const inputPassword = document.getElementById("input-password"); const redError = document.getElementById("error-email-password-text");
 
+    const users = await getAllUsers(); // <-- await hier
+    const user = (users || []).find(u => u.email === inputEmail.value);
     if (user && user.password === inputPassword.value) {
         window.location.replace("html/summary.html");
     } else {
-        redError.classList.remove("d-none")
+        redError.classList.remove("d-none");
     }
 }
 
