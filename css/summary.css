@@ -39,6 +39,12 @@
     padding-right: 40px;
 }
 
+.link-box-reset {
+    text-decoration: none;
+    color: inherit;
+    width: 100%;
+}
+
 .welcome-message {
     width: 45%;
     display: flex;
