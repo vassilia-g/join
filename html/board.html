@@ -1,247 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Board</title>
 
-    <link rel="stylesheet" href="../global.css" />
-    <link rel="stylesheet" href="../css/fonts.css" />
-    <link rel="stylesheet" href="../css/sidebar-header.css" />
-    <link rel="stylesheet" href="../css/help-legal.css" />
-    <link rel="stylesheet" href="../css/add-task.css" />
-    <link rel="stylesheet" href="../css/board.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
-    />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Board</title>
 
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-  </head>
+  <link rel="stylesheet" href="../global.css" />
+  <link rel="stylesheet" href="../css/fonts.css" />
+  <link rel="stylesheet" href="../css/sidebar-header.css" />
+  <link rel="stylesheet" href="../css/help-legal.css" />
+  <link rel="stylesheet" href="../css/add-task.css" />
+  <link rel="stylesheet" href="../css/board.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
 
-  <body>
-    <script src="../scripts/board.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+</head>
 
-    <div class="content">
-      <div class="sidebar">
-        <div class="logo">
-          <img src="../assets/imgs/join-logo/Logo-white.svg" />
-        </div>
-        <div class="sidebar-nav">
-          <a class="nav" href="./summary.html"
-            ><img src="../assets/imgs/symbols/Summary.svg" />Summary</a
-          >
-          <span class="nav selected-nav"
-            ><img src="../assets/imgs/symbols/Add-task.svg" />Add Task</span
-          >
-          <a class="nav" href="./board.html"
-            ><img src="../assets/imgs/symbols/Board.svg" />Board</a
-          >
-          <a class="nav" href="./contacts.html"
-            ><img src="../assets/imgs/symbols/Contacts.svg" />Contacts</a
-          >
-        </div>
-        <div class="legal">
-          <a class="legal-link" href="./privacy-policy.html">Privacy Policy</a>
-          <a class="legal-link" href="./legal-notice.html">Legal Notice</a>
-        </div>
+<body>
+  <script src="../scripts/board.js"></script>
+
+  <div class="content">
+    <div class="sidebar">
+      <div class="logo">
+        <img src="../assets/imgs/join-logo/Logo-white.svg" />
       </div>
-      <div class="main">
-        <header class="header">
-          <div class="header-content">
-            <p class="header-text">Kanban Project Management Tool</p>
-            <div class="header-assets">
-              <a href="./help.html"
-                ><img
-                  class="help"
-                  src="../assets/icons/help.svg"
-                  alt="help-icon"
-                  style="width: 20px; height: 20px; margin-right: 22px"
-              /></a>
-              <div class="profile-initials">
-                <p class="initials">SM</p>
-              </div>
+      <div class="sidebar-nav">
+        <a class="nav" href="./summary.html"><img src="../assets/imgs/symbols/Summary.svg" />Summary</a>
+        <a class="nav" href="./add-task.html"><img src="../assets/imgs/symbols/Add-task.svg" />Add Task</a>
+        <a class="nav selected-nav" href="./board.html"><img src="../assets/imgs/symbols/Board.svg" />Board</a>
+        <a class="nav" href="./contacts.html"><img src="../assets/imgs/symbols/Contacts.svg" />Contacts</a>
+      </div>
+      <div class="legal">
+        <a class="legal-link" href="./privacy-policy.html">Privacy Policy</a>
+        <a class="legal-link" href="./legal-notice.html">Legal Notice</a>
+      </div>
+    </div>
+    <div class="main">
+      <header class="header">
+        <div class="header-content">
+          <p class="header-text">Kanban Project Management Tool</p>
+          <div class="header-assets">
+            <a href="./help.html"><img class="help" src="../assets/icons/help.svg" alt="help-icon"
+                style="width: 20px; height: 20px; margin-right: 22px" /></a>
+            <div class="profile-initials">
+              <p class="initials">SM</p>
             </div>
           </div>
-        </header>
-        <section class="page-content">
-          <div class="board-content">
-            <div class="board-search-div">
-              <h1 class="title board-title">Board</h1>
-              <div class="board-search-bar-add-task">
-                <div class="board-search-bar">
-                  <input
-                    id="board-search-input"
-                    type="text"
-                    placeholder="Find Task"
-                  />
-                  <div class="add-task-search-icon">
-                    <img
-                      class="board-search-icon"
-                      src="../assets/icons/search.svg"
-                      alt="search-icon"
-                    />
-                  </div>
+        </div>
+      </header>
+      <section class="page-content">
+        <div class="board-content">
+          <div class="board-search-div">
+            <h1 class="title board-title">Board</h1>
+            <div class="board-search-bar-add-task">
+              <div class="board-search-bar">
+                <input id="board-search-input" type="text" placeholder="Find Task" />
+                <div class="add-task-search-icon">
+                  <img class="board-search-icon" src="../assets/icons/search.svg" alt="search-icon" />
                 </div>
-                <button id="board-add-task-btn" onclick="openAddTaskOverlay()">
-                  Add task
-                  <svg
-                    width="21"
-                    height="21"
-                    viewBox="0 0 10 10"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M5 1.5V9.5" stroke="#FFFFFF" stroke-width="1" />
-                    <path
-                      d="M9 5.57544L1 5.57544"
-                      stroke="#FFFFFF"
-                      stroke-width="1"
-                    />
+              </div>
+              <button id="board-add-task-btn" onclick="openAddTaskOverlay()">
+                Add task
+                <svg width="21" height="21" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M5 1.5V9.5" stroke="#FFFFFF" stroke-width="1" />
+                  <path d="M9 5.57544L1 5.57544" stroke="#FFFFFF" stroke-width="1" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="board-task-div">
+            <div class="board-tasks">
+              <div class="board-tasks-headline">
+                <h2>To do</h2>
+                <button class="board-task-btn" onclick="openAddTaskOverlay()">
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 1.5V9.5" stroke="#2A3647" stroke-width="2" stroke-linecap="round" />
+                    <path d="M9 5.57544L1 5.57544" stroke="#2A3647" stroke-width="2" stroke-linecap="round" />
                   </svg>
                 </button>
               </div>
+              <div class="current-board-tasks">No tasks to do</div>
             </div>
-
-            <div class="board-task-div">
-              <div class="board-tasks">
-                <div class="board-tasks-headline">
-                  <h2>To do</h2>
-                  <button class="board-task-btn" onclick="openAddTaskOverlay()">
-                    <svg
-                      width="10"
-                      height="10"
-                      viewBox="0 0 10 10"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M5 1.5V9.5"
-                        stroke="#2A3647"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                      />
-                      <path
-                        d="M9 5.57544L1 5.57544"
-                        stroke="#2A3647"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                      />
-                    </svg>
-                  </button>
-                </div>
-                <div class="current-board-tasks">No tasks to do</div>
+            <div class="board-tasks">
+              <div class="board-tasks-headline">
+                <h2>In progress</h2>
+                <button class="board-task-btn" onclick="openAddTaskOverlay()">
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 1.5V9.5" stroke="#2A3647" stroke-width="2" stroke-linecap="round" />
+                    <path d="M9 5.57544L1 5.57544" stroke="#2A3647" stroke-width="2" stroke-linecap="round" />
+                  </svg>
+                </button>
               </div>
-              <div class="board-tasks">
-                <div class="board-tasks-headline">
-                  <h2>In progress</h2>
-                  <button class="board-task-btn" onclick="openAddTaskOverlay()">
-                    <svg
-                      width="10"
-                      height="10"
-                      viewBox="0 0 10 10"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M5 1.5V9.5"
-                        stroke="#2A3647"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                      />
-                      <path
-                        d="M9 5.57544L1 5.57544"
-                        stroke="#2A3647"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                      />
-                    </svg>
-                  </button>
-                </div>
-                <div class="current-board-tasks">No tasks in progress</div>
+              <div class="current-board-tasks">No tasks in progress</div>
+            </div>
+            <div class="board-tasks">
+              <div class="board-tasks-headline">
+                <h2>Await feedback</h2>
+                <button class="board-task-btn" onclick="openAddTaskOverlay()">
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 1.5V9.5" stroke="#2A3647" stroke-width="2" stroke-linecap="round" />
+                    <path d="M9 5.57544L1 5.57544" stroke="#2A3647" stroke-width="2" stroke-linecap="round" />
+                  </svg>
+                </button>
               </div>
-              <div class="board-tasks">
-                <div class="board-tasks-headline">
-                  <h2>Await feedback</h2>
-                  <button class="board-task-btn" onclick="openAddTaskOverlay()">
-                    <svg
-                      width="10"
-                      height="10"
-                      viewBox="0 0 10 10"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M5 1.5V9.5"
-                        stroke="#2A3647"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                      />
-                      <path
-                        d="M9 5.57544L1 5.57544"
-                        stroke="#2A3647"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                      />
-                    </svg>
-                  </button>
-                </div>
-                <div class="current-board-tasks">No feedback awaiting</div>
+              <div class="current-board-tasks">No feedback awaiting</div>
+            </div>
+            <div class="board-tasks">
+              <div class="board-tasks-headline">
+                <h2>Done</h2>
               </div>
-              <div class="board-tasks">
-                <div class="board-tasks-headline">
-                  <h2>Done</h2>
-                </div>
-                <div class="current-board-tasks"></div>
-              </div>
+              <div class="current-board-tasks"></div>
             </div>
           </div>
+        </div>
 
-          <!--<div class="add-task-overlay"> -->
-          <div id="add-task-overlay" class="d-none">
-            <button class="overlay-close-btn" onclick="closeOverlay()">
-              <svg
-                width="32"
-                height="33"
-                viewBox="0 0 32 33"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <mask
-                  id="mask0_71720_5491"
-                  style="mask-type: alpha"
-                  maskUnits="userSpaceOnUse"
-                  x="4"
-                  y="4"
-                  width="24"
-                  height="25"
-                >
-                  <rect
-                    x="4"
-                    y="4.96582"
-                    width="24"
-                    height="24"
-                    fill="#D9D9D9"
-                  />
-                </mask>
-                <g mask="url(#mask0_71720_5491)">
-                  <path
-                    d="M15.9998 18.3659L11.0998 23.2659C10.9165 23.4492 10.6831 23.5409 10.3998 23.5409C10.1165 23.5409 9.88314 23.4492 9.6998 23.2659C9.51647 23.0825 9.4248 22.8492 9.4248 22.5659C9.4248 22.2825 9.51647 22.0492 9.6998 21.8659L14.5998 16.9659L9.6998 12.0659C9.51647 11.8825 9.4248 11.6492 9.4248 11.3659C9.4248 11.0825 9.51647 10.8492 9.6998 10.6659C9.88314 10.4825 10.1165 10.3909 10.3998 10.3909C10.6831 10.3909 10.9165 10.4825 11.0998 10.6659L15.9998 15.5659L20.8998 10.6659C21.0831 10.4825 21.3165 10.3909 21.5998 10.3909C21.8831 10.3909 22.1165 10.4825 22.2998 10.6659C22.4831 10.8492 22.5748 11.0825 22.5748 11.3659C22.5748 11.6492 22.4831 11.8825 22.2998 12.0659L17.3998 16.9659L22.2998 21.8659C22.4831 22.0492 22.5748 22.2825 22.5748 22.5659C22.5748 22.8492 22.4831 23.0825 22.2998 23.2659C22.1165 23.4492 21.8831 23.5409 21.5998 23.5409C21.3165 23.5409 21.0831 23.4492 20.8998 23.2659L15.9998 18.3659Z"
-                    fill="#2A3647"
-                  />
-                </g>
-              </svg>
-            </button>
-            <div id="add-task-overlay-content"></div>
-          </div>
-          <div
-            id="overlay-background"
-            class="d-none"
-            onclick="closeOverlay()"
-          ></div>
-          <!--</div>-->
-        </section>
-      </div>
+        <!--<div class="add-task-overlay"> -->
+        <div id="add-task-overlay" class="d-none">
+          <button class="overlay-close-btn" onclick="closeOverlay()">
+            <svg width="32" height="33" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <mask id="mask0_71720_5491" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="4" y="4" width="24"
+                height="25">
+                <rect x="4" y="4.96582" width="24" height="24" fill="#D9D9D9" />
+              </mask>
+              <g mask="url(#mask0_71720_5491)">
+                <path
+                  d="M15.9998 18.3659L11.0998 23.2659C10.9165 23.4492 10.6831 23.5409 10.3998 23.5409C10.1165 23.5409 9.88314 23.4492 9.6998 23.2659C9.51647 23.0825 9.4248 22.8492 9.4248 22.5659C9.4248 22.2825 9.51647 22.0492 9.6998 21.8659L14.5998 16.9659L9.6998 12.0659C9.51647 11.8825 9.4248 11.6492 9.4248 11.3659C9.4248 11.0825 9.51647 10.8492 9.6998 10.6659C9.88314 10.4825 10.1165 10.3909 10.3998 10.3909C10.6831 10.3909 10.9165 10.4825 11.0998 10.6659L15.9998 15.5659L20.8998 10.6659C21.0831 10.4825 21.3165 10.3909 21.5998 10.3909C21.8831 10.3909 22.1165 10.4825 22.2998 10.6659C22.4831 10.8492 22.5748 11.0825 22.5748 11.3659C22.5748 11.6492 22.4831 11.8825 22.2998 12.0659L17.3998 16.9659L22.2998 21.8659C22.4831 22.0492 22.5748 22.2825 22.5748 22.5659C22.5748 22.8492 22.4831 23.0825 22.2998 23.2659C22.1165 23.4492 21.8831 23.5409 21.5998 23.5409C21.3165 23.5409 21.0831 23.4492 20.8998 23.2659L15.9998 18.3659Z"
+                  fill="#2A3647" />
+              </g>
+            </svg>
+          </button>
+          <div id="add-task-overlay-content"></div>
+        </div>
+        <div id="overlay-background" class="d-none" onclick="closeOverlay()"></div>
+        <!--</div>-->
+      </section>
     </div>
-  </body>
+  </div>
+</body>
+
 </html>
