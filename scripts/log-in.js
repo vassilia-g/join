@@ -159,6 +159,7 @@ async function goToOtherPage(event) {
     const users = await getAllUsers(); // <-- await hier
     const user = (users || []).find(u => u.email === inputEmail.value);
     if (user && user.password === inputPassword.value) {
+        localStorage.setItem("currentUserId", user.id);
         window.location.replace("html/summary.html");
     } else {
         redError.classList.remove("d-none");

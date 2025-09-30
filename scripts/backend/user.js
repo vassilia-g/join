@@ -25,8 +25,16 @@ class User {
     static async loadById(id) {
         if (id == null) return null;
         const response = await getData("users/" + id);
+        console.log("Loaded user:", response);
         if (!response) return null;
-        return new User(id, response.username, response.password, response.email, response.status, response.createdAt);
+        return new User(
+            id,
+            response.username,
+            response.password,
+            response.email,
+            response.status,
+            response.createdAt
+        );
     }
 
     static async loadUserByEmail(email) {

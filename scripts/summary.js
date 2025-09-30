@@ -6,3 +6,43 @@ function updateSummaryCounters() {
     let tasksInProgressCounter = document.getElementById('tasks-in-progress-counter');
     let awaitingFeedbackCounter = document.getElementById('awaiting-feedback-counter');
 }
+
+async function getUser() {
+    const id = localStorage.getItem("currentUserId");
+    if (!id) return null;
+    try {
+        return await User.loadById(id);
+    } catch (error) {
+        console.error("getUser failed", error);
+        return null;
+    }
+}
+
+// logout helper
+function logout() {
+    localStorage.removeItem("currentUserId");
+    window.location.replace("../index.html");
+}
+
+async function updateUserName() {
+    try {
+        const el = document.getElementById('user-name');
+
+        const user = await getUser();
+        if (!user) {
+            console.warn("[updateUserName] getUser() lieferte null.");
+            el.textContent = "User";
+            return;
+        }
+
+        el.textContent = user.username || "User";
+    } catch (err) {
+        console.error("[updateUserName] Fehler:", err);
+        const el = document.getElementById('user-name');
+        if (el) el.textContent = "User";
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    updateUserName();
+});
