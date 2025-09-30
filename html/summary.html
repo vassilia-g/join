@@ -9,6 +9,10 @@
     <link rel="stylesheet" href="../global.css">
     <link rel="stylesheet" href="../css/fonts.css">
     <link rel="stylesheet" href="../css/sidebar-header.css">
+    <link rel="stylesheet" href="../css/help-legal.css">
+    <link rel="stylesheet" href="../css/summary.css">
+
+    <script src="../scripts/summary.js"></script>
 </head>
 
 <body>
@@ -43,6 +47,96 @@
                     </div>
                 </div>
             </header>
+
+            <section class="page-content">
+                <div class="summary-content">
+                    <div class="summary-header">
+                        <h1 class="title">Join 360</h1>
+                        <p class="line"></p>
+                        <p style="font-size: 27px; font-weight: 400;">Key Metrics at a Glance</p>
+                    </div>
+
+                    <div class="summary">
+                        <div class="summary-boxes">
+                            <div class="flex">
+                                <div class="summary-box-color first-row">
+                                    <div class="edit-icon">
+                                        <img class="edit-icon-img" src="../assets/icons/edit.svg" alt="edit-icon" />
+                                    </div>
+                                    <div class="text-center-box">
+                                        <p id="to-do-counter" class="counter">0</p>
+                                        <p>To-Do</p>
+                                    </div>
+                                </div>
+
+                                <div class="summary-box-color first-row">
+                                    <div class="check-icon">
+                                        <img class="check-icon-img" src="../assets/icons/check-white.svg"
+                                            alt="check-icon" />
+                                    </div>
+                                    <div class="text-center-box">
+                                        <p id="done-counter" class="counter">0</p>
+                                        <p>Done</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex">
+                                <div class="summary-box-color second-row">
+                                    <div class="urgent-section">
+                                        <div class="urgent-icon">
+                                            <img class="urgent-icon-img" src="../assets/icons/vector-urgent-white.svg"
+                                                alt="urgent-icon">
+                                        </div>
+
+                                        <div class="text-center-box">
+                                            <p id="urgent-counter" class="counter">0</p>
+                                            <p>Urgent</p>
+                                        </div>
+                                    </div>
+
+                                    <p class="line-second-row"></p>
+
+                                    <div class="text-center-box">
+                                        <p><strong>October 16, 2022</strong></p>
+                                        <p>Upcoming Deadline</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex">
+                                <div class="summary-box-color third-row">
+                                    <div class="text-center-box">
+                                        <p id="tasks-in-board-counter" class="counter">0</p>
+                                        <p>Tasks in Board</p>
+                                    </div>
+                                </div>
+
+                                <div class="summary-box-color third-row">
+                                    <div class="text-center-box">
+                                        <p id="tasks-in-progress-counter" class="counter">0</p>
+                                        <p>Tasks in Progress</p>
+                                    </div>
+                                </div>
+
+                                <div class="summary-box-color third-row">
+                                    <div class="text-center-box">
+                                        <p id="awaiting-feedback-counter" class="counter">0</p>
+                                        <p>Awaiting Feedback</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="welcome-message">
+                            <div>
+                                <h2>Good Morning,</h2>
+                                <h1>Sofia Müller</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
     </div>
 </body>

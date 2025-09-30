@@ -1,0 +1,160 @@
+.summary-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.summary-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 40px !important;
+}
+
+.line {
+    height: 59px;
+    width: 3px;
+    background-color: var(--color-accent);
+    border-radius: 2px;
+}
+
+.line-second-row {
+    height: 90px;
+    width: 2px;
+    background-color: rgb(191, 191, 191);
+    border-radius: 2px;
+}
+
+.summary {
+    display: flex;
+    width: 100%;
+}
+
+.summary-boxes {
+    width: 55%;
+    padding-right: 40px;
+}
+
+.welcome-message {
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.welcome-message h1 {
+    color: var(--color-accent);
+    font-size: 64px;
+    margin-top: 0;
+    padding-top: 0;
+}
+
+.welcome-message h2 {
+    color: var(--color-primary);
+    font-size: 47px;
+    font-weight: 400;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.summary-box-color {
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.1s ease;
+}
+
+.summary-box-color:hover {
+    background-color: var(--color-primary);
+    color: white;
+    transition: background-color 0.1s ease,
+        box-shadow 0.1s ease,
+        color 0.1s ease;
+}
+
+.text-center-box {
+    text-align: center;
+    font-weight: 350;
+}
+
+.counter {
+    font-size: 50px;
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+}
+
+.first-row {
+    height: 150px;
+    width: 100%;
+    gap: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.check-icon img {
+    height: 50px;
+    object-fit: cover;
+}
+
+.check-icon-img {
+    background-color: var(--color-primary);
+    padding: 4px;
+    border-radius: 50%;
+}
+
+.edit-icon img {
+    height: 30px;
+    object-fit: cover;
+}
+
+.edit-icon-img {
+    background-color: var(--color-primary);
+    padding: 14px;
+    border-radius: 50%;
+}
+
+.second-row {
+    height: 150px;
+    width: 100%;
+    gap: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.urgent-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.urgent-icon-img {
+    background-color: red;
+    padding: 10px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+}
+
+.third-row {
+    height: 150px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex {
+    display: flex;
+    gap: 30px;
+    padding-bottom: 30px;
+}

@@ -53,6 +53,7 @@ function createLetterHeader(letter) {
 function createContactItem(contact, index, sortedContacts) {
     const div = document.createElement("div");
     div.className = "contact-item";
+    div.setAttribute("data-id", contact.id);
     div.innerHTML = contactList(contact);
 
     div.onclick = () => {
@@ -237,9 +238,15 @@ async function addContact(event) {
             });
 
             const data = await res.json();
+            const newId = data.name;
             await loadContacts();
             form.reset();
             addContactOverlay();
+
+            const newElement = document.querySelector(`[data-id="${newId}"]`);
+            if (newElement) {
+                setActiveContact(newElement, { id: newId, ...contact });
+            }
 
         } catch (error) {
             console.error("Error adding contact:", error);

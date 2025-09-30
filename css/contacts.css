@@ -45,6 +45,7 @@
     padding: 100px 52px 20px 52px;
     box-sizing: border-box;
     position: relative;
+    overflow-x: hidden;
 
 }
 
