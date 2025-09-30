@@ -4,6 +4,7 @@
     height: 100%;
     overflow: hidden;
     position: relative;
+    z-index: 10;
 }
 
 .summary-header {
@@ -66,15 +67,57 @@
     box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
     border-radius: 30px;
     cursor: pointer;
-    transition: all 0.1s ease;
+    transform-origin: center;
+    transition: transform 0.12s ease, background-color 0.1s ease, box-shadow 0.1s ease-in-out;
 }
 
 .summary-box-color:hover {
+    transform: scale(1.05);
     background-color: var(--color-primary);
     color: white;
-    transition: background-color 0.1s ease,
-        box-shadow 0.1s ease,
-        color 0.1s ease;
+}
+
+.summary-box-color:hover .check-icon-img,
+.summary-box-color:hover .edit-icon-img {
+    background-color: white;
+}
+
+.check-icon svg,
+.edit-icon svg {
+    width: 24px;
+    height: 24px;
+    display: block;
+    fill: white;
+}
+
+.check-icon {
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.edit-icon {
+    width: 14px;
+    height: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+
+}
+
+.edit-icon svg,
+.check-icon svg {
+    display: block;
+}
+
+.summary-box-color:hover .check-icon,
+.summary-box-color:hover .edit-icon {
+    background-color: white;
+    color: var(--color-primary) !important;
 }
 
 .text-center-box {
@@ -98,24 +141,13 @@
     align-items: center;
 }
 
-
-.check-icon img {
-    height: 50px;
-    object-fit: cover;
-}
-
-.check-icon-img {
+.check-icon {
     background-color: var(--color-primary);
     padding: 4px;
     border-radius: 50%;
 }
 
-.edit-icon img {
-    height: 30px;
-    object-fit: cover;
-}
-
-.edit-icon-img {
+.edit-icon {
     background-color: var(--color-primary);
     padding: 14px;
     border-radius: 50%;
