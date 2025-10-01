@@ -201,3 +201,7 @@ function clearSignUpForm() {
     signUpForm.reset();
 }
 
+function guestLogIn() {
+    localStorage.setItem("currentUserId", "guest");
+    window.location.replace("./html/summary.html");
+}

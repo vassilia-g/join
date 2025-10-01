@@ -43,6 +43,20 @@ async function updateUserName() {
     }
 }
 
+function guestGreeting() {
+    let welcomeMessage = document.getElementById("welcome-message");
+    let userName = document.getElementById("user-name");
+
+    welcomeMessage.innerHTML = "Good Morning!";
+    userName.classList.add("d-none");
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    if (localStorage.getItem("currentUserId") === "guest") {
+        guestGreeting();
+    }
+});
+
 document.addEventListener("DOMContentLoaded", () => {
     updateUserName();
 });
