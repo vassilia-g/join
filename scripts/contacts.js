@@ -160,8 +160,10 @@ function fillEditContactForm(contact) {
 
 }
 
-function onEditContact(index) {
-    const contact = contacts[index];
+
+function onEditContact(contactId) {
+    const contact = contacts.find(c => c.id === contactId);
+    if (!contact) return;
     fillEditContactForm(contact);
     editContactOverlay();
 }
@@ -215,49 +217,50 @@ async function saveContact(event) {
     }
 }
 
+function getContactFromForm(form) {
+    return {
+        name: form.name.value.trim(),
+        email: form.email.value.trim(),
+        phone: form.phone.value.trim()
+    };
+}
+
+async function saveContact(contact) {
+    const res = await fetch(BASE_URL + ".json", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(contact)
+    });
+    return res.json();
+}
+
+function updateUIAfterAdd(form, newId, contact) {
+    loadContacts().then(() => {
+        form.reset();
+        addContactOverlay();
+        showToast("Contact successfully created");
+
+        const newElement = document.querySelector(`[data-id="${newId}"]`);
+        if (newElement) {
+            setActiveContact(newElement, { id: newId, ...contact });
+        }
+    });
+}
+
+
 async function addContact(event) {
     event.preventDefault();
 
     const form = document.getElementById("add-contact-form");
+    if (!form.checkValidity()) return form.reportValidity();
 
-    if (form.checkValidity()) {
-
-        const name = document.getElementById("name").value.trim();
-        const email = document.getElementById("email").value.trim();
-        const phone = document.getElementById("phone").value.trim();
-
-        const contact = { name, email, phone };
-
-        try {
-            const res = await fetch(BASE_URL + ".json", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(contact)
-            });
-
-            const data = await res.json();
-            const newId = data.name;
-            await loadContacts();
-            form.reset();
-            addContactOverlay();
-            showToast("Contact successfully created");
-
-            const newElement = document.querySelector(`[data-id="${newId}"]`);
-            if (newElement) {
-                setActiveContact(newElement, { id: newId, ...contact });
-            }
-
-        } catch (error) {
-            console.error("Error adding contact:", error);
-        }
-
-    } else {
-        form.reportValidity();
-
+    try {
+        const contact = getContactFromForm(form);
+        const { name: newId } = await saveContact(contact);
+        updateUIAfterAdd(form, newId, contact);
+    } catch (err) {
+        console.error("Error adding contact:", err);
     }
-
 }
 
 async function deleteContactById(id) {
