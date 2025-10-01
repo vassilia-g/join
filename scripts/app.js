@@ -23,11 +23,18 @@ async function validateSignUpValues(values) {
 
 // Use this function to sign up a new user
 async function signUpUser(form) {
-    // Get form values
     const values = getSignUpValues(form);
-    if (!await validateSignUpValues(values)) return; // We return false if validation fails
+    if (!await validateSignUpValues(values)) return;
 
-    const user = new User(values.username, values.pw, values.email, 'active', Date.now());
+    const user = new User(
+        null,                    // id
+        values.username,         // username
+        values.pw,               // password
+        values.email,            // email
+        'active',                // status
+        Date.now()               // createdAt
+    );
+
     await user.save();
     console.log('User saved:', user);
     return true;
