@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
 
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="../script.js"></script>
 </head>
 
 <body>
@@ -44,7 +45,14 @@
             <a href="./help.html"><img class="help" src="../assets/icons/help.svg" alt="help-icon"
                 style="width: 20px; height: 20px; margin-right: 22px" /></a>
             <div class="profile-initials">
-              <p class="initials">SM</p>
+              <button onclick="dropdownMenu()">
+                <p class="initials">SM</p>
+              </button>
+            </div>
+            <div class="dropdown-content d-none">
+              <a class="dropdown-item" href="./legal-notice.html">Legal Notice</a>
+              <a href="./privacy-policy.html">Privacy Policy</a>
+              <a href="../index.html" onclick="logOut()">Log out</a>
             </div>
           </div>
         </div>

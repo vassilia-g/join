@@ -19,7 +19,7 @@ async function getUser() {
 }
 
 // logout helper
-function logout() {
+function logOut() {
     localStorage.removeItem("currentUserId");
     window.location.replace("../index.html");
 }
