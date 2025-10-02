@@ -13,7 +13,8 @@ async function loadContacts() {
         contacts = await response.json();
         contacts = Object.entries(contacts || {}).map(([id, contact]) => ({
             id,
-            ...contact
+            ...contact,
+            color: contact.color || getRandomColor()
         }));
 
 
@@ -237,6 +238,9 @@ function getContactFromForm(form) {
 }
 
 async function saveContact(contact) {
+    if (!contact.color) {
+        contact.color = getRandomColor();
+    }
     const res = await fetch(BASE_URL + ".json", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
