@@ -508,7 +508,7 @@
     border-radius: 20px;
     opacity: 0;
     transform: translateX(100%);
-    transition: all 0.2s ease;
+    transition: all 1s ease;
 }
 
 .toast.show {

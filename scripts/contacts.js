@@ -1,4 +1,5 @@
 let contacts = [];
+let activeContactId = null;
 
 const BASE_URL = "https://join-f759f-default-rtdb.europe-west1.firebasedatabase.app/contacts";
 
@@ -7,22 +8,31 @@ function init() {
     showSidebarAndHeader();
 }
 
+
 async function loadContacts() {
     try {
-        const response = await fetch(BASE_URL + ".json");
-        contacts = await response.json();
-        contacts = Object.entries(contacts || {}).map(([id, contact]) => ({
+        const res = await fetch(BASE_URL + ".json");
+        contacts = Object.entries(await res.json() || {}).map(([id, c]) => ({
             id,
-            ...contact,
-            color: contact.color || getRandomColor()
+            name: c.name?.trim() || "Unbekannt",
+            email: c.email || "",
+            phone: c.phone || "",
+            color: c.color || getRandomColor()
         }));
 
-
         renderContactList();
-    } catch (error) {
-        console.error("Fehler beim Laden:", error);
+        if (!activeContactId) return;
+        const active = contacts.find(c => c.id === activeContactId);
+        if (active) {
+            showContactContent(active);
+            document.querySelector(`.contact-item[data-id="${activeContactId}"]`)
+                ?.classList.add("active");
+        }
+    } catch (err) {
+        console.error("Fehler beim Laden:", err);
     }
 }
+
 
 function showSidebarAndHeader() {
     let sidebar = document.getElementById('sidebar');
@@ -30,6 +40,7 @@ function showSidebarAndHeader() {
     sidebar.innerHTML = showSidebar();
     header.innerHTML = showHeader();
 }
+
 
 function renderContactList() {
     const list = document.getElementById("contact-list");
@@ -51,9 +62,15 @@ function renderContactList() {
     });
 }
 
+
 function getSortedContacts() {
-    return [...contacts].sort((a, b) => a.name.localeCompare(b.name));
+    return [...contacts].sort((a, b) => {
+        const nameA = (a.name || "").toLowerCase();
+        const nameB = (b.name || "").toLowerCase();
+        return nameA.localeCompare(nameB);
+    });
 }
+
 
 function createLetterHeader(letter) {
     const letterDiv = document.createElement("div");
@@ -61,6 +78,7 @@ function createLetterHeader(letter) {
     letterDiv.textContent = letter;
     return letterDiv;
 }
+
 
 function createContactItem(contact, index, sortedContacts) {
     const div = document.createElement("div");
@@ -75,6 +93,7 @@ function createContactItem(contact, index, sortedContacts) {
     return div;
 }
 
+
 function setActiveContact(element, contact) {
     const isActive = element.classList.contains("active");
     const panel = document.getElementById("contact-details");
@@ -87,10 +106,14 @@ function setActiveContact(element, contact) {
         element.classList.add("active");
         showContactContent(contact);
         panel.classList.add("is-open");
+
+        activeContactId = contact.id;
     } else {
         hideContactContent();
+        activeContactId = null;
     }
 }
+
 
 function hideContactContent() {
     const panel = document.getElementById("contact-details");
@@ -102,14 +125,22 @@ function hideContactContent() {
     }, 100);
 }
 
+
 function getInitials(name) {
-    const parts = name.trim().split(" ");
+    if (!name || typeof name !== "string" || !name.trim()) {
+        return "?";
+    }
+
+    const parts = name.trim().split(" ").filter(Boolean);
     let initials = parts[0][0].toUpperCase();
+
     if (parts.length > 1) {
         initials += parts[parts.length - 1][0].toUpperCase();
     }
+
     return initials;
 }
+
 
 function getRandomColor() {
     const colors = ["#FF7A00", "#FF5EB3", "#6E52FF", "#9327FF", "#00BEE8", "#1FD7C1", "#FF745E", "#FFA35E", "#FC71FF", "#FFC701", "#0038FF", "#C3FF2B", "#FFE62B", "#FF4646", "#FFBB2B",];
@@ -118,7 +149,6 @@ function getRandomColor() {
 
 
 renderContactList();
-
 
 
 function addContactOverlay() {
@@ -172,7 +202,6 @@ function fillEditContactForm(contact) {
 
 }
 
-
 function onEditContact(contactId) {
     const contact = contacts.find(c => c.id === contactId);
     if (!contact) return;
@@ -195,38 +224,28 @@ async function deleteContact(id) {
     }
 }
 
-async function saveContact(event) {
+async function saveEditedContact(event) {
     event.preventDefault();
-
     const form = document.getElementById("edit-contact-form");
+    if (!form.checkValidity()) return form.reportValidity();
 
-    if (form.checkValidity()) {
-        const id = form.dataset.id;
-        const name = document.getElementById("edit-name").value.trim();
-        const email = document.getElementById("edit-email").value.trim();
-        const phone = document.getElementById("edit-phone").value.trim();
+    const id = form.dataset.id;
+    const original = contacts.find(c => c.id === id);
+    const updatedContact = {
+        name: document.getElementById("edit-name").value.trim(),
+        email: document.getElementById("edit-email").value.trim(),
+        phone: document.getElementById("edit-phone").value.trim(),
+        color: original?.color || getRandomColor()
+    };
 
-        const updatedContact = { name, email, phone };
+    await fetch(`${BASE_URL}/${id}.json`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedContact)
+    });
 
-        try {
-            await fetch(`${BASE_URL}/${id}.json`,
-                {
-                    method: "PUT",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(updatedContact)
-                }
-            );
-
-            await loadContacts();
-            await renderContactList();
-            editContactOverlay();
-
-        } catch (error) {
-            console.error("Fehler beim Aktualisieren:", error);
-        }
-    } else {
-        form.reportValidity();
-    }
+    await loadContacts();
+    editContactOverlay();
 }
 
 function getContactFromForm(form) {
@@ -237,15 +256,18 @@ function getContactFromForm(form) {
     };
 }
 
-async function saveContact(contact) {
+
+async function createContact(contact) {
     if (!contact.color) {
         contact.color = getRandomColor();
     }
+
     const res = await fetch(BASE_URL + ".json", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(contact)
     });
+
     return res.json();
 }
 
@@ -271,7 +293,8 @@ async function addContact(event) {
 
     try {
         const contact = getContactFromForm(form);
-        const { name: newId } = await saveContact(contact);
+        const { name: newId } = await createContact(contact);
+        contact.id = newId;
         updateUIAfterAdd(form, newId, contact);
     } catch (err) {
         console.error("Error adding contact:", err);
