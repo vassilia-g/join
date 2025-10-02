@@ -1,7 +1,12 @@
-
 let contacts = [];
 
 const BASE_URL = "https://join-f759f-default-rtdb.europe-west1.firebasedatabase.app/contacts";
+
+function init() {
+    loadContacts();
+    showSidebarAndHeader();
+}
+
 async function loadContacts() {
     try {
         const response = await fetch(BASE_URL + ".json");
@@ -18,6 +23,12 @@ async function loadContacts() {
     }
 }
 
+function showSidebarAndHeader() {
+    let sidebar = document.getElementById('sidebar');
+    let header = document.getElementById('header');
+    sidebar.innerHTML = showSidebar();
+    header.innerHTML = showHeader();
+}
 
 function renderContactList() {
     const list = document.getElementById("contact-list");

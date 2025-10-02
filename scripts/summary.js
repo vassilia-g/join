@@ -1,3 +1,18 @@
+function init() {
+    showSidebarAndHeader()
+}
+
+function showSidebarAndHeader() {
+    let sidebar = document.getElementById('sidebar');
+    let header = document.getElementById('header');
+    sidebar.innerHTML = showSidebar();
+    header.innerHTML = showHeader();
+}
+
+function dropdownMenu() {
+    document.querySelector('.dropdown-content').classList.toggle('d-none');
+}
+
 function updateSummaryCounters() {
     let toDoCounter = document.getElementById('to-do-counter');
     let doneCounter = document.getElementById('done-counter');

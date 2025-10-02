@@ -1,3 +1,14 @@
+function init() {
+  showSidebarAndHeader();
+}
+
+function showSidebarAndHeader() {
+  let sidebar = document.getElementById('sidebar');
+  let header = document.getElementById('header');
+  sidebar.innerHTML = showSidebar();
+  header.innerHTML = showHeader();
+}
+
 async function openAddTaskOverlay() {
   const overlayRef = document.getElementById('add-task-overlay');
   const overlayContentRef = document.getElementById('add-task-overlay-content');

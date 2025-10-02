@@ -18,49 +18,17 @@
     <!-- Application -->
     <script src="../scripts/app.js"></script>
 
-    <script src="../script.js"></script>
     <script src="../scripts/log-in.js"></script>
     <script src="../scripts/summary.js"></script>
+    <script src="../scripts/template.js"></script>
 </head>
 
-<body>
+<body onload="init()">
     <div class="content">
-        <div class="sidebar">
-            <div class="logo">
-                <img src="../assets/imgs/join-logo/Logo-white.svg" />
-            </div>
-            <div class="sidebar-nav">
-                <a class="nav selected-nav" href="./summary.html"><img
-                        src="../assets/imgs/symbols/Summary.svg" />Summary</a>
-                <a class="nav" href="./add-task.html"><img src="../assets/imgs/symbols/Add-task.svg" />Add Task</a>
-                <a class="nav" href="./board.html"><img src="../assets/imgs/symbols/Board.svg" />Board</a>
-                <a class="nav" href="./contacts.html"><img src="../assets/imgs/symbols/Contacts.svg" />Contacts</a>
-            </div>
-            <div class="legal">
-                <a class="legal-link" href="./privacy-policy.html">Privacy Policy</a>
-                <a class="legal-link" href="./legal-notice.html">Legal Notice</a>
-            </div>
+        <div id="sidebar" class="sidebar">
         </div>
-
         <div class="main">
-            <header class="header">
-                <div class="header-content">
-                    <p class="header-text">Kanban Project Management Tool</p>
-                    <div class="header-assets">
-                        <a href="./help.html"><img class="help" src="../assets/icons/help.svg" alt="help-icon"
-                                style="width: 20px; height: 20px; margin-right: 22px" /></a>
-                        <div class="profile-initials">
-                            <button onclick="dropdownMenu()">
-                                <p class="initials">SM</p>
-                            </button>
-                        </div>
-                        <div class="dropdown-content d-none">
-                            <a class="dropdown-item" href="./legal-notice.html">Legal Notice</a>
-                            <a href="./privacy-policy.html">Privacy Policy</a>
-                            <a href="../index.html" onclick="logOut()">Log out</a>
-                        </div>
-                    </div>
-                </div>
+            <header id="header" class="header">
             </header>
 
             <section class="page-content">

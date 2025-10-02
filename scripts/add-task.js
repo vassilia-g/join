@@ -46,6 +46,17 @@ const picker = flatpickr("#task-due-date", {
   onYearChange: checkArrows
 });
 
+function init() {
+  showSidebarAndHeader()
+}
+
+function showSidebarAndHeader() {
+  let sidebar = document.getElementById('sidebar');
+  let header = document.getElementById('header');
+  sidebar.innerHTML = showSidebar();
+  header.innerHTML = showHeader();
+}
+
 function checkArrows(selectedDates, dateStr, instance) {
   const minDate = instance.config.minDate;
   const currentYear = instance.currentYear;
