@@ -37,6 +37,7 @@
 .selected-nav {
     cursor: default;
     background-color: var(--color-secondary);
+    color: #FFFFFF;
 }
 
 .selected-nav:hover {
@@ -52,16 +53,27 @@
     flex-direction: column;
     place-self: center;
     gap: 8px;
+    width: 100%;
 }
 
 .legal-link {
     color: #CDCDCD;
-    padding: 8px;
+    padding: 8px 56px;
 }
 
 .legal-link:hover {
     color: #29ABE2;
     font-weight: bold;
+}
+
+.selected-legal-link {
+    background-color: var(--color-secondary) !important;
+    cursor: default;
+}
+
+.selected-legal-link:hover {
+    color: #CDCDCD !important;
+    font-weight: 400 !important;
 }
 
 .main {

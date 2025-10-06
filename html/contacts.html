@@ -11,13 +11,16 @@
     <link rel="stylesheet" href="../css/fonts.css">
     <link rel="stylesheet" href="../css/sidebar-header.css">
     <link rel="stylesheet" href="../css/contacts.css">
+    <script src="../scripts/contacts.js"></script>
+    <script src="../scripts/backend/api.js"></script>
+    <script src="../scripts/backend/contact.js"></script>
     <script src="../scripts/contacts-templates.js"></script>
-    <script src="../script.js"></script>
+    <script defer src="../script.js"></script>
     <script src="../scripts/template.js"></script>
 
 </head>
 
-<body onload="init()">
+<body onload="init(); initContacts()">
     <div class="content">
         <div id="overlay-contact" onclick="addContactOverlay()" class="overlay-contact d_none">
             <div onclick="event.stopPropagation()" class="popup-contact">
@@ -191,10 +194,6 @@
         </div>
     </div>
     <div id="toast-container"> </div>
-
-    <script src="../scripts/contacts.js"></script>
-    <script src="../scripts/backend/api.js"></script>
-    <script src="../scripts/backend/contact.js"></script>
 
 </body>
 

@@ -3,9 +3,8 @@ let activeContactId = null;
 
 // const BASE_URL = "https://join-f759f-default-rtdb.europe-west1.firebasedatabase.app/contacts";
 
-function init() {
+function initContacts() {
     loadContacts();
-    showSidebarAndHeader();
 }
 
 function showSidebarAndHeader() {

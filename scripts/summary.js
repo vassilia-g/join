@@ -1,14 +1,3 @@
-function init() {
-    showSidebarAndHeader()
-}
-
-function showSidebarAndHeader() {
-    let sidebar = document.getElementById('sidebar');
-    let header = document.getElementById('header');
-    sidebar.innerHTML = showSidebar();
-    header.innerHTML = showHeader();
-}
-
 function dropdownMenu() {
     document.querySelector('.dropdown-content').classList.toggle('d-none');
 }
@@ -31,12 +20,6 @@ async function getUser() {
         console.error("getUser failed", error);
         return null;
     }
-}
-
-// logout helper
-function logOut() {
-    localStorage.removeItem("currentUserId");
-    window.location.replace("../index.html");
 }
 
 async function updateUserName() {

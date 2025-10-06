@@ -15,14 +15,14 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
 
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-  <script src="../script.js"></script>
+  <script defer src="../script.js"></script>
   <script src="../scripts/template.js"></script>
   <script src="../scripts/contacts.js"></script>
   <script src="../scripts/backend/contact.js"></script>
   <script src="../scripts/backend/api.js"></script>
 </head>
 
-<body onload="init()">
+<body onload="init(); initAddTAsk()">
   <div class="content">
     <div id="sidebar" class="sidebar"></div>
     <div class="main">

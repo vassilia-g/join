@@ -48,9 +48,8 @@ const picker = flatpickr("#task-due-date", {
   onYearChange: checkArrows
 });
 
-function init() {
+function initAddTAsk() {
   loadContactsWithoutRendering();
-  showSidebarAndHeader()
 }
 
 async function loadContactsWithoutRendering() {

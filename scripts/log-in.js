@@ -160,6 +160,7 @@ async function goToOtherPage(event) {
     const user = (users || []).find(u => u.email === inputEmail.value);
     if (user && user.password === inputPassword.value) {
         localStorage.setItem("currentUserId", user.id);
+        localStorage.setItem('isLoggedIn', 'true');
         window.location.replace("html/summary.html");
     } else {
         redError.classList.remove("d-none");
@@ -203,5 +204,6 @@ function clearSignUpForm() {
 
 function guestLogIn() {
     localStorage.setItem("currentUserId", "guest");
+    localStorage.setItem('isLoggedIn', 'true');
     window.location.replace("./html/summary.html");
 }
