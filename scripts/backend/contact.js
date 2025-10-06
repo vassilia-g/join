@@ -8,7 +8,7 @@ class Contact {
 
 async function loadContacts() {
     try {
-        const res = await fetch(BASE_URL + ".json");
+        const res = await fetch(BASE_URL + "contacts.json");
         contacts = Object.entries(await res.json() || {}).map(([id, c]) => ({
             id,
             name: c.name?.trim() || "Unbekannt",
@@ -50,7 +50,7 @@ async function deleteContactById(id) {
     if (!confirm("Willst du diesen Kontakt wirklich löschen?")) return;
 
     try {
-        await fetch(`${BASE_URL}/${id}.json`, {
+        await fetch(`${BASE_URL}/contacts/${id}.json`, {
             method: "DELETE"
         });
 
@@ -66,7 +66,7 @@ async function createContact(contact) {
         contact.color = getRandomColor();
     }
 
-    const res = await fetch(BASE_URL + ".json", {
+    const res = await fetch(BASE_URL + "contacts.json", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(contact)
@@ -75,16 +75,17 @@ async function createContact(contact) {
     return res.json();
 }
 
-async function deleteContact(id) {
-    const form = document.getElementById("edit-contact-form");
-    const contactID = form.dataset.id;
+
+async function deleteContactById(id) {
+    if (!confirm("Willst du diesen Kontakt wirklich löschen?")) return;
+
     try {
-        await fetch(`${BASE_URL}/${contactID}.json`, {
+        await fetch(`${BASE_URL}contacts/${id}.json`, {
             method: "DELETE"
         });
+
         await loadContacts();
         document.getElementById("contact-details").innerHTML = "";
-        editContactOverlay();
     } catch (err) {
         console.error("Fehler beim Löschen:", err);
     }
@@ -104,7 +105,7 @@ async function saveEditedContact(event) {
         color: original?.color || getRandomColor()
     };
 
-    await fetch(`${BASE_URL}/${id}.json`, {
+    await fetch(`${BASE_URL}contacts/${id}.json`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedContact)
