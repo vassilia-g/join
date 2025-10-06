@@ -22,12 +22,14 @@
       href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
     />
 
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-  <script defer src="../script.js"></script>
-  <script src="../scripts/template.js"></script>
-</head>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="../script.js"></script>
+    <script src="../scripts/template.js"></script>
+  </head>
 
   <body onload="init(), loadTasks()">
+    <script src="../scripts/board.js"></script>
+
     <div class="content">
       <div id="sidebar" class="sidebar"></div>
       <div class="main">
@@ -71,29 +73,71 @@
               </div>
             </div>
 
-          <div class="board-task-div">
-            <div class="board-tasks" id="board-tasks" ondrop="drop(event)" ondragover="allowDrop(event)">
-              <div class="board-tasks-headline">
-                <h2>To do</h2>
-                <button class="board-task-btn" onclick="openAddTaskOverlay()">
-                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M5 1.5V9.5" stroke="#2A3647" stroke-width="2" stroke-linecap="round" />
-                    <path d="M9 5.57544L1 5.57544" stroke="#2A3647" stroke-width="2" stroke-linecap="round" />
-                  </svg>
-                </button>
+            <div class="board-task-div">
+              <div
+                class="board-tasks"
+                id="board-tasks"
+                ondrop="drop(event)"
+                ondragover="allowDrop(event)"
+              >
+                <div class="board-tasks-headline">
+                  <h2>To do</h2>
+                  <button class="board-task-btn" onclick="openAddTaskOverlay()">
+                    <svg
+                      width="10"
+                      height="10"
+                      viewBox="0 0 10 10"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M5 1.5V9.5"
+                        stroke="#2A3647"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                      />
+                      <path
+                        d="M9 5.57544L1 5.57544"
+                        stroke="#2A3647"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <div class="current-board-tasks">No tasks to do</div>
               </div>
-              <div class="current-board-tasks">No tasks to do</div>
-
-            </div>
-            <div class="board-tasks" ondrop="drop(event)" ondragover="allowDrop(event)">
-              <div class="board-tasks-headline">
-                <h2>In progress</h2>
-                <button class="board-task-btn" onclick="openAddTaskOverlay()">
-                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M5 1.5V9.5" stroke="#2A3647" stroke-width="2" stroke-linecap="round" />
-                    <path d="M9 5.57544L1 5.57544" stroke="#2A3647" stroke-width="2" stroke-linecap="round" />
-                  </svg>
-                </button>
+              <div
+                class="board-tasks"
+                ondrop="drop(event)"
+                ondragover="allowDrop(event)"
+              >
+                <div class="board-tasks-headline">
+                  <h2>In progress</h2>
+                  <button class="board-task-btn" onclick="openAddTaskOverlay()">
+                    <svg
+                      width="10"
+                      height="10"
+                      viewBox="0 0 10 10"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M5 1.5V9.5"
+                        stroke="#2A3647"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                      />
+                      <path
+                        d="M9 5.57544L1 5.57544"
+                        stroke="#2A3647"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <div class="current-board-tasks">No tasks in progress</div>
               </div>
               <div
                 class="board-tasks"
@@ -125,9 +169,7 @@
                     </svg>
                   </button>
                 </div>
-                <div id="feedback-filler" class="current-board-tasks">
-                  No feedback awaiting
-                </div>
+                <div class="current-board-tasks">No feedback awaiting</div>
               </div>
               <div
                 class="board-tasks"
@@ -137,7 +179,7 @@
                 <div class="board-tasks-headline">
                   <h2>Done</h2>
                 </div>
-                <div id="done-filler" class="current-board-tasks"></div>
+                <div class="current-board-tasks"></div>
               </div>
             </div>
           </div>
@@ -188,6 +230,5 @@
         </section>
       </div>
     </div>
-    <script src="../scripts/board.js"></script>
   </body>
 </html>
