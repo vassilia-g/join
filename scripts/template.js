@@ -126,3 +126,33 @@ function createNewTaskTemplate(allFields) {
                 </div>
               </div>`
 }
+
+function boardTaskTemplate(task) {
+    return `
+        <div class="task" id="task" draggable="true" ondragstart="drag(event)">
+                <span class="category" id="category">${task.category}</span>
+                <div class="task-description">
+                  <h3 class="task-title" id="task-title">${task.title}</h3>
+                  <div class="task-content" id="task-content"></div>
+                </div>
+                <div class="task-status">
+                  <div class="progress-bar"></div>
+                  <div class="subtask-count">
+                    <span id="actual-count-of-progress">0</span>
+                    /
+                    <span id="final-count-of-progress">2</span>
+                    <span>Subtasks</span>
+                  </div>
+                </div>
+                <div class="task-info" id="task-info">
+                  <div class="assignee" id="assignee">
+                    <div class="user-avatar">MM</div>
+                    <div class="user-avatar">RR</div>
+                    <div class="user-avatar">VV</div>
+                    <div class="user-avatar">UU</div>
+                  </div>
+                  <div class="priority" id="priority"></div>
+                </div>
+        </div>
+    `
+}

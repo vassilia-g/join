@@ -646,45 +646,8 @@ function eventListenerForSelectCategory(inputElement, warning, categorySpan) {
 function showTaskDiv() {
   addToBoardDiv.classList.remove('hide');
   addToBoardDiv.classList.add('show');
-  createNewTask();
   setTimeout(() => {
     hideTaskDiv();
     closeTaskOverlay()
   }, 2000)
-}
-
-function hideTaskDiv() {
-  addToBoardDiv.classList.remove('show');
-  addToBoardDiv.classList.add('hide');
-}
-
-function closeTaskOverlay() {
-  const overlayRef = document.getElementById('add-task-overlay').classList.add("d-none");
-  const overlayBackgroundRef = document.getElementById('overlay-background').classList.add("d-none");
-}
-
-function createNewTask() {
-  let allFields = {
-    taskTitle: document.getElementById("task-title").value,
-    taskDescription: document.getElementById("task-description")?.value || '',
-    taskDueDate: document.getElementById("task-due-date").value,
-    taskPriority: selectedPriority,
-    taskContacts: document.querySelector(".assign-contacs")?.textContent || '',
-    taskCategory: selectedCategory,
-    taskSubtasks: subtasks
-  }
-  if (!allFields.taskTitle || !allFields.taskDueDate) {
-    alert("Please fill in all required fields.");
-    clearTask();
-  }
-  document.getElementById("board-tasks").innerHTML += createNewTaskTemplate(allFields);
-  clearTask();
-}
-
-document.getElementById("urgent-priority-btn").addEventListener("click", () => setPriority("urgent"));
-document.getElementById("medium-priority-btn").addEventListener("click", () => setPriority("medium"));
-document.getElementById("low-priority-btn").addEventListener("click", () => setPriority("low"));
-
-function setPriority(priority) {
-  selectedPriority = priority;
 }
