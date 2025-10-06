@@ -6,7 +6,7 @@ button {
 .board-content {
     display: flex;
     flex-direction: column;
-    
+
 }
 
 .board-search-div {
@@ -175,16 +175,130 @@ button {
     height: 48px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     border: 1px dashed #A8A8A8;
     border-radius: 10px;
 }
+
+/* ab hier Idee für Tasks */
+
+.task {
+    background-color: rgb(255, 255, 255);
+    width: 218px;
+    min-height: 190px;
+    border-radius: 24px;
+    gap: 10px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.category {
+    width: 113px;
+    height: 27px;
+    border-radius: 8px;
+    padding: 4px 16px;
+    gap: 10px;
+    background-color: var(--color-accent);
+    color: #FFFFFF;
+    font-size: 19px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.task-description {
+    display: flex;
+    width: 220px;
+    height: 46px;
+    gap: 8px;
+    flex-direction: column;
+    margin-bottom: 10px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+}
+
+.task-title {
+    width: 100%;
+    height: 19px;
+}
+
+.task-content {
+    width: 100%;
+    height: 19px;
+}
+
+.task-status {
+    width: 220px;
+    height: 16px;
+    gap: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+
+.progress-bar {
+    width: 128px;
+    height: 8px;
+    border-radius: 8px;
+    background-color: var(--color-accent);
+}
+
+.subtask-count {
+    width: 88px;
+    height: 17px;
+    display: flex;
+}
+
+.task-info {
+    width: 220px;
+    height: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.assignee {
+    width: fit-content;
+    height: 32px;
+    display: flex;
+}
+
+.user-avatar {
+    position: relative;
+    margin-left: -10px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 400;
+    font-size: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    background-color: rgba(196, 24, 124, 0.85);
+    z-index: 0;
+}
+
+.user-avatar:first-child {
+    margin-left: 0;
+}
+
+.priority {
+    width: 32px;
+    height: 32px;
+}
+
+
 
 @keyframes slideUpBoard {
     0% {
         opacity: 0;
         transform: translate(-50%, 100%);
     }
+
     100% {
         opacity: 1;
         transform: translate(-50%, -500%);
@@ -196,6 +310,7 @@ button {
         opacity: 1;
         transform: translate(-50%, -500%);
     }
+
     100% {
         opacity: 0;
         transform: translate(-50%, 100%);
