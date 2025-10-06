@@ -122,9 +122,6 @@ function getRandomColor() {
 }
 
 
-renderContactList();
-
-
 function addContactOverlay() {
     const overlay = document.getElementById("overlay-contact");
     const popup = overlay.querySelector(".popup-contact");
