@@ -24,6 +24,9 @@ const categoryInputAndDropdown = document.getElementById('category-input-and-dro
 const addToBoardDiv = document.querySelector('.add-task-to-board-div');
 let contacts = ['Jule Zieten', 'Marco Rößler', 'Vassilia Gerodimos', 'Anika Schmidt', 'Dustin Condello'];
 let subtasks = [];
+
+let selectedPriority = "";
+let selectedCategory = "";
 const createTaskButton = document.getElementById("create-task-btn");
 createTaskButton.disabled = true;
 let subtaskListElement;
@@ -486,6 +489,8 @@ function showTechnicalTaskInInput() {
   dropdownIconCategories.classList.toggle("open");
   categories.classList.remove('show');
   categories.innerHTML = '';
+  selectedCategory = "Technical Task";
+  // setCategory();
   enableCreateTaskButton();
 }
 
@@ -494,6 +499,8 @@ function showUserStoryInInput() {
   dropdownIconCategories.classList.toggle("open");
   categories.classList.remove('show');
   categories.innerHTML = '';
+  selectedCategory = "User Story";
+  // setCategory();
   enableCreateTaskButton();
 }
 
@@ -504,7 +511,7 @@ function clearTask() {
   changeLowBtnToDefault();
   setDefaultToContactCheckboxes();
   showSelectedContacts();
-  clearSubtaskInput()
+  clearSubtaskInput();
   setDefaultToCategoryDropdown();
   setDefaultToContactDropdown();
 }
@@ -625,10 +632,11 @@ function eventListenerForSelectCategory(inputElement, warning, categorySpan) {
 function showTaskDiv() {
   addToBoardDiv.classList.remove('hide');
   addToBoardDiv.classList.add('show');
-
+  createNewTask();
   setTimeout(() => {
     hideTaskDiv();
-  }, 3000)
+    closeTaskOverlay()
+  }, 2000)
 }
 
 function hideTaskDiv() {
@@ -636,5 +644,33 @@ function hideTaskDiv() {
   addToBoardDiv.classList.add('hide');
 }
 
+function closeTaskOverlay() {
+  const overlayRef = document.getElementById('add-task-overlay').classList.add("d-none");
+  const overlayBackgroundRef = document.getElementById('overlay-background').classList.add("d-none");
+}
 
+function createNewTask() {
+  let allFields = {
+    taskTitle: document.getElementById("task-title").value,
+    taskDescription: document.getElementById("task-description")?.value || '',
+    taskDueDate: document.getElementById("task-due-date").value,
+    taskPriority: selectedPriority,
+    taskContacts: document.querySelector(".assign-contacs")?.textContent || '',
+    taskCategory: selectedCategory,
+    taskSubtasks: subtasks
+  }
+  if (!allFields.taskTitle || !allFields.taskDueDate) {
+    alert("Please fill in all required fields.");
+    clearTask();
+  }
+  document.getElementById("board-tasks").innerHTML += createNewTaskTemplate(allFields);
+  clearTask();
+}
 
+document.getElementById("urgent-priority-btn").addEventListener("click", () => setPriority("urgent"));
+document.getElementById("medium-priority-btn").addEventListener("click", () => setPriority("medium"));
+document.getElementById("low-priority-btn").addEventListener("click", () => setPriority("low"));
+
+function setPriority(priority) {
+  selectedPriority = priority;
+}

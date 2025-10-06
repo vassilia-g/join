@@ -51,7 +51,7 @@
           </div>
 
           <div class="board-task-div">
-            <div class="board-tasks" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <div class="board-tasks" id="board-tasks" ondrop="drop(event)" ondragover="allowDrop(event)">
               <div class="board-tasks-headline">
                 <h2>To do</h2>
                 <button class="board-task-btn" onclick="openAddTaskOverlay()">
@@ -62,36 +62,6 @@
                 </button>
               </div>
               <div class="current-board-tasks">No tasks to do</div>
-
-              <!-- das hier als template laden, wenn task erstellt wurde -->
-
-              <div class="task" id="task" draggable="true" ondragstart="drag(event)">
-                <span class="category" id="category">User Story</span>
-                <div class="task-description">
-                  <h3 class="task-title" id="task-title">Go to supermarket</h3>
-                  <div class="task-content" id="task-content">here you see what to do</div>
-                </div>
-                <div class="task-status">
-                  <div class="progress-bar"></div>
-                  <div class="subtask-count">
-                    <span id="actual-count-of-progress">0</span>
-                    /
-                    <span id="final-count-of-progress">2</span>
-                    <span>Subtasks</span>
-                  </div>
-                </div>
-                <div class="task-info" id="task-info">
-                  <div class="assignee" id="assignee">
-                    <div class="user-avatar">MM</div>
-                    <div class="user-avatar">RR</div>
-                    <div class="user-avatar">VV</div>
-                    <div class="user-avatar">UU</div>
-                  </div>
-                  <div class="priority" id="priority"></div>
-                </div>
-              </div>
-
-              <!-- bis hier her -->
 
             </div>
             <div class="board-tasks" ondrop="drop(event)" ondragover="allowDrop(event)">

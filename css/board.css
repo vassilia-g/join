@@ -199,12 +199,15 @@ button {
     height: 27px;
     border-radius: 8px;
     padding: 4px 16px;
-    gap: 10px;
     background-color: var(--color-accent);
     color: #FFFFFF;
-    font-size: 19px;
+    font-size: 16px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
     text-align: center;
     margin-bottom: 10px;
+    align-content: center;
 }
 
 .task-description {
@@ -256,7 +259,8 @@ button {
     height: 32px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    flex-wrap: wrap;
+    align-items: baseline;
 }
 
 .assignee {

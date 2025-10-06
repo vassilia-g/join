@@ -66,3 +66,36 @@ function showSidebarBeforeLogin() {
         </div>
     `;
 }
+
+function createNewTaskTemplate(allFields) {
+    return `
+        <div class="task" id="task" draggable="true" ondragstart="drag(event)">
+                <span class="category" id="category">${allFields.taskCategory}</span>
+                <div class="task-description">
+                  <h3 class="task-title" id="task-title">${allFields.taskTitle}</h3>
+                  <div class="task-content" id="task-content">${allFields.taskDescription}</div>
+                </div>
+                <div class="task-status">
+                  <div class="progress-bar" id="progress-bar"></div>
+                  <div class="subtask-count">
+                    <span id="actual-count-of-progress">0</span>
+                    /
+                    <span id="final-count-of-progress">2</span>
+                    <span>Subtasks</span>
+                  </div>
+                </div>
+                <div class="task-info" id="task-info">
+                  <div class="assignee" id="assignee">
+                    <div class="user-avatar">MM</div>
+                    <div class="user-avatar">RR</div>
+                    <div class="user-avatar">VV</div>
+                    <div class="user-avatar">UU</div>
+                  </div>
+                  <div class="priority" id="priority">
+                    <img class="${allFields.taskPriority === 'low' ? '' : 'd-none'}" src="../assets/imgs/symbols/low.svg" alt="">
+                    <img class="${allFields.taskPriority === 'medium' ? '' : 'd-none'}" src="../assets/imgs/symbols/medium.svg" alt="">
+                    <img class="${allFields.taskPriority === 'urgent' ? '' : 'd-none'}" src="../assets/imgs/symbols/urgent.svg" alt="">
+                  </div>
+                </div>
+              </div>`
+}
