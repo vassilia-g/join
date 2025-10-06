@@ -22,7 +22,6 @@ const categoryInput = document.getElementById('input-category');
 const contactInputAndDropdown = document.getElementById('contact-input-and-dropdown');
 const categoryInputAndDropdown = document.getElementById('category-input-and-dropdown');
 const addToBoardDiv = document.querySelector('.add-task-to-board-div');
-let contacts = ['Jule Zieten', 'Marco Rößler', 'Vassilia Gerodimos', 'Anika Schmidt', 'Dustin Condello'];
 let subtasks = [];
 const createTaskButton = document.getElementById("create-task-btn");
 createTaskButton.disabled = true;
@@ -47,7 +46,23 @@ const picker = flatpickr("#task-due-date", {
 });
 
 function init() {
+  loadContactsWithoutRendering();
   showSidebarAndHeader()
+}
+
+async function loadContactsWithoutRendering() {
+  try {
+    const res = await fetch(BASE_URL + ".json");
+    contacts = Object.entries(await res.json() || {}).map(([id, c]) => ({
+      id,
+      name: c.name?.trim() || "Unbekannt",
+      email: c.email || "",
+      phone: c.phone || "",
+      color: c.color || getRandomColor()
+    }));
+  } catch (err) {
+    console.error("Fehler beim Laden:", err);
+  }
 }
 
 function showSidebarAndHeader() {
@@ -375,7 +390,7 @@ function hideDropdownCategories() {
 }
 
 function showContacts(i) {
-  let initials = getInitials(contacts[i]);
+  let initials = getInitials(contacts[i].name);
   return `
         <div class="single-contact">
           <div class="contact-name">
@@ -384,7 +399,7 @@ function showContacts(i) {
               <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" font-size="14" fill="white">
               ${initials}</text>
             </svg>
-            <span>${contacts[i]}</span>
+            <span>${contacts[i].name}</span>
           </div>
           <div class="contact-checkbox" id="checkbox-${i}">
             <svg onclick="checkContact(${i})" width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
