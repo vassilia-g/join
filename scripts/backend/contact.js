@@ -76,21 +76,6 @@ async function createContact(contact) {
 }
 
 
-async function deleteContactById(id) {
-    if (!confirm("Willst du diesen Kontakt wirklich löschen?")) return;
-
-    try {
-        await fetch(`${BASE_URL}contacts/${id}.json`, {
-            method: "DELETE"
-        });
-
-        await loadContacts();
-        document.getElementById("contact-details").innerHTML = "";
-    } catch (err) {
-        console.error("Fehler beim Löschen:", err);
-    }
-}
-
 async function saveEditedContact(event) {
     event.preventDefault();
     const form = event.target;
