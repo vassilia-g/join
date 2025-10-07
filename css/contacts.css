@@ -362,8 +362,13 @@
 
 
 .contact-item {
-    padding: 8px;
+    padding: 15px 24px;
+    border-radius: 10px;
     cursor: pointer;
+}
+
+.contact-item:hover {
+    background: linear-gradient(180deg, #F9F9F9 0%, #F0F0F0 100%);
 }
 
 .contact-item.active {
@@ -372,10 +377,24 @@
     color: white;
 }
 
+.contact-item.active:hover {
+    background-color: var(--color-primary) !important;
+    color: white !important;
+    background: none;
+    cursor: default;
+}
+
 .contact-content {
     display: flex;
     align-items: center;
     gap: 40px;
+}
+
+.own-contact {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 
 .contact-avatar {

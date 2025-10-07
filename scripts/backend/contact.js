@@ -93,24 +93,27 @@ async function deleteContactById(id) {
 
 async function saveEditedContact(event) {
     event.preventDefault();
-    const form = document.getElementById("edit-contact-form");
-    if (!form.checkValidity()) return form.reportValidity();
-
+    const form = event.target;
     const id = form.dataset.id;
-    const original = contacts.find(c => c.id === id);
     const updatedContact = {
-        name: document.getElementById("edit-name").value.trim(),
-        email: document.getElementById("edit-email").value.trim(),
-        phone: document.getElementById("edit-phone").value.trim(),
-        color: original?.color || getRandomColor()
+        name: form['edit-name'].value.trim(),
+        email: form['edit-email'].value.trim(),
+        phone: form['edit-phone'].value.trim(),
+        color: getRandomColor()
     };
 
-    await fetch(`${BASE_URL}contacts/${id}.json`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedContact)
-    });
+    if (id === currentUserId) {
+        await User.updateOwnUser(updatedContact);
+        showOwnContact();
+        editContactOverlay();
+        showToast("Own contact updated");
+        return;
+    }
 
+    // Für normale Kontakte:
+    await updateContactInDatabase(id, updatedContact);
     await loadContacts();
+    renderContactList();
     editContactOverlay();
+    showToast("Contact updated");
 }

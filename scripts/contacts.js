@@ -5,6 +5,36 @@ let activeContactId = null;
 
 function initContacts() {
     loadContacts();
+    showOwnContact();
+}
+
+async function showOwnContact() {
+    const ownContactContainer = document.getElementById('own-contact');
+    const user = await getUser();
+    if (!user.color) {
+        user.color = getRandomColor();
+    }
+    ownContactContainer.innerHTML = showOwnContactDetails(user);
+    const contactItem = document.getElementById('contact-item');
+    ownContactContainer.onclick = function () {
+        setActiveContact(contactItem, user);
+        // Edit-Button für eigenen Kontakt:
+        document.querySelector('.edit-delete-button').onclick = function () {
+            fillEditContactForm(user); // user ist dein eigener Kontakt
+            editContactOverlay();
+        };
+    };
+}
+
+async function getUser() {
+    const id = localStorage.getItem("currentUserId");
+    if (!id) return null;
+    try {
+        return await User.loadById(id);
+    } catch (error) {
+        console.error("getUser failed", error);
+        return null;
+    }
 }
 
 function showSidebarAndHeader() {
@@ -164,16 +194,23 @@ function editContactOverlay() {
 }
 
 function fillEditContactForm(contact) {
-    document.getElementById("edit-name").value = contact.name;
+    document.getElementById("edit-name").value = contact.name || contact.username;
     document.getElementById("edit-email").value = contact.email;
-    document.getElementById("edit-phone").value = contact.phone;
+    document.getElementById("edit-phone").value = contact.phone || '';
 
     document.getElementById("edit-contact-form").dataset.id = contact.id;
 
 }
 
 function onEditContact(contactId) {
-    const contact = contacts.find(c => c.id === contactId);
+    let contact = contacts.find(c => c.id === contactId);
+    if (!contact && contactId === currentUserId) {
+        getUser().then(user => {
+            fillEditContactForm(user);
+            editContactOverlay();
+        });
+        return;
+    }
     if (!contact) return;
     fillEditContactForm(contact);
     editContactOverlay();
