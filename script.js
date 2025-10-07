@@ -22,11 +22,12 @@ function showSidebarAndHeader() {
     let header = document.getElementById('header');
     let isLoggedIn = localStorage.getItem('isLoggedIn');
     if (!isLoggedIn) {
+        header.innerHTML = showHeaderBeforeLogin();
         sidebar.innerHTML = showSidebarBeforeLogin();
     } else {
         sidebar.innerHTML = showSidebar();
+        header.innerHTML = showHeader();
     }
-    header.innerHTML = showHeader();
 }
 
 function changeSidebarLinksStyle() {

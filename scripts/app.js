@@ -11,10 +11,11 @@ function getSignUpValues(form) {
 
 async function validateSignUpValues(values) {
     if (!values.username || !values.email || !values.pw || values.pw !== values.pw2) return false;
-
+    const errorEmailExists = document.getElementById('error-email-exists');
     const existingUser = await User.loadUserByEmail(values.email);
     if (existingUser) {
         console.log('Email already registered:', values.email);
+        errorEmailExists.classList.remove('d-none');
         return false;
     }
 
@@ -22,8 +23,9 @@ async function validateSignUpValues(values) {
 }
 
 // Use this function to sign up a new user
-async function signUpUser(form) {
+async function signUpUser(form, event) {
     const values = getSignUpValues(form);
+    const errorEmailExists = document.getElementById('error-email-exists');
     if (!await validateSignUpValues(values)) return;
 
     const user = new User(
@@ -37,6 +39,8 @@ async function signUpUser(form) {
 
     await user.save();
     console.log('User saved:', user);
+    errorEmailExists.classList.add('d-none');
+    visibleSignUp(event);
     return true;
 }
 

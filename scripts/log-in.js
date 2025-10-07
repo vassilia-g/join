@@ -45,6 +45,10 @@ function showSignUpContainer() {
     const registryContainer = document.getElementById("registry-container");
 
     if (signUpContainer) {
+        const errorText = document.getElementById("error-text-password-match");
+        const errorEmailExists = document.getElementById('error-email-exists');
+        errorText.classList.add('d-none');
+        errorEmailExists.classList.add('d-none');
         signUpContainer.classList.remove("d-none");
         logInContainer.classList.add("d-none");
         registryContainer.classList.add("d-none");
@@ -94,7 +98,6 @@ function checkSignUpPasswords(event) {
         errorText.classList.remove("d-none");
     } else {
         errorText.classList.add("d-none");
-        visibleSignUp(event)
     }
 }
 
