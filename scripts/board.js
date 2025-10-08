@@ -82,12 +82,13 @@ async function createTask() {
       : lowButton.isActive
         ? lowBoardSvg
         : null;
+  let contactsHTML = localStorage.getItem('selectedContactsHTML') || '';
 
   const newTask = {
     title,
     description,
     category,
-    contactsHTML: SelectedContactsComplete,
+    contactsHTML,
     subtasks,
     priority
   };
@@ -95,6 +96,7 @@ async function createTask() {
   let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
   tasks.push(newTask);
   localStorage.setItem('tasks', JSON.stringify(tasks));
+  localStorage.removeItem('selectedContactsHTML');
 
   window.location.href = "../html/board.html";
 }

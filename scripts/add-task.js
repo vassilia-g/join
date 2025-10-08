@@ -440,16 +440,15 @@ function checkContact(i) {
   let checkbox = document.getElementById(`checkbox-${i}`);
   let initials = document.getElementById(`initials-${i}`);
 
-  // SVG-Element im inneren ersetzen
-  let svgContainer = checkbox.querySelector('svg'); // nur SVG tauschen
+  let svgContainer = checkbox.querySelector('svg');
   if (checkbox.classList.contains("checked")) {
     initials.classList.remove("checked");
     checkbox.classList.remove("checked");
-    svgContainer.outerHTML = showEmptyCheckbox(i); // ersetzt nur SVG
+    svgContainer.outerHTML = showEmptyCheckbox(i);
   } else {
     checkbox.classList.add("checked");
     initials.classList.add("checked");
-    svgContainer.outerHTML = showCheckedCheckbox(i); // ersetzt nur SVG
+    svgContainer.outerHTML = showCheckedCheckbox(i);
   }
 }
 
@@ -471,7 +470,7 @@ function showCheckedCheckbox(i) {
 }
 
 function showSelectedContacts() {
-  SelectedContactsComplete = ''; // zurücksetzen
+  SelectedContactsComplete = '';
   let checkedInitials = document.querySelectorAll("svg.checked");
 
   if (checkedInitials.length <= 3) {
@@ -479,17 +478,15 @@ function showSelectedContacts() {
       SelectedContactsComplete += `<div class="selected-contacts-svg">${svg.outerHTML}</div>`;
     });
   } else {
-    // erste 3 normal anzeigen
     for (let i = 0; i < 3; i++) {
       SelectedContactsComplete += `<div class="selected-contacts-svg">${checkedInitials[i].outerHTML}</div>`;
     }
-    // restliche als +N
     const extraInitials = Array.from(checkedInitials).slice(3);
     SelectedContactsComplete += showMoreContacts(extraInitials);
   }
-
-  // optional für Add-Task Vorschau:
   selectedContacts.innerHTML = SelectedContactsComplete;
+
+  localStorage.setItem('selectedContactsHTML', SelectedContactsComplete);
 }
 
 function showMoreContacts(extraInitials) {
