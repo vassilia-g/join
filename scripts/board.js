@@ -50,42 +50,42 @@ function drop(event) {
 //create new Task
 
 function createTask() {
-    const title = document.getElementById('task-title').value;
-    const description = document.getElementById('task-description').value;
-    const category = document.getElementById('input-category').innerText;
-    const subtasks = window.subtasks || [];
+  const title = document.getElementById('task-title').value;
+  const description = document.getElementById('task-description').value;
+  const category = document.getElementById('input-category').innerText;
+  const subtasks = window.subtasks || [];
 
-    const newTask= {
-      title,
-      description,
-      category,
-      subtasks
-    };
+  const newTask = {
+    title,
+    description,
+    category,
+    subtasks
+  };
 
-    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-    
-    tasks.push(newTask);
-    localStorage.setItem('tasks', JSON.stringify(tasks));
+  let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
-    window.location.href = "../html/board.html";
+  tasks.push(newTask);
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+
+  window.location.href = "../html/board.html";
 }
 
-function loadTasks() {    
-    const newTaskDiv = document.getElementById('new-task-div');
-    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+function loadTasks() {
+  const newTaskDiv = document.getElementById('new-task-div');
+  const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
-    newTaskDiv.innerHTML = '';
+  newTaskDiv.innerHTML = '';
 
-    tasks.forEach((task, i) => {
-        const totalSubtasks = task.subtasks ? task.subtasks.length : 0;
+  tasks.forEach((task, i) => {
+    const totalSubtasks = task.subtasks ? task.subtasks.length : 0;
 
-        const taskElement = document.createElement('div');
-        taskElement.classList.add('task');
-        taskElement.innerHTML += boardTaskTemplate(task, i, totalSubtasks);
-        newTaskDiv.appendChild(taskElement);
-    });
+    const taskElement = document.createElement('div');
+    taskElement.classList.add('task');
+    taskElement.innerHTML += boardTaskTemplate(task, i, totalSubtasks);
+    newTaskDiv.appendChild(taskElement);
+  });
 
-    updateCategoryColor();
+  updateCategoryColor();
 }
 
 function updateCategoryColor() {
