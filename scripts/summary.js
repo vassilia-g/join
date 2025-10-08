@@ -22,6 +22,21 @@ async function getUser() {
     }
 }
 
+function updateDayTime() {
+    const welcomeMsg = document.getElementById('welcome-message');
+    let now = new Date();
+    let hour = now.getHours();
+    if (hour >= 3 && hour < 12) {
+        welcomeMsg.innerHTML = 'Good Morning,';
+    } else if (hour >= 12 && hour < 17) {
+        welcomeMsg.innerHTML = 'Good Afternoon,';
+    } else if (hour >= 17 && hour < 22) {
+        welcomeMsg.innerHTML = 'Good Evening,';
+    } else {
+        welcomeMsg.innerHTML = 'Good Night,';
+    }
+}
+
 async function updateUserName() {
     try {
         const el = document.getElementById('user-name');
@@ -56,5 +71,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
+    updateDayTime();
     updateUserName();
 });
