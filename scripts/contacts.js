@@ -18,10 +18,9 @@ async function showOwnContact() {
     const contactItem = document.getElementById('contact-item');
     ownContactContainer.onclick = function () {
         setActiveContact(contactItem, user);
-        // Edit-Button für eigenen Kontakt:
         document.querySelector('.edit-delete-button').onclick = function () {
-            fillEditContactForm(user); // user ist dein eigener Kontakt
-            editContactOverlay();
+            fillEditContactForm(user);
+            editContactOverlay(user.id);
         };
     };
 }
@@ -172,7 +171,7 @@ function addContactOverlay() {
     }
 }
 
-function editContactOverlay() {
+function editContactOverlay(user) {
     const overlay = document.getElementById("contact-edit-overlay");
     const popup = overlay.querySelector(".popup-contact");
 
@@ -182,6 +181,8 @@ function editContactOverlay() {
             overlay.classList.add("active");
             popup.classList.add("active");
         }, 10);
+        const inputBtn = document.getElementById('input-button');
+        inputBtn.innerHTML = showInputButtons(user);
     } else {
         overlay.classList.remove("active");
         popup.classList.remove("active");
@@ -207,13 +208,13 @@ function onEditContact(contactId) {
     if (!contact && contactId === currentUserId) {
         getUser().then(user => {
             fillEditContactForm(user);
-            editContactOverlay();
+            editContactOverlay(contactId);
         });
         return;
     }
     if (!contact) return;
     fillEditContactForm(contact);
-    editContactOverlay();
+    editContactOverlay(contactId);
 }
 
 
