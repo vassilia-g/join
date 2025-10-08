@@ -10,7 +10,7 @@ function contactList(contact) {
                 ${getInitials(contact.name)}
             </div>
             <div class="contact-info">
-                <strong>${contact.name}</strong>
+                <strong class="contact-full-name">${contact.name}</strong>
                 <a href="mailto:${contact.email}" class="contact-email">${contact.email}</a>
             </div>
         </div>

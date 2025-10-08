@@ -13,8 +13,12 @@ const mediumSvgPath = mediumSvg.querySelectorAll("path");
 const lowButton = document.getElementById('low-priority-btn');
 const lowSvg = document.getElementById('low-svg');
 const lowSvgPath = lowSvg.querySelectorAll("path");
+urgentButton.isActive = false;
+mediumButton.isActive = false;
+lowButton.isActive = false;
 const contactsToSelect = document.getElementById('contacts-to-select');
 const selectedContacts = document.getElementById('selected-contacts');
+let SelectedContactsComplete = '';
 const dropdownIcon = document.getElementById('dropdown-icon');
 const categories = document.getElementById('categories');
 const dropdownIconCategories = document.getElementById('dropdown-icon-categories');
@@ -23,7 +27,7 @@ const contactInputAndDropdown = document.getElementById('contact-input-and-dropd
 const categoryInputAndDropdown = document.getElementById('category-input-and-dropdown');
 const addToBoardDiv = document.querySelector('.add-task-to-board-div');
 let subtasks = [];
-
+const CONTACTS_URL = "https://join-eeec9-default-rtdb.europe-west1.firebasedatabase.app/contacts";
 let selectedPriority = "";
 let selectedCategory = "";
 const createTaskButton = document.getElementById("create-task-btn");
@@ -48,13 +52,13 @@ const picker = flatpickr("#task-due-date", {
   onYearChange: checkArrows
 });
 
-function initAddTAsk() {
+function initAddTask() {
   loadContactsWithoutRendering();
-}
+};
 
 async function loadContactsWithoutRendering() {
   try {
-    const res = await fetch(BASE_URL + ".json");
+    const res = await fetch(CONTACTS_URL + ".json");
     contacts = Object.entries(await res.json() || {}).map(([id, c]) => ({
       id,
       name: c.name?.trim() || "Unbekannt",
@@ -65,14 +69,14 @@ async function loadContactsWithoutRendering() {
   } catch (err) {
     console.error("Fehler beim Laden:", err);
   }
-}
+};
 
 function showSidebarAndHeader() {
   let sidebar = document.getElementById('sidebar');
   let header = document.getElementById('header');
   sidebar.innerHTML = showSidebar();
   header.innerHTML = showHeader();
-}
+};
 
 function checkArrows(selectedDates, dateStr, instance) {
   const minDate = instance.config.minDate;
@@ -269,12 +273,16 @@ function toggleUrgentBtn() {
     urgentSvgPath.forEach(path => {
       path.setAttribute("fill", "#FFFFFF");
     });
+    urgentButton.isActive = true;
+    mediumButton.isActive = false;
+    lowButton.isActive = false;
   } else {
     urgentButton.style.backgroundColor = "#FFFFFF";
     urgentButton.style.color = "#000000";
     urgentSvgPath.forEach(path => {
       path.setAttribute("fill", "#FF3D00");
     });
+    urgentButton.isActive = false;
   }
 }
 
@@ -291,12 +299,16 @@ function toggleMediumBtn() {
     mediumSvgPath.forEach(path => {
       path.setAttribute("fill", "#FFFFFF");
     });
+    mediumButton.isActive = true;
+    lowButton.isActive = false;
+    urgentButton.isActive = false;
   } else {
     mediumButton.style.backgroundColor = "#FFFFFF";
     mediumButton.style.color = "#000000";
     mediumSvgPath.forEach(path => {
       path.setAttribute("fill", "#FFA800");
     });
+    mediumButton.isActive = false;
   }
 }
 
@@ -313,12 +325,16 @@ function toggleLowBtn() {
     lowSvgPath.forEach(path => {
       path.setAttribute("fill", "#FFFFFF");
     });
+    lowButton.isActive = true;
+    mediumButton.isActive = false;
+    urgentButton.isActive = false;
   } else {
     lowButton.style.backgroundColor = "#FFFFFF";
     lowButton.style.color = "#000000";
     lowSvgPath.forEach(path => {
       path.setAttribute("fill", "#7AE229");
     });
+    lowButton.isActive = false;
   }
 }
 
@@ -397,13 +413,13 @@ function showContacts(i) {
         <div class="single-contact">
           <div class="contact-name">
             <svg id="initials-${i}" width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="21" cy="21" r="20" fill="#00BEE8" stroke="white" stroke-width="2"/>
+              <circle cx="21" cy="21" r="20" fill="${contacts[i].color}" stroke="white" stroke-width="2"/>
               <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" font-size="14" fill="white">
               ${initials}</text>
             </svg>
             <span>${contacts[i].name}</span>
           </div>
-          <div class="contact-checkbox" id="checkbox-${i}">
+          <div class="contact-checkbox" id="checkbox-${i}" dataindex=${i}>
             <svg onclick="checkContact(${i})" width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect x="4.38818" y="4" width="16" height="16" rx="3" stroke="#2A3647" stroke-width="2"/>
             </svg>
@@ -422,15 +438,18 @@ function getInitials(name) {
 
 function checkContact(i) {
   let checkbox = document.getElementById(`checkbox-${i}`);
-  let initials = document.getElementById(`initials-${i}`)
+  let initials = document.getElementById(`initials-${i}`);
+
+  // SVG-Element im inneren ersetzen
+  let svgContainer = checkbox.querySelector('svg'); // nur SVG tauschen
   if (checkbox.classList.contains("checked")) {
     initials.classList.remove("checked");
     checkbox.classList.remove("checked");
-    checkbox.innerHTML = showEmptyCheckbox(i);
+    svgContainer.outerHTML = showEmptyCheckbox(i); // ersetzt nur SVG
   } else {
     checkbox.classList.add("checked");
     initials.classList.add("checked");
-    checkbox.innerHTML = showCheckedCheckbox(i);
+    svgContainer.outerHTML = showCheckedCheckbox(i); // ersetzt nur SVG
   }
 }
 
@@ -452,26 +471,33 @@ function showCheckedCheckbox(i) {
 }
 
 function showSelectedContacts() {
-  selectedContacts.innerHTML = '';
+  SelectedContactsComplete = ''; // zurücksetzen
   let checkedInitials = document.querySelectorAll("svg.checked");
-  if (checkedInitials.length < 3) {
-    for (let i = 0; i < checkedInitials.length; i++) {
-      selectedContacts.innerHTML += `<div class="selected-contacts-svg">${checkedInitials[i].outerHTML}</div>`;
-    }
+
+  if (checkedInitials.length <= 3) {
+    checkedInitials.forEach(svg => {
+      SelectedContactsComplete += `<div class="selected-contacts-svg">${svg.outerHTML}</div>`;
+    });
   } else {
+    // erste 3 normal anzeigen
     for (let i = 0; i < 3; i++) {
-      selectedContacts.innerHTML += `<div class="selected-contacts-svg">${checkedInitials[i].outerHTML}</div>`;
+      SelectedContactsComplete += `<div class="selected-contacts-svg">${checkedInitials[i].outerHTML}</div>`;
     }
-    selectedContacts.innerHTML += showMoreContacts(checkedInitials);
+    // restliche als +N
+    const extraInitials = Array.from(checkedInitials).slice(3);
+    SelectedContactsComplete += showMoreContacts(extraInitials);
   }
+
+  // optional für Add-Task Vorschau:
+  selectedContacts.innerHTML = SelectedContactsComplete;
 }
 
-function showMoreContacts(checkedInitials) {
+function showMoreContacts(extraInitials) {
   return `
       <div class="selected-contacts-svg">
         <svg width="40" height="40" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg">
           <circle cx="21" cy="21" r="20" fill="none" stroke="#2a3647" stroke-width="2"/>
-          <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" font-size="16" fill="#2a3647">+${checkedInitials.length - 3}</text>
+          <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" font-size="16" fill="#2a3647">+${extraInitials.length}</text>
         </svg>
       </div>
     `;
@@ -646,8 +672,15 @@ function eventListenerForSelectCategory(inputElement, warning, categorySpan) {
 function showTaskDiv() {
   addToBoardDiv.classList.remove('hide');
   addToBoardDiv.classList.add('show');
+
   setTimeout(() => {
     hideTaskDiv();
-    closeTaskOverlay()
-  }, 2000)
+  }, 1000)
+}
+
+function hideTaskDiv() {
+  addToBoardDiv.classList.remove('show');
+  addToBoardDiv.classList.add('hide');
+
+  createTask();
 }
