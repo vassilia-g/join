@@ -8,8 +8,20 @@ function logOut() {
     window.location.replace("../index.html");
 }
 
-function dropdownMenu() {
-    document.querySelector('.dropdown-content').classList.toggle('d-none');
+function dropdownMenu(event) {
+    const dropdown = document.querySelector('.dropdown-content');
+
+    dropdown.classList.toggle('d-none');
+
+    document.addEventListener('click', function handleOutsideClick(e) {
+        if (
+            !dropdown.contains(e.target) &&
+            !event.target.contains(e.target)
+        ) {
+            dropdown.classList.add('d-none');
+            document.removeEventListener('click', handleOutsideClick);
+        }
+    });
 }
 
 function init() {

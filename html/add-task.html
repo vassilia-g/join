@@ -15,15 +15,16 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
 
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-  <script defer src="../script.js"></script>
+  <script src="../script.js"></script>
   <script src="../scripts/template.js"></script>
-  <script src="../scripts/contacts.js"></script>
+  <script defer src="../scripts/contacts.js"></script>
   <script src="../scripts/backend/contact.js"></script>
   <script src="../scripts/backend/api.js"></script>
-  <script src="../scripts/board.js"></script>
+  <script defer src="../scripts/board.js"></script>
+  <script defer src="../scripts/add-task.js"></script>
 </head>
 
-<body onload="init(); initAddTAsk()">
+<body onload="init(); initAddTask()">
   <div class="content">
     <div id="sidebar" class="sidebar"></div>
     <div class="main">
@@ -138,7 +139,7 @@
               <div class="task-label-divs">
                 <label id="task-category-label">Category</label>
                 <div id="category-input-and-dropdown">
-                  <div onclick="openCategories(); showFieldWarning(this)" class="input-border-size task-category">
+                  <div onclick="openCategories(), showFieldWarning(this)" class="input-border-size task-category">
                     <span id="input-category">Select task category</span>
                     <svg id="dropdown-icon-categories" width="25" height="24" viewBox="0 0 25 24" fill="none"
                       xmlns="http://www.w3.org/2000/svg">
@@ -217,7 +218,7 @@
                   </g>
                 </svg>
               </button>
-              <button id="create-task-btn" disabled onclick="showTaskDiv(), createTask()">
+              <button id="create-task-btn" disabled onclick="showTaskDiv()">
                 Create Task<img src="../assets/icons/check-white.svg" />
               </button>
             </div>
@@ -237,8 +238,6 @@
       </section>
     </div>
   </div>
-
-  <script src="../scripts/add-task.js"></script>
 </body>
 
 </html>

@@ -22,6 +22,40 @@ async function getUser() {
     }
 }
 
+async function updateDayTime() {
+    const welcomeMsg = document.getElementById('welcome-message');
+    const userName = document.getElementById('user-name');
+    const currentUserId = localStorage.getItem("currentUserId");
+    const isGuest = currentUserId === "guest";
+    const punctuation = isGuest ? "!" : ",";
+    const now = new Date();
+    const hour = now.getHours();
+
+    guestGreeting(userName, isGuest);
+    updateUserGreeting(welcomeMsg, hour, punctuation);
+}
+
+function updateUserGreeting(welcomeMsg, hour, punctuation) {
+    if (hour >= 3 && hour < 12) {
+        welcomeMsg.innerHTML = `Good Morning${punctuation}`;
+    } else if (hour >= 12 && hour < 17) {
+        welcomeMsg.innerHTML = `Good Afternoon${punctuation}`;
+    } else if (hour >= 17 && hour < 22) {
+        welcomeMsg.innerHTML = `Good Evening${punctuation}`;
+    } else {
+        welcomeMsg.innerHTML = `Good Night${punctuation}`;
+    }
+}
+
+function guestGreeting(userName, isGuest) {
+    if (isGuest) {
+        userName.classList.add("d-none");
+    } else {
+        userName.classList.remove("d-none");
+    }
+}
+
+
 async function updateUserName() {
     try {
         const el = document.getElementById('user-name');
@@ -41,14 +75,6 @@ async function updateUserName() {
     }
 }
 
-function guestGreeting() {
-    let welcomeMessage = document.getElementById("welcome-message");
-    let userName = document.getElementById("user-name");
-
-    welcomeMessage.innerHTML = "Good Morning!";
-    userName.classList.add("d-none");
-}
-
 document.addEventListener("DOMContentLoaded", () => {
     if (localStorage.getItem("currentUserId") === "guest") {
         guestGreeting();
@@ -56,5 +82,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
+    updateDayTime();
     updateUserName();
 });
