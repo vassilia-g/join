@@ -51,7 +51,7 @@ function showHeader() {
             <a href="./help.html"><img class="help" src="../assets/icons/help.svg" alt="help-icon"
                 style="width: 20px; height: 20px; margin-right: 22px" /></a>
             <div class="profile-initials">
-              <button onclick="dropdownMenu()">
+              <button onclick="dropdownMenu(event)" class="dropbtn">
                 <p class="initials">SM</p>
               </button>
             </div>
