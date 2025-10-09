@@ -6,7 +6,6 @@ button {
 .board-content {
     display: flex;
     flex-direction: column;
-
 }
 
 .board-search-div {
@@ -175,17 +174,13 @@ button {
     height: 48px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     border: 1px dashed #A8A8A8;
     border-radius: 10px;
+    color: #A8A8A8;
 }
 
 /* ab hier Idee für Tasks */
-
-#new-task-div {
-    width: 252px;
-    height: 263px;
-}
 
 .task {
     background-color: rgb(255, 255, 255);
@@ -193,12 +188,16 @@ button {
     gap: 10px;
     padding: 16px;
     cursor: pointer;
+    margin-bottom: 16px;
+    filter: drop-shadow(3px 3px 3px rgba(0, 0, 0, 0.08));
 }
 
 #task {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    gap: 24px;
+
 }
 
 .category {
@@ -260,15 +259,20 @@ button {
     width: 88px;
     height: 17px;
     display: flex;
+    font-size: 14px;
+}
+
+#final-count-of-progress {
+    padding-right: 4px;
 }
 
 .task-info {
     width: 220px;
-    height: 32px;
+    height: max-content;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    align-items: baseline;
+    align-items: center;
 }
 
 .assignee {
@@ -298,12 +302,29 @@ button {
     margin-left: 0;
 }
 
-.priority {
-    width: 32px;
-    height: 32px;
+.btn-debugger {
+    position: absolute;
+    right: 2rem;
+    top: 2rem;
 }
 
+.selected-contacts-svg {
+    margin-right: -0.5rem;
+    height: 32px;
+    width: 32px;
+}
 
+.selected-contacts-svg svg {
+    height: 32px !important;
+}
+
+.priority {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+    width: 32px;
+}
 
 @keyframes slideUpBoard {
     0% {
@@ -327,18 +348,4 @@ button {
         opacity: 0;
         transform: translate(-50%, 100%);
     }
-}
-
-.btn-debugger {
-    position: absolute;
-    right: 2rem;
-    top: 2rem;
-}
-
-.selected-contacts-svg {
-    margin-right: -1rem;
-}
-
-#priority {
-    margin-bottom: 1rem;
 }

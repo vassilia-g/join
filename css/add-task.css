@@ -550,10 +550,6 @@ p#field-requiered-info::before {
     align-items: center;
 }
 
-.selected-contacts-svg {
-    padding: 8px 4px;
-}
-
 #categories {
     position: absolute;
     top: 100%;

@@ -106,7 +106,7 @@ function showHeaderBeforeLogin() {
 
 function boardTaskTemplate(task) {
     return `
-    <div class="task" id="task" draggable="true" ondragstart="drag(event)">
+    <div id="task">
       <span class="category" id="category">${task.category}</span>
       <div class="task-description">
         <h3 class="task-title" id="task-title">${task.title}</h3>
