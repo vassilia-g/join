@@ -111,7 +111,6 @@ function loadTasks() {
     const totalSubtasks = task.subtasks ? task.subtasks.length : 0;
 
     const taskElement = document.createElement('div');
-    taskElement.classList.add('task');
     taskElement.innerHTML += boardTaskTemplate(task, i, totalSubtasks);
     newTaskDiv.appendChild(taskElement);
     taskElement.setAttribute("onclick", `openTaskOverlay(${i})`);
@@ -127,7 +126,7 @@ function openTaskOverlay(index) {
   const overlay = document.getElementById('task-overlay');
   const overlayContent = document.getElementById('task-overlay-content');
 
-  overlayContent.innerHTML = boardTaskTemplate(task, index, task.subtasks?.length || 0);
+  overlayContent.innerHTML = boardTaskOverlayTemplate(task, index, task.subtasks?.length || 0);
 
   overlay.classList.remove('d-none');
   overlayContent.classList.remove('d-none');
