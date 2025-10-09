@@ -114,9 +114,41 @@ function loadTasks() {
     taskElement.classList.add('task');
     taskElement.innerHTML += boardTaskTemplate(task, i, totalSubtasks);
     newTaskDiv.appendChild(taskElement);
+    taskElement.setAttribute("onclick", `openTaskOverlay(${i})`);
   });
 
   updateCategoryColor();
+}
+
+function openTaskOverlay(index) {
+  const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+  const task = tasks[index];
+
+  const overlay = document.getElementById('task-overlay');
+  const overlayContent = document.getElementById('task-overlay-content');
+
+  overlayContent.innerHTML = boardTaskTemplate(task, index, task.subtasks?.length || 0);
+
+  overlay.classList.remove('d-none');
+  overlayContent.classList.remove('d-none');
+  setTimeout(() => {
+    overlay.classList.add('active');
+    overlayContent.classList.add('active');
+  }, 10);
+
+}
+
+function closeTaskOverlay() {
+  const overlay = document.getElementById('task-overlay');
+  const overlayContent = document.getElementById('task-overlay-content');
+
+  overlay.classList.remove('active');
+  overlayContent.classList.remove('active');
+
+  setTimeout(() => {
+    overlay.classList.add('d-none');
+    overlayContent.classList.add('d-none');
+  }, 500);
 }
 
 function updateCategoryColor() {
