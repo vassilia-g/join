@@ -358,10 +358,20 @@ button {
     align-items: center;
     transition: transform 0.5s ease;
     z-index: 1001;
+    padding: 40px;
 }
 
 #task-overlay-content.active {
     transform: translate(-50%, -50%);
+}
+
+.task-overlay{
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 @keyframes slideUpBoard {
