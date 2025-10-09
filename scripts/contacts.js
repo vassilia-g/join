@@ -24,22 +24,12 @@ async function showOwnContact() {
     };
 }
 
-async function getUser() {
-    const id = localStorage.getItem("currentUserId");
-    if (!id) return null;
-    try {
-        return await User.loadById(id);
-    } catch (error) {
-        console.error("getUser failed", error);
-        return null;
-    }
-}
-
 function showSidebarAndHeader() {
     let sidebar = document.getElementById('sidebar');
     let header = document.getElementById('header');
+    let userInitials = localStorage.getItem('userInitials') || 'GU';
     sidebar.innerHTML = showSidebar();
-    header.innerHTML = showHeader();
+    header.innerHTML = showHeader(userInitials);
 }
 
 

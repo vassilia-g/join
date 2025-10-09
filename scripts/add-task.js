@@ -74,8 +74,9 @@ async function loadContactsWithoutRendering() {
 function showSidebarAndHeader() {
   let sidebar = document.getElementById('sidebar');
   let header = document.getElementById('header');
+  let userInitials = localStorage.getItem('userInitials') || 'GU';
   sidebar.innerHTML = showSidebar();
-  header.innerHTML = showHeader();
+  header.innerHTML = showHeader(userInitials);
 };
 
 function checkArrows(selectedDates, dateStr, instance) {

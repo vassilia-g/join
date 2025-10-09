@@ -1,5 +1,5 @@
 function showSidebar() {
-    return `
+  return `
     <div class="logo">
         <img src="../assets/imgs/join-logo/Logo-white.svg" />
     </div>
@@ -43,8 +43,8 @@ function showSidebar() {
     `;
 }
 
-function showHeader() {
-    return `
+function showHeader(initials = 'GU') {
+  return `
         <div class="header-content">
           <p class="header-text">Kanban Project Management Tool</p>
           <div class="header-assets">
@@ -52,7 +52,7 @@ function showHeader() {
                 style="width: 20px; height: 20px; margin-right: 22px" /></a>
             <div class="profile-initials">
               <button onclick="dropdownMenu(event)" class="dropbtn">
-                <p class="initials">SM</p>
+                <p class="initials" id="user-initials">${initials}</p>
               </button>
             </div>
             <div class="dropdown-content d-none">
@@ -66,7 +66,7 @@ function showHeader() {
 }
 
 function showSidebarBeforeLogin() {
-    return `
+  return `
         <div class="logo">
             <img src="../assets/imgs/join-logo/Logo-white.svg" />
         </div>
@@ -95,7 +95,7 @@ function showSidebarBeforeLogin() {
 }
 
 function showHeaderBeforeLogin() {
-    return `
+  return `
       <div class="header-content">
           <p class="header-text">Kanban Project Management Tool</p>
           <div class="header-assets">
@@ -105,7 +105,7 @@ function showHeaderBeforeLogin() {
 }
 
 function boardTaskTemplate(task) {
-    return `
+  return `
     <div class="task" id="task" draggable="true" ondragstart="drag(event)">
       <span class="category" id="category">${task.category}</span>
       <div class="task-description">
