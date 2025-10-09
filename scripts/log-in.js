@@ -20,10 +20,10 @@ document.addEventListener("DOMContentLoaded",
         });
     });
 
-//Die Funktion wird bei DOMload ausgeführt
-//Das Logo geht links in die Ecke
-//Der Sign up Buton wird sichtbar
-//Der Log in Bereicht wird sichtbar
+//function ativated when DOM is loaded
+//logo moves to top left
+//sign up and log in container become visible
+//log in area become visible
 function moveLogoToTopLeft() {
     const logo = document.getElementById('logo');
     const logInContainer = document.getElementById('log-in-container');
@@ -38,7 +38,7 @@ function moveLogoToTopLeft() {
     };
 }
 
-//Die Funktion lässt den Log in Bereich zum Sign up Bereich werden
+//function changes log in to sign up container
 function showSignUpContainer() {
     const signUpContainer = document.getElementById("sign-up-container");
     const logInContainer = document.getElementById("log-in-container");
@@ -54,7 +54,7 @@ function showSignUpContainer() {
         registryContainer.classList.add("d-none");
     }
 }
-//Die Funktion setzt den Button auf enabled, wenn Checkbox aktiviert wurde
+//function enables the button when checkbox is checked
 function enableSignUpButton() {
     const signUpButton = document.getElementById("sign-up-form-button");
     const customCheckbox = document.getElementById("custom-checkbox");
@@ -73,7 +73,7 @@ function enableSignUpButton() {
     }
 }
 
-//Die Funktion setzt den Button auf disabled, wenn checkbox deaktiviert wird
+//function disables the button when checkbox is unchecked
 function disableSignUpButton() {
     const signUpButton = document.getElementById("sign-up-form-button");
     const customCheckbox = document.getElementById("custom-checkbox");
@@ -88,7 +88,7 @@ function disableSignUpButton() {
     }
 }
 
-//Funktion prüft ob Passwörter übereinstimmen
+//function checks if passwords match and shows error text if not
 function checkSignUpPasswords(event) {
     event.preventDefault();
     const password = document.getElementById("input-sign-up-password");
@@ -101,9 +101,8 @@ function checkSignUpPasswords(event) {
     }
 }
 
-//Funktion lässt optischen Erfolg reinschweben und leitet dann weiter zum Log in
-function visibleSignUp(event) {
-    event.preventDefault();
+//function shows success text when signed up and goes back to log in container
+function visibleSignUp() {
     const successText = document.getElementById("successfully-signed-up")
     setTimeout(() => {
         showOverlay(event);
@@ -115,11 +114,11 @@ function visibleSignUp(event) {
     }, 2000);
     setTimeout(() => {
         backtoLogIn();
-    }, 2500);
+    }, 2000);
 }
 
-function showOverlay(event) {
-    event.preventDefault();
+function showOverlay() {
+    // event.preventDefault();
     const overlay = document.getElementById("overlay");
     overlay.classList.remove("d-none");
 }
@@ -129,8 +128,8 @@ function hideOverlay() {
     overlay.classList.add("d-none");
 }
 
-//Funktion wird ausgeführt wenn im Passwortfeld etwas eingegeben wird
-//Es verändert die Symbole des Passwortfeldes bei Eingabe
+//Function is activ when something is typed in the password field
+//changes symbolls depending on input and pw visibility
 function changeSymbols() {
     const passwordInput = document.getElementById('input-password');
     const passwordValue = passwordInput.value;
@@ -152,25 +151,26 @@ function changeSymbols() {
     }
 }
 
-//Die Funktion prüft Email und Passwort und leitet weiter 
-async function goToOtherPage(event) {
+//on log in function is checking PW and Email and if correct, goes to other page 
+async function goToStartpage(event) {
     event.preventDefault();
 
     const inputEmail = document.getElementById("input-email");
-    const inputPassword = document.getElementById("input-password"); const redError = document.getElementById("error-email-password-text");
+    const inputPassword = document.getElementById("input-password");
+    const redError = document.getElementById("error-email-password-text");
 
     const users = await getAllUsers(); // <-- await hier
     const user = (users || []).find(u => u.email === inputEmail.value);
     if (user && user.password === inputPassword.value) {
         localStorage.setItem("currentUserId", user.id);
         localStorage.setItem('isLoggedIn', 'true');
-        window.location.replace("html/summary.html");
+        window.location.replace("html/summary.html"); // <-- overlay? + Infotext
     } else {
         redError.classList.remove("d-none");
     }
 }
 
-//Die Funktion ändert den Type des Passwortes und das Symbol entsprechend
+//function chnanges the type of the password and the symbol accordingly
 function makePasswordVisible() {
     const visibilityOffSymbol = document.getElementById('visibility-off');
     const visibilityOnSymbol = document.getElementById('visibility-on');
@@ -179,7 +179,7 @@ function makePasswordVisible() {
     document.getElementById('input-password').type = 'text';
 }
 
-//Die Funktion ändert den Type des Passwortes und das Symbol entsprechend
+//function changes the type of the password and the symbol accordingly
 function hidePassword() {
     const visibilityOffSymbol = document.getElementById('visibility-off');
     const visibilityOnSymbol = document.getElementById('visibility-on');
@@ -188,7 +188,7 @@ function hidePassword() {
     document.getElementById('input-password').type = 'password';
 }
 
-//Funktion führt zum Log in Bereich zurück und disabled eventuell enabled Checkbox
+//function goes back to log in an disables checkbox
 function backtoLogIn() {
     const logInContainer = document.getElementById('log-in-container');
     logInContainer.classList.remove('d-none');

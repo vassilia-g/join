@@ -33,6 +33,15 @@ footer {
     justify-content: flex-end;
 }
 
+.responsive-header {
+    width: 100%;
+    height: 116px;
+    margin-top: 60px;
+    display: flex;
+    justify-content: flex-end;
+    opacity: 0;
+}
+
 .registry-container {
     width: 279px;
     height: 49px;
@@ -96,7 +105,6 @@ footer {
     max-height: 449px;
     background-color: rgb(255, 255, 255);
     border-radius: 30px;
-    /* padding: 48px 115px 140px 115px; */
     padding: 48px 115px 85px 115px;
     margin-top: 100px;
     display: flex;
@@ -139,7 +147,6 @@ h1 {
 }
 
 .input-main-container {
-    width: 422px;
     height: 152px;
     padding-top: 32px;
 }
@@ -156,12 +163,14 @@ h1 {
     font-size: 20px;
     line-height: 120%;
     letter-spacing: 0%;
+    padding-left: 21px;
 }
 
 .input-symbol {
     width: 24px;
     height: 24px;
     cursor: pointer;
+    margin-right: 21px;
 }
 
 .input-email-container,
@@ -176,7 +185,7 @@ h1 {
     border-radius: 10px;
     display: flex;
     align-items: center;
-    padding-right: 21px;
+    /* padding-right: 21px; */
 }
 
 .active-border-color {
@@ -193,7 +202,6 @@ h1 {
     height: 24px;
     border-width: 0px;
     outline: none;
-    padding-left: 21px;
     font-size: 20px;
 }
 
@@ -252,6 +260,7 @@ h1 {
     background-color: rgba(0, 0, 0, 0.5);
     width: 100%;
     height: 100vh;
+    z-index: 2;
 }
 
 .from-bottom-to-the-mid {
@@ -475,7 +484,6 @@ h1 {
     100% {
         top: 50%;
         left: 50%;
-        /* transform: translate(0, 0); */
         transform: translate(-50%, -50%);
     }
 }

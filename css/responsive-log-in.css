@@ -1,0 +1,182 @@
+@media (max-width: 885px) {
+
+    .log-in-container {
+        max-width: 652px;
+        height: auto;
+        background-color: rgb(255, 255, 255);
+        border-radius: 30px;
+        padding: 48px 40px 145px 40px;
+    }
+
+    .input-email-container,
+    .input-password-container,
+    .input-sign-up-name-container,
+    .input-sign-up-email-container,
+    .input-sign-up-password-container,
+    .input-sign-up-confirm-password-container {
+        height: 48px;
+        border: 1px solid rgb(215, 215, 215);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+    }
+
+    .input-email,
+    .input-sign-up-email,
+    .input-password,
+    .input-sign-up-password,
+    .input-sign-up-name,
+    .input-sign-up-confirm-password {
+        width: 380px;
+        height: 24px;
+        border-width: 0px;
+        outline: none;
+        font-size: 20px;
+    }
+
+    .form-log-in {
+        gap: 40px;
+    }
+
+    .log-in-header {
+        width: 100%;
+        height: 116px;
+        margin-top: 60px;
+        display: flex;
+        justify-content: flex-end;
+    }
+}
+
+@media (max-width: 733px) {
+
+    .log-in-header {
+        width: 100%;
+        height: 116px;
+        margin-top: 60px;
+        display: flex;
+        justify-content: flex-end;
+        opacity: 0;
+    }
+
+    .responsive-header {
+        width: 100%;
+        height: 116px;
+        margin-top: 60px;
+        display: flex;
+        justify-content: center;
+        opacity: 1;
+    }
+
+    .responsive-registry-container {
+        width: 100%;
+        height: 116px;
+        margin-top: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 35px;
+        opacity: 1;
+    }
+
+    .log-in-container {
+        max-width: 652px;
+        height: auto;
+        background-color: rgb(255, 255, 255);
+        border-radius: 30px;
+        padding: 48px 40px 211px 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        animation: fade-in 1.5s ease forwards;
+    }
+
+    .input-email,
+    .input-sign-up-email,
+    .input-password,
+    .input-sign-up-password,
+    .input-sign-up-name,
+    .input-sign-up-confirm-password {
+        width: 380px;
+        height: 24px;
+        border-width: 0px;
+        outline: none;
+        font-size: 20px;
+    }
+
+    .log-in-button-container {
+        width: 100%;
+        height: 131px;
+        gap: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .log-in-button,
+    .sign-up-button {
+        width: 177px;
+        height: 48px;
+        border-radius: 8px;
+        background-color: var(--color-primary);
+        color: white;
+        font-size: 21px;
+        line-height: 120%;
+        letter-spacing: 0%;
+        cursor: pointer;
+    }
+}
+
+@media (max-width: 570px) {
+    .log-in-container {
+        max-width: 320px;
+        padding: 48px 40px 228px 40px;
+    }
+
+    .form-log-in {
+        align-items: center;
+    }
+
+    .input-email-container,
+    .input-password-container,
+    .input-sign-up-name-container,
+    .input-sign-up-email-container,
+    .input-sign-up-password-container,
+    .input-sign-up-confirm-password-container {
+        width: 320px;
+    }
+
+    .input-email,
+    .input-sign-up-email,
+    .input-password,
+    .input-sign-up-password,
+    .input-sign-up-name,
+    .input-sign-up-confirm-password {
+        width: 270px;
+    }
+}
+
+@media (max-width: 428px) {
+    .log-in-container {
+        width: 230px;
+    }
+
+    .input-email-container,
+    .input-password-container,
+    .input-sign-up-name-container,
+    .input-sign-up-email-container,
+    .input-sign-up-password-container,
+    .input-sign-up-confirm-password-container {
+        width: 254px;
+    }
+
+    .input-email,
+    .input-sign-up-email,
+    .input-password,
+    .input-sign-up-password,
+    .input-sign-up-name,
+    .input-sign-up-confirm-password {
+        width: 209px;
+    }
+}
