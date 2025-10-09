@@ -26,7 +26,7 @@ class User {
     static async loadById(id) {
         if (id == null) return null;
         const response = await getData("users/" + id);
-        console.log("Loaded user:", response);
+        // console.log("Loaded user:", response);
         if (!response) return null;
         return new User(
             id,
@@ -80,3 +80,15 @@ const UserCollection = {
         return Object.entries(data).map(([key, u]) => new User(key, u.username, u.password, u.email, u.status, u.createdAt));
     }
 };
+
+// Returns the currently logged-in user or null
+async function getUser() {
+    const id = localStorage.getItem("currentUserId");
+    if (!id) return null;
+    try {
+        return await User.loadById(id);
+    } catch (error) {
+        console.error("getUser failed", error);
+        return null;
+    }
+}
