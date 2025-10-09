@@ -134,6 +134,34 @@ button {
     left: 180px;
 }
 
+#add-task-overlay.hide {
+    animation: slideOut 0.75s ease-in forwards;
+}
+
+#add-task-overlay.show {
+    animation: slideIn 0.75s ease-out forwards;
+}
+
+@keyframes slideIn {
+    0% {
+        transform: translateX(300%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideOut {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(300%);
+    }
+}
+
 .overlay-close-btn {
     position: absolute;
     top: 64px;
@@ -156,11 +184,11 @@ button {
 }
 
 #add-task-overlay .add-task-to-board-div.show {
-    animation: slideUpBoard 0.5s ease-out forwards !important;
+    animation: slideUpBoard 0.75s ease-out forwards !important;
 }
 
 #add-task-overlay .add-task-to-board-div.hide {
-    animation: slideDownBoard 0.5s ease-in forwards !important;
+    animation: slideDownBoard 0.75s ease-in forwards !important;
 }
 
 .task-footer {
@@ -339,10 +367,10 @@ button {
 }
 
 .overlay-board.active {
-  opacity: 1;
+    opacity: 1;
 }
 
-#task-overlay-content{
+#task-overlay-content {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -365,7 +393,7 @@ button {
     transform: translate(-50%, -50%);
 }
 
-.task-overlay{
+.task-overlay {
     width: 100%;
     height: 100%;
     box-sizing: border-box;

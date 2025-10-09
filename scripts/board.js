@@ -40,15 +40,22 @@ async function openAddTaskOverlay() {
     }
   }
 
+  overlayRef.classList.add('show');
+  overlayRef.classList.remove('hide');
   overlayRef.classList.remove('d-none');
 }
 
 
 function closeOverlay() {
   const overlayRef = document.getElementById('add-task-overlay');
-  overlayRef.classList.add('d-none');
+  overlayRef.classList.remove('show');
+  overlayRef.classList.add('hide');
   const overlayBackgroundRef = document.getElementById('overlay-background');
   overlayBackgroundRef.classList.add('d-none');
+  setTimeout(() => {
+    overlayRef.classList.add('d-none');
+  }, 600);
+
 }
 
 // Drag and Drop Funktionen
@@ -81,7 +88,7 @@ async function createTask() {
       ? mediumBoardSvg
       : lowButton.isActive
         ? lowBoardSvg
-        : null;
+        : "";
   let contactsHTML = localStorage.getItem('selectedContactsHTML') || '';
 
   const newTask = {
