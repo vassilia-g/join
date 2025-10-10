@@ -91,12 +91,19 @@
     }
 
     .input-email,
-    .input-sign-up-email,
-    .input-password,
-    .input-sign-up-password,
-    .input-sign-up-name,
-    .input-sign-up-confirm-password {
+    .input-password {
         width: 380px;
+        height: 24px;
+        border-width: 0px;
+        outline: none;
+        font-size: 20px;
+    }
+
+    .input-sign-up-name,
+    .input-sign-up-email,
+    .input-sign-up-password,
+    .input-sign-up-confirm-password {
+        width: 320px;
         height: 24px;
         border-width: 0px;
         outline: none;
@@ -124,6 +131,12 @@
         letter-spacing: 0%;
         cursor: pointer;
     }
+
+    .sign-up-container {
+        padding: 48px 80px 280px 80px;
+    }
+
+
 }
 
 @media (max-width: 570px) {
@@ -131,37 +144,99 @@
         padding: 48px 30px 228px 30px;
     }
 
+    .sign-up-container {
+        padding: 48px 40px 280px 40px;
+    }
+
     .form-log-in {
         align-items: center;
     }
 
     .input-email-container,
-    .input-password-container,
+    .input-password-container {
+        width: 90%;
+    }
+
     .input-sign-up-name-container,
     .input-sign-up-email-container,
     .input-sign-up-password-container,
     .input-sign-up-confirm-password-container {
-        width: 90%;
-    }
-}
-
-@media (max-width: 428px) {
-
-    .input-email-container,
-    .input-password-container,
-    .input-sign-up-name-container,
-    .input-sign-up-email-container,
-    .input-sign-up-password-container,
-    .input-sign-up-confirm-password-container {
-        width: 90%;
+        width: 100%;
     }
 
-    .input-email,
-    .input-sign-up-email,
-    .input-password,
-    .input-sign-up-password,
     .input-sign-up-name,
+    .input-sign-up-email,
+    .input-sign-up-password,
     .input-sign-up-confirm-password {
         width: 100%;
     }
+
+    .sign-up-header {
+        gap: 20px;
+    }
+
+    .sign-up-header h1 {
+        font-size: 54px;
+    }
+
+    .line {
+        width: 108px;
+    }
+
+    .arrow-left {
+        width: 26px;
+        height: 26px;
+    }
+
+    .accept-policy {
+        padding-left: 0px;
+    }
 }
+
+@media (max-width: 510px) {
+    /* .sign-up-container {
+        padding: 48px 15px 280px 15px;
+    } */
+
+    /* .input-sign-up-name-container,
+    .input-sign-up-email-container,
+    .input-sign-up-password-container,
+    .input-sign-up-confirm-password-container {
+        width: 80%;
+    } */
+
+    .sign-up-header {
+        gap: 20px;
+    }
+
+    .sign-up-header h1 {
+        font-size: 48px;
+    }
+
+    .line {
+        width: 100px;
+    }
+
+    .arrow-left {
+        width: 26px;
+        height: 26px;
+    }
+
+
+
+    @media (max-width: 428px) {
+
+        .input-email-container,
+        .input-password-container {
+            width: 90%;
+        }
+
+        .input-email,
+        .input-sign-up-email,
+        .input-password,
+        .input-sign-up-password,
+        .input-sign-up-name,
+        .input-sign-up-confirm-password {
+            width: 100%;
+        }
+    }
