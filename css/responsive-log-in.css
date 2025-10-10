@@ -1,7 +1,6 @@
 @media (max-width: 885px) {
 
     .log-in-container {
-        max-width: 652px;
         height: auto;
         background-color: rgb(255, 255, 255);
         border-radius: 30px;
@@ -79,7 +78,6 @@
     }
 
     .log-in-container {
-        max-width: 652px;
         height: auto;
         background-color: rgb(255, 255, 255);
         border-radius: 30px;
@@ -130,8 +128,7 @@
 
 @media (max-width: 570px) {
     .log-in-container {
-        max-width: 320px;
-        padding: 48px 40px 228px 40px;
+        padding: 48px 30px 228px 30px;
     }
 
     .form-log-in {
@@ -144,23 +141,11 @@
     .input-sign-up-email-container,
     .input-sign-up-password-container,
     .input-sign-up-confirm-password-container {
-        width: 320px;
-    }
-
-    .input-email,
-    .input-sign-up-email,
-    .input-password,
-    .input-sign-up-password,
-    .input-sign-up-name,
-    .input-sign-up-confirm-password {
-        width: 270px;
+        width: 90%;
     }
 }
 
 @media (max-width: 428px) {
-    .log-in-container {
-        width: 230px;
-    }
 
     .input-email-container,
     .input-password-container,
@@ -168,7 +153,7 @@
     .input-sign-up-email-container,
     .input-sign-up-password-container,
     .input-sign-up-confirm-password-container {
-        width: 254px;
+        width: 90%;
     }
 
     .input-email,
@@ -177,6 +162,6 @@
     .input-sign-up-password,
     .input-sign-up-name,
     .input-sign-up-confirm-password {
-        width: 209px;
+        width: 100%;
     }
 }
