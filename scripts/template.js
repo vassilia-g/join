@@ -1,5 +1,5 @@
 function showSidebar() {
-  return `
+    return `
     <div class="logo">
         <img src="../assets/imgs/join-logo/Logo-white.svg" />
     </div>
@@ -44,7 +44,7 @@ function showSidebar() {
 }
 
 function showHeader(initials = 'GU') {
-  return `
+    return `
         <div class="header-content">
           <p class="header-text">Kanban Project Management Tool</p>
           <div class="header-assets">
@@ -66,7 +66,7 @@ function showHeader(initials = 'GU') {
 }
 
 function showSidebarBeforeLogin() {
-  return `
+    return `
         <div class="logo">
             <img src="../assets/imgs/join-logo/Logo-white.svg" />
         </div>
@@ -95,7 +95,7 @@ function showSidebarBeforeLogin() {
 }
 
 function showHeaderBeforeLogin() {
-  return `
+    return `
       <div class="header-content">
           <p class="header-text">Kanban Project Management Tool</p>
           <div class="header-assets">
