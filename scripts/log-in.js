@@ -164,6 +164,7 @@ async function goToStartpage(event) {
     if (user && user.password === inputPassword.value) {
         localStorage.setItem("currentUserId", user.id);
         localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('userInitials', (user.username.match(/\b\w/g) || []).join('').toUpperCase());
         window.location.replace("html/summary.html"); // <-- overlay? + Infotext
     } else {
         redError.classList.remove("d-none");

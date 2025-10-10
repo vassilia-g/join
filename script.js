@@ -5,6 +5,7 @@ let legalLinks = document.getElementsByClassName('legal-link');
 function logOut() {
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem("currentUserId");
+    localStorage.removeItem("userInitials");
     window.location.replace("../index.html");
 }
 
@@ -37,8 +38,9 @@ function showSidebarAndHeader() {
         header.innerHTML = showHeaderBeforeLogin();
         sidebar.innerHTML = showSidebarBeforeLogin();
     } else {
+        let userInitials = localStorage.getItem('userInitials') || 'GU';
         sidebar.innerHTML = showSidebar();
-        header.innerHTML = showHeader();
+        header.innerHTML = showHeader(userInitials);
     }
 }
 
