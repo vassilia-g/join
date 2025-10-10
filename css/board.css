@@ -247,7 +247,6 @@ button {
 .task-description {
     display: flex;
     width: 220px;
-    height: 46px;
     gap: 8px;
     flex-direction: column;
     margin-bottom: 10px;
@@ -263,8 +262,11 @@ button {
 
 .task-content {
     width: 100%;
-    height: 19px;
+    height: 38px;
     color: #A8A8A8;
+    overflow: hidden;
+    font-size: 16px;
+    line-height: 120%;
 }
 
 .task-status {
@@ -375,8 +377,6 @@ button {
     top: 50%;
     left: 50%;
     transform: translate(100%, -50%);
-    width: 525px;
-    min-height: 800px;
     background-color: white;
     border-radius: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -384,6 +384,7 @@ button {
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
     transition: transform 0.5s ease;
     z-index: 1001;
     padding: 40px;
@@ -394,12 +395,111 @@ button {
 }
 
 .task-overlay {
-    width: 100%;
-    height: 100%;
+    width: 525px;
+    height: fit-content;
+    gap: 24px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
+}
+
+.task-overlay h4 {
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--color-primary);
+    margin-block-start: 0;
+    margin-block-end: 0;
+}
+
+.overlay-header {
+    display: flex;
     justify-content: space-between;
+}
+
+.overlay-header span {
+    font-size: 23px;
+    line-height: 120%;
+}
+
+.overlay-header button {
+    height: 32px;
+    width: 32px;
+    background-color: transparent;
+    border: none;
+}
+
+.overlay-task-title {
+    font-size: 61px;
+    line-height: 120%;
+}
+
+.overlay-due-date h4 {}
+
+.overlay-priority {
+    display: flex;
+    align-items: center;
+}
+
+.overlay-priority-value {
+    padding-right: 18px;
+    padding-left: 18px;
+    padding-bottom: 4px;
+    padding-top: 4px;
+}
+
+.overlay-assignee {
+    height: fit-content;
+}
+
+.overlay-selected-contacts .selected-contacts-svg {
+    padding-top: 7px;
+    padding-bottom: 7px;
+    padding-left: 16px;
+    margin: 0;
+}
+
+.overlay-selected-contacts svg {
+    height: 42px !important;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin: 0;
+}
+
+.subtask-item {
+    display: flex;
+    padding-left: 16px;
+    gap: 16px;
+    padding-bottom: 6px;
+    padding-top: 6px;
+}
+
+.subtask-checkboxes {
+    display: flex;
+    align-items: center;
+}
+
+.subtask-svg-unchecked {
+    display: flex;
+    align-items: center;
+}
+
+.overlay-footer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.overlay-delete {
+    display: flex;
+    align-items: center;
+    border-right: solid 1px #D1D1D1;
+    padding-right: 6px;
+    gap: 8px;
+}
+
+.overlay-edit {
+    display: flex;
+    padding-left: 6px;
+    gap: 8px;
 }
 
 @keyframes slideUpBoard {

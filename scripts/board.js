@@ -16,6 +16,9 @@ const lowBoardSvg = ` <svg id="low-svg" width="20" height="14.51" fill="none" xm
                           <path d="M10.2485 9.50589C10.0139 9.5063 9.7854 9.43145 9.59655 9.29238L0.693448 2.72264C0.57761 2.63708 0.47977 2.52957 0.405515 2.40623C0.33126 2.28289 0.282043 2.14614 0.260675 2.00379C0.217521 1.71631 0.290421 1.42347 0.463337 1.1897C0.636253 0.955928 0.895022 0.800371 1.18272 0.757248C1.47041 0.714126 1.76347 0.786972 1.99741 0.95976L10.2485 7.04224L18.4997 0.95976C18.6155 0.874204 18.7471 0.812285 18.8869 0.777538C19.0266 0.742791 19.1719 0.735896 19.3144 0.757248C19.4568 0.7786 19.5937 0.82778 19.7171 0.901981C19.8405 0.976181 19.9481 1.07395 20.0337 1.1897C20.1194 1.30545 20.1813 1.43692 20.2161 1.57661C20.2509 1.71629 20.2578 1.86145 20.2364 2.00379C20.215 2.14614 20.1658 2.28289 20.0916 2.40623C20.0173 2.52957 19.9195 2.63708 19.8036 2.72264L10.9005 9.29238C10.7117 9.43145 10.4831 9.5063 10.2485 9.50589Z" transform="translate(0,07)" fill="#7AE229"/>
                         </g>
                       </svg>`
+const taskInfoRef = document.getElementById('task-info');
+const assigneeRef = document.getElementById('assignee');
+const priorityRef = document.getElementById('priority');
 
 
 async function openAddTaskOverlay() {
@@ -31,7 +34,6 @@ async function openAddTaskOverlay() {
     tempDiv.innerHTML = html;
     const content = tempDiv.querySelector('.add-task-content');
     overlayContentRef.appendChild(content.cloneNode(true));
-
     if (!document.getElementById('add-task-script')) {
       const script = document.createElement('script');
       script.id = 'add-task-script';
@@ -39,12 +41,10 @@ async function openAddTaskOverlay() {
       document.body.appendChild(script);
     }
   }
-
   overlayRef.classList.add('show');
   overlayRef.classList.remove('hide');
   overlayRef.classList.remove('d-none');
 }
-
 
 function closeOverlay() {
   const overlayRef = document.getElementById('add-task-overlay');
@@ -55,10 +55,8 @@ function closeOverlay() {
   setTimeout(() => {
     overlayRef.classList.add('d-none');
   }, 600);
-
 }
 
-// Drag and Drop Funktionen
 function allowDrop(event) {
   event.preventDefault();
 }
@@ -75,45 +73,40 @@ function drop(event) {
 }
 
 //create new Task
-
 async function createTask() {
   await loadContactsWithoutRendering();
 
   const title = document.getElementById('task-title').value;
   const description = document.getElementById('task-description').value;
   const category = document.getElementById('input-category').innerText;
-  const priority = urgentButton.isActive
+  const priorityValue = urgentButton.isActive
     ? urgentBoardSvg
     : mediumButton.isActive
       ? mediumBoardSvg
       : lowButton.isActive
         ? lowBoardSvg
-        : "";
+        : '';
   let contactsHTML = localStorage.getItem('selectedContactsHTML') || '';
-
   const newTask = {
     title,
     description,
     category,
     contactsHTML,
     subtasks,
-    priority
+    priorityValue
   };
 
   let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
   tasks.push(newTask);
   localStorage.setItem('tasks', JSON.stringify(tasks));
   localStorage.removeItem('selectedContactsHTML');
-
   window.location.href = "../html/board.html";
 }
 
 function loadTasks() {
   const newTaskDiv = document.getElementById('new-task-div');
   const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-
   newTaskDiv.innerHTML = '';
-
   tasks.forEach((task, i) => {
     const totalSubtasks = task.subtasks ? task.subtasks.length : 0;
 
@@ -121,36 +114,33 @@ function loadTasks() {
     taskElement.innerHTML += boardTaskTemplate(task, i, totalSubtasks);
     newTaskDiv.appendChild(taskElement);
     taskElement.setAttribute("onclick", `openTaskOverlay(${i})`);
+    checkIfEmpty();
   });
 
   updateCategoryColor();
+  console.log('tasks');
 }
 
 function openTaskOverlay(index) {
   const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
   const task = tasks[index];
-
   const overlay = document.getElementById('task-overlay');
   const overlayContent = document.getElementById('task-overlay-content');
-
   overlayContent.innerHTML = boardTaskOverlayTemplate(task, index, task.subtasks?.length || 0);
-
   overlay.classList.remove('d-none');
   overlayContent.classList.remove('d-none');
   setTimeout(() => {
     overlay.classList.add('active');
     overlayContent.classList.add('active');
   }, 10);
-
+  updateCategoryColor();
 }
 
 function closeTaskOverlay() {
   const overlay = document.getElementById('task-overlay');
   const overlayContent = document.getElementById('task-overlay-content');
-
   overlay.classList.remove('active');
   overlayContent.classList.remove('active');
-
   setTimeout(() => {
     overlay.classList.add('d-none');
     overlayContent.classList.add('d-none');
@@ -159,10 +149,8 @@ function closeTaskOverlay() {
 
 function updateCategoryColor() {
   const categoryElements = document.querySelectorAll('.category');
-
   categoryElements.forEach(categoryElement => {
     const categoryText = categoryElement.innerText.trim();
-
     if (categoryText === "User Story") {
       categoryElement.style.backgroundColor = '#0038FF';
     } else if (categoryText === "Technical Task") {
@@ -175,4 +163,25 @@ function updateCategoryColor() {
 
 function clearStorage() {
   localStorage.clear();
+}
+
+function checkIfEmpty() {
+  const taskInfoRefs = document.querySelectorAll('.task-info');
+  const taskStatusRefs = document.querySelectorAll('.task-status');
+  const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+  const infoEmpty = tasks.length === 0 || tasks.every(task => {
+    const priorityEmpty = !task.priorityValue || task.priorityValue.trim() === '';
+    const contactsEmpty = !task.contactsHTML || task.contactsHTML.trim() === '';
+    return priorityEmpty && contactsEmpty;
+  });
+  taskInfoRefs.forEach(el => el.classList.toggle('d-none', infoEmpty));
+
+  const statusEmpty = tasks.length === 0 || tasks.every(task => {
+    if (!task.subtasks) return true;
+    if (Array.isArray(task.subtasks)) return task.subtasks.length === 0;
+    if (typeof task.subtasks === 'string') return task.subtasks.trim() === '';
+    return true;
+  });
+
+  taskStatusRefs.forEach(el => el.classList.toggle('d-none', statusEmpty));
 }

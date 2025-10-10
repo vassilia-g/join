@@ -1,6 +1,6 @@
 
 function showSubtask(index) {
-    return `
+  return `
       <div class="subtask-list-element">
         <li>${subtasks[index]}</li>
         <div class="delete-or-edit-icons">
@@ -26,7 +26,7 @@ function showSubtask(index) {
 }
 
 function showSubtaskToEdit(index) {
-    return `<div class="edit-subtask-container">
+  return `<div class="edit-subtask-container">
       <input id="edit-input" class="edit-input" type="text" value="${subtasks[index]}">
       <div class="delete-or-done-edit">
         <div class="delete-edit-svg">
@@ -54,8 +54,8 @@ function showSubtaskToEdit(index) {
 }
 
 function showContacts(i) {
-    let initials = getInitials(contacts[i].name);
-    return `
+  let initials = getInitials(contacts[i].name);
+  return `
         <div class="single-contact">
           <div class="contact-name">
             <svg id="initials-${i}" width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -75,7 +75,7 @@ function showContacts(i) {
 }
 
 function showEmptyCheckbox(i) {
-    return `
+  return `
       <svg onclick="checkContact(${i})" width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="4.38818" y="4" width="16" height="16" rx="3" stroke="#2A3647" stroke-width="2"/>
       </svg>
@@ -83,7 +83,7 @@ function showEmptyCheckbox(i) {
 }
 
 function showCheckedCheckbox(i) {
-    return `
+  return `
       <svg onclick="checkContact(${i})" width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M20.3882 11V17C20.3882 18.6569 19.045 20 17.3882 20H7.38818C5.73133 20 4.38818 18.6569 4.38818 17V7C4.38818 5.34315 5.73133 4 7.38818 4H15.3882" stroke="#2A3647" stroke-width="2" stroke-linecap="round"/>
         <path d="M8.38818 12L12.3882 16L20.3882 4.5" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -92,7 +92,7 @@ function showCheckedCheckbox(i) {
 }
 
 function showMoreContacts(extraInitials) {
-    return `
+  return `
       <div class="selected-contacts-svg">
         <svg width="40" height="40" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg">
           <circle cx="21" cy="21" r="20" fill="none" stroke="#2a3647" stroke-width="2"/>
@@ -103,7 +103,7 @@ function showMoreContacts(extraInitials) {
 }
 
 function showCategories() {
-    return `
+  return `
     <div class="categories-dropdown">
       <span onclick="showTechnicalTaskInInput()">Technical Task</span>
       <span onclick="showUserStoryInInput()">User Story</span>
