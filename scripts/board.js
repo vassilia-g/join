@@ -155,7 +155,7 @@ async function loadTasks() {
       const taskElement = document.createElement('div');
       taskElement.innerHTML = boardTaskTemplate(task, i, totalSubtasks);
       newTaskDiv.appendChild(taskElement);
-      taskElement.setAttribute("onclick", `openTaskOverlay(${i})`);
+      taskElement.setAttribute("onclick", `openTaskOverlay('${task.id}')`);
     });
 
     checkIfEmpty(tasksCache);
@@ -165,7 +165,7 @@ async function loadTasks() {
   }
 }
 
-async function openTaskOverlay(index) {
+async function openTaskOverlay(taskId) {
   const overlay = document.getElementById('task-overlay');
   const overlayContent = document.getElementById('task-overlay-content');
 
@@ -174,19 +174,20 @@ async function openTaskOverlay(index) {
     if (!response.ok) throw new Error('Fehler beim Laden der Tasks');
 
     const data = await response.json();
-    const tasks = data ? Object.entries(data).map(([id, task]) => {
-      task.id = id;
-      return task;
-    }) : [];
 
-    const task = tasks[index];
+    console.log("Alle geladenen Tasks:", data);
+    console.log("Gesuchte Task-ID:", taskId);
+
+    const task = data[taskId];
+
     if (!task) {
-      console.warn(`Task mit Index ${index} nicht gefunden.`);
+      console.warn(`❌ Task mit ID ${taskId} nicht gefunden.`);
       return;
     }
-    overlayContent.innerHTML = boardTaskOverlayTemplate(task, index);
+    overlayContent.innerHTML = boardTaskOverlayTemplate(task, taskId);
     overlay.classList.remove('d-none');
     overlayContent.classList.remove('d-none');
+
     setTimeout(() => {
       overlay.classList.add('active');
       overlayContent.classList.add('active');
@@ -225,31 +226,6 @@ function updateCategoryColor() {
   });
 }
 
-async function clearStorage() {
-  if (!confirm("Willst du wirklich alle Tasks löschen? Diese Aktion kann nicht rückgängig gemacht werden.")) {
-    return;
-  }
-
-  try {
-    const response = await fetch(`${BASE_URL}/tasks.json`, {
-      method: 'DELETE'
-    });
-
-    if (!response.ok) {
-      throw new Error(`Fehler beim Löschen der Tasks: ${response.status}`);
-    }
-
-    console.log("Alle Tasks erfolgreich gelöscht!");
-    localStorage.removeItem('tasks');
-    const newTaskDiv = document.getElementById('new-task-div');
-    if (newTaskDiv) newTaskDiv.innerHTML = '';
-
-  } catch (error) {
-    console.error("Fehler beim Löschen der Tasks:", error);
-    alert("Fehler beim Löschen der Tasks. Bitte versuche es erneut.");
-  }
-}
-
 function checkIfEmpty(tasks) {
   const taskInfoRefs = document.querySelectorAll('.task-info');
   const taskStatusRefs = document.querySelectorAll('.task-status');
@@ -280,8 +256,6 @@ function checkIfEmpty(tasks) {
 }
 
 async function deleteTask(taskId) {
-  console.log("Zu loeschende Task-ID:", taskId);
-
   if (!confirm("Willst du diese Task wirklich löschen?")) return;
 
   try {
@@ -290,13 +264,66 @@ async function deleteTask(taskId) {
     });
 
     if (!response.ok) throw new Error('Fehler beim Löschen der Task');
-
-    console.log('Task erfolgreich gelöscht!');
     loadTasks();
     closeTaskOverlay();
 
   } catch (error) {
     console.error('Fehler beim Löschen der Task:', error);
     alert('Task konnte nicht gelöscht werden.');
+  }
+}
+
+async function editTask(taskId) {
+  const editOverlayRef = document.getElementById('task-overlay');
+  const overlayContentRef = document.getElementById('task-overlay-content');
+
+  try {
+    const response = await fetch(`${BASE_URL}/tasks.json`);
+    if (!response.ok) throw new Error('Fehler beim Laden der Tasks');
+    const data = await response.json();
+
+    const task = data[taskId];
+    if (!task) throw new Error(`Task mit ID ${taskId} nicht gefunden`);
+
+    const htmlResponse = await fetch('../html/add-task.html');
+    const htmlText = await htmlResponse.text();
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = htmlText;
+    const createTaskDiv = tempDiv.querySelector('.create-task');
+
+    if (!createTaskDiv) {
+      throw new Error('.create-task wurde in add-task.html nicht gefunden');
+    }
+
+    overlayContentRef.innerHTML = '';
+    overlayContentRef.appendChild(createTaskDiv.cloneNode(true));
+
+    if (!document.getElementById('add-task-script')) {
+      const script = document.createElement('script');
+      script.id = 'add-task-script';
+      script.src = '../scripts/add-task.js';
+      document.body.appendChild(script);
+    }
+
+    setTimeout(() => {
+      const titleInput = document.getElementById('task-title');
+      const descInput = document.getElementById('task-description');
+      const dueDateInput = document.getElementById('task-due-date');
+      const categoryDisplay = document.getElementById('input-category');
+      const createBtn = document.getElementById('create-task-btn');
+
+      if (titleInput) titleInput.value = task.title || '';
+      if (descInput) descInput.value = task.description || '';
+      if (dueDateInput) dueDateInput.value = task.dueDate || '';
+      if (categoryDisplay) categoryDisplay.innerText = task.category || '';
+      if (createBtn) createBtn.textContent = 'Save Changes';
+    }, 150);
+
+    editOverlayRef.classList.remove('d-none', 'hide');
+    editOverlayRef.classList.add('show');
+
+  } catch (error) {
+    console.error('Fehler beim Öffnen des Edit-Overlays:', error);
+    alert('Task konnte nicht geladen werden.');
   }
 }
