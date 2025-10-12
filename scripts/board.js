@@ -19,6 +19,7 @@ const lowBoardSvg = ` <svg id="low-svg" width="20" height="14.51" fill="none" xm
 const taskInfoRef = document.getElementById('task-info');
 const assigneeRef = document.getElementById('assignee');
 const priorityRef = document.getElementById('priority');
+let tasksCache = [];
 
 
 async function openAddTaskOverlay() {
@@ -72,7 +73,6 @@ function drop(event) {
   event.target.appendChild(draggedElement);
 }
 
-//create new Task
 async function createTask() {
   await loadContactsWithoutRendering();
 
@@ -126,6 +126,7 @@ async function createTask() {
 
     const data = await response.json();
     console.log('Task erfolgreich erstellt:', data);
+    newTask.id = data.name;
     window.location.href = "../html/board.html";
 
   } catch (error) {
@@ -144,9 +145,12 @@ async function loadTasks() {
     if (!response.ok) throw new Error('Fehler beim Laden der Tasks');
 
     const data = await response.json();
-    const tasks = data ? Object.values(data) : [];
+    const tasksArray = data ? Object.entries(data).map(([taskId, task]) => {
+      task.id = taskId;
+      return task;
+    }) : [];
 
-    tasks.forEach((task, i) => {
+    tasksArray.forEach((task, i) => {
       const totalSubtasks = task.subtasks ? task.subtasks.length : 0;
       const taskElement = document.createElement('div');
       taskElement.innerHTML = boardTaskTemplate(task, i, totalSubtasks);
@@ -154,7 +158,7 @@ async function loadTasks() {
       taskElement.setAttribute("onclick", `openTaskOverlay(${i})`);
     });
 
-    checkIfEmpty(tasks);
+    checkIfEmpty(tasksCache);
 
   } catch (error) {
     console.error('Fehler beim Laden der Tasks:', error);
@@ -170,14 +174,16 @@ async function openTaskOverlay(index) {
     if (!response.ok) throw new Error('Fehler beim Laden der Tasks');
 
     const data = await response.json();
-    const tasks = data ? Object.values(data) : [];
-    const task = tasks[index];
+    const tasks = data ? Object.entries(data).map(([id, task]) => {
+      task.id = id;
+      return task;
+    }) : [];
 
+    const task = tasks[index];
     if (!task) {
       console.warn(`Task mit Index ${index} nicht gefunden.`);
       return;
     }
-
     overlayContent.innerHTML = boardTaskOverlayTemplate(task, index);
     overlay.classList.remove('d-none');
     overlayContent.classList.remove('d-none');
@@ -247,16 +253,19 @@ async function clearStorage() {
 function checkIfEmpty(tasks) {
   const taskInfoRefs = document.querySelectorAll('.task-info');
   const taskStatusRefs = document.querySelectorAll('.task-status');
+  const taskContentRefs = document.querySelectorAll('.task-content');
 
   const infoEmpty =
     tasks.length === 0 ||
     tasks.every(task => {
+      const contentEmpty = !task.description || task.description.trim() === '';
       const priorityEmpty = !task.priorityValue || task.priorityValue.trim() === '';
       const contactsEmpty = !task.contactsHTML || task.contactsHTML.trim() === '';
-      return priorityEmpty && contactsEmpty;
+      return priorityEmpty && contactsEmpty && contentEmpty;
     });
 
   taskInfoRefs.forEach(el => el.classList.toggle('d-none', infoEmpty));
+  taskContentRefs.forEach(el => el.classList.toggle('d-none', infoEmpty));
 
   const statusEmpty =
     tasks.length === 0 ||
@@ -268,4 +277,26 @@ function checkIfEmpty(tasks) {
     });
 
   taskStatusRefs.forEach(el => el.classList.toggle('d-none', statusEmpty));
+}
+
+async function deleteTask(taskId) {
+  console.log("Zu loeschende Task-ID:", taskId);
+
+  if (!confirm("Willst du diese Task wirklich löschen?")) return;
+
+  try {
+    const response = await fetch(`${BASE_URL}/tasks/${taskId}.json`, {
+      method: 'DELETE'
+    });
+
+    if (!response.ok) throw new Error('Fehler beim Löschen der Task');
+
+    console.log('Task erfolgreich gelöscht!');
+    loadTasks();
+    closeTaskOverlay();
+
+  } catch (error) {
+    console.error('Fehler beim Löschen der Task:', error);
+    alert('Task konnte nicht gelöscht werden.');
+  }
 }

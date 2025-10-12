@@ -502,6 +502,10 @@ button {
     gap: 8px;
 }
 
+.overlay-svg-div :hover {
+    cursor: pointer;
+}
+
 .overlay-edit {
     display: flex;
     padding-left: 6px;
