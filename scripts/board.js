@@ -78,6 +78,7 @@ async function createTask() {
 
   const title = document.getElementById('task-title').value;
   const description = document.getElementById('task-description').value;
+  const dueDate = document.getElementById('task-due-date').value;
   const category = document.getElementById('input-category').innerText;
   const priorityValue = urgentButton.isActive
     ? urgentBoardSvg
@@ -86,55 +87,112 @@ async function createTask() {
       : lowButton.isActive
         ? lowBoardSvg
         : '';
-  let contactsHTML = localStorage.getItem('selectedContactsHTML') || '';
+  let contactsHTML = '';
+  try {
+    const response = await fetch(`${BASE_URL}/tasks/selected-contacts.json`);
+    if (!response.ok) throw new Error('Fehler beim Laden der Kontakte');
+
+    const data = await response.json();
+
+    if (data) {
+      const lastKey = Object.keys(data).pop();
+      contactsHTML = data[lastKey].contactsHTML || '';
+    }
+  } catch (err) {
+    console.error('Fehler beim Laden von selectedContactsHTML:', err);
+  }
+
   const newTask = {
     title,
     description,
+    dueDate,
     category,
     contactsHTML,
     subtasks,
-    priorityValue
+    priorityValue,
+    createdAt: new Date().toISOString()
   };
 
-  let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-  tasks.push(newTask);
-  localStorage.setItem('tasks', JSON.stringify(tasks));
-  localStorage.removeItem('selectedContactsHTML');
-  window.location.href = "../html/board.html";
-}
+  try {
+    const response = await fetch(`${BASE_URL}/tasks.json`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newTask)
+    });
 
-function loadTasks() {
-  const newTaskDiv = document.getElementById('new-task-div');
-  const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-  newTaskDiv.innerHTML = '';
-  tasks.forEach((task, i) => {
-    const totalSubtasks = task.subtasks ? task.subtasks.length : 0;
+    if (!response.ok) {
+      throw new Error(`Fehler beim Speichern: ${response.status}`);
+    }
 
-    const taskElement = document.createElement('div');
-    taskElement.innerHTML += boardTaskTemplate(task, i, totalSubtasks);
-    newTaskDiv.appendChild(taskElement);
-    taskElement.setAttribute("onclick", `openTaskOverlay(${i})`);
-    checkIfEmpty();
-  });
+    const data = await response.json();
+    console.log('Task erfolgreich erstellt:', data);
+    window.location.href = "../html/board.html";
 
+  } catch (error) {
+    console.error('Fehler beim Erstellen der Task:', error);
+    alert('Fehler beim Speichern der Task. Bitte versuche es erneut.');
+  }
   updateCategoryColor();
-  console.log('tasks');
 }
 
-function openTaskOverlay(index) {
-  const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-  const task = tasks[index];
+async function loadTasks() {
+  const newTaskDiv = document.getElementById('new-task-div');
+  newTaskDiv.innerHTML = '';
+
+  try {
+    const response = await fetch(`${BASE_URL}/tasks.json`);
+    if (!response.ok) throw new Error('Fehler beim Laden der Tasks');
+
+    const data = await response.json();
+    const tasks = data ? Object.values(data) : [];
+
+    tasks.forEach((task, i) => {
+      const totalSubtasks = task.subtasks ? task.subtasks.length : 0;
+      const taskElement = document.createElement('div');
+      taskElement.innerHTML = boardTaskTemplate(task, i, totalSubtasks);
+      newTaskDiv.appendChild(taskElement);
+      taskElement.setAttribute("onclick", `openTaskOverlay(${i})`);
+    });
+
+    checkIfEmpty(tasks);
+
+  } catch (error) {
+    console.error('Fehler beim Laden der Tasks:', error);
+  }
+}
+
+async function openTaskOverlay(index) {
   const overlay = document.getElementById('task-overlay');
   const overlayContent = document.getElementById('task-overlay-content');
-  overlayContent.innerHTML = boardTaskOverlayTemplate(task, index, task.subtasks?.length || 0);
-  overlay.classList.remove('d-none');
-  overlayContent.classList.remove('d-none');
-  setTimeout(() => {
-    overlay.classList.add('active');
-    overlayContent.classList.add('active');
-  }, 10);
-  updateCategoryColor();
+
+  try {
+    const response = await fetch(`${BASE_URL}/tasks.json`);
+    if (!response.ok) throw new Error('Fehler beim Laden der Tasks');
+
+    const data = await response.json();
+    const tasks = data ? Object.values(data) : [];
+    const task = tasks[index];
+
+    if (!task) {
+      console.warn(`Task mit Index ${index} nicht gefunden.`);
+      return;
+    }
+
+    overlayContent.innerHTML = boardTaskOverlayTemplate(task, index);
+    overlay.classList.remove('d-none');
+    overlayContent.classList.remove('d-none');
+    setTimeout(() => {
+      overlay.classList.add('active');
+      overlayContent.classList.add('active');
+    }, 10);
+
+    updateCategoryColor();
+  } catch (error) {
+    console.error('Fehler beim Öffnen des Task-Overlays:', error);
+    alert('Task konnte nicht geladen werden.');
+  }
 }
+
 
 function closeTaskOverlay() {
   const overlay = document.getElementById('task-overlay');
@@ -161,27 +219,53 @@ function updateCategoryColor() {
   });
 }
 
-function clearStorage() {
-  localStorage.clear();
+async function clearStorage() {
+  if (!confirm("Willst du wirklich alle Tasks löschen? Diese Aktion kann nicht rückgängig gemacht werden.")) {
+    return;
+  }
+
+  try {
+    const response = await fetch(`${BASE_URL}/tasks.json`, {
+      method: 'DELETE'
+    });
+
+    if (!response.ok) {
+      throw new Error(`Fehler beim Löschen der Tasks: ${response.status}`);
+    }
+
+    console.log("Alle Tasks erfolgreich gelöscht!");
+    localStorage.removeItem('tasks');
+    const newTaskDiv = document.getElementById('new-task-div');
+    if (newTaskDiv) newTaskDiv.innerHTML = '';
+
+  } catch (error) {
+    console.error("Fehler beim Löschen der Tasks:", error);
+    alert("Fehler beim Löschen der Tasks. Bitte versuche es erneut.");
+  }
 }
 
-function checkIfEmpty() {
+function checkIfEmpty(tasks) {
   const taskInfoRefs = document.querySelectorAll('.task-info');
   const taskStatusRefs = document.querySelectorAll('.task-status');
-  const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-  const infoEmpty = tasks.length === 0 || tasks.every(task => {
-    const priorityEmpty = !task.priorityValue || task.priorityValue.trim() === '';
-    const contactsEmpty = !task.contactsHTML || task.contactsHTML.trim() === '';
-    return priorityEmpty && contactsEmpty;
-  });
+
+  const infoEmpty =
+    tasks.length === 0 ||
+    tasks.every(task => {
+      const priorityEmpty = !task.priorityValue || task.priorityValue.trim() === '';
+      const contactsEmpty = !task.contactsHTML || task.contactsHTML.trim() === '';
+      return priorityEmpty && contactsEmpty;
+    });
+
   taskInfoRefs.forEach(el => el.classList.toggle('d-none', infoEmpty));
 
-  const statusEmpty = tasks.length === 0 || tasks.every(task => {
-    if (!task.subtasks) return true;
-    if (Array.isArray(task.subtasks)) return task.subtasks.length === 0;
-    if (typeof task.subtasks === 'string') return task.subtasks.trim() === '';
-    return true;
-  });
+  const statusEmpty =
+    tasks.length === 0 ||
+    tasks.every(task => {
+      if (!task.subtasks) return true;
+      if (Array.isArray(task.subtasks)) return task.subtasks.length === 0;
+      if (typeof task.subtasks === 'string') return task.subtasks.trim() === '';
+      return true;
+    });
 
   taskStatusRefs.forEach(el => el.classList.toggle('d-none', statusEmpty));
 }

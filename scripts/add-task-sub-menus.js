@@ -143,7 +143,7 @@ function checkContact(i) {
     }
 }
 
-function showSelectedContacts() {
+async function showSelectedContacts() {
     SelectedContactsComplete = '';
     let checkedInitials = document.querySelectorAll("svg.checked");
 
@@ -159,8 +159,23 @@ function showSelectedContacts() {
         SelectedContactsComplete += showMoreContacts(extraInitials);
     }
     selectedContacts.innerHTML = SelectedContactsComplete;
+    const taskPayload = {
+        contactsHTML: SelectedContactsComplete
+    };
 
-    localStorage.setItem('selectedContactsHTML', SelectedContactsComplete);
+    try {
+        const response = await fetch(BASE_URL + 'tasks/selected-contacts.json', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(taskPayload)
+        });
+
+        const data = await response.json();
+        console.log('Kontakte erfolgreich an API gesendet:', data);
+
+    } catch (error) {
+        console.error('Fehler beim Senden der Kontakte:', error);
+    }
 }
 
 function openCategories() {
