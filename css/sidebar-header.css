@@ -15,6 +15,13 @@
     justify-content: center;
 }
 
+.logo-header {
+    display: none;
+    height: 39px;
+    width: 32px;
+    padding-left: 32px;
+}
+
 .sidebar-nav {
     display: flex;
     flex-direction: column;
