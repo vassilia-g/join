@@ -244,15 +244,17 @@
 }
 
 @media (max-width: 400px) {
+
     .log-in-container {
         max-width: 265px;
         height: 240px;
         padding: 12px 5px 86px 5px;
+
     }
 
     .sign-up-container {
         padding: 12px 5px 170px 5px;
-        /* height: 155px; */
+        height: 298px;
     }
 
     .input-sign-up-name-container,
