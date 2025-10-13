@@ -47,11 +47,13 @@ function showSignUpContainer() {
     if (signUpContainer) {
         const errorText = document.getElementById("error-text-password-match");
         const errorEmailExists = document.getElementById('error-email-exists');
+        const responsiveRegistryContainer = document.getElementById('responsive-registry-container');
         errorText.classList.add('d-none');
         errorEmailExists.classList.add('d-none');
         signUpContainer.classList.remove("d-none");
         logInContainer.classList.add("d-none");
         registryContainer.classList.add("d-none");
+        responsiveRegistryContainer.classList.add("d-none");
     }
 }
 //function enables the button when checkbox is checked
@@ -197,6 +199,8 @@ function backtoLogIn() {
     signUpContainer.classList.add('d-none');
     const registryContainer = document.getElementById('registry-container');
     registryContainer.classList.remove('d-none');
+    const responsiveRegistryContainer = document.getElementById(`responsive-registry-container`);
+    responsiveRegistryContainer.classList.remove('d-none');
     disableSignUpButton();
     clearSignUpForm();
 }
