@@ -1,10 +1,20 @@
-@media (max-width: 885px) {
+@media (max-width: 1440px) {
+    h1 {
+        font-size: 48px;
+    }
 
-    .log-in-container {
-        height: auto;
-        background-color: rgb(255, 255, 255);
-        border-radius: 30px;
-        padding: 48px 40px 145px 40px;
+    .line,
+    .sign-up-line {
+        width: 116px;
+        height: 0px;
+        border: 2px solid var(--color-accent);
+        margin-top: 4px;
+        border-radius: 3px;
+    }
+
+    .arrow-left {
+        width: 28px;
+        height: 28px;
     }
 
     .input-email-container,
@@ -13,11 +23,17 @@
     .input-sign-up-email-container,
     .input-sign-up-password-container,
     .input-sign-up-confirm-password-container {
-        height: 48px;
-        border: 1px solid rgb(215, 215, 215);
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
+        max-width: 320px;
+        width: 100%;
+        height: 40px;
+    }
+
+    .sign-up-container {
+        padding: 48px 48px 215px 48px;
+    }
+
+    .log-in-container {
+        width: 450px;
     }
 
     .input-email,
@@ -26,23 +42,19 @@
     .input-sign-up-password,
     .input-sign-up-name,
     .input-sign-up-confirm-password {
-        width: 380px;
-        height: 24px;
-        border-width: 0px;
-        outline: none;
-        font-size: 20px;
+        width: inherit;
+        /* height: 18px; */
+        font-size: 18px;
+        margin-left: 5px;
     }
 
-    .form-log-in {
-        gap: 40px;
-    }
-
-    .log-in-header {
-        width: 100%;
-        height: 116px;
-        margin-top: 60px;
-        display: flex;
-        justify-content: flex-end;
+    .input-email-container,
+    .input-password-container,
+    .input-sign-up-name-container,
+    .input-sign-up-email-container,
+    .input-sign-up-password-container,
+    .input-sign-up-confirm-password-container {
+        height: 32px;
     }
 }
 
@@ -50,7 +62,7 @@
 
     .log-in-header {
         width: 100%;
-        height: 116px;
+        /* height: 116px; */
         margin-top: 60px;
         display: flex;
         justify-content: flex-end;
@@ -60,7 +72,6 @@
     .responsive-header {
         width: 100%;
         height: 116px;
-        margin-top: 60px;
         display: flex;
         justify-content: center;
         opacity: 1;
@@ -68,8 +79,7 @@
 
     .responsive-registry-container {
         width: 100%;
-        height: 116px;
-        margin-top: 60px;
+        height: 49px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -78,32 +88,34 @@
     }
 
     .log-in-container {
-        height: auto;
-        background-color: rgb(255, 255, 255);
-        border-radius: 30px;
-        padding: 48px 40px 211px 40px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        opacity: 0;
-        animation: fade-in 1.5s ease forwards;
+        height: 350px;
+        padding: 12px 0px 85px 0px;
+    }
+
+    .input-email-container,
+    .input-password-container,
+    .input-sign-up-name-container,
+    .input-sign-up-email-container,
+    .input-sign-up-password-container,
+    .input-sign-up-confirm-password-container {
+        max-width: 320px;
+        width: 100%;
+        height: 28px;
     }
 
     .input-email,
     .input-password {
-        width: 380px;
-        height: 24px;
-        border-width: 0px;
-        outline: none;
-        font-size: 20px;
+        width: inherit;
+        height: 18px;
+
     }
 
     .input-sign-up-name,
     .input-sign-up-email,
     .input-sign-up-password,
     .input-sign-up-confirm-password {
-        width: 320px;
+        max-width: inherit;
+        width: 100%;
         height: 24px;
         border-width: 0px;
         outline: none;
@@ -133,19 +145,25 @@
     }
 
     .sign-up-container {
-        padding: 48px 80px 280px 80px;
+        margin-top: 150px;
+        height: 230px;
     }
 
-
+    .registry-button {
+        height: 33px;
+    }
 }
 
-@media (max-width: 570px) {
+
+@media (max-width: 500px) {
     .log-in-container {
-        padding: 48px 30px 228px 30px;
+        padding: 12px 12px 52px 12px;
+        width: 350px;
     }
 
     .sign-up-container {
         padding: 48px 40px 280px 40px;
+        height: 155px;
     }
 
     .form-log-in {
@@ -154,89 +172,162 @@
 
     .input-email-container,
     .input-password-container {
-        width: 90%;
+        max-width: 220px;
     }
 
     .input-sign-up-name-container,
     .input-sign-up-email-container,
     .input-sign-up-password-container,
     .input-sign-up-confirm-password-container {
-        width: 100%;
+        max-width: 280px;
+    }
+
+    .input-email,
+    .input-password,
+    .input-sign-up-name,
+    .input-sign-up-email,
+    .input-sign-up-password,
+    .input-sign-up-confirm-password {
+        max-width: 226px;
+        font-size: 18px;
+    }
+
+    .sign-up-header h1 {
+        font-size: 40px;
+    }
+
+    .line,
+    .sign-up-line {
+        width: 90px;
+    }
+
+    .log-in-container h1 {
+        font-size: 40px;
+    }
+
+    .arrow-left {
+        width: 26px;
+        height: 26px;
+    }
+
+    /* .accept-policy {
+        padding-left: 0px;
+    } */
+
+    .disabled-sign-up-form-button {
+        width: 102;
+        height: 40px;
+    }
+
+    .log-in-button,
+    .sign-up-button,
+    .log-in-guest-button {
+        width: 169px;
+        height: 40px;
+    }
+
+    .registry-button {
+        width: 88px;
+        height: 40px;
+    }
+
+    .registry-text {
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 120%;
+        letter-spacing: 0%;
+    }
+
+    footer {
+        gap: 100px;
+    }
+}
+
+@media (max-width: 400px) {
+
+    .log-in-container {
+        max-width: 265px;
+        height: 240px;
+        padding: 12px 5px 86px 5px;
+
+    }
+
+    .sign-up-container {
+        padding: 12px 5px 170px 5px;
+        height: 298px;
+    }
+
+    .input-sign-up-name-container,
+    .input-sign-up-email-container,
+    .input-sign-up-password-container,
+    .input-sign-up-confirm-password-container {
+        max-width: 206px;
     }
 
     .input-sign-up-name,
     .input-sign-up-email,
     .input-sign-up-password,
     .input-sign-up-confirm-password {
-        width: 100%;
+        max-width: 170px;
+        font-size: 18px;
     }
 
-    .sign-up-header {
-        gap: 20px;
+    .log-in-container h1 {
+        font-size: 32px;
     }
 
     .sign-up-header h1 {
-        font-size: 54px;
+        font-size: 32px;
     }
 
-    .line {
-        width: 108px;
+    .responsive-header {
+        height: 40px;
     }
 
-    .arrow-left {
-        width: 26px;
-        height: 26px;
+    .log-in-button,
+    .sign-up-button,
+    .log-in-guest-button {
+        width: 155px;
+        height: 32px;
     }
 
-    .accept-policy {
-        padding-left: 0px;
+    footer {
+        gap: 200px;
     }
 }
 
-@media (max-width: 510px) {
-    /* .sign-up-container {
-        padding: 48px 15px 280px 15px;
-    } */
-
-    /* .input-sign-up-name-container,
-    .input-sign-up-email-container,
-    .input-sign-up-password-container,
-    .input-sign-up-confirm-password-container {
-        width: 80%;
-    } */
-
-    .sign-up-header {
-        gap: 20px;
+@media (max-height: 960px) {
+    footer {
+        bottom: 10px;
+        gap: 0px;
     }
 
-    .sign-up-header h1 {
-        font-size: 48px;
+    .responsive-header {
+        height: 106px;
+    }
+}
+
+@media (max-height: 820px) {
+    .responsive-header {
+        height: 80px;
+    }
+}
+
+@media (max-height: 790px) {
+    footer {
+        bottom: 5px;
+        gap: 0px;
     }
 
-    .line {
-        width: 100px;
+    .responsive-header {
+        height: 75px;
     }
 
-    .arrow-left {
-        width: 26px;
-        height: 26px;
+    .registry-button {
+        height: 30px;
     }
 
-
-
-    @media (max-width: 428px) {
-
-        .input-email-container,
-        .input-password-container {
-            width: 90%;
-        }
-
-        .input-email,
-        .input-sign-up-email,
-        .input-password,
-        .input-sign-up-password,
-        .input-sign-up-name,
-        .input-sign-up-confirm-password {
-            width: 100%;
-        }
+    .registry-text {
+        font-size: 16px;
     }
+}
