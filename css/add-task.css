@@ -2,7 +2,6 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    overflow: hidden;
     position: relative;
 }
 
@@ -17,6 +16,11 @@
 
 .create-task label {
     padding-bottom: 8px;
+}
+
+.textarea {
+    position: relative;
+    width: 440px;
 }
 
 .input-border-size {
@@ -109,14 +113,10 @@ input::placeholder {
     outline: none;
 }
 
-.description {
-    position: relative;
-}
-
 .description svg {
     position: absolute;
-    bottom: 4px;
-    right: 71px;
+    bottom: 9px;
+    right: 4px;
 }
 
 .assign-contacts {
