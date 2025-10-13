@@ -33,6 +33,15 @@ footer {
     justify-content: flex-end;
 }
 
+.responsive-header {
+    width: 100%;
+    height: 116px;
+    margin-top: 60px;
+    display: flex;
+    justify-content: flex-end;
+    opacity: 0;
+}
+
 .registry-container {
     width: 279px;
     height: 49px;
@@ -92,12 +101,14 @@ footer {
 }
 
 .log-in-container {
+    width: 80%;
     max-width: 652px;
+    min-width: 244px;
     max-height: 449px;
     background-color: rgb(255, 255, 255);
     border-radius: 30px;
-    /* padding: 48px 115px 140px 115px; */
-    padding: 48px 115px 85px 115px;
+    padding: 48px 0px 85px 0px;
+    /* padding: 48px 115px 85px 115px; */
     margin-top: 100px;
     display: flex;
     flex-direction: column;
@@ -111,7 +122,7 @@ footer {
     background-color: rgb(255, 255, 255);
     border-radius: 30px;
     padding: 48px 115px 280px 115px;
-    margin-top: 32px;
+    margin-top: 100px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -139,7 +150,6 @@ h1 {
 }
 
 .input-main-container {
-    width: 422px;
     height: 152px;
     padding-top: 32px;
 }
@@ -156,12 +166,14 @@ h1 {
     font-size: 20px;
     line-height: 120%;
     letter-spacing: 0%;
+    padding-left: 21px;
 }
 
 .input-symbol {
     width: 24px;
     height: 24px;
     cursor: pointer;
+    margin-right: 21px;
 }
 
 .input-email-container,
@@ -170,13 +182,15 @@ h1 {
 .input-sign-up-email-container,
 .input-sign-up-password-container,
 .input-sign-up-confirm-password-container {
-    width: 422px;
+    max-width: 422px;
+    width: 100%;
     height: 48px;
     border: 1px solid rgb(215, 215, 215);
     border-radius: 10px;
     display: flex;
     align-items: center;
-    padding-right: 21px;
+    align-self: center;
+    /* padding-right: 21px; */
 }
 
 .active-border-color {
@@ -193,7 +207,6 @@ h1 {
     height: 24px;
     border-width: 0px;
     outline: none;
-    padding-left: 21px;
     font-size: 20px;
 }
 
@@ -208,9 +221,9 @@ h1 {
 .sign-up-header {
     height: 61px;
     display: flex;
-    gap: 113px;
+    gap: 38px;
     width: 100%;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: flex-start;
     padding-right: 76px;
 }
@@ -252,6 +265,7 @@ h1 {
     background-color: rgba(0, 0, 0, 0.5);
     width: 100%;
     height: 100vh;
+    z-index: 2;
 }
 
 .from-bottom-to-the-mid {
@@ -380,6 +394,7 @@ h1 {
     font-style: normal;
     font-weight: 400;
     padding-left: 20px;
+    align-self: center;
 }
 
 .red-colored {
@@ -475,7 +490,6 @@ h1 {
     100% {
         top: 50%;
         left: 50%;
-        /* transform: translate(0, 0); */
         transform: translate(-50%, -50%);
     }
 }

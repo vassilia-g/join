@@ -23,7 +23,8 @@ async function validateSignUpValues(values) {
 }
 
 // Use this function to sign up a new user
-async function signUpUser(form, event) {
+async function signUpUser(form) {
+    console.log('signUpUser() wurde aufgerufen');
     const values = getSignUpValues(form);
     const errorEmailExists = document.getElementById('error-email-exists');
     if (!await validateSignUpValues(values)) return;
@@ -40,7 +41,7 @@ async function signUpUser(form, event) {
     await user.save();
     console.log('User saved:', user);
     errorEmailExists.classList.add('d-none');
-    visibleSignUp(event);
+    visibleSignUp();
     return true;
 }
 

@@ -11,17 +11,6 @@ function updateSummaryCounters() {
     let awaitingFeedbackCounter = document.getElementById('awaiting-feedback-counter');
 }
 
-async function getUser() {
-    const id = localStorage.getItem("currentUserId");
-    if (!id) return null;
-    try {
-        return await User.loadById(id);
-    } catch (error) {
-        console.error("getUser failed", error);
-        return null;
-    }
-}
-
 async function updateDayTime() {
     const welcomeMsg = document.getElementById('welcome-message');
     const userName = document.getElementById('user-name');

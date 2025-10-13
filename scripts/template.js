@@ -43,7 +43,7 @@ function showSidebar() {
     `;
 }
 
-function showHeader() {
+function showHeader(initials = 'GU') {
     return `
         <div class="header-content">
           <p class="header-text">Kanban Project Management Tool</p>
@@ -53,7 +53,7 @@ function showHeader() {
                 style="width: 20px; height: 20px; margin-right: 22px" /></a>
             <div class="profile-initials">
               <button onclick="dropdownMenu(event)" class="dropbtn">
-                <p class="initials">SM</p>
+                <p class="initials" id="user-initials">${initials}</p>
               </button>
             </div>
             <div class="dropdown-content d-none">
@@ -105,29 +105,3 @@ function showHeaderBeforeLogin() {
     `;
 }
 
-function boardTaskTemplate(task) {
-    return `
-    <div class="task" id="task" draggable="true" ondragstart="drag(event)">
-      <span class="category" id="category">${task.category}</span>
-      <div class="task-description">
-        <h3 class="task-title" id="task-title">${task.title}</h3>
-        <div class="task-content" id="task-content">${task.description}</div>
-      </div>
-      <div class="task-status">
-        <div class="progress-bar"></div>
-        <div class="subtask-count">
-          <span id="actual-count-of-progress">0</span>
-          /
-          <span id="final-count-of-progress">${task.subtasks?.length || 0}</span>
-          <span>Subtasks</span>
-        </div>
-      </div>
-      <div class="task-info" id="task-info">
-        <div class="assignee" id="assignee">
-          ${task.contactsHTML || ''}
-        </div>
-        <div class="priority" id="priority">${task.priority}</div>
-      </div>
-    </div>
-  `;
-}

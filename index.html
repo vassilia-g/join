@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="./css/log-in.css">
     <link rel="stylesheet" href="./css/fonts.css">
     <link rel="shortcut icon" href="./assets/icons/favicon/Logo for Favicon construction.svg" type="image/x-icon">
+    <link rel="stylesheet" href="./css/responsive-log-in.css">
 
     <!-- Backend Scripts -->
     <script src="scripts/backend/api.js"></script>
@@ -24,7 +25,15 @@
 
 <body>
     <div class="content-log-in">
+        <div id="overlay" class="overlay d-none">
+            <div id="successfully-signed-up" class="successfully-signed-up d-none">
+                <span>
+                    You Signed Up successfully
+                </span>
+            </div>
+        </div>
         <div id="content-wrapper">
+
             <header class="log-in-header">
                 <div id="registry-container" class="registry-container d-none">
                     <span class="registry-text">Not a Join user?</span>
@@ -38,7 +47,7 @@
                 <h1>Log in</h1>
                 <div class="line"></div>
                 <div class="input-main-container">
-                    <form class="form-log-in" action="" onsubmit="goToOtherPage(event)">
+                    <form class="form-log-in" action="" onsubmit="goToStartpage(event)">
 
                         <div id="input-email-container" class="input-email-container">
                             <input id="input-email" class="input-email" type="email" placeholder="Email" required>
@@ -56,8 +65,6 @@
                                 src="./assets/imgs/symbols/visibility.svg" alt="offenes Auge Symbol">
                         </div>
 
-                        <!-- <span id="forgotten-password" class="password-matters"><a class="forgotten-password-link"
-                                href="">I forgot my Password</a></span> -->
                         <span id="error-email-password-text" class="password-matters d-none red-colored">Check your
                             email and
                             password. Please try again.</span>
@@ -139,20 +146,24 @@
                         </div>
                     </form>
 
-                    <div id="overlay" class="overlay d-none">
+                    <!-- <div id="overlay" class="overlay d-none">
                         <div id="successfully-signed-up" class="successfully-signed-up d-none">
                             <span>
                                 You Signed Up successfully
                             </span>
                         </div>
-                    </div>
-
-
+                    </div> -->
 
                 </div>
 
             </div>
-
+            <div class="responsive-header">
+                <div id="responsive-registry-container" class="responsive-registry-container">
+                    <span class="registry-text">Not a Join user?</span>
+                    <button id="registry-button" onclick="showSignUpContainer()" class="registry-button">Sign
+                        up</button>
+                </div>
+            </div>
             <footer>
                 <div class="privacy-legal-link-container">
                     <a href="./html/privacy-policy.html" class="privacy-legal-link">Privacy Policy</a>

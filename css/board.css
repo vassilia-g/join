@@ -6,7 +6,6 @@ button {
 .board-content {
     display: flex;
     flex-direction: column;
-
 }
 
 .board-search-div {
@@ -135,6 +134,34 @@ button {
     left: 180px;
 }
 
+#add-task-overlay.hide {
+    animation: slideOut 0.75s ease-in forwards;
+}
+
+#add-task-overlay.show {
+    animation: slideIn 0.75s ease-out forwards;
+}
+
+@keyframes slideIn {
+    0% {
+        transform: translateX(300%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideOut {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(300%);
+    }
+}
+
 .overlay-close-btn {
     position: absolute;
     top: 64px;
@@ -157,11 +184,11 @@ button {
 }
 
 #add-task-overlay .add-task-to-board-div.show {
-    animation: slideUpBoard 0.5s ease-out forwards !important;
+    animation: slideUpBoard 0.75s ease-out forwards !important;
 }
 
 #add-task-overlay .add-task-to-board-div.hide {
-    animation: slideDownBoard 0.5s ease-in forwards !important;
+    animation: slideDownBoard 0.75s ease-in forwards !important;
 }
 
 .task-footer {
@@ -175,9 +202,10 @@ button {
     height: 48px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     border: 1px dashed #A8A8A8;
     border-radius: 10px;
+    color: #A8A8A8;
 }
 
 /* ab hier Idee für Tasks */
@@ -193,15 +221,20 @@ button {
     gap: 10px;
     padding: 16px;
     cursor: pointer;
+    margin-bottom: 16px;
+    filter: drop-shadow(3px 3px 3px rgba(0, 0, 0, 0.08));
 }
 
 #task {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    gap: 24px;
+
 }
 
 .category {
+    width: fit-content;
     width: fit-content;
     height: 27px;
     border-radius: 8px;
@@ -220,7 +253,6 @@ button {
 .task-description {
     display: flex;
     width: 220px;
-    height: 46px;
     gap: 8px;
     flex-direction: column;
     margin-bottom: 10px;
@@ -236,8 +268,11 @@ button {
 
 .task-content {
     width: 100%;
-    height: 19px;
+    height: 38px;
     color: #A8A8A8;
+    overflow: hidden;
+    font-size: 16px;
+    line-height: 120%;
 }
 
 .task-status {
@@ -260,15 +295,20 @@ button {
     width: 88px;
     height: 17px;
     display: flex;
+    font-size: 14px;
+}
+
+#final-count-of-progress {
+    padding-right: 4px;
 }
 
 .task-info {
     width: 220px;
-    height: 32px;
+    height: max-content;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    align-items: baseline;
+    align-items: center;
 }
 
 .assignee {
@@ -298,12 +338,194 @@ button {
     margin-left: 0;
 }
 
-.priority {
-    width: 32px;
-    height: 32px;
+.btn-debugger {
+    position: absolute;
+    right: 2rem;
+    top: 2rem;
 }
 
+.selected-contacts-svg {
+    margin-right: -0.5rem;
+    height: 32px;
+    width: 32px;
+}
 
+.selected-contacts-svg svg {
+    height: 32px !important;
+}
+
+.priority {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+    width: 32px;
+}
+
+.overlay-board {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(71, 54, 42, 0.448);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    z-index: 1000;
+}
+
+.overlay-board.active {
+    opacity: 1;
+}
+
+#task-overlay-content {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(100%, -50%);
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    transition: transform 0.5s ease;
+    z-index: 1001;
+    padding: 40px;
+}
+
+#task-overlay-content.active {
+    transform: translate(-50%, -50%);
+}
+
+.task-overlay {
+    width: 525px;
+    height: fit-content;
+    gap: 24px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.task-overlay h4 {
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--color-primary);
+    margin-block-start: 0;
+    margin-block-end: 0;
+}
+
+.overlay-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.overlay-header span {
+    font-size: 23px;
+    line-height: 120%;
+}
+
+.overlay-header button {
+    height: 32px;
+    width: 32px;
+    background-color: transparent;
+    border: none;
+}
+
+.overlay-task-title {
+    font-size: 61px;
+    line-height: 120%;
+}
+
+.overlay-due-date h4 {}
+
+.overlay-priority {
+    display: flex;
+    align-items: center;
+}
+
+.overlay-priority-value {
+    padding-right: 18px;
+    padding-left: 18px;
+    padding-bottom: 4px;
+    padding-top: 4px;
+}
+
+.overlay-assignee {
+    height: fit-content;
+}
+
+.overlay-selected-contacts .selected-contacts-svg {
+    padding-top: 7px;
+    padding-bottom: 7px;
+    padding-left: 16px;
+    margin: 0;
+}
+
+.overlay-selected-contacts svg {
+    height: 42px !important;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin: 0;
+}
+
+.subtask-item {
+    display: flex;
+    padding-left: 16px;
+    gap: 16px;
+    padding-bottom: 6px;
+    padding-top: 6px;
+}
+
+.subtask-checkboxes {
+    display: flex;
+    align-items: center;
+}
+
+.subtask-svg-unchecked {
+    display: flex;
+    align-items: center;
+}
+
+.overlay-footer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.overlay-delete {
+    display: flex;
+    align-items: center;
+    border-right: solid 1px #D1D1D1;
+    padding-right: 6px;
+    gap: 8px;
+}
+
+.overlay-svg-div :hover {
+    cursor: pointer;
+}
+
+.overlay-edit {
+    display: flex;
+    padding-left: 6px;
+    gap: 8px;
+}
+
+#task-overlay-content .create-task {
+    flex-direction: column;
+}
+
+#task-overlay-content .task-main-info {
+    width: 100%;
+}
+
+#task-overlay-content .task-additional-info {
+    width: 100%;
+    border-left: none;
+    padding-left: 0;
+    align-items: start;
+}
 
 @keyframes slideUpBoard {
     0% {
@@ -327,18 +549,4 @@ button {
         opacity: 0;
         transform: translate(-50%, 100%);
     }
-}
-
-.btn-debugger {
-    position: absolute;
-    right: 2rem;
-    top: 2rem;
-}
-
-.selected-contacts-svg {
-    margin-right: -1rem;
-}
-
-#priority {
-    margin-bottom: 1rem;
 }
