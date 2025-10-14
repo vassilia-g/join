@@ -1,12 +1,12 @@
 footer {
     width: 100%;
     position: absolute;
-    bottom: 25px;
+    bottom: 50px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 93px;
-
+    z-index: 0;
 }
 
 #content-wrapper {
@@ -43,6 +43,7 @@ footer {
     display: flex;
     justify-content: flex-end;
     opacity: 0;
+    z-index: 0;
 }
 
 .registry-container {
@@ -119,6 +120,7 @@ footer {
     align-items: center;
     opacity: 0;
     animation: fade-in 1.5s ease forwards;
+    z-index: 2;
 }
 
 .sign-up-container {
@@ -130,7 +132,7 @@ footer {
     flex-direction: column;
     align-items: center;
     animation: fade-in 1.5s ease forwards;
-    /* height: 285px; */
+    z-index: 2;
 }
 
 .sign-up-header-container {
@@ -151,7 +153,14 @@ h1 {
     padding: 0px;
 }
 
-.line,
+.line {
+    width: 150px;
+    height: 0px;
+    border: 3px solid var(--color-accent);
+    margin-top: 10px;
+    border-radius: 3px;
+}
+
 .sign-up-line {
     width: 150px;
     height: 0px;
@@ -232,11 +241,14 @@ h1 {
 .sign-up-header {
     height: 61px;
     display: flex;
-    gap: 38px;
+    /* gap: 38px; */
     width: 100%;
     justify-content: center;
     align-items: flex-start;
-    padding-right: 76px;
+    /* padding-right: 76px; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .sign-up-form-button-container {
@@ -477,6 +489,8 @@ h1 {
         transform: translate(0, 0);
     }
 }
+
+
 
 @keyframes fade-in {
     from {
