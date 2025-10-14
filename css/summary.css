@@ -267,7 +267,7 @@
     }
 
     .second-row {
-        gap: 35px;
+        gap: 25px;
     }
 
     .text-center-box-deadline p {
@@ -345,6 +345,12 @@
 
     .second-row {
         gap: 40px;
+    }
+
+    .summary-box-color:hover {
+        transform: scaleX(1.0) scaleY(1.0);
+        background-color: var(--color-primary);
+        color: white;
     }
 }
 
