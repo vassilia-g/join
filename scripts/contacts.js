@@ -268,4 +268,13 @@ function showToast(message) {
 function toggleMobileMenu(btn) {
     const menu = btn.nextElementSibling;
     menu.classList.toggle("show");
+
+    document.addEventListener("click", closeOnOutsideClick);
+
+    function closeOnOutsideClick(event) {
+        if (!menu.contains(event.target) && event.target !== btn) {
+            menu.classList.remove("show");
+            document.removeEventListener("click", closeOnOutsideClick);
+        }
+    }
 }
