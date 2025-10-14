@@ -566,6 +566,10 @@ button {
     height: 16px;
 }
 
+#checkbox-subtasks :hover {
+    cursor: pointer;
+}
+
 
 @keyframes slideUpBoard {
     0% {

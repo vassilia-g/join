@@ -20,6 +20,7 @@ const taskInfoRef = document.getElementById('task-info');
 const assigneeRef = document.getElementById('assignee');
 const priorityRef = document.getElementById('priority');
 let tasksCache = [];
+let checkedSubtasks = [];
 
 
 async function openAddTaskOverlay() {
@@ -335,9 +336,9 @@ async function editTask(taskId) {
         task.subtasks.forEach(subtask => {
           subtasksList.innerHTML += `
             <li>
-            <div class="checkbox-subtasks">
+            <div id="checkbox-subtasks" class="unchecked" onclick="toggleBoxChecked(this); updateSubtasks(this)">
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="1" y="1" width="16" height="16" rx="3" stroke="#2A3647" stroke-width="2"/>
+                <rect x="1" y="1" width="16" height="16" rx="3" stroke="#2A3647" stroke-width="2"/>
               </svg>
             </div>
             <p>${subtask}</p>      
@@ -378,4 +379,46 @@ async function editTask(taskId) {
     console.error('❌ Fehler beim Öffnen des Edit-Overlays:', error);
     alert('Task konnte nicht geladen werden.');
   }
+}
+
+function toggleBoxChecked(checkbox) {
+  const svg = checkbox.querySelector('svg');
+
+  if (checkbox.classList.contains('unchecked')) {
+    checkbox.classList.remove('unchecked');
+    checkbox.classList.add('checked');
+    svg.innerHTML = `
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17 8V14C17 15.6569 15.6569 17 14 17H4C2.34315 17 1 15.6569 1 14V4C1 2.34315 2.34315 1 4 1H12" stroke="#2A3647" stroke-width="2" stroke-linecap="round"/>
+        <path d="M5 9L9 13L17 1.5" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    `
+  } else {
+    checkbox.classList.remove('checked');
+    checkbox.classList.add('unchecked');
+    svg.innerHTML = `
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="1" y="1" width="16" height="16" rx="3" stroke="#2A3647" stroke-width="2"/>
+      </svg>
+    `
+  }
+}
+
+function updateSubtasks(checkbox) {
+  const li = checkbox.closest('li');
+  if (!li) return;
+
+  const subtaskText = li.querySelector('p').innerText.trim();
+  if (checkbox.classList.contains('checked')) {
+    if (!checkedSubtasks.includes(subtaskText))
+      checkedSubtasks.push(subtaskText);
+  } else {
+    checkedSubtasks = checkedSubtasks.filter(t => t !== subtaskText);
+  }
+
+  console.log(checkedSubtasks);
+}
+
+function updateTaskAfterEdit() {
+
 }

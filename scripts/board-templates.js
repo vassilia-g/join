@@ -92,7 +92,7 @@ function boardTaskOverlayTemplate(task, taskId) {
 
 function editTaskBtnTemplate() {
   return `
-    <button id="edit-task-btn" class="">
+    <button id="edit-task-btn">
       <p>Ok</p>
       <div id="edit-task-check">
         <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
