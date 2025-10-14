@@ -179,14 +179,13 @@
     }
 
     .nav {
-        font-size: 14px;
         justify-content: center;
     }
 
-    .nav svg {
+    /* .nav svg {
         width: 24px;
         height: 24px;
-    }
+    } */
 
     .priority-btns button {
         padding: 12px 5px;
