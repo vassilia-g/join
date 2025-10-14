@@ -269,6 +269,10 @@
     .second-row {
         gap: 35px;
     }
+
+    .text-center-box-deadline p {
+        font-size: 15px;
+    }
 }
 
 @media (max-width: 1000px) {
@@ -359,5 +363,9 @@
 
     .third-row {
         height: 140px;
+    }
+
+    .text-center-box-deadline p {
+        font-size: 15px;
     }
 }
