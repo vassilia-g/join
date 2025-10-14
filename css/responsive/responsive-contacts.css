@@ -78,14 +78,20 @@
 
     .menu-options {
     position: fixed;
-    bottom: 180px;
-    right: 10px;
+    bottom: 136px;
+    right: -24px;
     background: #fff;
     border-radius: 20px 20px 0px 20px;
-    display: none;
+    display: flex;
     flex-direction: column;
+    justify-content: center;
+    width: 116px;
+    height: 100px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     z-index: 2100;
+    transform: translateX(120%);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
   }
 
   .menu-options button {
@@ -102,10 +108,8 @@
   }
 
   .menu-options.show {
-    display: flex;
-    width: 116px;
-    height: 100px;
-    justify-content: center;
+    transform: translateX(0);
+    opacity: 1;
   }
 
 }
