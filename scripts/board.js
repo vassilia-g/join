@@ -157,9 +157,8 @@ async function loadTasks() {
     }) : [];
 
     tasksArray.forEach((task, i) => {
-      const totalSubtasks = task.subtasks ? task.subtasks.length : 0;
       const taskElement = document.createElement('div');
-      taskElement.innerHTML = boardTaskTemplate(task, i, totalSubtasks);
+      taskElement.innerHTML = boardTaskTemplate(task);
       taskElement.setAttribute("data-task-index", i);
       newTaskDiv.appendChild(taskElement);
       taskElement.setAttribute("onclick", `openTaskOverlay('${task.id}')`);
@@ -300,6 +299,14 @@ async function editTask(taskId) {
     overlayContent.innerHTML = '';
     overlayContent.appendChild(taskContent.cloneNode(true));
 
+    const innerContainer = document.createElement('div');
+    innerContainer.id = 'edit-task-btn-div';
+    innerContainer.classList.add('edit-extra');
+    overlayContent.appendChild(innerContainer);
+
+    // jetzt kannst du z. B. ein Template oder HTML-String dort hineinsetzen:
+    innerContainer.innerHTML += editTaskBtnTemplate();
+
     const scripts = [
       { id: 'add-task-sub-menu-script', src: '../scripts/add-task-sub-menus.js' },
       { id: 'add-task-template-script', src: '../scripts/add-task-template.js' },
@@ -320,6 +327,25 @@ async function editTask(taskId) {
       document.getElementById('task-description').value = task.description || '';
       document.getElementById('task-due-date').value = task.dueDate || '';
       document.getElementById('input-category').innerText = task.category || '';
+      let subtasksList = document.getElementById('selected-subtasks');
+
+      if (task.subtasks && task.subtasks.length > 0) {
+        subtasksList.innerHTML = '';
+
+        task.subtasks.forEach(subtask => {
+          subtasksList.innerHTML += `
+            <li>
+            <div class="checkbox-subtasks">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="1" y="1" width="16" height="16" rx="3" stroke="#2A3647" stroke-width="2"/>
+              </svg>
+            </div>
+            <p>${subtask}</p>      
+            </li>`;
+        });
+      } else {
+        subtasksList.innerHTML = '';
+      }
 
       if (task.priorityLevel === 'urgent') {
         urgentButton.classList.add('priority-urgent-active');
@@ -342,6 +368,8 @@ async function editTask(taskId) {
       }
 
     }, 50);
+
+
 
     overlay.classList.remove('d-none');
     overlay.classList.add('active');

@@ -265,7 +265,7 @@ input::placeholder {
 }
 
 #selected-subtasks {
-    padding-left: 58%;
+    padding-right: 58%;
 }
 
 .subtask-list {
@@ -322,7 +322,6 @@ input::placeholder {
     gap: 24px;
     padding-left: 2rem;
     width: 50%;
-    height: 400px;
     border-left: 2px solid #E0E0E0;
     align-items: end;
 }
