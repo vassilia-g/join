@@ -328,7 +328,7 @@ async function editTask(taskId) {
         mediumButton.addEventListener("click", toggleMedium);
         lowButton.addEventListener("click", toggleLow);
       } else if (task.priorityLevel === 'medium') {
-        mediumButton.classList.add('priority-low-active');
+        mediumButton.classList.add('priority-medium-active');
         mediumButton.classList.remove('priority-medium-default');
         urgentButton.addEventListener("click", toggleUrgent);
         mediumButton.addEventListener("click", toggleMedium);

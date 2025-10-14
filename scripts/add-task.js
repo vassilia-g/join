@@ -10,16 +10,14 @@ const mediumSvgPath = mediumSvg.querySelectorAll("path");
 const lowButton = document.getElementById('low-priority-btn');
 const lowSvg = document.getElementById('low-svg');
 const lowSvgPath = lowSvg.querySelectorAll("path");
+urgentButton.isActive = false;
+mediumButton.isActive = false;
+lowButton.isActive = false;
 const addToBoardDiv = document.querySelector('.add-task-to-board-div');
 let selectedPriority = "";
 let selectedCategory = "";
 const createTaskButton = document.getElementById("create-task-btn");
 createTaskButton.disabled = true;
-let priorityState = {
-  urgent: false,
-  medium: false,
-  low: false
-};
 
 document.getElementById("task-title").addEventListener("input", enableCreateTaskButton);
 document.getElementById("task-due-date").addEventListener("input", enableCreateTaskButton);
@@ -145,13 +143,13 @@ function toggleUrgent() {
     mediumButton.classList.add('priority-medium-default');
     lowButton.classList.remove('priority-low-active');
     lowButton.classList.add('priority-low-default');
-    priorityState.urgent = true;
-    priorityState.medium = false;
-    priorityState.low = false;
+    urgentButton.isActive = true;
+    mediumButton.isActive = false;
+    lowButton.isActive = false;
   } else {
     urgentButton.classList.add('priority-urgent-default');
     urgentButton.classList.remove('priority-urgent-active');
-    priorityState.urgent = false;
+    urgentButton.isActive = false;
   }
 }
 
@@ -165,15 +163,16 @@ function toggleMedium() {
     lowButton.classList.add('priority-low-default');
     urgentButton.classList.remove('priority-urgent-active');
     urgentButton.classList.add('priority-urgent-default');
-    priorityState.urgent = false;
-    priorityState.medium = true;
-    priorityState.low = false;
+    urgentButton.isActive = false;
+    mediumButton.isActive = true;
+    lowButton.isActive = false;
   } else {
     mediumButton.classList.add('priority-medium-default');
     mediumButton.classList.remove('priority-medium-active');
-    priorityState.medium = false;
+    mediumButton.isActive = false;
   }
 }
+
 lowButton.addEventListener("click", toggleLow);
 
 function toggleLow() {
@@ -184,13 +183,13 @@ function toggleLow() {
     mediumButton.classList.add('priority-medium-default');
     urgentButton.classList.remove('priority-urgent-active');
     urgentButton.classList.add('priority-urgent-default');
-    priorityState.urgent = false;
-    priorityState.medium = false;
-    priorityState.low = true;
+    urgentButton.isActive = false;
+    mediumButton.isActive = false;
+    lowButton.isActive = true;
   } else {
     lowButton.classList.add('priority-low-default');
     lowButton.classList.remove('priority-low-active');
-    priorityState.low = false;
+    lowButton.isActive = false;
   }
 }
 
