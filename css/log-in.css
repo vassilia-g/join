@@ -1,9 +1,12 @@
 footer {
     width: 100%;
     position: absolute;
-    bottom: 25px;
+    bottom: 50px;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 93px;
+    z-index: 0;
 }
 
 #content-wrapper {
@@ -27,7 +30,6 @@ footer {
 
 .log-in-header {
     width: 100%;
-    height: 116px;
     margin-top: 60px;
     display: flex;
     justify-content: flex-end;
@@ -40,6 +42,7 @@ footer {
     display: flex;
     justify-content: flex-end;
     opacity: 0;
+    z-index: 0;
 }
 
 .registry-container {
@@ -72,6 +75,8 @@ footer {
     letter-spacing: 0%;
     cursor: pointer;
     border-width: 0px;
+    align-items: center;
+    display: flex;
 }
 
 .registry-button:hover {
@@ -101,14 +106,12 @@ footer {
 }
 
 .log-in-container {
-    width: 80%;
     max-width: 652px;
     min-width: 244px;
     max-height: 449px;
     background-color: rgb(255, 255, 255);
     border-radius: 30px;
-    padding: 48px 0px 85px 0px;
-    /* padding: 48px 115px 85px 115px; */
+    padding: 48px 115px 85px 115px;
     margin-top: 100px;
     display: flex;
     flex-direction: column;
@@ -116,17 +119,25 @@ footer {
     align-items: center;
     opacity: 0;
     animation: fade-in 1.5s ease forwards;
+    z-index: 2;
 }
 
 .sign-up-container {
     background-color: rgb(255, 255, 255);
     border-radius: 30px;
     padding: 48px 115px 280px 115px;
-    margin-top: 100px;
+    margin-top: 149px;
     display: flex;
     flex-direction: column;
     align-items: center;
     animation: fade-in 1.5s ease forwards;
+    z-index: 2;
+}
+
+.sign-up-header-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 h1 {
@@ -141,7 +152,9 @@ h1 {
     padding: 0px;
 }
 
-.line {
+
+.line,
+.sign-up-line {
     width: 150px;
     height: 0px;
     border: 3px solid var(--color-accent);
@@ -190,7 +203,6 @@ h1 {
     display: flex;
     align-items: center;
     align-self: center;
-    /* padding-right: 21px; */
 }
 
 .active-border-color {
@@ -219,13 +231,10 @@ h1 {
 }
 
 .sign-up-header {
-    height: 61px;
     display: flex;
-    gap: 38px;
-    width: 100%;
-    justify-content: center;
-    align-items: flex-start;
-    padding-right: 76px;
+    gap: 112px;
+    width: 124%;
+    justify-content: start;
 }
 
 .sign-up-form-button-container {
@@ -271,11 +280,6 @@ h1 {
 .from-bottom-to-the-mid {
     animation: move-from-bottom-to-the-mid 500ms ease-in-out forwards;
     animation-timing-function: linear;
-}
-
-.accept-policy {
-    color: #bdbdbd;
-    cursor: default;
 }
 
 .sign-up-checkbox {
@@ -431,7 +435,9 @@ h1 {
     font-family: 'Inter';
     font-style: normal;
     font-weight: 400;
-    padding-left: 25%;
+    color: #bdbdbd;
+    cursor: default;
+    padding-left: 20px;
 }
 
 .privacy-legal-link-container {
@@ -469,6 +475,8 @@ h1 {
         transform: translate(0, 0);
     }
 }
+
+
 
 @keyframes fade-in {
     from {

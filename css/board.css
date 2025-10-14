@@ -208,8 +208,6 @@ button {
     color: #A8A8A8;
 }
 
-/* ab hier Idee für Tasks */
-
 #new-task-div {
     width: 252px;
     height: 263px;
@@ -223,15 +221,12 @@ button {
     cursor: pointer;
     margin-bottom: 16px;
     filter: drop-shadow(3px 3px 3px rgba(0, 0, 0, 0.08));
-}
-
-#task {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     gap: 24px;
-
 }
+
 
 .category {
     width: fit-content;
@@ -438,8 +433,6 @@ button {
     font-size: 61px;
     line-height: 120%;
 }
-
-.overlay-due-date h4 {}
 
 .overlay-priority {
     display: flex;

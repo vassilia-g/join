@@ -10,13 +10,11 @@
     <link rel="stylesheet" href="./css/log-in.css">
     <link rel="stylesheet" href="./css/fonts.css">
     <link rel="shortcut icon" href="./assets/icons/favicon/Logo for Favicon construction.svg" type="image/x-icon">
-    <link rel="stylesheet" href="./css/responsive-log-in.css">
+    <link rel="stylesheet" href="./css/responsive/responsive-log-in.css">
 
-    <!-- Backend Scripts -->
     <script src="scripts/backend/api.js"></script>
     <script src="scripts/backend/user.js"></script>
 
-    <!-- Application -->
     <script src="scripts/app.js"></script>
 
     <script src="./script.js"></script>
@@ -32,6 +30,7 @@
                 </span>
             </div>
         </div>
+
         <div id="content-wrapper">
 
             <header class="log-in-header">
@@ -47,13 +46,12 @@
                 <h1>Log in</h1>
                 <div class="line"></div>
                 <div class="input-main-container">
-                    <form class="form-log-in" action="" onsubmit="goToStartpage(event)">
 
+                    <form class="form-log-in" action="" onsubmit="goToStartpage(event)">
                         <div id="input-email-container" class="input-email-container">
                             <input id="input-email" class="input-email" type="email" placeholder="Email" required>
                             <img class="input-symbol" src="./assets/imgs/symbols/mail.svg" alt="Ein Brief Symbol">
                         </div>
-
                         <div id="input-password-container" class="input-password-container">
                             <input oninput="changeSymbols()" id="input-password" class="input-password" type="password"
                                 placeholder="Password" required>
@@ -64,7 +62,6 @@
                             <img onclick="hidePassword()" id="visibility-on" class="input-symbol d-none"
                                 src="./assets/imgs/symbols/visibility.svg" alt="offenes Auge Symbol">
                         </div>
-
                         <span id="error-email-password-text" class="password-matters d-none red-colored">Check your
                             email and
                             password. Please try again.</span>
@@ -75,18 +72,21 @@
                                 in</button>
                         </div>
                     </form>
+
                 </div>
             </div>
-
             <div id="sign-up-container" class="sign-up-container d-none">
                 <div class="sign-up-header">
                     <img onclick="backtoLogIn()" class="arrow-left" src="./assets/icons/arrow-left-vector.svg"
                         alt="Ein Pfeil nach links">
-                    <h1>Sign up</h1>
+                    <div class="sign-up-header-container">
+
+                        <h1>Sign up</h1>
+                        <div class="sign-up-line">
+                        </div>
+                    </div>
 
                 </div>
-                <div class="line"></div>
-
                 <div class="input-main-container">
                     <form id="form-sign-up" class="form-sign-up" action="" onsubmit="checkSignUpPasswords(event)">
 
@@ -95,37 +95,30 @@
                                 required>
                             <img class="input-symbol" src="./assets/imgs/symbols/person.svg" alt="Ein Peronen Symbol">
                         </div>
-
                         <div id="input-sign-up-email-container" class="input-sign-up-email-container">
                             <input id="input-sign-up-email" class="input-sign-up-email" type="email" placeholder="Email"
                                 required>
                             <img class="input-symbol" src="./assets/imgs/symbols/mail.svg" alt="Ein Brief Symbol">
                         </div>
-
                         <div id="input-sign-up-password-container" class="input-sign-up-password-container">
                             <input id="input-sign-up-password" class="input-sign-up-password" type="password"
                                 placeholder="Password" required>
                             <img class="input-symbol" src="./assets/imgs/symbols/lock.svg" alt="Ein Schloss Symbol">
                         </div>
-
                         <div id="input-sign-up-confirm-password-container"
                             class="input-sign-up-confirm-password-container">
                             <input id="input-sign-up-confirm-password" class="input-sign-up-confirm-password"
                                 type="password" placeholder="Confirm Password" required>
                             <img class="input-symbol" src="./assets/imgs/symbols/lock.svg" alt="Ein Schloss Symbol">
                         </div>
-
                         <span id="error-text-password-match"
                             class="error-text-password-match password-matters red-colored d-none">
                             Your passwords don't match. Please try again.
                         </span>
-
                         <span id="error-email-exists" class="error-email-exists red-colored d-none">
                             This Email already exists
                         </span>
-
                         <span class="accept-policy">
-
                             <label for="sign-up-checkbox">
                                 <input type="checkbox" name="checkbox" id="sign-up-checkbox" class="sign-up-checkbox">
                                 <img id="custom-checkbox" class="custom-checkbox"
@@ -135,36 +128,26 @@
                                     src="./assets/imgs/symbols/checked-checkbox.svg" alt="gehakte Checkbox"
                                     onclick="disableSignUpButton()">
                             </label>
-
                             I accept the <a class="link-to-privacy-policy" href="./html/privacy-policy.html">Privacy
                                 policy</a>
                         </span>
-
                         <div id="sign-up-form-button-container" class="sign-up-form-button-container">
                             <button id="sign-up-form-button" class="disabled-sign-up-form-button" type="submit"
                                 disabled>Sign up</button>
                         </div>
                     </form>
 
-                    <!-- <div id="overlay" class="overlay d-none">
-                        <div id="successfully-signed-up" class="successfully-signed-up d-none">
-                            <span>
-                                You Signed Up successfully
-                            </span>
-                        </div>
-                    </div> -->
-
-                </div>
-
-            </div>
-            <div class="responsive-header">
-                <div id="responsive-registry-container" class="responsive-registry-container">
-                    <span class="registry-text">Not a Join user?</span>
-                    <button id="registry-button" onclick="showSignUpContainer()" class="registry-button">Sign
-                        up</button>
                 </div>
             </div>
+
             <footer>
+                <div class="responsive-header">
+                    <div id="responsive-registry-container" class="responsive-registry-container">
+                        <span class="registry-text">Not a Join user?</span>
+                        <button id="registry-button" onclick="showSignUpContainer()" class="registry-button">Sign
+                            up</button>
+                    </div>
+                </div>
                 <div class="privacy-legal-link-container">
                     <a href="./html/privacy-policy.html" class="privacy-legal-link">Privacy Policy</a>
                     <a href="./html/legal-notice.html" class="privacy-legal-link">Legal notice</a>

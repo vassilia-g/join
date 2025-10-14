@@ -154,11 +154,13 @@ async function loadTasks() {
       const totalSubtasks = task.subtasks ? task.subtasks.length : 0;
       const taskElement = document.createElement('div');
       taskElement.innerHTML = boardTaskTemplate(task, i, totalSubtasks);
+      taskElement.setAttribute("data-task-index", i);
       newTaskDiv.appendChild(taskElement);
       taskElement.setAttribute("onclick", `openTaskOverlay('${task.id}')`);
     });
 
-    checkIfEmpty(tasksCache);
+    checkIfEmpty(tasksArray);
+    updateCategoryColor();
 
   } catch (error) {
     console.error('Fehler beim Laden der Tasks:', error);
@@ -227,32 +229,30 @@ function updateCategoryColor() {
 }
 
 function checkIfEmpty(tasks) {
-  const taskInfoRefs = document.querySelectorAll('.task-info');
-  const taskStatusRefs = document.querySelectorAll('.task-status');
-  const taskContentRefs = document.querySelectorAll('.task-content');
+  tasks.forEach((task, i) => {
+    const taskElement = document.querySelector(`[data-task-index="${i}"]`);
+    if (!taskElement) return;
 
-  const infoEmpty =
-    tasks.length === 0 ||
-    tasks.every(task => {
-      const contentEmpty = !task.description || task.description.trim() === '';
-      const priorityEmpty = !task.priorityValue || task.priorityValue.trim() === '';
-      const contactsEmpty = !task.contactsHTML || task.contactsHTML.trim() === '';
-      return priorityEmpty && contactsEmpty && contentEmpty;
-    });
+    const taskInfo = taskElement.querySelector('.task-info');
+    const taskContent = taskElement.querySelector('.task-content');
+    const taskStatus = taskElement.querySelector('.task-status');
 
-  taskInfoRefs.forEach(el => el.classList.toggle('d-none', infoEmpty));
-  taskContentRefs.forEach(el => el.classList.toggle('d-none', infoEmpty));
+    const hasContent =
+      (task.description && task.description.trim() !== '') ||
+      (task.priorityValue && task.priorityValue.trim() !== '') ||
+      (task.contactsHTML && task.contactsHTML.trim() !== '');
 
-  const statusEmpty =
-    tasks.length === 0 ||
-    tasks.every(task => {
-      if (!task.subtasks) return true;
-      if (Array.isArray(task.subtasks)) return task.subtasks.length === 0;
-      if (typeof task.subtasks === 'string') return task.subtasks.trim() === '';
-      return true;
-    });
+    const hasSubtasks = (() => {
+      if (!task.subtasks) return false;
+      if (Array.isArray(task.subtasks)) return task.subtasks.length > 0;
+      if (typeof task.subtasks === 'string') return task.subtasks.trim() !== '';
+      return false;
+    })();
 
-  taskStatusRefs.forEach(el => el.classList.toggle('d-none', statusEmpty));
+    if (taskInfo) taskInfo.classList.toggle('d-none', !hasContent);
+    if (taskContent) taskContent.classList.toggle('d-none', !hasContent);
+    if (taskStatus) taskStatus.classList.toggle('d-none', !hasSubtasks);
+  });
 }
 
 async function deleteTask(taskId) {

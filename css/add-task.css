@@ -352,21 +352,16 @@ input::placeholder {
 
 .priority-btns button svg {
     overflow: visible;
+    width: 20px;
 }
 
-#urgent-priority-btn:hover {
+.priority-btns button:hover {
     box-shadow: 0px 4px 4px 0px #00000040;
     cursor: pointer;
 }
 
-#medium-priority-btn:hover {
-    box-shadow: 0px 4px 4px 0px #00000040;
-    cursor: pointer;
-}
-
-#low-priority-btn:hover {
-    box-shadow: 0px 4px 4px 0px #00000040;
-    cursor: pointer;
+#medium-svg {
+    padding-top: 6px;
 }
 
 #task-category-label::after {
