@@ -350,6 +350,19 @@ input::placeholder {
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.10);
 }
 
+.priority-urgent-default path {
+    fill: #FF3D00;
+}
+
+.priority-urgent-active {
+    background-color: #FF3D00 !important;
+    color: white;
+}
+
+.priority-urgent-active svg {
+    fill: white
+}
+
 .priority-btns button svg {
     overflow: visible;
     width: 20px;
@@ -360,8 +373,34 @@ input::placeholder {
     cursor: pointer;
 }
 
+.priority-medium-default path {
+    fill: #FFA800;
+}
+
+.priority-medium-active {
+    background-color: #FFA800 !important;
+    color: white;
+}
+
+.priority-medium-active svg {
+    fill: white
+}
+
 #medium-svg {
     padding-top: 6px;
+}
+
+.priority-low-default path {
+    fill: #7AE229;
+}
+
+.priority-low-active {
+    background-color: #7AE229 !important;
+    color: white;
+}
+
+.priority-low-active svg {
+    fill: white
 }
 
 #task-category-label::after {

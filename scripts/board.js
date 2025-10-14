@@ -1,13 +1,13 @@
 const urgentBoardSvg = `<svg id="urgent-svg" width="20" height="17" fill="none" xmlns="http://www.w3.org/2000/svg" >
                         <g>
-                          <path d="M19.6528 9.25471C19.4182 9.25511 19.1896 9.18026 19.0007 9.04117L10.7487 2.958L2.49663 9.04117C2.38078 9.12673 2.24919 9.18866 2.10939 9.22341C1.96959 9.25816 1.82431 9.26506 1.68184 9.2437C1.53937 9.22235 1.40251 9.17316 1.27906 9.09895C1.15562 9.02474 1.04801 8.92697 0.96238 8.8112C0.876751 8.69544 0.814779 8.56395 0.780002 8.42425C0.745226 8.28455 0.738325 8.13938 0.759696 7.99702C0.802855 7.7095 0.958545 7.4509 1.19252 7.27809L10.0966 0.707612C10.2853 0.56802 10.5139 0.492676 10.7487 0.492676C10.9835 0.492676 11.212 0.56802 11.4007 0.707612L20.3048 7.27809C20.4908 7.41501 20.6286 7.60712 20.6988 7.827C20.7689 8.04688 20.7678 8.28328 20.6955 8.50246C20.6232 8.72165 20.4834 8.9124 20.2962 9.04749C20.1089 9.18258 19.8837 9.25511 19.6528 9.25471Z" fill="#FF3D00" />
-                          <path d="M19.6528 9.25471C19.4182 9.25511 19.1896 9.18026 19.0007 9.04117L10.7487 2.958L2.49663 9.04117C2.38078 9.12673 2.24919 9.18866 2.10939 9.22341C1.96959 9.25816 1.82431 9.26506 1.68184 9.2437C1.53937 9.22235 1.40251 9.17316 1.27906 9.09895C1.15562 9.02474 1.04801 8.92697 0.96238 8.8112C0.876751 8.69544 0.814779 8.56395 0.780002 8.42425C0.745226 8.28455 0.738325 8.13938 0.759696 7.99702C0.802855 7.7095 0.958545 7.4509 1.19252 7.27809L10.0966 0.707612C10.2853 0.56802 10.5139 0.492676 10.7487 0.492676C10.9835 0.492676 11.212 0.56802 11.4007 0.707612L20.3048 7.27809C20.4908 7.41501 20.6286 7.60712 20.6988 7.827C20.7689 8.04688 20.7678 8.28328 20.6955 8.50246C20.6232 8.72165 20.4834 8.9124 20.2962 9.04749C20.1089 9.18258 19.8837 9.25511 19.6528 9.25471Z" transform="translate(0,07)" fill="#FF3D00" />
+                          <path d="M19.6528 9.25471C19.4182 9.25511 19.1896 9.18026 19.0007 9.04117L10.7487 2.958L2.49663 9.04117C2.38078 9.12673 2.24919 9.18866 2.10939 9.22341C1.96959 9.25816 1.82431 9.26506 1.68184 9.2437C1.53937 9.22235 1.40251 9.17316 1.27906 9.09895C1.15562 9.02474 1.04801 8.92697 0.96238 8.8112C0.876751 8.69544 0.814779 8.56395 0.780002 8.42425C0.745226 8.28455 0.738325 8.13938 0.759696 7.99702C0.802855 7.7095 0.958545 7.4509 1.19252 7.27809L10.0966 0.707612C10.2853 0.56802 10.5139 0.492676 10.7487 0.492676C10.9835 0.492676 11.212 0.56802 11.4007 0.707612L20.3048 7.27809C20.4908 7.41501 20.6286 7.60712 20.6988 7.827C20.7689 8.04688 20.7678 8.28328 20.6955 8.50246C20.6232 8.72165 20.4834 8.9124 20.2962 9.04749C20.1089 9.18258 19.8837 9.25511 19.6528 9.25471Z" fill="#FF3D00"/>
+                          <path d="M19.6528 9.25471C19.4182 9.25511 19.1896 9.18026 19.0007 9.04117L10.7487 2.958L2.49663 9.04117C2.38078 9.12673 2.24919 9.18866 2.10939 9.22341C1.96959 9.25816 1.82431 9.26506 1.68184 9.2437C1.53937 9.22235 1.40251 9.17316 1.27906 9.09895C1.15562 9.02474 1.04801 8.92697 0.96238 8.8112C0.876751 8.69544 0.814779 8.56395 0.780002 8.42425C0.745226 8.28455 0.738325 8.13938 0.759696 7.99702C0.802855 7.7095 0.958545 7.4509 1.19252 7.27809L10.0966 0.707612C10.2853 0.56802 10.5139 0.492676 10.7487 0.492676C10.9835 0.492676 11.212 0.56802 11.4007 0.707612L20.3048 7.27809C20.4908 7.41501 20.6286 7.60712 20.6988 7.827C20.7689 8.04688 20.7678 8.28328 20.6955 8.50246C20.6232 8.72165 20.4834 8.9124 20.2962 9.04749C20.1089 9.18258 19.8837 9.25511 19.6528 9.25471Z" fill="#FF3D00" transform="translate(0,07)"/>
                         </g>
                       </svg>`
 const mediumBoardSvg = `<svg id="medium-svg" width="20" height="14.51" fill="none" xmlns="http://www.w3.org/2000/svg" >
                         <g>
                           <path d="M19.1526 2.48211H1.34443C1.05378 2.48211 0.775033 2.36581 0.569514 2.1588C0.363995 1.95179 0.248535 1.67102 0.248535 1.37826C0.248535 1.0855 0.363995 0.804736 0.569514 0.597724C0.775033 0.390712 1.05378 0.274414 1.34443 0.274414L19.1526 0.274414C19.4433 0.274414 19.722 0.390712 19.9276 0.597724C20.1331 0.804736 20.2485 1.0855 20.2485 1.37826C20.2485 1.67102 20.1331 1.95179 19.9276 2.1588C19.722 2.36581 19.4433 2.48211 19.1526 2.48211Z" fill="#FFA800" />
-                          <path d="M19.1526 2.48211H1.34443C1.05378 2.48211 0.775033 2.36581 0.569514 2.1588C0.363995 1.95179 0.248535 1.67102 0.248535 1.37826C0.248535 1.0855 0.363995 0.804736 0.569514 0.597724C0.775033 0.390712 1.05378 0.274414 1.34443 0.274414L19.1526 0.274414C19.4433 0.274414 19.722 0.390712 19.9276 0.597724C20.1331 0.804736 20.2485 1.0855 20.2485 1.37826C20.2485 1.67102 20.1331 1.95179 19.9276 2.1588C19.722 2.36581 19.4433 2.48211 19.1526 2.48211Z" transform="translate(0,07)" fill="#FFA800"/>
+                          <path d="M19.1526 2.48211H1.34443C1.05378 2.48211 0.775033 2.36581 0.569514 2.1588C0.363995 1.95179 0.248535 1.67102 0.248535 1.37826C0.248535 1.0855 0.363995 0.804736 0.569514 0.597724C0.775033 0.390712 1.05378 0.274414 1.34443 0.274414L19.1526 0.274414C19.4433 0.274414 19.722 0.390712 19.9276 0.597724C20.1331 0.804736 20.2485 1.0855 20.2485 1.37826C20.2485 1.67102 20.1331 1.95179 19.9276 2.1588C19.722 2.36581 19.4433 2.48211 19.1526 2.48211Z" fill="#FFA800" transform="translate(0,07)"/>
                         </g>
                       </svg>`
 const lowBoardSvg = ` <svg id="low-svg" width="20" height="14.51" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -80,13 +80,18 @@ async function createTask() {
   const description = document.getElementById('task-description').value;
   const dueDate = document.getElementById('task-due-date').value;
   const category = document.getElementById('input-category').innerText;
-  const priorityValue = urgentButton.isActive
+  let priorityLevel = '';
+  if (urgentButton.isActive) priorityLevel = 'urgent';
+  else if (mediumButton.isActive) priorityLevel = 'medium';
+  else if (lowButton.isActive) priorityLevel = 'low';
+  const priorityValue = document.querySelector('.priority-urgent-active')
     ? urgentBoardSvg
-    : mediumButton.isActive
+    : document.querySelector('.priority-medium-active')
       ? mediumBoardSvg
-      : lowButton.isActive
+      : document.querySelector('.priority-low-active')
         ? lowBoardSvg
         : '';
+
   let contactsHTML = '';
   try {
     const response = await fetch(`${BASE_URL}/tasks/selected-contacts.json`);
@@ -110,7 +115,8 @@ async function createTask() {
     contactsHTML,
     subtasks,
     priorityValue,
-    createdAt: new Date().toISOString()
+    createdAt: new Date().toISOString(),
+    priorityLevel
   };
 
   try {
@@ -274,56 +280,74 @@ async function deleteTask(taskId) {
 }
 
 async function editTask(taskId) {
-  const editOverlayRef = document.getElementById('task-overlay');
-  const overlayContentRef = document.getElementById('task-overlay-content');
+  console.log("✏️ Editiere Task-ID:", taskId);
+
+  const overlay = document.getElementById('task-overlay');
+  const overlayContent = document.getElementById('task-overlay-content');
 
   try {
     const response = await fetch(`${BASE_URL}/tasks.json`);
-    if (!response.ok) throw new Error('Fehler beim Laden der Tasks');
     const data = await response.json();
-
     const task = data[taskId];
     if (!task) throw new Error(`Task mit ID ${taskId} nicht gefunden`);
 
     const htmlResponse = await fetch('../html/add-task.html');
-    const htmlText = await htmlResponse.text();
+    const html = await htmlResponse.text();
+
     const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = htmlText;
-    const createTaskDiv = tempDiv.querySelector('.create-task');
+    tempDiv.innerHTML = html;
+    const taskContent = tempDiv.querySelector('.create-task');
+    overlayContent.innerHTML = '';
+    overlayContent.appendChild(taskContent.cloneNode(true));
 
-    if (!createTaskDiv) {
-      throw new Error('.create-task wurde in add-task.html nicht gefunden');
-    }
+    const scripts = [
+      { id: 'add-task-sub-menu-script', src: '../scripts/add-task-sub-menus.js' },
+      { id: 'add-task-template-script', src: '../scripts/add-task-template.js' },
+      { id: 'add-task-script', src: '../scripts/add-task.js' }
+    ];
 
-    overlayContentRef.innerHTML = '';
-    overlayContentRef.appendChild(createTaskDiv.cloneNode(true));
-
-    if (!document.getElementById('add-task-script')) {
-      const script = document.createElement('script');
-      script.id = 'add-task-script';
-      script.src = '../scripts/add-task.js';
-      document.body.appendChild(script);
-    }
+    scripts.forEach(({ id, src }) => {
+      if (!document.getElementById(id)) {
+        const script = document.createElement('script');
+        script.id = id;
+        script.src = src;
+        document.body.appendChild(script);
+      }
+    });
 
     setTimeout(() => {
-      const titleInput = document.getElementById('task-title');
-      const descInput = document.getElementById('task-description');
-      const dueDateInput = document.getElementById('task-due-date');
-      const categoryDisplay = document.getElementById('input-category');
-      const createBtn = document.getElementById('create-task-btn');
+      document.getElementById('task-title').value = task.title || '';
+      document.getElementById('task-description').value = task.description || '';
+      document.getElementById('task-due-date').value = task.dueDate || '';
+      document.getElementById('input-category').innerText = task.category || '';
 
-      if (titleInput) titleInput.value = task.title || '';
-      if (descInput) descInput.value = task.description || '';
-      if (dueDateInput) dueDateInput.value = task.dueDate || '';
-      if (categoryDisplay) categoryDisplay.innerText = task.category || '';
-      if (createBtn) createBtn.textContent = 'Save Changes';
-    }, 150);
+      if (task.priorityLevel === 'urgent') {
+        urgentButton.classList.add('priority-urgent-active');
+        urgentButton.classList.remove('priority-urgent-default');
+        urgentButton.addEventListener("click", toggleUrgent);
+        mediumButton.addEventListener("click", toggleMedium);
+        lowButton.addEventListener("click", toggleLow);
+      } else if (task.priorityLevel === 'medium') {
+        mediumButton.classList.add('priority-low-active');
+        mediumButton.classList.remove('priority-medium-default');
+        urgentButton.addEventListener("click", toggleUrgent);
+        mediumButton.addEventListener("click", toggleMedium);
+        lowButton.addEventListener("click", toggleLow);
+      } else if (task.priorityLevel === 'low') {
+        lowButton.classList.add('priority-low-active');
+        lowButton.classList.remove('priority-low-default');
+        urgentButton.addEventListener("click", toggleUrgent);
+        mediumButton.addEventListener("click", toggleMedium);
+        lowButton.addEventListener("click", toggleLow);
+      }
 
-    editOverlayRef.classList.remove('d-none', 'hide');
-    editOverlayRef.classList.add('show');
+    }, 50);
+
+    overlay.classList.remove('d-none');
+    overlay.classList.add('active');
 
   } catch (error) {
-    console.error('Fehler beim Öffnen des Edit-Overlays:', error);
+    console.error('❌ Fehler beim Öffnen des Edit-Overlays:', error);
     alert('Task konnte nicht geladen werden.');
   }
 }
