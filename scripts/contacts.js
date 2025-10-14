@@ -267,5 +267,20 @@ function showToast(message) {
 
 function toggleMobileMenu(btn) {
     const menu = btn.nextElementSibling;
-    menu.classList.toggle("show");
+
+    const isOpen = menu.classList.contains("show");
+    document.querySelectorAll(".menu-options.show").forEach(el => el.classList.remove("show"));
+
+    if (!isOpen) {
+        menu.classList.add("show");
+
+        function closeOnOutsideClick(event) {
+            if (!menu.contains(event.target) && event.target !== btn) {
+                menu.classList.remove("show");
+                document.removeEventListener("click", closeOnOutsideClick);
+            }
+        }
+
+        document.addEventListener("click", closeOnOutsideClick);
+    }
 }
