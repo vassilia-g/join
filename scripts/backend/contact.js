@@ -102,3 +102,11 @@ async function saveEditedContact(event) {
     editContactOverlay();
     showToast("Contact updated");
 }
+
+async function updateContactInDatabase(id, updatedContact) {
+    await fetch(`${BASE_URL}contacts/${id}.json`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedContact)
+    });
+}

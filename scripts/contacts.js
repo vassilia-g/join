@@ -122,7 +122,7 @@ function hideContactContent() {
 
     panel.classList.remove("is-open");
     main.classList.remove("is-open");
-    n
+
     if (window.innerWidth <= 720) {
         sidebar.classList.remove("hide");
     }
