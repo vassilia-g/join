@@ -47,6 +47,9 @@
         height: 80px;
         width: 100%;
         padding: 0;
+        position: fixed;
+        bottom: 0;
+        z-index: 2000;
     }
 
     .nav {
@@ -67,6 +70,9 @@
 
     .header {
         width: 100vw;
+        position: fixed;
+        top: 0;
+        z-index: 2000;
     }
 
     .logo-header {
