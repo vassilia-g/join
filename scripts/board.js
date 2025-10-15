@@ -16,11 +16,19 @@ const lowBoardSvg = ` <svg id="low-svg" width="20" height="14.51" fill="none" xm
                           <path d="M10.2485 9.50589C10.0139 9.5063 9.7854 9.43145 9.59655 9.29238L0.693448 2.72264C0.57761 2.63708 0.47977 2.52957 0.405515 2.40623C0.33126 2.28289 0.282043 2.14614 0.260675 2.00379C0.217521 1.71631 0.290421 1.42347 0.463337 1.1897C0.636253 0.955928 0.895022 0.800371 1.18272 0.757248C1.47041 0.714126 1.76347 0.786972 1.99741 0.95976L10.2485 7.04224L18.4997 0.95976C18.6155 0.874204 18.7471 0.812285 18.8869 0.777538C19.0266 0.742791 19.1719 0.735896 19.3144 0.757248C19.4568 0.7786 19.5937 0.82778 19.7171 0.901981C19.8405 0.976181 19.9481 1.07395 20.0337 1.1897C20.1194 1.30545 20.1813 1.43692 20.2161 1.57661C20.2509 1.71629 20.2578 1.86145 20.2364 2.00379C20.215 2.14614 20.1658 2.28289 20.0916 2.40623C20.0173 2.52957 19.9195 2.63708 19.8036 2.72264L10.9005 9.29238C10.7117 9.43145 10.4831 9.5063 10.2485 9.50589Z" transform="translate(0,07)" fill="#7AE229"/>
                         </g>
                       </svg>`
+const uncheckedBox = `<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="1" y="1" width="16" height="16" rx="3" stroke="#2A3647" stroke-width="2"/>
+                      </svg>`
+const checkedBox = `<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M17 8V14C17 15.6569 15.6569 17 14 17H4C2.34315 17 1 15.6569 1 14V4C1 2.34315 2.34315 1 4 1H12" stroke="#2A3647" stroke-width="2" stroke-linecap="round"/>
+                      <path d="M5 9L9 13L17 1.5" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>`
 const taskInfoRef = document.getElementById('task-info');
 const assigneeRef = document.getElementById('assignee');
 const priorityRef = document.getElementById('priority');
 let tasksCache = [];
-let checkedSubtasks = [];
+let currentTaskId;
+let currentSvg = uncheckedBox;
 
 
 async function openAddTaskOverlay() {
@@ -67,11 +75,41 @@ function drag(event) {
   event.dataTransfer.setData("text", event.target.id);
 }
 
-function drop(event) {
+async function drop(event) {
   event.preventDefault();
-  const data = event.dataTransfer.getData("text");
-  const draggedElement = document.getElementById(data);
-  event.target.appendChild(draggedElement);
+  const taskId = event.dataTransfer.getData("text");
+  const draggedElement = document.getElementById(taskId);
+  const dropZone = event.currentTarget;
+
+  dropZone.appendChild(draggedElement);
+
+  let newStatus;
+  switch (dropZone.id) {
+    case "new-task-div":
+      newStatus = "toDo";
+      break;
+    case "new-task-progress-div":
+      newStatus = "inProgress";
+      break;
+    case "new-task-feedback-div":
+      newStatus = "awaitingFeedback";
+      break;
+    case "new-task-done-div":
+      newStatus = "done";
+      break;
+    default:
+      newStatus = "toDo";
+  }
+
+  try {
+    await fetch(`${BASE_URL}/tasks/${taskId}.json`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: newStatus })
+    });
+  } catch (error) {
+    console.error("❌ Fehler beim Aktualisieren:", error);
+  }
 }
 
 async function createTask() {
@@ -81,6 +119,7 @@ async function createTask() {
   const description = document.getElementById('task-description').value;
   const dueDate = document.getElementById('task-due-date').value;
   const category = document.getElementById('input-category').innerText;
+  const status = "toDo";
   let priorityLevel = '';
   if (urgentButton.isActive) priorityLevel = 'urgent';
   else if (mediumButton.isActive) priorityLevel = 'medium';
@@ -115,6 +154,7 @@ async function createTask() {
     category,
     contactsHTML,
     subtasks,
+    status,
     priorityValue,
     createdAt: new Date().toISOString(),
     priorityLevel
@@ -159,7 +199,7 @@ async function loadTasks() {
 
     tasksArray.forEach((task, i) => {
       const taskElement = document.createElement('div');
-      taskElement.innerHTML = boardTaskTemplate(task);
+      taskElement.innerHTML = boardTaskTemplate(task, task.id);
       taskElement.setAttribute("data-task-index", i);
       newTaskDiv.appendChild(taskElement);
       taskElement.setAttribute("onclick", `openTaskOverlay('${task.id}')`);
@@ -279,9 +319,21 @@ async function deleteTask(taskId) {
   }
 }
 
+function loadScriptOnce(id, src) {
+  return new Promise((resolve, reject) => {
+    if (document.getElementById(id)) return resolve();
+    const s = document.createElement('script');
+    s.id = id;
+    s.src = src;
+    s.onload = () => resolve();
+    s.onerror = () => reject(new Error(`Script ${src} konnte nicht geladen werden`));
+    document.body.appendChild(s);
+  });
+}
+
 async function editTask(taskId) {
   console.log("✏️ Editiere Task-ID:", taskId);
-
+  currentTaskId = taskId;
   const overlay = document.getElementById('task-overlay');
   const overlayContent = document.getElementById('task-overlay-content');
 
@@ -297,81 +349,12 @@ async function editTask(taskId) {
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = html;
     const taskContent = tempDiv.querySelector('.create-task');
-    overlayContent.innerHTML = '';
-    overlayContent.appendChild(taskContent.cloneNode(true));
-
-    const innerContainer = document.createElement('div');
-    innerContainer.id = 'edit-task-btn-div';
-    innerContainer.classList.add('edit-extra');
-    overlayContent.appendChild(innerContainer);
-
-    // jetzt kannst du z. B. ein Template oder HTML-String dort hineinsetzen:
-    innerContainer.innerHTML += editTaskBtnTemplate();
-
-    const scripts = [
-      { id: 'add-task-sub-menu-script', src: '../scripts/add-task-sub-menus.js' },
-      { id: 'add-task-template-script', src: '../scripts/add-task-template.js' },
-      { id: 'add-task-script', src: '../scripts/add-task.js' }
-    ];
-
-    scripts.forEach(({ id, src }) => {
-      if (!document.getElementById(id)) {
-        const script = document.createElement('script');
-        script.id = id;
-        script.src = src;
-        document.body.appendChild(script);
-      }
-    });
-
-    setTimeout(() => {
-      document.getElementById('task-title').value = task.title || '';
-      document.getElementById('task-description').value = task.description || '';
-      document.getElementById('task-due-date').value = task.dueDate || '';
-      document.getElementById('input-category').innerText = task.category || '';
-      let subtasksList = document.getElementById('selected-subtasks');
-
-      if (task.subtasks && task.subtasks.length > 0) {
-        subtasksList.innerHTML = '';
-
-        task.subtasks.forEach(subtask => {
-          subtasksList.innerHTML += `
-            <li>
-            <div id="checkbox-subtasks" class="unchecked" onclick="toggleBoxChecked(this); updateSubtasks(this)">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="1" y="1" width="16" height="16" rx="3" stroke="#2A3647" stroke-width="2"/>
-              </svg>
-            </div>
-            <p>${subtask}</p>      
-            </li>`;
-        });
-      } else {
-        subtasksList.innerHTML = '';
-      }
-
-      if (task.priorityLevel === 'urgent') {
-        urgentButton.classList.add('priority-urgent-active');
-        urgentButton.classList.remove('priority-urgent-default');
-        urgentButton.addEventListener("click", toggleUrgent);
-        mediumButton.addEventListener("click", toggleMedium);
-        lowButton.addEventListener("click", toggleLow);
-      } else if (task.priorityLevel === 'medium') {
-        mediumButton.classList.add('priority-medium-active');
-        mediumButton.classList.remove('priority-medium-default');
-        urgentButton.addEventListener("click", toggleUrgent);
-        mediumButton.addEventListener("click", toggleMedium);
-        lowButton.addEventListener("click", toggleLow);
-      } else if (task.priorityLevel === 'low') {
-        lowButton.classList.add('priority-low-active');
-        lowButton.classList.remove('priority-low-default');
-        urgentButton.addEventListener("click", toggleUrgent);
-        mediumButton.addEventListener("click", toggleMedium);
-        lowButton.addEventListener("click", toggleLow);
-      }
-
-    }, 50);
-
-
-
+    getOverlayContent(overlayContent, taskContent);
+    await loadScriptOnce('add-task-sub-menu-script', '../scripts/add-task-sub-menus.js');
+    await loadScriptOnce('add-task-template-script', '../scripts/add-task-template.js');
+    await loadScriptOnce('add-task-script', '../scripts/add-task.js');
+    getTaskPriority(task);
+    getTaskContent(task);
     overlay.classList.remove('d-none');
     overlay.classList.add('active');
 
@@ -381,44 +364,134 @@ async function editTask(taskId) {
   }
 }
 
+function getOverlayContent(overlayContent, taskContent) {
+  overlayContent.innerHTML = '';
+  overlayContent.appendChild(taskContent.cloneNode(true));
+  const innerContainer = document.createElement('div');
+  innerContainer.id = 'edit-task-btn-div';
+  innerContainer.classList.add('edit-extra');
+  overlayContent.appendChild(innerContainer);
+  innerContainer.innerHTML += editTaskBtnTemplate();
+}
+
+function getTaskPriority(task) {
+  const urgentButton = document.getElementById('urgent-priority-btn');
+  const mediumButton = document.getElementById('medium-priority-btn');
+  const lowButton = document.getElementById('low-priority-btn');
+
+  if (task.priorityLevel === 'urgent') toggleUrgent(urgentButton);
+  else if (task.priorityLevel === 'medium') toggleMedium(mediumButton);
+  else if (task.priorityLevel === 'low') toggleLow(lowButton);
+
+  urgentButton.onclick = () => toggleUrgent(urgentButton);
+  mediumButton.onclick = () => toggleMedium(mediumButton);
+  lowButton.onclick = () => toggleLow(lowButton);
+
+}
+
+function getTaskContent(task) {
+  document.getElementById('task-title').value = task.title || '';
+  document.getElementById('task-description').value = task.description || '';
+  document.getElementById('task-due-date').value = task.dueDate || '';
+  document.getElementById('input-category').innerText = task.category || '';
+  const subtasksList = document.getElementById('selected-subtasks');
+  subtasksList.innerHTML = '';
+  if (task.subtasks && task.subtasks.length > 0) {
+    let checkedSubtasks = task.checkedSubtasks || [];
+    if (!Array.isArray(checkedSubtasks)) {
+      checkedSubtasks = Object.values(checkedSubtasks); // Objekt → Array
+    }
+    checkedSubtasks = checkedSubtasks.flat();
+    console.log(checkedSubtasks);
+    console.log(task.subtasks);
+
+
+    task.subtasks.forEach(subtask => {
+      const isChecked = checkedSubtasks.includes(subtask);
+      const checkboxClass = isChecked ? 'checked' : 'unchecked';
+      const checkboxIcon = isChecked ? checkedBox : uncheckedBox;
+      subtasksList.innerHTML += `
+      <li>
+        <div class="checkbox-subtasks ${checkboxClass}" onclick="toggleBoxChecked(this)">
+          ${checkboxIcon}
+        </div>
+        <p>${subtask}</p>
+      </li>`;
+    });
+  }
+}
+
 function toggleBoxChecked(checkbox) {
-  const svg = checkbox.querySelector('svg');
-
-  if (checkbox.classList.contains('unchecked')) {
-    checkbox.classList.remove('unchecked');
-    checkbox.classList.add('checked');
-    svg.innerHTML = `
-      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M17 8V14C17 15.6569 15.6569 17 14 17H4C2.34315 17 1 15.6569 1 14V4C1 2.34315 2.34315 1 4 1H12" stroke="#2A3647" stroke-width="2" stroke-linecap="round"/>
-        <path d="M5 9L9 13L17 1.5" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    `
-  } else {
-    checkbox.classList.remove('checked');
-    checkbox.classList.add('unchecked');
-    svg.innerHTML = `
-      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="1" y="1" width="16" height="16" rx="3" stroke="#2A3647" stroke-width="2"/>
-      </svg>
-    `
-  }
+  const isChecked = checkbox.classList.toggle('checked');
+  checkbox.classList.toggle('unchecked', !isChecked);
+  checkbox.innerHTML = isChecked ? checkedBox : uncheckedBox;
 }
 
-function updateSubtasks(checkbox) {
-  const li = checkbox.closest('li');
-  if (!li) return;
-
-  const subtaskText = li.querySelector('p').innerText.trim();
-  if (checkbox.classList.contains('checked')) {
-    if (!checkedSubtasks.includes(subtaskText))
+async function pushCheckedSubtasks(taskId) {
+  const subtasksList = document.getElementById('selected-subtasks');
+  if (!subtasksList) return;
+  const subtasksItems = subtasksList.querySelectorAll('li');
+  const checkedSubtasks = [];
+  subtasksItems.forEach(li => {
+    const checkboxDiv = li.querySelector('.checkbox-subtasks');
+    const subtaskText = li.querySelector('p').innerText.trim();
+    if (checkboxDiv && checkboxDiv.classList.contains('checked')) {
       checkedSubtasks.push(subtaskText);
-  } else {
-    checkedSubtasks = checkedSubtasks.filter(t => t !== subtaskText);
-  }
+    }
+  });
 
-  console.log(checkedSubtasks);
+  try {
+    const response = await fetch(`${BASE_URL}/tasks/${taskId}/checkedSubtasks.json`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ subtasks: checkedSubtasks })
+    });
+
+    if (!response.ok) throw new Error("Fehler beim Pushen der Subtasks");
+    console.log('✅ Checked Subtasks erfolgreich gepusht');
+  } catch (error) {
+    console.error('❌ Fehler beim Pushen der Subtasks:', error);
+  }
 }
 
-function updateTaskAfterEdit() {
 
+async function updateTaskAfterEdit(taskId) {
+  if (urgentButton.classList.contains('priority-urgent-active')) {
+    priorityValue = urgentBoardSvg;
+    priorityLevel = 'urgent';
+  } else if (mediumButton.classList.contains('priority-medium-active')) {
+    priorityValue = mediumBoardSvg;
+    priorityLevel = 'medium';
+  } else if (lowButton.classList.contains('priority-low-active')) {
+    priorityValue = lowBoardSvg;
+    priorityLevel = 'low';
+  }
+
+  const updatedTask = {
+    title: document.getElementById('task-title').value,
+    description: document.getElementById('task-description').value,
+    dueDate: document.getElementById('task-due-date').value,
+    category: document.getElementById('input-category').innerText,
+    priorityValue,
+    priorityLevel
+  };
+
+  try {
+    const response = await fetch(`${BASE_URL}/tasks/${taskId}.json`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(updatedTask)
+    });
+
+    if (!response.ok) throw new Error("Fehler beim Speichern der Neuerungen");
+    console.log('✅ Task erfolgreich aktualisiert');
+  } catch (error) {
+    console.error('❌ Fehler beim Aktualisieren:', error);
+  }
+
+  await pushCheckedSubtasks(taskId);
+  closeTaskOverlay();
+  loadTasks(updatedTask);
 }

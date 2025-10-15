@@ -30,6 +30,7 @@
     <script src="../scripts/backend/api.js"></script>
     <script defer src="../scripts/board.js"></script>
     <script src="../scripts/board-templates.js"></script>
+
   </head>
 
 <body onload="init(); loadTasks()">
@@ -60,7 +61,7 @@
           </div>
 
           <div class="board-task-div">
-            <div class="board-tasks" id="board-tasks" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <div class="board-tasks" id="board-tasks">
               <div class="board-tasks-headline">
                 <h2>To do</h2>
                 <button class="board-task-btn" onclick="openAddTaskOverlay()">
@@ -71,12 +72,12 @@
                 </button>
               </div>
               <div class="current-board-tasks">No tasks to do</div>
-              <div id="new-task-div"></div>
+              <div id="new-task-div" class="drop-div" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
               <div id="task-overlay" onclick="closeTaskOverlay()" class="overlay-board d-none">
                 <div id="task-overlay-content" onclick="event.stopPropagation()"></div>
               </div>
             </div>
-            <div class="board-tasks" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <div class="board-tasks">
               <div class="board-tasks-headline">
                 <h2>In progress</h2>
                 <button class="board-task-btn" onclick="openAddTaskOverlay()">
@@ -87,8 +88,9 @@
                 </button>
               </div>
               <div class="current-board-tasks">No tasks in progress</div>
+              <div id="new-task-progress-div" class="drop-div" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
             </div>
-            <div class="board-tasks" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <div class="board-tasks">
               <div class="board-tasks-headline">
                 <h2>Await feedback</h2>
                 <button class="board-task-btn" onclick="openAddTaskOverlay()">
@@ -99,12 +101,14 @@
                 </button>
               </div>
               <div class="current-board-tasks">No feedback awaiting</div>
+              <div id="new-task-feedback-div" class="drop-div" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
             </div>
-            <div class="board-tasks" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <div class="board-tasks">
               <div class="board-tasks-headline">
                 <h2>Done</h2>
               </div>
               <div class="current-board-tasks"></div>
+              <div id="new-task-done-div" class="drop-div" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
             </div>
           </div>
 

@@ -14,8 +14,6 @@ let subtasks = [];
 const CONTACTS_URL = "https://join-eeec9-default-rtdb.europe-west1.firebasedatabase.app/contacts";
 let subtaskListElement;
 
-categoryInput.addEventListener("DOMSubtreeModified", enableCreateTaskButton);
-
 function selectSubtask() {
     let subtaskInputValue = subtaskInput.value;
     if (subtaskInputValue.length > 0) {

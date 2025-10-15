@@ -1,6 +1,6 @@
-function boardTaskTemplate(task) {
+function boardTaskTemplate(task, taskId) {
   return `
-    <div class="task" draggable="true" ondragstart="drag(event)">
+    <div class="task" id="${taskId}" draggable="true" ondragstart="drag(event)">
       <span class="category">${task.category}</span>
       <div class="task-description">
         <h3 class="task-title">${task.title}</h3>
@@ -9,8 +9,10 @@ function boardTaskTemplate(task) {
       <div class="task-status">
         <div class="progress-bar"></div>
         <div class="subtask-count">
-          <span class="actual-count-of-progress">0</span> /
-          <span class="final-count-of-progress">${task.subtasks ? task.subtasks.length : ''}</span>
+          <span class="actual-count-of-progress">
+            ${task.checkedSubtasks?.subtasks?.length || ""}
+          </span> /
+          <span class="final-count-of-progress">${task.subtasks?.length || ""}</span>
           <span>Subtasks</span>
         </div>
       </div>
@@ -92,7 +94,7 @@ function boardTaskOverlayTemplate(task, taskId) {
 
 function editTaskBtnTemplate() {
   return `
-    <button id="edit-task-btn">
+    <button id="edit-task-btn" onclick="updateTaskAfterEdit('${currentTaskId}')">
       <p>Ok</p>
       <div id="edit-task-check">
         <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">

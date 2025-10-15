@@ -505,6 +505,13 @@ button {
     gap: 8px;
 }
 
+#task-overlay-content .add-task-content {
+    position: relative;
+    height: fit-content;
+    top: 0;
+    left: 0;
+}
+
 #task-overlay-content .create-task {
     flex-direction: column;
 }
@@ -568,6 +575,12 @@ button {
 
 #checkbox-subtasks :hover {
     cursor: pointer;
+}
+
+.drop-div {
+    width: 100%;
+    min-height: 50%;
+    height: fit-content;
 }
 
 
