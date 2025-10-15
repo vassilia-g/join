@@ -30,6 +30,25 @@ let tasksCache = [];
 let currentTaskId;
 let currentSvg = uncheckedBox;
 
+const boards = [
+  { container: document.getElementById('new-task-div'), filler: document.getElementById('to-do-filler') },
+  { container: document.getElementById('new-task-progress-div'), filler: document.getElementById('progress-filler') },
+  { container: document.getElementById('new-task-feedback-div'), filler: document.getElementById('feedback-filler') },
+  { container: document.getElementById('new-task-done-div'), filler: document.getElementById('done-filler') }
+]
+
+boards.forEach(board => {
+  const observer = new MutationObserver(mutations => {
+    mutations.forEach(() => {
+      if (board.container.children.length > 0) {
+        board.filler.classList.add('d-none');
+      } else {
+        board.filler.classList.remove('d-none');
+      }
+    });
+  });
+  observer.observe(board.container, { childList: true });
+});
 
 async function openAddTaskOverlay() {
   const overlayRef = document.getElementById('add-task-overlay');
@@ -213,6 +232,8 @@ async function loadTasks() {
   }
 }
 
+
+
 async function openTaskOverlay(taskId) {
   const overlay = document.getElementById('task-overlay');
   const overlayContent = document.getElementById('task-overlay-content');
@@ -284,9 +305,10 @@ function checkIfEmpty(tasks) {
     const taskStatus = taskElement.querySelector('.task-status');
 
     const hasContent =
-      (task.description && task.description.trim() !== '') ||
-      (task.priorityValue && task.priorityValue.trim() !== '') ||
-      (task.contactsHTML && task.contactsHTML.trim() !== '');
+      (typeof task.description === 'string' && task.description.trim() !== '');
+    const hasDetails =
+      (typeof task.priorityValue === 'string' && task.priorityValue.trim() !== '') ||
+      (typeof task.contactsHTML === 'string' && task.contactsHTML.trim() !== '');
 
     const hasSubtasks = (() => {
       if (!task.subtasks) return false;
@@ -295,7 +317,7 @@ function checkIfEmpty(tasks) {
       return false;
     })();
 
-    if (taskInfo) taskInfo.classList.toggle('d-none', !hasContent);
+    if (taskInfo) taskInfo.classList.toggle('d-none', !hasDetails);
     if (taskContent) taskContent.classList.toggle('d-none', !hasContent);
     if (taskStatus) taskStatus.classList.toggle('d-none', !hasSubtasks);
   });

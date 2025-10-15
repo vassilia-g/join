@@ -10,7 +10,7 @@ function boardTaskTemplate(task, taskId) {
         <div class="progress-bar"></div>
         <div class="subtask-count">
           <span class="actual-count-of-progress">
-            ${task.checkedSubtasks?.subtasks?.length || ""}
+            ${task.checkedSubtasks?.subtasks?.length || 0}
           </span> /
           <span class="final-count-of-progress">${task.subtasks?.length || ""}</span>
           <span>Subtasks</span>
