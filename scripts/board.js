@@ -238,8 +238,13 @@ async function removeTempContactToAPI() {
 
 async function loadTasks(task) {
   const newTaskDiv = document.getElementById('new-task-div');
+  const newTaskProgressDiv = document.getElementById('new-task-progress-div');
+  const newTaskFeedbackDiv = document.getElementById('new-task-feedback-div');
+  const newTaskDoneDiv = document.getElementById('new-task-done-div');
   newTaskDiv.innerHTML = '';
-
+  newTaskProgressDiv.innerHTML = '';
+  newTaskFeedbackDiv.innerHTML = '';
+  newTaskDoneDiv.innerHTML = '';
   try {
     const response = await fetch(`${BASE_URL}/tasks.json`);
     if (!response.ok) throw new Error('Fehler beim Laden der Tasks');
@@ -252,10 +257,24 @@ async function loadTasks(task) {
 
     tasksArray.forEach((task, i) => {
       const taskElement = document.createElement('div');
-      taskElement.innerHTML = boardTaskTemplate(task, task.id);
+      checkContactsLength (taskElement, task, task.id);
       taskElement.setAttribute("data-task-index", i);
-      newTaskDiv.appendChild(taskElement);
       taskElement.setAttribute("onclick", `openTaskOverlay('${task.id}')`);
+            let targetColumn;
+      switch (task.status) {
+        case 'inProgress':
+          targetColumn = newTaskProgressDiv;
+          break;
+        case 'awaitingFeedback':
+          targetColumn = newTaskFeedbackDiv;
+          break;
+        case 'done':
+          targetColumn = newTaskDoneDiv;
+          break;
+        default:
+          targetColumn = newTaskDiv;
+      }
+      targetColumn.appendChild(taskElement);
       updateProgressBar(task);
     });
 
@@ -267,7 +286,31 @@ async function loadTasks(task) {
   }
 }
 
+function checkContactsLength(taskElement, task, taskId) {
+  let selectedContactsComplete = '';
 
+  if (!task.contactsInitials) task.contactsInitials = [];
+  if (task.contactsInitials.length <= 3) {
+    task.contactsInitials.forEach(contact => {
+      selectedContactsComplete += `
+        <div class="selected-contacts-svg">
+          ${contact.svg || contact.initials || ''}
+        </div>`;
+    });
+  } else {
+    for (let i = 0; i < 3; i++) {
+      const contact = task.contactsInitials[i];
+      selectedContactsComplete += `
+        <div class="selected-contacts-svg">
+          ${contact.svg || contact.initials || ''}
+        </div>`;
+    }
+    const extraInitials = task.contactsInitials.slice(3);
+    selectedContactsComplete += showMoreContacts(extraInitials);
+  }
+  boardTaskTemplate(taskElement, task, taskId, selectedContactsComplete);
+
+}
 
 async function openTaskOverlay(taskId) {
   const overlay = document.getElementById('task-overlay');

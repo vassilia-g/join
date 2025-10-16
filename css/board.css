@@ -319,21 +319,8 @@ button {
     display: flex;
 }
 
-.user-avatar {
-    position: relative;
-    margin-left: -10px;
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: 400;
-    font-size: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.85);
-    background-color: rgba(196, 24, 124, 0.85);
-    z-index: 0;
+.assignee svg{
+    margin-right: -0.5rem;
 }
 
 .user-avatar:first-child {

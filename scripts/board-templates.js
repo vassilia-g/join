@@ -1,12 +1,5 @@
-function boardTaskTemplate(task, taskId) {
-  let contactsHTML = '';
-  if (task.contactsInitials) {
-    contactsHTML = Object.values(task.contactsInitials)
-      .map(item => item.svg)
-      .join('');
-  }
-
-  return `
+function boardTaskTemplate(taskElement, task, taskId, selectedContactsComplete) {
+taskElement.innerHTML = `
     <div class="task" id="${taskId}" draggable="true" ondragstart="drag(event)">
       <span class="category">${task.category}</span>
       <div class="task-description">
@@ -27,12 +20,23 @@ function boardTaskTemplate(task, taskId) {
       </div>
       <div class="task-info">
         <div class="assignee">
-          ${contactsHTML}
+          ${selectedContactsComplete}
         </div>
         <div class="priority">${task.priorityValue || ''}</div>
       </div>
     </div>
   `;
+}
+
+function showMoreContacts(extraInitials) {
+  return `
+      <div class="selected-contacts-svg">
+        <svg width="40" height="40" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="21" cy="21" r="20" fill="none" stroke="#2a3647" stroke-width="2"/>
+          <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" font-size="16" fill="#2a3647">+${extraInitials.length}</text>
+        </svg>
+      </div>
+    `;
 }
 
 
