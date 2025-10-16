@@ -13,6 +13,7 @@ const selectedSubtasks = document.getElementById('selected-subtasks');
 let subtasks = [];
 const CONTACTS_URL = "https://join-eeec9-default-rtdb.europe-west1.firebasedatabase.app/contacts";
 let subtaskListElement;
+let lastGeneratedId = null;
 
 function selectSubtask() {
     let subtaskInputValue = subtaskInput.value;
@@ -71,11 +72,17 @@ function keepEditedSubtask(index) {
     }
 }
 
+function isContactSelected(initials) {
+    const selectedSvgs = selectedContacts.querySelectorAll("svg text");
+    return Array.from(selectedSvgs).some(textE1 => textE1.textContent.trim() === initials);
+}
+
+
 function openDropdownContacts() {
-    selectedContacts.innerHTML = '';
+
     if (contactsToSelect.innerHTML == '') {
         for (let i = 0; i < contacts.length; i++) {
-            contactsToSelect.innerHTML += showContacts(i);
+            contactsToSelect.innerHTML += showContactsWithSelectionState(i);
         }
         setTimeout(() => {
             contactsToSelect.classList.add('show');
@@ -85,6 +92,7 @@ function openDropdownContacts() {
         showSelectedContacts();
     }
     dropdownIcon.classList.toggle("open");
+    selectedContacts.classList.add('d-none');
 }
 
 document.onclick = function (event) {
@@ -108,6 +116,10 @@ function hideDropdownContacts() {
     setTimeout(() => {
         contactsToSelect.innerHTML = '';
     }, 300);
+    setTimeout(() => {
+        selectedContacts.classList.remove('d-none');
+    }, 300);
+
 }
 
 function hideDropdownCategories() {
@@ -134,10 +146,57 @@ function checkContact(i) {
         initials.classList.remove("checked");
         checkbox.classList.remove("checked");
         svgContainer.outerHTML = showEmptyCheckbox(i);
+        const svgHTML = initials.outerHTML;
+        const name = contacts[i].name;
+        removeContactToAPI(svgHTML, name);
     } else {
         checkbox.classList.add("checked");
         initials.classList.add("checked");
         svgContainer.outerHTML = showCheckedCheckbox(i);
+        const svgHTML = initials.outerHTML;
+        const name = contacts[i].name;
+        sendContactToAPI(svgHTML, name);
+    }
+}
+
+async function sendContactToAPI(initialsSVG, name) {
+    try {
+        const response = await fetch(`${BASE_URL}/tempContact/Initials.json`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ svg: initialsSVG })
+        });
+        const data = await response.json();
+        const generatedId = data.name;
+        lastGeneratedId = generatedId;
+        await fetch(`${BASE_URL}/tempContact/name/${generatedId}.json`, {
+            method: 'PUT', // PUT, damit Key gleich bleibt
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(name)
+        });
+
+        console.log("Kontakt erfolgreich gesendet:", name);
+    } catch (error) {
+        console.error("Fehler beim Senden des Kontakts:", error);
+    }
+}
+
+async function removeContactToAPI() {
+    if (!lastGeneratedId) return;
+
+    try {
+        await fetch(`${BASE_URL}/tempContact/Initials/${lastGeneratedId}.json`, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' }
+        });
+        await fetch(`${BASE_URL}/tempContact/name/${lastGeneratedId}.json`, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' }
+        });
+        console.log("Kontakt erfolgreich entfernt");
+        lastGeneratedId = null;
+    } catch (error) {
+        console.error("Fehler beim Entfernen des Kontakts:", error);
     }
 }
 
@@ -157,23 +216,6 @@ async function showSelectedContacts() {
         SelectedContactsComplete += showMoreContacts(extraInitials);
     }
     selectedContacts.innerHTML = SelectedContactsComplete;
-    const taskPayload = {
-        contactsHTML: SelectedContactsComplete
-    };
-
-    try {
-        const response = await fetch(BASE_URL + 'tasks/selected-contacts.json', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(taskPayload)
-        });
-
-        const data = await response.json();
-        console.log('Kontakte erfolgreich an API gesendet:', data);
-
-    } catch (error) {
-        console.error('Fehler beim Senden der Kontakte:', error);
-    }
 }
 
 function openCategories() {

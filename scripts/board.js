@@ -151,33 +151,45 @@ async function createTask() {
         ? lowBoardSvg
         : '';
 
-  let contactsHTML = '';
+  let initialsArray = [];
+  let namesArray = [];
+
   try {
-    const response = await fetch(`${BASE_URL}/tasks/selected-contacts.json`);
-    if (!response.ok) throw new Error('Fehler beim Laden der Kontakte');
+    const initialsResponse = await fetch(`${BASE_URL}/tempContact/Initials.json`);
+    const initialsData = await initialsResponse.json();
+    const namesResponse = await fetch(`${BASE_URL}/tempContact/name.json`);
+    const namesData = await namesResponse.json();
 
-    const data = await response.json();
-
-    if (data) {
-      const lastKey = Object.keys(data).pop();
-      contactsHTML = data[lastKey].contactsHTML || '';
+    if (initialsData && namesData) {
+      Object.keys(initialsData).forEach(key => {
+        if (namesData[key]) {
+          initialsArray.push(initialsData[key]);
+          namesArray.push(namesData[key]);
+        }
+      });
     }
-  } catch (err) {
-    console.error('Fehler beim Laden von selectedContactsHTML:', err);
-  }
 
+    console.log("Initials:", initialsArray);
+    console.log("Names:", namesArray);
+
+  } catch (err) {
+    console.error('Fehler beim Laden von tempContact:', err);
+  }
   const newTask = {
     title,
     description,
     dueDate,
     category,
-    contactsHTML,
     subtasks,
     status,
     priorityValue,
     createdAt: new Date().toISOString(),
-    priorityLevel
+    priorityLevel,
+    contactsInitials: initialsArray,
+    contactsNames: namesArray
   };
+
+  removeContactToAPI();
 
   try {
     const response = await fetch(`${BASE_URL}/tasks.json`, {
@@ -200,6 +212,22 @@ async function createTask() {
     alert('Fehler beim Speichern der Task. Bitte versuche es erneut.');
   }
   updateCategoryColor();
+}
+
+async function removeContactToAPI() {
+  try {
+    await fetch(`${BASE_URL}/tempContact/Initials.json`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' }
+    });
+    await fetch(`${BASE_URL}/tempContact/name.json`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+  } catch (error) {
+    console.error("Fehler beim Entfernen des Kontakts:", error);
+  }
 }
 
 async function loadTasks() {
@@ -308,7 +336,7 @@ function checkIfEmpty(tasks) {
       (typeof task.description === 'string' && task.description.trim() !== '');
     const hasDetails =
       (typeof task.priorityValue === 'string' && task.priorityValue.trim() !== '') ||
-      (typeof task.contactsHTML === 'string' && task.contactsHTML.trim() !== '');
+      (task.contactsInitials && Object.keys(task.contactsInitials).length > 0);
 
     const hasSubtasks = (() => {
       if (!task.subtasks) return false;
@@ -424,10 +452,6 @@ function getTaskContent(task) {
       checkedSubtasks = Object.values(checkedSubtasks); // Objekt → Array
     }
     checkedSubtasks = checkedSubtasks.flat();
-    console.log(checkedSubtasks);
-    console.log(task.subtasks);
-
-
     task.subtasks.forEach(subtask => {
       const isChecked = checkedSubtasks.includes(subtask);
       const checkboxClass = isChecked ? 'checked' : 'unchecked';
