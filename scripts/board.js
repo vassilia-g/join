@@ -73,6 +73,17 @@ async function openAddTaskOverlay() {
   overlayRef.classList.add('show');
   overlayRef.classList.remove('hide');
   overlayRef.classList.remove('d-none');
+
+  const mediumButton = document.getElementById('medium-priority-btn');
+  mediumButton.classList.remove('priority-medium-default');
+  mediumButton.classList.add('priority-medium-active');
+  mediumButton.isActive = true;
+  lowButton.classList.remove('priority-low-active');
+  lowButton.classList.add('priority-low-default');
+  lowButton.isActive = false;
+  urgentButton.classList.remove('priority-urgent-active');
+  urgentButton.classList.add('priority-urgent-default');
+  urgentButton.isActive = false;
 }
 
 function closeOverlay() {

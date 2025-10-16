@@ -167,7 +167,7 @@
               <div class="task-label-divs">
                 <label id="task-subtasks-label">Subtasks</label>
                 <div class="subtask">
-                  <input onkeyup="selectSubtask()" class="input-border-size" type="text" name="task-subtasks"
+                  <input onkeyup="if (event.key === 'Enter') addSubtask()" class="input-border-size" type="text" name="task-subtasks"
                     id="task-subtasks" placeholder="Add new Subtask" />
                   <div class="delete-or-keep-subtask d-none" id="delete-or-keep-subtask">
                     <div class="delete-subtask">

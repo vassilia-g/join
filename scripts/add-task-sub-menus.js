@@ -15,18 +15,16 @@ const CONTACTS_URL = "https://join-eeec9-default-rtdb.europe-west1.firebasedatab
 let subtaskListElement;
 let lastGeneratedId = null;
 
-function selectSubtask() {
-    let subtaskInputValue = subtaskInput.value;
-    if (subtaskInputValue.length > 0) {
-        subtaskPick.classList.remove('d-none');
-    } else {
-        subtaskPick.classList.add('d-none');
-    }
-}
-
 function deleteSubtask() {
     subtaskInput.value = "";
     subtaskPick.classList.add('d-none');
+}
+
+subtaskInput.addEventListener("click", showSubtaskPick);
+document.getElementById("task-title").addEventListener("input", enableCreateTaskButton);
+
+function showSubtaskPick() {
+    subtaskPick.classList.remove('d-none');
 }
 
 function addSubtask() {
