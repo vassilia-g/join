@@ -279,8 +279,15 @@ button {
     justify-content: start;
 }
 
-.progress-bar {
+#progress-bar-div {
     width: 128px;
+    height: 8px;
+    border-radius: 8px;
+    background-color: #F4F4F4;
+}
+
+.progress-bar {
+    width: 0%;
     height: 8px;
     border-radius: 8px;
     background-color: var(--color-accent);
@@ -355,6 +362,10 @@ button {
     justify-content: center;
     height: 32px;
     width: 32px;
+}
+
+.priority #low-svg {
+    height: 16px;
 }
 
 .overlay-board {

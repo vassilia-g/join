@@ -189,7 +189,7 @@ async function createTask() {
     contactsNames: namesArray
   };
 
-  removeContactToAPI();
+  removeTempContactToAPI();
 
   try {
     const response = await fetch(`${BASE_URL}/tasks.json`, {
@@ -214,23 +214,18 @@ async function createTask() {
   updateCategoryColor();
 }
 
-async function removeContactToAPI() {
+async function removeTempContactToAPI() {
   try {
-    await fetch(`${BASE_URL}/tempContact/Initials.json`, {
+    await fetch(`${BASE_URL}/tempContact.json`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' }
     });
-    await fetch(`${BASE_URL}/tempContact/name.json`, {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' }
-    });
-
   } catch (error) {
     console.error("Fehler beim Entfernen des Kontakts:", error);
   }
 }
 
-async function loadTasks() {
+async function loadTasks(task) {
   const newTaskDiv = document.getElementById('new-task-div');
   newTaskDiv.innerHTML = '';
 
@@ -250,6 +245,7 @@ async function loadTasks() {
       taskElement.setAttribute("data-task-index", i);
       newTaskDiv.appendChild(taskElement);
       taskElement.setAttribute("onclick", `openTaskOverlay('${task.id}')`);
+      updateProgressBar(task);
     });
 
     checkIfEmpty(tasksArray);
@@ -449,7 +445,7 @@ function getTaskContent(task) {
   if (task.subtasks && task.subtasks.length > 0) {
     let checkedSubtasks = task.checkedSubtasks || [];
     if (!Array.isArray(checkedSubtasks)) {
-      checkedSubtasks = Object.values(checkedSubtasks); // Objekt → Array
+      checkedSubtasks = Object.values(checkedSubtasks);
     }
     checkedSubtasks = checkedSubtasks.flat();
     task.subtasks.forEach(subtask => {
@@ -500,6 +496,14 @@ async function pushCheckedSubtasks(taskId) {
   }
 }
 
+function updateProgressBar(task) {
+  const progressBar = document.getElementById(`progress-bar-${task.id}`);
+  const total = task.subtasks?.length || 0;
+  const done = task.checkedSubtasks?.subtasks?.length || 0;
+  const getProgress = total > 0 ? (100 * done) / total : 0;
+  progressBar.style.width = `${getProgress}%`;
+
+}
 
 async function updateTaskAfterEdit(taskId) {
   if (urgentButton.classList.contains('priority-urgent-active')) {

@@ -14,7 +14,9 @@ function boardTaskTemplate(task, taskId) {
         <div class="task-content">${task.description}</div>
       </div>
       <div class="task-status">
-        <div class="progress-bar"></div>
+        <div id="progress-bar-div">
+          <div id="progress-bar-${taskId}" class="progress-bar"></div>
+        </div>
         <div class="subtask-count">
           <span class="actual-count-of-progress">
             ${task.checkedSubtasks?.subtasks?.length || 0}
