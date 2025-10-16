@@ -39,17 +39,11 @@ async function deleteData(path = "") {
         method: "DELETE",
     });
 
-    // Firebase returns null for successful DELETEs. We'll attempt to parse JSON
-    // and return the value (usually null) so callers can act accordingly.
     let responseToJson = null;
     try {
         responseToJson = await response.json();
     } catch (e) {
-        // If parsing fails, return null to indicate no body.
         responseToJson = null;
     }
     return responseToJson;
 }
-
-// Export helpers (if this file is used as a module elsewhere)
-// export { getData, postData, putData, deleteData };

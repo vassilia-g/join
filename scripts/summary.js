@@ -1,14 +1,41 @@
+const tasks = getData("tasks");
+
 function dropdownMenu() {
     document.querySelector('.dropdown-content').classList.toggle('d-none');
 }
 
-function updateSummaryCounters() {
+async function updateSummaryCounters() {
     let toDoCounter = document.getElementById('to-do-counter');
     let doneCounter = document.getElementById('done-counter');
-    let urgentCounter = document.getElementById('urgent-counter');
     let tasksInBoardCounter = document.getElementById('tasks-in-board-counter');
     let tasksInProgressCounter = document.getElementById('tasks-in-progress-counter');
     let awaitingFeedbackCounter = document.getElementById('awaiting-feedback-counter');
+    let urgentCounter = document.getElementById('urgent-counter');
+
+    //Get tasks
+    const allTasks = await tasks;
+    const taskArray = Object.keys(allTasks).map(key => allTasks[key]);
+    console.log(taskArray);
+
+    // Update counters
+    tasksInBoardCounter.innerHTML = await getTasksCounter(taskArray);
+    toDoCounter.innerHTML = await getTasksCounterByStatus(taskArray, "toDo");
+    doneCounter.innerHTML = await getTasksCounterByStatus(taskArray, "done");
+    tasksInProgressCounter.innerHTML = await getTasksCounterByStatus(taskArray, "inProgress");
+    awaitingFeedbackCounter.innerHTML = await getTasksCounterByStatus(taskArray, "awaitingFeedback");
+    urgentCounter.innerHTML = await getTasksCounterByPriorityLevel(taskArray, "urgent");
+}
+
+async function getTasksCounter(allTasks) {
+    return allTasks.length;
+}
+
+async function getTasksCounterByStatus(allTasks, status) {
+    return allTasks.filter(task => task.status === status).length;
+}
+
+async function getTasksCounterByPriorityLevel(allTasks, priorityLevel) {
+    return allTasks.filter(task => task.priorityLevel === priorityLevel).length;
 }
 
 async function updateDayTime() {
@@ -64,13 +91,17 @@ async function updateUserName() {
     }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    if (localStorage.getItem("currentUserId") === "guest") {
-        guestGreeting();
-    }
-});
+// document.addEventListener("DOMContentLoaded", () => {
+
+// });
 
 document.addEventListener("DOMContentLoaded", () => {
     updateDayTime();
     updateUserName();
+
+    if (localStorage.getItem("currentUserId") === "guest") {
+        guestGreeting();
+    }
+
+    updateSummaryCounters();
 });
