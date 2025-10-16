@@ -30,67 +30,45 @@
     }
 
     .input-border-size {
-        width: 700px;
+        width: 90%;
     }
 
     .input-wrapper {
-        width: 700px;
+        width: 90%;
     }
 
     .textarea {
-        width: 700px;
+        width: 90%;
     }
 
     #task-description {
-        width: 700px;
+        width: 100%;
     }
 
     .priority-btns {
-        width: 700px;
+        width: 90%;
+    }
+
+    .task-label-divs {
+        width: 100%;
+    }
+
+    #contacts-to-select {
+        width: 90%;
+    }
+
+    .delete-or-keep-subtask {
+        right: 92px;
+    }
+
+    #selected-subtasks {
+        width: 90%;
     }
 }
 
-@media(max-width: 1080px) {
-    .input-border-size {
-        width: 600px;
-    }
-
-    .input-wrapper {
-        width: 600px;
-    }
-
-    .textarea {
-        width: 600px;
-    }
-
-    #task-description {
-        width: 600px;
-    }
-
-    .priority-btns {
-        width: 600px;
-    }
-}
-
-@media(max-width: 940px) {
-    .input-border-size {
-        width: 500px;
-    }
-
-    .input-wrapper {
-        width: 500px;
-    }
-
-    .textarea {
-        width: 500px;
-    }
-
-    #task-description {
-        width: 500px;
-    }
-
-    .priority-btns {
-        width: 500px;
+@media(max-width: 975px) {
+    .delete-or-keep-subtask {
+        right: 80px;
     }
 }
 
@@ -104,48 +82,12 @@
         gap: 8px;
     }
 
-    .input-border-size {
-        width: 400px;
-    }
-
-    .input-wrapper {
-        width: 400px;
-    }
-
-    .textarea {
-        width: 400px;
-    }
-
-    #task-description {
-        width: 400px;
-    }
-
-    .priority-btns {
-        width: 400px;
+    .delete-or-keep-subtask {
+        right: 64px;
     }
 }
 
 @media(max-width: 445px) {
-    .input-border-size {
-        width: 350px;
-    }
-
-    .input-wrapper {
-        width: 350px;
-    }
-
-    .textarea {
-        width: 350px;
-    }
-
-    #task-description {
-        width: 350px;
-    }
-
-    .priority-btns {
-        width: 350px;
-    }
-
     .priority-btns button {
         font-size: 16px;
         height: auto;
@@ -155,29 +97,25 @@
     .priority-btns button svg {
         width: 16px;
     }
-}
 
-@media(max-width: 395px) {
+    .textarea svg {
+        display: none;
+    }
+
+    .delete-or-keep-subtask {
+        right: 51px;
+    }
+
     .input-border-size {
-        width: 300px;
-    }
-
-    .input-wrapper {
-        width: 300px;
-    }
-
-    .textarea {
-        width: 300px;
+        font-size: 16px;
     }
 
     #task-description {
-        width: 300px;
+        font-size: 16px;
     }
+}
 
-    .priority-btns {
-        width: 300px;
-    }
-
+@media(max-width: 395px) {
     .nav {
         font-size: 14px;
         justify-content: center;
@@ -199,29 +137,21 @@
     .task-category {
         font-size: 16px;
     }
+
+    .task-label-divs {
+        font-size: 16px;
+    }
+
+    .input-border-size::placeholder {
+        font-size: 16px;
+    }
+
+    #task-description::placeholder {
+        font-size: 16px;
+    }
 }
 
 @media(max-width: 350px) {
-    .input-border-size {
-        width: 270px;
-    }
-
-    .input-wrapper {
-        width: 270px;
-    }
-
-    .textarea {
-        width: 270px;
-    }
-
-    #task-description {
-        width: 270px;
-    }
-
-    .priority-btns {
-        width: 270px;
-    }
-
     .task-btns {
         width: 270px;
     }
@@ -236,5 +166,13 @@
 
     .title {
         font-size: 40px;
+    }
+
+    .add-task-to-board-div {
+        width: 270px;
+    }
+
+    .priority-btns button {
+        flex-direction: column;
     }
 }

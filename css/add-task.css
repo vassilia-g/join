@@ -264,10 +264,6 @@ input::placeholder {
     background-color: #EFEFEF;
 }
 
-#selected-subtasks {
-    padding-left: 58%;
-}
-
 .subtask-list {
     margin: 8px 0;
     padding: 3px 0 5px 0px;
