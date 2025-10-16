@@ -1,6 +1,13 @@
-function boardTaskTemplate(task, totalSubtasks) {
+function boardTaskTemplate(task, taskId) {
+  let contactsHTML = '';
+  if (task.contactsInitials) {
+    contactsHTML = Object.values(task.contactsInitials)
+      .map(item => item.svg)
+      .join('');
+  }
+
   return `
-    <div class="task" draggable="true" ondragstart="drag(event)">
+    <div class="task" id="${taskId}" draggable="true" ondragstart="drag(event)">
       <span class="category">${task.category}</span>
       <div class="task-description">
         <h3 class="task-title">${task.title}</h3>
@@ -9,14 +16,16 @@ function boardTaskTemplate(task, totalSubtasks) {
       <div class="task-status">
         <div class="progress-bar"></div>
         <div class="subtask-count">
-          <span class="actual-count-of-progress">0</span> /
-          <span class="final-count-of-progress">${totalSubtasks}</span>
+          <span class="actual-count-of-progress">
+            ${task.checkedSubtasks?.subtasks?.length || 0}
+          </span> /
+          <span class="final-count-of-progress">${task.subtasks?.length || ""}</span>
           <span>Subtasks</span>
         </div>
       </div>
       <div class="task-info">
         <div class="assignee">
-          ${task.contactsHTML || ''}
+          ${contactsHTML}
         </div>
         <div class="priority">${task.priorityValue || ''}</div>
       </div>
@@ -27,7 +36,17 @@ function boardTaskTemplate(task, totalSubtasks) {
 
 function boardTaskOverlayTemplate(task, taskId) {
   const subtasks = Array.isArray(task.subtasks) ? task.subtasks : [];
-
+  let contactsHTML = '';
+  if (task.contactsInitials && Object.keys(task.contactsInitials).length > 0) {
+    contactsHTML = Object.values(task.contactsInitials)
+      .map(item => item.svg)
+      .join('');
+  }
+  let contactsName = '';
+  if (task.contactsNames && Object.keys(task.contactsInitials).length > 0) {
+    contactsName = Object.values(task.contactsNames)
+      .join(',');
+  }
   return `
     <div class="task-overlay" id="task-overlay-${taskId}">
       <div class="overlay-header">
@@ -52,7 +71,7 @@ function boardTaskOverlayTemplate(task, taskId) {
       </div>
       <div class="overlay-assignee">
         <h4>Assigned To:</h4>
-        <div class="overlay-selected-contacts">${task.contactsHTML || ''}</div>
+        <div class="overlay-selected-contacts">${contactsHTML || ''} ${contactsName || ''}</div>
       </div>
       <div class="overlay-subtask-count">
         <h4>Subtasks</h4>
@@ -87,5 +106,23 @@ function boardTaskOverlayTemplate(task, taskId) {
         </div>
       </div>
     </div>
+  `;
+}
+
+function editTaskBtnTemplate() {
+  return `
+    <button id="edit-task-btn" onclick="updateTaskAfterEdit('${currentTaskId}')">
+      <p>Ok</p>
+      <div id="edit-task-check">
+        <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <mask id="mask0_75592_9963" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="24">
+            <rect x="0.144531" width="24" height="24" fill="#D9D9D9"/>
+          </mask>
+          <g mask="url(#mask0_75592_9963)">
+            <path d="M9.69474 15.15L18.1697 6.675C18.3697 6.475 18.6072 6.375 18.8822 6.375C19.1572 6.375 19.3947 6.475 19.5947 6.675C19.7947 6.875 19.8947 7.1125 19.8947 7.3875C19.8947 7.6625 19.7947 7.9 19.5947 8.1L10.3947 17.3C10.1947 17.5 9.96141 17.6 9.69474 17.6C9.42807 17.6 9.19474 17.5 8.99474 17.3L4.69474 13C4.49474 12.8 4.3989 12.5625 4.40724 12.2875C4.41557 12.0125 4.51974 11.775 4.71974 11.575C4.91974 11.375 5.15724 11.275 5.43224 11.275C5.70724 11.275 5.94474 11.375 6.14474 11.575L9.69474 15.15Z" fill="#FFFFFF"/>
+          </g>
+        </svg>
+      </div>
+    </button>
   `;
 }

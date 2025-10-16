@@ -1,0 +1,137 @@
+
+@media (max-width: 720px) {
+  .contact-main-section {
+    position: absolute;
+    top: 96px;
+    width: 100%;
+  }
+
+  .contact-main {
+    display: none;
+    width: 100%;
+    overflow-y: hidden;
+  }
+
+  .contact-main.is-open {
+    display: block;
+  }
+
+  .contact-sidebar {
+    margin-bottom: 80px;
+    flex: 1;    
+  }
+
+  .contact-sidebar.hide {
+    display: none !important;
+  }
+
+  .add-contact-button {
+    position: fixed;
+    bottom: 100px;
+    right: 30px; 
+    height: 56px;
+    width: 56px;
+    border-radius: 50%;
+    padding: 0;
+    justify-content: center;
+    gap: 0;
+    font-size: 0;
+    box-shadow: 0px 4px 6px rgba(0,0,0,0.2);
+    z-index: 2000;
+  }
+
+  .add-contact-button svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .contact-main-header{
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    height: auto;
+  }
+
+  .h1-contacts{
+    font-size: 47px;
+  }
+
+  .contact-main-header .p-header-contact{
+    order: 2;
+    font-size: 20px;
+  }
+
+    .contact-main-header .line{
+    order: 3;
+    height: 3px;
+    width: 90px;
+  }
+
+  .desktop-only {
+  display: none;
+}
+
+    .mobile-only {
+      display: block;
+      position: relative;
+    }
+    
+    .menu-toggle{
+        position: fixed;
+        bottom: 139px;
+        right: -22px;
+        height: 56px;
+        width: 56px;
+        border-radius: 50%;
+        background: var(--color-primary);
+        color: white;
+        font-size: 24px;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0px 4px 6px rgba(0,0,0,0.2);
+        z-index: 2000;
+    }
+
+    .menu-toggle:hover {
+        background-color: var(--color-accent);
+        box-shadow: 0px 4px 4px rgb(182, 182, 182);
+        transition: all 0.1s ease;
+    }
+
+    .menu-options {
+    position: fixed;
+    bottom: 136px;
+    right: -24px;
+    background: #fff;
+    border-radius: 20px 20px 0px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 116px;
+    height: 100px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    z-index: 2100;
+    transform: translateX(120%);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  .menu-options button {
+    background: none;
+    border: none;
+    padding: 10px 15px;
+    text-align: left;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  .menu-options button:hover {
+    background: #f0f0f0;
+  }
+
+  .menu-options.show {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+}

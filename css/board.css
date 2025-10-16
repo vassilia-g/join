@@ -208,8 +208,6 @@ button {
     color: #A8A8A8;
 }
 
-/* ab hier Idee für Tasks */
-
 #new-task-div {
     width: 252px;
     height: 263px;
@@ -223,15 +221,12 @@ button {
     cursor: pointer;
     margin-bottom: 16px;
     filter: drop-shadow(3px 3px 3px rgba(0, 0, 0, 0.08));
-}
-
-#task {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     gap: 24px;
-
 }
+
 
 .category {
     width: fit-content;
@@ -388,7 +383,7 @@ button {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: space-between;
     transition: transform 0.5s ease;
@@ -438,8 +433,6 @@ button {
     font-size: 61px;
     line-height: 120%;
 }
-
-.overlay-due-date h4 {}
 
 .overlay-priority {
     display: flex;
@@ -512,6 +505,13 @@ button {
     gap: 8px;
 }
 
+#task-overlay-content .add-task-content {
+    position: relative;
+    height: fit-content;
+    top: 0;
+    left: 0;
+}
+
 #task-overlay-content .create-task {
     flex-direction: column;
 }
@@ -526,6 +526,63 @@ button {
     padding-left: 0;
     align-items: start;
 }
+
+#task-overlay-content #selected-subtasks {
+    padding-left: 2rem;
+    padding-bottom: 2rem;
+}
+
+#task-overlay-content #selected-subtasks p {
+    padding-left: 1rem;
+}
+
+#task-overlay-content li {
+    list-style: none;
+    display: flex;
+    padding-top: 8px;
+}
+
+#edit-task-btn-div {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+#edit-task-btn {
+    width: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-color: var(--color-primary);
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-family: 'Inter';
+    font-size: 16px;
+    padding: 10px;
+}
+
+#edit-task-check {
+    width: 16px;
+    height: 16px;
+    padding-left: 2px;
+}
+
+#edit-task-check svg {
+    width: 16px;
+    height: 16px;
+}
+
+#checkbox-subtasks :hover {
+    cursor: pointer;
+}
+
+.drop-div {
+    width: 100%;
+    min-height: 50%;
+    height: fit-content;
+}
+
 
 @keyframes slideUpBoard {
     0% {

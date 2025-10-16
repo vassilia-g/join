@@ -47,14 +47,19 @@
         height: 80px;
         width: 100%;
         padding: 0;
+        position: fixed;
+        bottom: 0;
+        z-index: 2000;
     }
 
     .nav {
         flex-direction: column;
-        padding: 8px 10px;
+        padding: 8px 4px;
         height: 80px;
         box-sizing: border-box;
         border-radius: 16px;
+        display: flex;
+        justify-content: center;
     }
 
     .page-content {
@@ -68,6 +73,9 @@
 
     .header {
         width: 100vw;
+        position: fixed;
+        top: 0;
+        z-index: 2000;
     }
 
     .logo-header {
@@ -88,6 +96,11 @@
 
     .profile-initials button {
         padding: 6px;
+    }
+
+    .nav svg {
+        width: 24px;
+        height: 24px;
     }
 
     .initials {

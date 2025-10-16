@@ -88,6 +88,8 @@ function createContactItem(contact, index, sortedContacts) {
 function setActiveContact(element, contact) {
     const isActive = element.classList.contains("active");
     const panel = document.getElementById("contact-details");
+    const sidebar = document.querySelector(".contact-sidebar");
+    const main = document.querySelector(".contact-main");
 
     document.querySelectorAll(".contact-item").forEach(item => {
         item.classList.remove("active");
@@ -97,6 +99,11 @@ function setActiveContact(element, contact) {
         element.classList.add("active");
         showContactContent(contact);
         panel.classList.add("is-open");
+        main.classList.add("is-open");
+
+        if (window.innerWidth <= 720) {
+            sidebar.classList.add("hide");
+        }
 
         activeContactId = contact.id;
     } else {
@@ -106,16 +113,24 @@ function setActiveContact(element, contact) {
 }
 
 
+
 function hideContactContent() {
     const panel = document.getElementById("contact-details");
+    const sidebar = document.querySelector(".contact-sidebar");
+    const main = document.querySelector(".contact-main");
     if (!panel) return;
 
     panel.classList.remove("is-open");
+    main.classList.remove("is-open");
+
+    if (window.innerWidth <= 720) {
+        sidebar.classList.remove("hide");
+    }
+
     setTimeout(() => {
         panel.innerHTML = "";
     }, 100);
 }
-
 
 function getInitials(name) {
     if (!name || typeof name !== "string" || !name.trim()) {
@@ -248,4 +263,24 @@ function showToast(message) {
         toast.classList.remove("show");
         setTimeout(() => toast.remove(), 500);
     }, 2000);
+}
+
+function toggleMobileMenu(btn) {
+    const menu = btn.nextElementSibling;
+
+    const isOpen = menu.classList.contains("show");
+    document.querySelectorAll(".menu-options.show").forEach(el => el.classList.remove("show"));
+
+    if (!isOpen) {
+        menu.classList.add("show");
+
+        function closeOnOutsideClick(event) {
+            if (!menu.contains(event.target) && event.target !== btn) {
+                menu.classList.remove("show");
+                document.removeEventListener("click", closeOnOutsideClick);
+            }
+        }
+
+        document.addEventListener("click", closeOnOutsideClick);
+    }
 }

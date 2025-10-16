@@ -37,6 +37,8 @@ const picker = flatpickr("#task-due-date", {
 
 function initAddTask() {
   loadContactsWithoutRendering();
+  removeContactToAPI();
+
 };
 
 async function loadContactsWithoutRendering() {
@@ -133,105 +135,64 @@ function showCalender() {
   picker.open();
 };
 
-function changePriorityToUrgent() {
-  toggleUrgentBtn();
-  changeMediumBtnToDefault();
-  changeLowBtnToDefault();
-}
+urgentButton.addEventListener("click", toggleUrgent);
 
-function toggleUrgentBtn() {
-  if (window.getComputedStyle(urgentButton).backgroundColor === "rgb(255, 255, 255)") {
-    urgentButton.style.backgroundColor = "#FF3D00";
-    urgentButton.style.color = "#FFFFFF";
-    urgentSvgPath.forEach(path => {
-      path.setAttribute("fill", "#FFFFFF");
-    });
+function toggleUrgent() {
+  if (urgentButton.classList.contains('priority-urgent-default')) {
+    urgentButton.classList.remove('priority-urgent-default');
+    urgentButton.classList.add('priority-urgent-active');
+    mediumButton.classList.remove('priority-medium-active');
+    mediumButton.classList.add('priority-medium-default');
+    lowButton.classList.remove('priority-low-active');
+    lowButton.classList.add('priority-low-default');
     urgentButton.isActive = true;
     mediumButton.isActive = false;
     lowButton.isActive = false;
   } else {
-    urgentButton.style.backgroundColor = "#FFFFFF";
-    urgentButton.style.color = "#000000";
-    urgentSvgPath.forEach(path => {
-      path.setAttribute("fill", "#FF3D00");
-    });
+    urgentButton.classList.add('priority-urgent-default');
+    urgentButton.classList.remove('priority-urgent-active');
     urgentButton.isActive = false;
   }
 }
 
-function changePriorityToMedium() {
-  toggleMediumBtn();
-  changeUrgentBtnToDefault();
-  changeLowBtnToDefault();
-}
+mediumButton.addEventListener("click", toggleMedium);
 
-function toggleMediumBtn() {
-  if (window.getComputedStyle(mediumButton).backgroundColor === "rgb(255, 255, 255)") {
-    mediumButton.style.backgroundColor = "#FFA800";
-    mediumButton.style.color = "#FFFFFF";
-    mediumSvgPath.forEach(path => {
-      path.setAttribute("fill", "#FFFFFF");
-    });
+function toggleMedium() {
+  if (mediumButton.classList.contains('priority-medium-default')) {
+    mediumButton.classList.remove('priority-medium-default');
+    mediumButton.classList.add('priority-medium-active');
+    lowButton.classList.remove('priority-low-active');
+    lowButton.classList.add('priority-low-default');
+    urgentButton.classList.remove('priority-urgent-active');
+    urgentButton.classList.add('priority-urgent-default');
+    urgentButton.isActive = false;
     mediumButton.isActive = true;
     lowButton.isActive = false;
-    urgentButton.isActive = false;
   } else {
-    mediumButton.style.backgroundColor = "#FFFFFF";
-    mediumButton.style.color = "#000000";
-    mediumSvgPath.forEach(path => {
-      path.setAttribute("fill", "#FFA800");
-    });
+    mediumButton.classList.add('priority-medium-default');
+    mediumButton.classList.remove('priority-medium-active');
     mediumButton.isActive = false;
   }
 }
 
-function changePriorityToLow() {
-  toggleLowBtn();
-  changeMediumBtnToDefault();
-  changeUrgentBtnToDefault();
-}
+lowButton.addEventListener("click", toggleLow);
 
-function toggleLowBtn() {
-  if (window.getComputedStyle(lowButton).backgroundColor === "rgb(255, 255, 255)") {
-    lowButton.style.backgroundColor = "#7AE229";
-    lowButton.style.color = "#FFFFFF";
-    lowSvgPath.forEach(path => {
-      path.setAttribute("fill", "#FFFFFF");
-    });
-    lowButton.isActive = true;
-    mediumButton.isActive = false;
+function toggleLow() {
+  if (lowButton.classList.contains('priority-low-default')) {
+    lowButton.classList.remove('priority-low-default');
+    lowButton.classList.add('priority-low-active');
+    mediumButton.classList.remove('priority-medium-active');
+    mediumButton.classList.add('priority-medium-default');
+    urgentButton.classList.remove('priority-urgent-active');
+    urgentButton.classList.add('priority-urgent-default');
     urgentButton.isActive = false;
+    mediumButton.isActive = false;
+    lowButton.isActive = true;
   } else {
-    lowButton.style.backgroundColor = "#FFFFFF";
-    lowButton.style.color = "#000000";
-    lowSvgPath.forEach(path => {
-      path.setAttribute("fill", "#7AE229");
-    });
+    lowButton.classList.add('priority-low-default');
+    lowButton.classList.remove('priority-low-active');
     lowButton.isActive = false;
   }
-}
-
-function changeMediumBtnToDefault() {
-  mediumButton.style.backgroundColor = "#FFFFFF";
-  mediumButton.style.color = "#000000";
-  mediumSvgPath.forEach(path => {
-    path.setAttribute("fill", "#FFA800");
-  });
-}
-function changeLowBtnToDefault() {
-  lowButton.style.backgroundColor = "#FFFFFF";
-  lowButton.style.color = "#000000";
-  lowSvgPath.forEach(path => {
-    path.setAttribute("fill", "#7AE229");
-  });
-}
-
-function changeUrgentBtnToDefault() {
-  urgentButton.style.backgroundColor = "#FFFFFF";
-  urgentButton.style.color = "#000000";
-  urgentSvgPath.forEach(path => {
-    path.setAttribute("fill", "#FF3D00");
-  });
 }
 
 function clearTask() {

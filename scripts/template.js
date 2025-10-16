@@ -1,7 +1,7 @@
 function showSidebar() {
     return `
-    <div class="logo">
-        <img src="../assets/imgs/join-logo/Logo-white.svg" />
+    <div class="logo"><a href="./summary.html">
+        <img src="../assets/imgs/join-logo/Logo-white.svg" /></a>
     </div>
     <div class="sidebar-nav">
         <a class="nav" href="./summary.html">
