@@ -11,6 +11,7 @@ async function updateSummaryCounters() {
     let tasksInProgressCounter = document.getElementById('tasks-in-progress-counter');
     let awaitingFeedbackCounter = document.getElementById('awaiting-feedback-counter');
     let urgentCounter = document.getElementById('urgent-counter');
+    let dueDate = document.getElementById('due-date');
 
     //Get tasks
     const allTasks = await tasks;
@@ -24,6 +25,9 @@ async function updateSummaryCounters() {
     tasksInProgressCounter.innerHTML = await getTasksCounterByStatus(taskArray, "inProgress");
     awaitingFeedbackCounter.innerHTML = await getTasksCounterByStatus(taskArray, "awaitingFeedback");
     urgentCounter.innerHTML = await getTasksCounterByPriorityLevel(taskArray, "urgent");
+
+    const firstDueDateTask = await getFirstDueDateTask(taskArray);
+    dueDate.innerHTML = await getTaskDueDate(firstDueDateTask);
 }
 
 async function getTasksCounter(allTasks) {
@@ -36,6 +40,25 @@ async function getTasksCounterByStatus(allTasks, status) {
 
 async function getTasksCounterByPriorityLevel(allTasks, priorityLevel) {
     return allTasks.filter(task => task.priorityLevel === priorityLevel).length;
+}
+
+async function getFirstDueDateTask(allTasks) {
+    if (!Array.isArray(allTasks) || allTasks.length === 0) return null;
+
+    // Return the first task with priorityLevel 'urgent'
+    return allTasks.find(task => task.priorityLevel === 'urgent') || null;
+}
+
+async function getTaskDueDate(task) {
+    if (!task || !task.dueDate) return '-';
+
+    const parsed = new Date(task.dueDate);
+    
+    if (isNaN(parsed.getTime())) {
+        return String(task.dueDate);
+    }
+    
+    return parsed.toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' });
 }
 
 async function updateDayTime() {
@@ -78,7 +101,6 @@ async function updateUserName() {
 
         const user = await getUser();
         if (!user) {
-            console.warn("[updateUserName] getUser() lieferte null.");
             el.textContent = "User";
             return;
         }
@@ -100,6 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
     updateUserName();
 
     if (localStorage.getItem("currentUserId") === "guest") {
+        updateSummaryCounters();
         guestGreeting();
     }
 
