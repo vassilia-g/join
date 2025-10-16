@@ -118,13 +118,11 @@ async function updateUserName() {
 // });
 
 document.addEventListener("DOMContentLoaded", () => {
+    updateSummaryCounters();
     updateDayTime();
     updateUserName();
 
     if (localStorage.getItem("currentUserId") === "guest") {
-        updateSummaryCounters();
         guestGreeting();
     }
-
-    updateSummaryCounters();
 });
