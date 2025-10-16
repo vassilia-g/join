@@ -127,6 +127,12 @@ function hideContactContent() {
         sidebar.classList.remove("hide");
     }
 
+    document.querySelectorAll(".contact-item").forEach(item => {
+        item.classList.remove("active");
+    });
+
+    activeContactId = null;
+
     setTimeout(() => {
         panel.innerHTML = "";
     }, 100);

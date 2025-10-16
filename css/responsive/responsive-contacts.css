@@ -10,6 +10,7 @@
     display: none;
     width: 100%;
     overflow-y: hidden;
+    padding: 32px 16px 32px 16px;
   }
 
   .contact-main.is-open {
@@ -19,6 +20,7 @@
   .contact-sidebar {
     margin-bottom: 80px;
     flex: 1;    
+    padding: 24px 16px 24px 16px;
   }
 
   .contact-sidebar.hide {
@@ -27,8 +29,8 @@
 
   .add-contact-button {
     position: fixed;
-    bottom: 100px;
-    right: 30px; 
+    bottom: 112px;
+    right: 16px; 
     height: 56px;
     width: 56px;
     border-radius: 50%;
@@ -78,8 +80,8 @@
     
     .menu-toggle{
         position: fixed;
-        bottom: 139px;
-        right: -22px;
+        bottom: 195px;
+        right: 0px;
         height: 56px;
         width: 56px;
         border-radius: 50%;
@@ -100,8 +102,8 @@
 
     .menu-options {
     position: fixed;
-    bottom: 136px;
-    right: -24px;
+    bottom: 190px;
+    right: -4px;
     background: #fff;
     border-radius: 20px 20px 0px 20px;
     display: flex;
@@ -133,5 +135,44 @@
     transform: translateX(0);
     opacity: 1;
   }
+
+    .back-button {
+    display: block;
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: -116px;
+    right: 0px;
+    }
+
+    .contact-avatar-show{
+      width: 80px;
+      height: 80px;
+      font-size: 27px;
+      font-weight: 400;
+    }
+
+    .contact-info h2{
+      font-size: 36px;
+      font-weight: 700;
+    }
+
+    .show-contact-template {
+      gap: 20px;
+    }
+
+    .contact-additional-info h3 {
+      font-size: 20px;
+    }
+
+    .contact-additional-info h4 {
+      font-size: 16px;
+    }
+
+
 
 }

@@ -22,11 +22,16 @@ function showContactContent(contact) {
     const detailsDiv = document.getElementById("contact-details");
     detailsDiv.innerHTML = `
          <div class="show-contact-template">
+                 <button class="back-button mobile-only" onclick="hideContactContent()">
+                  <svg width="24" height="24" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M4.43725 8.66673H19.3333C20.0696 8.66673 20.6666 9.26368 20.6666 10.0001C20.6666 10.7364 20.0696 11.3334 19.3333 11.3334H4.43725L10.6466 17.5427C11.1672 18.0634 11.1672 18.9074 10.6466 19.4281C10.126 19.9487 9.28187 19.9487 8.76125 19.4281L0.747464 11.4143C-0.0335847 10.6332 -0.0335831 9.3669 0.747465 8.58585L8.76125 0.57206C9.28187 0.0514398 10.126 0.0514406 10.6466 0.572061C11.1672 1.09268 11.1672 1.93677 10.6466 2.45739L4.43725 8.66673Z" fill="#29ABE2"/>
+                  </svg>
+                 </button>
         <div class="contact-avatar-show" style="background-color:${contact.color}">
          ${getInitials(contact.name || contact.username)}
         </div>
         <div class="contact-info">
-            <h2 style="font-size: 47px; font-weight: 500;">${contact.name || contact.username}</h2>
+            <h2 >${contact.name || contact.username}</h2>
             <div class="edit-delete-buttons">
                 <button class="edit-delete-button desktop-only" onclick="onEditContact('${contact.id}')">
                      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000ff"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/></svg>

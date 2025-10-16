@@ -414,11 +414,18 @@
     font-weight: 500;
     font-size: 47px;
     border: 4px solid rgba(255, 255, 255, 0.85);
+    flex-shrink: 0;
 }
 
 .contact-info {
     display: flex;
     flex-direction: column;
+}
+
+.contact-info h2 {
+    font-size: 47px;
+    font-weight: 500;
+    margin: 0;
 }
 
 .contact-info strong {
@@ -534,5 +541,9 @@
 }
 
 .mobile-only {
+  display: none;
+}
+
+.back-button {
   display: none;
 }
