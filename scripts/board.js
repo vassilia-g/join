@@ -140,6 +140,7 @@ async function drop(event) {
   } catch (error) {
     console.error("❌ Fehler beim Aktualisieren:", error);
   }
+  loadTasks(taskId);
 }
 
 async function createTask() {
@@ -479,13 +480,22 @@ function getTaskPriority(task) {
   const mediumButton = document.getElementById('medium-priority-btn');
   const lowButton = document.getElementById('low-priority-btn');
 
-  if (task.priorityLevel === 'urgent') toggleUrgent(urgentButton);
-  else if (task.priorityLevel === 'medium') toggleMedium(mediumButton);
-  else if (task.priorityLevel === 'low') toggleLow(lowButton);
+  if (task.priorityLevel === 'urgent') {
+    urgentButton.classList.add('priority-urgent-active');
+    urgentButton.classList.remove('priority-urgent-default');
+  }
+  else if (task.priorityLevel === 'medium') {
+    mediumButton.classList.add('priority-medium-active');
+    mediumButton.classList.remove('priority-medium-default');
+  }
+  else if (task.priorityLevel === 'low') {
+    lowButton.classList.add('priority-low-active');
+    lowButton.classList.remove('priority-low-default');
+  };
 
-  urgentButton.onclick = () => toggleUrgent(urgentButton);
-  mediumButton.onclick = () => toggleMedium(mediumButton);
-  lowButton.onclick = () => toggleLow(lowButton);
+  urgentButton.addEventListener('click', () => togglePriorityBtn(urgentButton));
+  mediumButton.addEventListener('click', () => togglePriorityBtn(mediumButton));
+  lowButton.addEventListener('click', () => togglePriorityBtn(lowButton));
 
 }
 
@@ -560,6 +570,9 @@ function updateProgressBar(task) {
 }
 
 async function updateTaskAfterEdit(taskId) {
+  const urgentButton = document.getElementById('urgent-priority-btn');
+  const mediumButton = document.getElementById('medium-priority-btn');
+  const lowButton = document.getElementById('low-priority-btn');
   if (urgentButton.classList.contains('priority-urgent-active')) {
     priorityValue = urgentBoardSvg;
     priorityLevel = 'urgent';

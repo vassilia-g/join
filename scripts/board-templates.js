@@ -1,6 +1,6 @@
 function boardTaskTemplate(taskElement, task, taskId, selectedContactsComplete) {
 taskElement.innerHTML = `
-    <div class="task" id="${taskId}" draggable="true" ondragstart="drag(event)">
+    <div class="task" id="${taskId}" draggable="true" ondragstart="drag(event)" onclick="openTaskOverlay(i)">
       <span class="category">${task.category}</span>
       <div class="task-description">
         <h3 class="task-title">${task.title}</h3>

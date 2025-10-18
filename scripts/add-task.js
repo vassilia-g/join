@@ -18,6 +18,11 @@ let selectedPriority = "";
 let selectedCategory = "";
 const createTaskButton = document.getElementById("create-task-btn");
 createTaskButton.disabled = true;
+const priorityButtons = [
+  document.getElementById('urgent-priority-btn'),
+  document.getElementById('medium-priority-btn'),
+  document.getElementById('low-priority-btn')
+];
 
 document.getElementById("task-title").addEventListener("input", enableCreateTaskButton);
 document.getElementById("task-due-date").addEventListener("input", enableCreateTaskButton);
@@ -38,7 +43,6 @@ const picker = flatpickr("#task-due-date", {
 function initAddTask() {
   loadContactsWithoutRendering();
   removeContactToAPI();
-
 };
 
 async function loadContactsWithoutRendering() {
@@ -135,64 +139,34 @@ function showCalender() {
   picker.open();
 };
 
-urgentButton.addEventListener("click", toggleUrgent);
+priorityButtons.forEach(btn => {
+  btn.addEventListener('click', () => togglePriorityBtn(btn));
+});
 
-function toggleUrgent() {
-  if (urgentButton.classList.contains('priority-urgent-default')) {
-    urgentButton.classList.remove('priority-urgent-default');
-    urgentButton.classList.add('priority-urgent-active');
-    mediumButton.classList.remove('priority-medium-active');
-    mediumButton.classList.add('priority-medium-default');
-    lowButton.classList.remove('priority-low-active');
-    lowButton.classList.add('priority-low-default');
-    urgentButton.isActive = true;
-    mediumButton.isActive = false;
-    lowButton.isActive = false;
+function togglePriorityBtn(clickedButton) {
+let priorities = ["urgent", "medium", "low"];
+
+  priorities.forEach(pr => {
+    const btn = document.getElementById(`${pr}-priority-btn`);
+    btn.classList.remove(`priority-${pr}-active`);
+    btn.classList.add(`priority-${pr}-default`);
+    btn.isActive = false;
+  });
+
+  const currentPriority = priorities.find(pr =>
+    clickedButton.id.includes(pr)
+  );
+  if (clickedButton.classList.contains(`priority-${currentPriority}-default`)) {
+    clickedButton.classList.remove(`priority-${currentPriority}-default`);
+    clickedButton.classList.add(`priority-${currentPriority}-active`);
+    clickedButton.isActive = true;
   } else {
-    urgentButton.classList.add('priority-urgent-default');
-    urgentButton.classList.remove('priority-urgent-active');
-    urgentButton.isActive = false;
+    clickedButton.classList.add(`priority-${currentPriority}-default`);
+    clickedButton.classList.remove(`priority-${currentPriority}-active`);
+    clickedButton.isActive = false;
   }
-}
 
-mediumButton.addEventListener("click", toggleMedium);
-
-function toggleMedium() {
-  if (mediumButton.classList.contains('priority-medium-default')) {
-    mediumButton.classList.remove('priority-medium-default');
-    mediumButton.classList.add('priority-medium-active');
-    lowButton.classList.remove('priority-low-active');
-    lowButton.classList.add('priority-low-default');
-    urgentButton.classList.remove('priority-urgent-active');
-    urgentButton.classList.add('priority-urgent-default');
-    urgentButton.isActive = false;
-    mediumButton.isActive = true;
-    lowButton.isActive = false;
-  } else {
-    mediumButton.classList.add('priority-medium-default');
-    mediumButton.classList.remove('priority-medium-active');
-    mediumButton.isActive = false;
-  }
-}
-
-lowButton.addEventListener("click", toggleLow);
-
-function toggleLow() {
-  if (lowButton.classList.contains('priority-low-default')) {
-    lowButton.classList.remove('priority-low-default');
-    lowButton.classList.add('priority-low-active');
-    mediumButton.classList.remove('priority-medium-active');
-    mediumButton.classList.add('priority-medium-default');
-    urgentButton.classList.remove('priority-urgent-active');
-    urgentButton.classList.add('priority-urgent-default');
-    urgentButton.isActive = false;
-    mediumButton.isActive = false;
-    lowButton.isActive = true;
-  } else {
-    lowButton.classList.add('priority-low-default');
-    lowButton.classList.remove('priority-low-active');
-    lowButton.isActive = false;
-  }
+  console.log(`Aktuelle Priorität: ${currentPriority}, aktiv: ${clickedButton.isActive}`);
 }
 
 function clearTask() {
