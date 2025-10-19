@@ -21,20 +21,13 @@ function deleteSubtask() {
 }
 
 subtaskInput.addEventListener("click", showSubtaskPick);
-document.getElementById("task-title").addEventListener("input", enableCreateTaskButton);
 
 function showSubtaskPick() {
     subtaskPick.classList.remove('d-none');
 }
 
-function addSubtask() {
-    subtasks.push(subtaskInput.value);
-    selectedSubtasks.innerHTML = "";
-    for (let index = 0; index < subtasks.length; index++) {
-        selectedSubtasks.innerHTML += showSubtask(index);
-    }
-    subtaskInput.value = "";
-    subtaskPick.classList.add('d-none');
+async function addSubtask() {
+    await fetch
 }
 
 function deleteSubtaskFromList(index) {

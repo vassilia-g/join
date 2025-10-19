@@ -17,7 +17,9 @@ const addToBoardDiv = document.querySelector('.add-task-to-board-div');
 let selectedPriority = "";
 let selectedCategory = "";
 const createTaskButton = document.getElementById("create-task-btn");
-createTaskButton.disabled = true;
+if (createTaskButton) {
+  createTaskButton.disabled = true;
+}
 const priorityButtons = [
   document.getElementById('urgent-priority-btn'),
   document.getElementById('medium-priority-btn'),
@@ -165,8 +167,6 @@ let priorities = ["urgent", "medium", "low"];
     clickedButton.classList.remove(`priority-${currentPriority}-active`);
     clickedButton.isActive = false;
   }
-
-  console.log(`Aktuelle Priorität: ${currentPriority}, aktiv: ${clickedButton.isActive}`);
 }
 
 function clearTask() {

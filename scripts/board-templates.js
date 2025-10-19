@@ -1,6 +1,6 @@
 function boardTaskTemplate(taskElement, task, taskId, selectedContactsComplete) {
 taskElement.innerHTML = `
-    <div class="task" id="${taskId}" draggable="true" ondragstart="drag(event)" onclick="openTaskOverlay(i)">
+    <div class="task" id="${taskId}" draggable="true" ondragstart="drag(event)" onclick="openTaskOverlay('${taskId}')">
       <span class="category">${task.category}</span>
       <div class="task-description">
         <h3 class="task-title">${task.title}</h3>
@@ -51,7 +51,8 @@ function boardTaskOverlayTemplate(task, taskId) {
   let contactsName = '';
   if (task.contactsNames && Object.keys(task.contactsInitials).length > 0) {
     contactsName = Object.values(task.contactsNames)
-      .join(',');
+      .map(name => `<p>${name}</p>`)
+      .join('');
   }
   return `
     <div class="task-overlay" id="task-overlay-${taskId}">
@@ -77,7 +78,10 @@ function boardTaskOverlayTemplate(task, taskId) {
       </div>
       <div class="overlay-assignee">
         <h4>Assigned To:</h4>
-        <div class="overlay-selected-contacts">${contactsHTML || ''} ${contactsName || ''}</div>
+        <div class="overlay-selected-contacts">
+          <div class="contact-html">${contactsHTML || ''}</div>
+          <div class="contact-html-name">${contactsName || ''}</div>
+        </div>
       </div>
       <div class="overlay-subtask-count">
         <h4>Subtasks</h4>
