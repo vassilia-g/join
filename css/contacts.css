@@ -162,6 +162,11 @@
     gap: 10px;
 }
 
+.popup-leftside p{
+    font-size: 27px;
+    font-weight: 400;
+}
+
 .popup-rightside {
     width: calc(100% - 467px);
     height: 100%;
