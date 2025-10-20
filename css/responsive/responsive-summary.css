@@ -96,9 +96,9 @@
     }
 
     .welcome-message {
-        position: absolute;
-        top: -65px;
-        width: 100%;
+        position: fixed;
+        top: 108px;
+        width: 65%;
         height: 100%;
         position: fixed;
         text-align: center;
@@ -147,6 +147,12 @@
     .summary-content {
         overflow: auto;
         overflow-x: hidden;
+    }
+}
+
+@media (max-width: 720px) {
+    .welcome-message {
+        width: 100%;
     }
 }
 
