@@ -23,6 +23,8 @@ const checkedBox = `<svg width="18" height="18" viewBox="0 0 18 18" fill="none" 
                       <path d="M17 8V14C17 15.6569 15.6569 17 14 17H4C2.34315 17 1 15.6569 1 14V4C1 2.34315 2.34315 1 4 1H12" stroke="#2A3647" stroke-width="2" stroke-linecap="round"/>
                       <path d="M5 9L9 13L17 1.5" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>`
+
+
 const taskInfoRef = document.getElementById('task-info');
 const assigneeRef = document.getElementById('assignee');
 const priorityRef = document.getElementById('priority');
@@ -31,12 +33,14 @@ let currentTaskId;
 let currentSvg = uncheckedBox;
 const currentPage = window.location.pathname.split('/').pop();
 
+
 const boards = [
   { container: document.getElementById('new-task-div'), filler: document.getElementById('to-do-filler') },
   { container: document.getElementById('new-task-progress-div'), filler: document.getElementById('progress-filler') },
   { container: document.getElementById('new-task-feedback-div'), filler: document.getElementById('feedback-filler') },
   { container: document.getElementById('new-task-done-div'), filler: document.getElementById('done-filler') }
 ]
+
 
 boards.forEach(board => {
   const observer = new MutationObserver(mutations => {
@@ -51,13 +55,22 @@ boards.forEach(board => {
   observer.observe(board.container, { childList: true });
 });
 
+
 async function openAddTaskOverlay() {
   const overlayRef = document.getElementById('add-task-overlay');
   const overlayContentRef = document.getElementById('add-task-overlay-content');
   const overlayBackgroundRef = document.getElementById('overlay-background');
   overlayBackgroundRef.classList.remove('d-none');
+  await getAddTaskContent(overlayContentRef);
+  const createTaskButton = document.getElementById("create-task-btn");
+  createTaskButton.disabled = true;
+  showOverlay(overlayRef);
+  getMediumForDefault()
+}
 
-  if (overlayContentRef.innerHTML.trim() === "") {
+
+async function getAddTaskContent(overlayContentRef) {
+   if (overlayContentRef.innerHTML.trim() === "") {
     const response = await fetch('add-task.html');
     const html = await response.text();
     const tempDiv = document.createElement('div');
@@ -68,13 +81,17 @@ async function openAddTaskOverlay() {
     await loadScriptOnce('add-task-sub-menu-script', '../scripts/add-task-sub-menus.js');
     await loadScriptOnce('add-task-template-script', '../scripts/add-task-template.js');
   }
-  const createTaskButton = document.getElementById("create-task-btn");
-  createTaskButton.disabled = true;
+}
+
+
+function showOverlay(overlayRef) {
   overlayRef.classList.add('show');
   overlayRef.classList.remove('hide');
   overlayRef.classList.remove('d-none');
+}
 
-  const mediumButton = document.getElementById('medium-priority-btn');
+
+function getMediumForDefault() {
   mediumButton.classList.remove('priority-medium-default');
   mediumButton.classList.add('priority-medium-active');
   mediumButton.isActive = true;
@@ -85,6 +102,7 @@ async function openAddTaskOverlay() {
   urgentButton.classList.add('priority-urgent-default');
   urgentButton.isActive = false;
 }
+
 
 function closeOverlay() {
   const overlayRef = document.getElementById('add-task-overlay');
@@ -97,23 +115,29 @@ function closeOverlay() {
   }, 600);
 }
 
+
 function allowDrop(event) {
   event.preventDefault();
 }
 
+
 function drag(event) {
   event.dataTransfer.setData("text", event.target.id);
 }
+
 
 async function drop(event) {
   event.preventDefault();
   const taskId = event.dataTransfer.getData("text");
   const draggedElement = document.getElementById(taskId);
   const dropZone = event.currentTarget;
-
   dropZone.appendChild(draggedElement);
+  await switchStatus(dropZone, taskId);
+}
 
-  let newStatus;
+
+async function switchStatus(dropZone, taskId) {
+    let newStatus;
   switch (dropZone.id) {
     case "new-task-div":
       newStatus = "toDo";
@@ -130,8 +154,12 @@ async function drop(event) {
     default:
       newStatus = "toDo";
   }
+  await pushStatusToApi(newStatus, taskId)
+}
 
-  try {
+
+async function pushStatusToApi(newStatus, taskId) {
+    try {
     await fetch(`${BASE_URL}/tasks/${taskId}.json`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -143,36 +171,42 @@ async function drop(event) {
   loadTasks(taskId);
 }
 
+
 async function createTask() {
   await loadContactsWithoutRendering();
+  await getTaskInputs();
+  removeTempContactToAPI();
+  updateCategoryColor();
+}
 
+
+async function getTaskInputs() {
   const title = document.getElementById('task-title').value;
   const description = document.getElementById('task-description').value;
   const dueDate = document.getElementById('task-due-date').value;
   const category = document.getElementById('input-category').innerText;
   const status = "toDo";
-  let priorityLevel = '';
-  if (urgentButton.isActive) priorityLevel = 'urgent';
-  else if (mediumButton.isActive) priorityLevel = 'medium';
-  else if (lowButton.isActive) priorityLevel = 'low';
-  const priorityValue = document.querySelector('.priority-urgent-active')
-    ? urgentBoardSvg
-    : document.querySelector('.priority-medium-active')
-      ? mediumBoardSvg
-      : document.querySelector('.priority-low-active')
-        ? lowBoardSvg
-        : '';
+  await getPriorityFromTask(title, description, dueDate, category, status);
+}
 
-  let initialsArray = [];
-  let namesArray = [];
 
+async function getContactsFromApi(title, description, dueDate, category, status, priorityLevel, priorityValue) {
   try {
     const initialsResponse = await fetch(`${BASE_URL}/tempContact/Initials.json`);
     const initialsData = await initialsResponse.json();
     const namesResponse = await fetch(`${BASE_URL}/tempContact/name.json`);
     const namesData = await namesResponse.json();
+    await createArrayForContacts(initialsData, namesData, title, description, dueDate, category, status, priorityLevel, priorityValue);
+  } catch (err) {
+    console.error('Fehler beim Laden von tempContact:', err);
+  }
+}
 
-    if (initialsData && namesData) {
+
+async function createArrayForContacts(initialsData, namesData, title, description, dueDate, category, status, priorityLevel, priorityValue) {
+  let initialsArray = [];
+  let namesArray = [];
+  if (initialsData && namesData) {
       Object.keys(initialsData).forEach(key => {
         if (namesData[key]) {
           initialsArray.push(initialsData[key]);
@@ -180,10 +214,13 @@ async function createTask() {
         }
       });
     }
-  } catch (err) {
-    console.error('Fehler beim Laden von tempContact:', err);
-  }
-  const newTask = {
+  
+  await pushContentIntoArray(title, description, dueDate, category, status, priorityLevel, priorityValue , initialsArray, namesArray);
+}
+
+
+async function pushContentIntoArray(title, description, dueDate, category, status, priorityLevel, priorityValue , initialsArray, namesArray) {
+    const newTask = {
     title,
     description,
     dueDate,
@@ -196,31 +233,44 @@ async function createTask() {
     contactsInitials: initialsArray,
     contactsNames: namesArray
   };
+  await pushNewTaskToApi(newTask);
+}
 
-  removeTempContactToAPI();
 
+async function getPriorityFromTask(title, description, dueDate, category, status) {
+  let priorityLevel = '';
+  if (urgentButton.isActive) priorityLevel = 'urgent';
+  else if (mediumButton.isActive) priorityLevel = 'medium';
+  else if (lowButton.isActive) priorityLevel = 'low';
+  const priorityValue = document.querySelector('.priority-urgent-active')
+    ? urgentBoardSvg
+    : document.querySelector('.priority-medium-active')
+      ? mediumBoardSvg
+      : document.querySelector('.priority-low-active')
+        ? lowBoardSvg
+        : '';
+  await getContactsFromApi(title, description, dueDate, category, status, priorityLevel, priorityValue);
+}
+
+
+async function pushNewTaskToApi(newTask) {
   try {
     const response = await fetch(`${BASE_URL}/tasks.json`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newTask)
     });
-
     if (!response.ok) {
       throw new Error(`Fehler beim Speichern: ${response.status}`);
     }
-
     const data = await response.json();
-    console.log('Task erfolgreich erstellt:', data);
     newTask.id = data.name;
     window.location.href = "../html/board.html";
-
   } catch (error) {
-    console.error('Fehler beim Erstellen der Task:', error);
     alert('Fehler beim Speichern der Task. Bitte versuche es erneut.');
   }
-  updateCategoryColor();
 }
+
 
 async function removeTempContactToAPI() {
   try {
@@ -233,6 +283,7 @@ async function removeTempContactToAPI() {
   }
 }
 
+
 async function loadTasks(task) {
   const newTaskDiv = document.getElementById('new-task-div');
   const newTaskProgressDiv = document.getElementById('new-task-progress-div');
@@ -242,6 +293,11 @@ async function loadTasks(task) {
   newTaskProgressDiv.innerHTML = '';
   newTaskFeedbackDiv.innerHTML = '';
   newTaskDoneDiv.innerHTML = '';
+  await getTaskfromApiForArray(task, newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv);
+}
+
+
+async function getTaskfromApiForArray(task, newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv) {
   try {
     const response = await fetch(`${BASE_URL}/tasks.json`);
     if (!response.ok) throw new Error('Fehler beim Laden der Tasks');
@@ -251,13 +307,28 @@ async function loadTasks(task) {
       task.id = taskId;
       return task;
     }) : [];
+    createElementForTaskArray(task, newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv, tasksArray);
+  } catch (error) {
+    console.error('Fehler beim Laden der Tasks:', error);
+  }
+}
 
-    tasksArray.forEach((task, i) => {
+
+function createElementForTaskArray(task, newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv, tasksArray) {
+      tasksArray.forEach((task, i) => {
       const taskElement = document.createElement('div');
       checkContactsLength (taskElement, task, task.id);
       taskElement.setAttribute("data-task-index", i);
       taskElement.setAttribute("onclick", `openTaskOverlay('${task.id}')`);
-            let targetColumn;
+      getTargetColumn(newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv, taskElement, task);
+    });
+    checkIfEmpty(tasksArray);
+    updateCategoryColor();
+}
+
+
+function getTargetColumn(newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv, taskElement, task) {
+      let targetColumn;
       switch (task.status) {
         case 'inProgress':
           targetColumn = newTaskProgressDiv;
@@ -273,447 +344,25 @@ async function loadTasks(task) {
       }
       targetColumn.appendChild(taskElement);
       updateProgressBar(task);
-    });
-
-    checkIfEmpty(tasksArray);
-    updateCategoryColor();
-
-  } catch (error) {
-    console.error('Fehler beim Laden der Tasks:', error);
-  }
 }
+
 
 function checkContactsLength(taskElement, task, taskId) {
   let selectedContactsComplete = '';
-
   if (!task.contactsInitials) task.contactsInitials = [];
   if (task.contactsInitials.length <= 3) {
     task.contactsInitials.forEach(contact => {
-      selectedContactsComplete += `
-        <div class="selected-contacts-svg">
-          ${contact.svg || contact.initials || ''}
-        </div>`;
+      selectedContactsComplete += `<div class="selected-contacts-svg">${contact.svg || contact.initials || ''}</div>`;
     });
   } else {
     for (let i = 0; i < 3; i++) {
       const contact = task.contactsInitials[i];
-      selectedContactsComplete += `
-        <div class="selected-contacts-svg">
-          ${contact.svg || contact.initials || ''}
-        </div>`;
+      selectedContactsComplete += `<div class="selected-contacts-svg">${contact.svg || contact.initials || ''}</div>`;
     }
     const extraInitials = task.contactsInitials.slice(3);
     selectedContactsComplete += showMoreContacts(extraInitials);
   }
   boardTaskTemplate(taskElement, task, taskId, selectedContactsComplete);
-
-}
-
-async function openTaskOverlay(taskId) {
-  const overlay = document.getElementById('task-overlay');
-  const overlayContent = document.getElementById('task-overlay-content');
-
-  try {
-    const response = await fetch(`${BASE_URL}/tasks.json`);
-    if (!response.ok) throw new Error('Fehler beim Laden der Tasks');
-
-    const data = await response.json();
-    const task = data[taskId];
-
-    if (!task) {
-      console.warn(`❌ Task mit ID ${taskId} nicht gefunden.`);
-      return;
-    }
-    overlayContent.innerHTML = boardTaskOverlayTemplate(task, taskId);
-    overlay.classList.remove('d-none');
-    overlayContent.classList.remove('d-none');
-
-    setTimeout(() => {
-      overlay.classList.add('active');
-      overlayContent.classList.add('active');
-    }, 10);
-
-    updateCategoryColor();
-  } catch (error) {
-    console.error('Fehler beim Öffnen des Task-Overlays:', error);
-    alert('Task konnte nicht geladen werden.');
-  }
 }
 
 
-function closeTaskOverlay() {
-  const overlay = document.getElementById('task-overlay');
-  const overlayContent = document.getElementById('task-overlay-content');
-  overlay.classList.remove('active');
-  overlayContent.classList.remove('active');
-  setTimeout(() => {
-    overlay.classList.add('d-none');
-    overlayContent.classList.add('d-none');
-  }, 500);
-}
-
-function updateCategoryColor() {
-  const categoryElements = document.querySelectorAll('.category');
-  categoryElements.forEach(categoryElement => {
-    const categoryText = categoryElement.innerText.trim();
-    if (categoryText === "User Story") {
-      categoryElement.style.backgroundColor = '#0038FF';
-    } else if (categoryText === "Technical Task") {
-      categoryElement.style.backgroundColor = '#1FD7C1';
-    } else {
-      categoryElement.style.backgroundColor = '';
-    }
-  });
-}
-
-function checkIfEmpty(tasks) {
-  tasks.forEach((task, i) => {
-    const taskElement = document.querySelector(`[data-task-index="${i}"]`);
-    if (!taskElement) return;
-
-    const taskInfo = taskElement.querySelector('.task-info');
-    const taskContent = taskElement.querySelector('.task-content');
-    const taskStatus = taskElement.querySelector('.task-status');
-
-    const hasContent =
-      (typeof task.description === 'string' && task.description.trim() !== '');
-    const hasDetails =
-      (typeof task.priorityValue === 'string' && task.priorityValue.trim() !== '') ||
-      (task.contactsInitials && Object.keys(task.contactsInitials).length > 0);
-
-    const hasSubtasks = (() => {
-      if (!task.subtasks) return false;
-      if (Array.isArray(task.subtasks)) return task.subtasks.length > 0;
-      if (typeof task.subtasks === 'string') return task.subtasks.trim() !== '';
-      return false;
-    })();
-
-    if (taskInfo) taskInfo.classList.toggle('d-none', !hasDetails);
-    if (taskContent) taskContent.classList.toggle('d-none', !hasContent);
-    if (taskStatus) taskStatus.classList.toggle('d-none', !hasSubtasks);
-  });
-}
-
-async function deleteTask(taskId) {
-  if (!confirm("Willst du diese Task wirklich löschen?")) return;
-
-  try {
-    const response = await fetch(`${BASE_URL}/tasks/${taskId}.json`, {
-      method: 'DELETE'
-    });
-
-    if (!response.ok) throw new Error('Fehler beim Löschen der Task');
-    loadTasks();
-    closeTaskOverlay();
-
-  } catch (error) {
-    console.error('Fehler beim Löschen der Task:', error);
-    alert('Task konnte nicht gelöscht werden.');
-  }
-}
-
-function loadScriptOnce(id, src) {
-  return new Promise((resolve, reject) => {
-    if (document.getElementById(id)) return resolve();
-    const s = document.createElement('script');
-    s.id = id;
-    s.src = src;
-    s.onload = () => resolve();
-    s.onerror = () => reject(new Error(`Script ${src} konnte nicht geladen werden`));
-    document.body.appendChild(s);
-  });
-}
-
-async function editTask(taskId) {
-  currentTaskId = taskId;
-  const overlay = document.getElementById('task-overlay');
-  const overlayContent = document.getElementById('task-overlay-content');
-
-  try {
-    const response = await fetch(`${BASE_URL}/tasks.json`);
-    const data = await response.json();
-    const task = data[taskId];
-    if (!task) throw new Error(`Task mit ID ${taskId} nicht gefunden`);
-
-    const htmlResponse = await fetch('../html/add-task.html');
-    const html = await htmlResponse.text();
-
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = html;
-    const taskContent = tempDiv.querySelector('.create-task');
-    getOverlayContent(overlayContent, taskContent);
-    await loadScriptOnce('add-task-script', '../scripts/add-task.js');
-    await loadScriptOnce('add-task-sub-menu-script', '../scripts/add-task-sub-menus.js');
-    await loadScriptOnce('add-task-template-script', '../scripts/add-task-template.js');
-    getTaskPriority(task);
-    getTaskContent(task, taskId);
-    overlay.classList.remove('d-none');
-    overlay.classList.add('active');
-
-  } catch (error) {
-    console.error('❌ Fehler beim Öffnen des Edit-Overlays:', error);
-    alert('Task konnte nicht geladen werden.');
-  }
-}
-
-function getOverlayContent(overlayContent, taskContent) {
-  overlayContent.innerHTML = '';
-  overlayContent.appendChild(taskContent.cloneNode(true));
-  const innerContainer = document.createElement('div');
-  innerContainer.id = 'edit-task-btn-div';
-  innerContainer.classList.add('edit-extra');
-  overlayContent.appendChild(innerContainer);
-  innerContainer.innerHTML += editTaskBtnTemplate();
-}
-
-function getTaskPriority(task) {
-  const urgentButton = document.getElementById('urgent-priority-btn');
-  const mediumButton = document.getElementById('medium-priority-btn');
-  const lowButton = document.getElementById('low-priority-btn');
-
-  if (task.priorityLevel === 'urgent') {
-    urgentButton.classList.add('priority-urgent-active');
-    urgentButton.classList.remove('priority-urgent-default');
-  }
-  else if (task.priorityLevel === 'medium') {
-    mediumButton.classList.add('priority-medium-active');
-    mediumButton.classList.remove('priority-medium-default');
-  }
-  else if (task.priorityLevel === 'low') {
-    lowButton.classList.add('priority-low-active');
-    lowButton.classList.remove('priority-low-default');
-  };
-
-  urgentButton.addEventListener('click', () => togglePriorityBtn(urgentButton));
-  mediumButton.addEventListener('click', () => togglePriorityBtn(mediumButton));
-  lowButton.addEventListener('click', () => togglePriorityBtn(lowButton));
-}
-
-function getTaskContent(task, taskId) {
-  document.getElementById('task-title').value = task.title || '';
-  document.getElementById('task-description').value = task.description || '';
-  document.getElementById('task-due-date').value = task.dueDate || '';
-  document.getElementById('input-category').innerText = task.category || '';
-  const newSubtaskInput = document.getElementById('task-subtasks');
-  newSubtaskInput.addEventListener('click', () => showSubtaskPicks(task, taskId));
-  getSubtasks(task, taskId);
-}
-
-function showSubtaskPicks(task, taskId) {
-    const subtaskPicks = document.getElementById('delete-or-keep-subtask');
-    const addSubtaskSvg = document.getElementById('add-subtask-svg');
-    subtaskPicks.classList.remove('d-none');
-    addSubtaskSvg.addEventListener('click', () => getNewSubtaskToApi(taskId));
-}
-
-function getSubtasks(task, taskId) {
-  const subtasksList = document.getElementById('selected-subtasks');
-  subtasksList.innerHTML = '';
-  if (task.subtasks && task.subtasks.length > 0) {
-    let checkedSubtasks = task.checkedSubtasks || [];
-    if (!Array.isArray(checkedSubtasks)) {
-      checkedSubtasks = Object.values(checkedSubtasks);
-    }
-    checkedSubtasks = checkedSubtasks.flat();
-    task.subtasks.forEach((subtask, index) => {
-      const isChecked = checkedSubtasks.includes(subtask);
-      const checkboxClass = isChecked ? 'checked' : 'unchecked';
-      const checkboxIcon = isChecked ? checkedBox : uncheckedBox;
-      subtasksList.innerHTML += showApiSubtask(checkboxClass, checkboxIcon, taskId, index, subtask);
-    });
-  }
-}
-
-async function getNewSubtaskToApi(taskId) {
-  const subtaskInput = document.getElementById('task-subtasks').value.trim();
-  if (!subtaskInput) {
-    alert('Bitte gib eine Subtask-Beschreibung ein.');
-    return;
-  }
-
-  try {
-    const response = await fetch(`${BASE_URL}/tasks/${taskId}.json`);
-    const task = await response.json();
-    if (!task) throw new Error(`Task mit ID ${taskId} nicht gefunden`);
-    if (!Array.isArray(task.subtasks)) {
-      task.subtasks = [];
-    }
-    task.subtasks.push(subtaskInput);
-    await fetch(`${BASE_URL}/tasks/${taskId}.json`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(task),
-    });
-    getSubtasks(task, taskId);
-    document.getElementById('task-subtasks').value = '';
-
-  } catch (error) {
-    alert('Subtask konnte nicht hinzugefügt werden.');
-  }
-}
-
-async function editApiSubtask(taskId, subtaskIndex) {
-  const subtasksList = document.getElementById('selected-subtasks');
-  subtasksList.innerHTML = '';
-
-  try {
-    const response = await fetch(`${BASE_URL}/tasks/${taskId}.json`);
-    const task = await response.json();
-    if (!task || !task.subtasks) return;
-
-    const subtask = task.subtasks[subtaskIndex];
-    subtasksList.innerHTML += showApiSubtaskToEdit(subtask, subtaskIndex, taskId);
-    console.log('🟢 Aktueller Subtask-Index:', subtaskIndex);
-
-  } catch (error) {
-    console.error('❌ Fehler beim Laden des Subtasks:', error);
-  }
-}
-
- async function checkEditedApiSubtask(taskId, subtaskIndex) {
-  const inputValue = document.getElementById('edit-input').value;
-  console.log(subtaskIndex);
-  
-  try {
-    const response = await fetch(`${BASE_URL}/tasks.json`);
-    const data = await response.json();
-    const task = data[taskId];
-    if (!task) throw new Error(`Task mit ID ${taskId} nicht gefunden`);
-    checkIfSubtaskWasEdited(task, inputValue, subtaskIndex, taskId);
-    getSubtasks(task, taskId);    
-  } catch (error) {
-    console.error('❌ Fehler beim Öffnen des Edit-Overlays:', error);
-    alert('Task konnte nicht geladen werden.');
-  }
-}
-
-async function deleteSubtaskFromApi(taskId, subtaskIndex) {
-  try {
-    const response = await fetch(`${BASE_URL}/tasks.json`);
-    const data = await response.json();
-    const task = data[taskId];
-    if (!task) throw new Error(`Task mit ID ${taskId} nicht gefunden`);
-
-    if (!Array.isArray(task.subtasks)) {
-      return;
-    }
-    task.subtasks.splice(subtaskIndex, 1);
-    await fetch(`${BASE_URL}/tasks/${taskId}.json`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(task),
-    });
-    getSubtasks(task, taskId);
-  } catch (error) {
-    alert('Subtask konnte nicht gelöscht werden.');
-  }
-   
-}
-
-async function checkIfSubtaskWasEdited(task, input, subtaskIndex, taskId) {
-  const oldValue = task.subtasks[subtaskIndex];
-
-  if (oldValue === input) {
-    console.log('🟢 Keine Änderung am Subtask.');
-    return; // nichts tun
-  }
-
-  console.log(`✏️ Subtask geändert: "${oldValue}" → "${input}"`);
-  task.subtasks[subtaskIndex] = input;
-
-  try {
-    await fetch(`${BASE_URL}/tasks/${taskId}.json`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(task),
-    });
-    console.log('✅ Subtask erfolgreich aktualisiert.');
-  } catch (error) {
-    console.error('❌ Fehler beim Aktualisieren des Subtasks:', error);
-    alert('Subtask konnte nicht gespeichert werden.');
-  }
-}
-
-function toggleBoxChecked(checkbox) {
-  const isChecked = checkbox.classList.toggle('checked');
-  checkbox.classList.toggle('unchecked', !isChecked);
-  checkbox.innerHTML = isChecked ? checkedBox : uncheckedBox;
-}
-
-async function pushCheckedSubtasks(taskId) {
-  const subtasksList = document.getElementById('selected-subtasks');
-  if (!subtasksList) return;
-  const subtasksItems = subtasksList.querySelectorAll('li');
-  const checkedSubtasks = [];
-  subtasksItems.forEach(li => {
-    const checkboxDiv = li.querySelector('.checkbox-subtasks');
-    const subtaskText = li.querySelector('p').innerText.trim();
-    if (checkboxDiv && checkboxDiv.classList.contains('checked')) {
-      checkedSubtasks.push(subtaskText);
-    }
-  });
-
-  try {
-    const response = await fetch(`${BASE_URL}/tasks/${taskId}/checkedSubtasks.json`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ subtasks: checkedSubtasks })
-    });
-
-    if (!response.ok) throw new Error("Fehler beim Pushen der Subtasks");
-  } catch (error) {
-    console.error('❌ Fehler beim Pushen der Subtasks:', error);
-  }
-}
-
-function updateProgressBar(task) {
-  const progressBar = document.getElementById(`progress-bar-${task.id}`);
-  const total = task.subtasks?.length || 0;
-  const done = task.checkedSubtasks?.subtasks?.length || 0;
-  const getProgress = total > 0 ? (100 * done) / total : 0;
-  progressBar.style.width = `${getProgress}%`;
-
-}
-
-async function updateTaskAfterEdit(taskId) {
-  const urgentButton = document.getElementById('urgent-priority-btn');
-  const mediumButton = document.getElementById('medium-priority-btn');
-  const lowButton = document.getElementById('low-priority-btn');
-  if (urgentButton.classList.contains('priority-urgent-active')) {
-    priorityValue = urgentBoardSvg;
-    priorityLevel = 'urgent';
-  } else if (mediumButton.classList.contains('priority-medium-active')) {
-    priorityValue = mediumBoardSvg;
-    priorityLevel = 'medium';
-  } else if (lowButton.classList.contains('priority-low-active')) {
-    priorityValue = lowBoardSvg;
-    priorityLevel = 'low';
-  }
-
-  const updatedTask = {
-    title: document.getElementById('task-title').value,
-    description: document.getElementById('task-description').value,
-    dueDate: document.getElementById('task-due-date').value,
-    category: document.getElementById('input-category').innerText,
-    priorityValue,
-    priorityLevel
-  };
-
-  try {
-    const response = await fetch(`${BASE_URL}/tasks/${taskId}.json`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(updatedTask)
-    });
-
-    if (!response.ok) throw new Error("Fehler beim Speichern der Neuerungen");
-  } catch (error) {
-    console.error('❌ Fehler beim Aktualisieren:', error);
-  }
-
-  await pushCheckedSubtasks(taskId);
-  closeTaskOverlay();
-  loadTasks(updatedTask);
-}
