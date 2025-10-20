@@ -596,6 +596,7 @@ button {
     display: flex;
     justify-content: flex-end;
     width: 100%;
+    padding-top: 42px;
 }
 
 #edit-task-btn {
@@ -633,7 +634,26 @@ button {
     height: fit-content;
 }
 
+.subtasks-list-api {
+    position: relative;
+}
 
+#task-overlay-content .edit-subtask-container {
+    position: absolute;
+    padding-right: 0;
+    height: 32px;
+    left: 48px;
+    padding-top: 6px;
+    margin-left: 0;
+    margin-bottom: 16px;
+    width: 78%;
+}
+
+#task-overlay-content .delete-or-done-edit {
+    display: flex;
+
+
+}
 @keyframes slideUpBoard {
     0% {
         opacity: 0;

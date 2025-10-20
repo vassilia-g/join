@@ -26,9 +26,16 @@ function showSubtaskPick() {
     subtaskPick.classList.remove('d-none');
 }
 
-async function addSubtask() {
-    await fetch
+function addSubtask() {
+    subtasks.push(subtaskInput.value);
+    selectedSubtasks.innerHTML = "";
+    for (let index = 0; index < subtasks.length; index++) {
+        selectedSubtasks.innerHTML += showSubtask(index);
+    }
+    subtaskInput.value = "";
+    subtaskPick.classList.add('d-none');
 }
+
 
 function deleteSubtaskFromList(index) {
     subtasks.splice(index, 1);
@@ -40,9 +47,12 @@ function deleteSubtaskFromList(index) {
 
 function editSubtask(index) {
     selectedSubtasks.innerHTML = "";
-    for (let index = 0; index < subtasks.length; index++) {
-        selectedSubtasks.innerHTML += showSubtask(index);
-    }
+    for (let i = 0; i < subtasks.length; i++) {
+    if (i === index) {
+      selectedSubtasks.innerHTML = "";
+      selectedSubtasks.innerHTML += showSubtaskToEdit(i);
+    } 
+  }
     subtaskListElement = document.getElementsByClassName('subtask-list-element');
     subtaskListElement[index].classList.add('subtask-list-element-edit');
     subtaskListElement[index].innerHTML = showSubtaskToEdit(index);

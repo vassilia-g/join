@@ -285,13 +285,46 @@ input::placeholder {
 }
 
 .delete-or-edit-icons {
-    display: none;
+    display: flex;
+    align-items: center;
+
+}
+
+.delete-or-done-edit {
+    display: flex;
+    align-items: center;
+}
+
+.delete-edit-svg {
+    height: 24px;
+}
+
+.de-edit-svg {
+    height: 24px;
 }
 
 .subtask-list-element:hover .delete-or-edit-icons {
     display: flex;
     align-items: center;
 }
+
+.edit-subtask-container {
+    display: flex;
+    width: 100%;
+    margin-top: 16px;
+    background-color: white;
+    justify-content: space-between;
+    border-bottom: solid 2px;
+    border-color: var(--color-accent);
+    height: 32px;
+}
+
+#edit-input {
+    border: none;
+    width: 85%;
+    font-size: 16px;
+}
+
 
 .delete-or-edit-icons svg {
     margin: 0 2px 0 2px;
