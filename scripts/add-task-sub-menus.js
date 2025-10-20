@@ -10,10 +10,17 @@ const categoryInputAndDropdown = document.getElementById('category-input-and-dro
 const subtaskInput = document.getElementById('task-subtasks');
 const subtaskPick = document.getElementById('delete-or-keep-subtask');
 const selectedSubtasks = document.getElementById('selected-subtasks');
+const addSubtaskSvgs = document.getElementById('add-subtask-svg');
 let subtasks = [];
 const CONTACTS_URL = "https://join-eeec9-default-rtdb.europe-west1.firebasedatabase.app/contacts";
 let subtaskListElement;
 let lastGeneratedId = null;
+
+if (currentPage === 'add-task.html') {
+  addSubtaskSvgs?.addEventListener('click', addSubtask);
+} else if (currentPage === 'board.html') {
+  addSubtaskSvgs?.addEventListener('click', () => getNewSubtaskToApi(taskId));
+}
 
 function deleteSubtask() {
     subtaskInput.value = "";
