@@ -146,6 +146,7 @@
 @media (max-width: 800px) {
     .summary-content {
         overflow: auto;
+        overflow-x: hidden;
     }
 }
 
