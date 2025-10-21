@@ -103,6 +103,8 @@ function setActiveContact(element, contact) {
 
         if (window.innerWidth <= 720) {
             sidebar.classList.add("hide");
+            main.style.display = "block";
+            panel.style.display = "block";
         }
 
         activeContactId = contact.id;
@@ -111,6 +113,33 @@ function setActiveContact(element, contact) {
         activeContactId = null;
     }
 }
+
+function handleResize() {
+    const sidebar = document.querySelector(".contact-sidebar");
+    const main = document.querySelector(".contact-main");
+    const panel = document.getElementById("contact-details");
+
+    if (window.innerWidth <= 720) {
+        if (activeContactId) {
+            // Show details view on mobile when contact is active
+            sidebar.classList.add("hide");
+            main.style.display = "block";
+            panel.style.display = "block";
+        } else {
+            // Hide main content when no contact is active
+            sidebar.classList.remove("hide");
+            main.style.display = "none";
+            panel.style.display = "none";
+        }
+    } else if (window.innerWidth > 720) {
+        // Desktop view - show both sidebar and main
+        sidebar.classList.remove("hide");
+        main.style.display = "block";
+        panel.style.display = "block";
+    }
+}
+
+window.addEventListener('resize', handleResize);
 
 
 
@@ -125,6 +154,9 @@ function hideContactContent() {
 
     if (window.innerWidth <= 720) {
         sidebar.classList.remove("hide");
+        main.style.display = "none";
+        sidebar.style.width = "100%";
+        sidebar.style.display = "block";
     }
 
     document.querySelectorAll(".contact-item").forEach(item => {
