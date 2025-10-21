@@ -5,7 +5,7 @@
 }
 
 .contact-sidebar {
-    width: 456px;
+    max-width: 456px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -46,6 +46,7 @@
     box-sizing: border-box;
     position: relative;
     overflow-x: hidden;
+    overflow-y: hidden;
 
 }
 
@@ -551,4 +552,14 @@
 
 .back-button {
   display: none;
+}
+
+.contact-additional-info{
+    margin-top: 40px;
+}
+
+.contact-additional-info h3{
+    font-size: 20px;
+    font-weight: 400;
+    margin-bottom: 50px;
 }
