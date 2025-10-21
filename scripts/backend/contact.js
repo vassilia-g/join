@@ -46,9 +46,8 @@ async function addContact(event) {
     }
 }
 
-async function deleteContactById(id) {
-    if (!confirm("Willst du diesen Kontakt wirklich löschen?")) return;
 
+async function deleteContactById(id) {
     try {
         await fetch(`${BASE_URL}/contacts/${id}.json`, {
             method: "DELETE"
@@ -56,8 +55,19 @@ async function deleteContactById(id) {
 
         await loadContacts();
         document.getElementById("contact-details").innerHTML = "";
+
+        const sidebar = document.querySelector(".contact-sidebar");
+        const main = document.querySelector(".contact-main");
+
+        if (window.innerWidth <= 720) {
+            sidebar.classList.remove("hide");
+            main.classList.remove("is-open");
+        }
+
+        showToast("Contact successfully deleted");
     } catch (err) {
         console.error("Fehler beim Löschen:", err);
+        showToast("Error deleting contact");
     }
 }
 
