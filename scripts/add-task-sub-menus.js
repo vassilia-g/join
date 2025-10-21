@@ -156,56 +156,42 @@ function checkContact(i) {
         svgContainer.outerHTML = showEmptyCheckbox(i);
         const svgHTML = initials.outerHTML;
         const name = contacts[i].name;
-        removeContactToAPI(svgHTML, name);
+        removeContactToAPI(checkbox);
     } else {
         checkbox.classList.add("checked");
         initials.classList.add("checked");
         svgContainer.outerHTML = showCheckedCheckbox(i);
         const svgHTML = initials.outerHTML;
         const name = contacts[i].name;
-        sendContactToAPI(svgHTML, name);
+        sendContactToAPI(svgHTML, name, checkbox);
     }
 }
 
-async function sendContactToAPI(initialsSVG, name) {
-    try {
-        const response = await fetch(`${BASE_URL}/tempContact/Initials.json`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ svg: initialsSVG })
-        });
-        const data = await response.json();
-        const generatedId = data.name;
-        lastGeneratedId = generatedId;
-        await fetch(`${BASE_URL}/tempContact/name/${generatedId}.json`, {
-            method: 'PUT', // PUT, damit Key gleich bleibt
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(name)
-        });
-
-        console.log("Kontakt erfolgreich gesendet:", name);
-    } catch (error) {
-        console.error("Fehler beim Senden des Kontakts:", error);
-    }
+async function sendContactToAPI(initialsSVG, name, checkbox) {
+    const response = await fetch(`${BASE_URL}/tempContact/Initials.json`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ svg: initialsSVG })
+    });
+    const data = await response.json();
+    const generatedId = data.name;
+    checkbox.dataset.lastId = generatedId;  // <--- hier speichern
+    await fetch(`${BASE_URL}/tempContact/name/${generatedId}.json`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(name)
+    });
 }
 
-async function removeContactToAPI() {
+async function removeContactToAPI(checkbox) {
+    const lastGeneratedId = checkbox.dataset.lastId;
     if (!lastGeneratedId) return;
 
-    try {
-        await fetch(`${BASE_URL}/tempContact/Initials/${lastGeneratedId}.json`, {
-            method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' }
-        });
-        await fetch(`${BASE_URL}/tempContact/name/${lastGeneratedId}.json`, {
-            method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' }
-        });
-        console.log("Kontakt erfolgreich entfernt");
-        lastGeneratedId = null;
-    } catch (error) {
-        console.error("Fehler beim Entfernen des Kontakts:", error);
-    }
+    await fetch(`${BASE_URL}/tempContact/Initials/${lastGeneratedId}.json`, { method: 'DELETE' });
+    await fetch(`${BASE_URL}/tempContact/name/${lastGeneratedId}.json`, { method: 'DELETE' });
+
+    console.log("Kontakt erfolgreich entfernt");
+    delete checkbox.dataset.lastId;
 }
 
 async function showSelectedContacts() {
