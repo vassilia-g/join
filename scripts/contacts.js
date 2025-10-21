@@ -208,8 +208,15 @@ function fillEditContactForm(contact) {
     document.getElementById("edit-name").value = contact.name || contact.username;
     document.getElementById("edit-email").value = contact.email;
     document.getElementById("edit-phone").value = contact.phone || '';
-
     document.getElementById("edit-contact-form").dataset.id = contact.id;
+
+    const avatarDiv = document.getElementById("edit-contact-avatar");
+    const initials = getInitials(contact.name || contact.username);
+    avatarDiv.innerHTML = `
+        <div style="background-color: ${contact.color}; width: 120px; height: 120px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 47px; font-weight: 500;">
+            ${initials}
+        </div>
+    `;
 
 }
 
