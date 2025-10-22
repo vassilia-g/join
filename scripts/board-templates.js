@@ -202,12 +202,15 @@ function showApiSubtaskToEdit(subtask, index, taskId) {
 
 
 function showContactsWithSelectionStateApiTemplate(i, task, contacts, initialsFromTask, contactsToSelect, alreadyInTask) {
+  const contact = contacts[i];
+  const contactInitials = extractInitialsFromSvg(task.contactsInitials[i]?.svg || "");
+  const checkedClass = alreadyInTask ? "checked" : "unchecked";
   if (alreadyInTask) {
     contactsToSelect.innerHTML += `
       <div class="single-contact selected">
         <div class="contact-name">
-          <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="21" cy="21" r="20" fill="${contacts[i].color}" stroke="white" stroke-width="2"/>
+          <svg width="42" height="42" class="${checkedClass}" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="21" cy="21" r="20" fill="${contact.color}" stroke="white" stroke-width="2"/>
             <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" font-size="14" fill="white">
               ${initialsFromTask}
             </text>
@@ -215,7 +218,14 @@ function showContactsWithSelectionStateApiTemplate(i, task, contacts, initialsFr
           <span>${task.contactsNames[i]}</span>
         </div>
         <div class="contact-checkbox">
-          <svg onclick="sendContactToDeleteApi('${task.contactsNames[i]}', ${i}, '${task.id}')" class="checked" id="checkbox-svg-${i}" width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg 
+            onclick="sendContactToDeleteApi('${contactInitials}', ${i}, '${task.id}')"
+            class="checked" 
+            id="checkbox-svg-${i}" 
+            width="25" height="24" 
+            viewBox="0 0 25 24" 
+            fill="none" 
+            xmlns="http://www.w3.org/2000/svg">
             <path d="M20.3882 11V17C20.3882 18.6569 19.045 20 17.3882 20H7.38818C5.73133 20 4.38818 18.6569 4.38818 17V7C4.38818 5.34315 5.73133 4 7.38818 4H15.3882" stroke="#2A3647" stroke-width="2" stroke-linecap="round"/>
             <path d="M8.38818 12L12.3882 16L20.3882 4.5" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
@@ -223,17 +233,16 @@ function showContactsWithSelectionStateApiTemplate(i, task, contacts, initialsFr
       </div>
     `;
   } else {
-    contactsToSelect.innerHTML += showContactsWithoutSelectionStateApiTemplate(contacts[i], i);
+    contactsToSelect.innerHTML += showContactsWithoutSelectionStateApiTemplate(contact, i, contactInitials, task);
   }
 }
 
-
-function showContactsWithoutSelectionStateApiTemplate(contact, index) {
+function showContactsWithoutSelectionStateApiTemplate(contact, i, contactInitials, task) {
   const initials = getInitials(contact.name);
   return `
     <div class="single-contact">
       <div class="contact-name">
-        <svg id="initials-${index}" width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg id="initials-${i}" width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="21" cy="21" r="20" fill="${contact.color}" stroke="white" stroke-width="2"/>
           <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" font-size="14" fill="white">
             ${initials}
@@ -241,8 +250,8 @@ function showContactsWithoutSelectionStateApiTemplate(contact, index) {
         </svg>
         <span>${contact.name}</span>
       </div>
-      <div class="contact-checkbox" id="checkbox-${index}" data-index="${index}">
-        <svg onclick="checkContact(${index})" width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <div class="contact-checkbox" id="checkbox-${i}" data-index="${i}">
+        <svg onclick="sendContactToDeleteApi('${contactInitials}', ${i}, '${task.id}', '${contact.name}', '${contact.color}')" id="checkbox-svg-${i}" width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="4.38818" y="4" width="16" height="16" rx="3" stroke="#2A3647" stroke-width="2"/>
         </svg>
       </div>

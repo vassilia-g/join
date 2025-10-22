@@ -1,3 +1,6 @@
+
+let deletedContacts = [];
+
 async function openTaskOverlay(taskId) {
   try {
     const response = await fetch(`${BASE_URL}/tasks.json`);
@@ -172,11 +175,26 @@ function getTaskContacts(task, taskId, contacts) {
 async function renderSelectedContactsFromApi(task, selectedContacts) {
   try {
     const response = await fetch(`${BASE_URL}/tempContact.json`);
-    if (!response.ok) throw new Error('Fehler beim Laden der Kontakte');
+    if (!response.ok) throw new Error('Fehler beim Laden der tempContacts');
     const tempContacts = await response.json();
-    const selectedHTML = renderSelectedContactsFromApiTemplate(task, tempContacts);
+    const responseDelete = await fetch(`${BASE_URL}/deleteContacts.json`);
+    if (!responseDelete.ok) throw new Error('Fehler beim Laden der deleteContacts');
+    const deleteContactsData = await responseDelete.json();
+    const deletedInitials = Object.values(deleteContactsData || {}).map(dc => dc.initials);
+    const filteredTask = { ...task };
+    if (Array.isArray(task.contactsInitials)) {
+      filteredTask.contactsInitials = task.contactsInitials.filter(obj => {
+        const match = obj.svg.match(/<text[^>]*>([\s\S]*?)<\/text>/i);
+        const svgInitials = match ? match[1].trim() : "";
+        return !deletedInitials.includes(svgInitials); // Nur behalten, wenn nicht gelöscht
+      });
+    }
+    const selectedHTML = renderSelectedContactsFromApiTemplate(filteredTask, tempContacts);
     selectedContacts.innerHTML = selectedHTML;
+
+    console.log("✅ Gerenderte Kontakte ohne gelöschte:", filteredTask.contactsInitials);
     return tempContacts;
+
   } catch (error) {
     console.error('❌ Fehler beim Rendern der Contacts:', error);
     selectedContacts.innerHTML = ''; 
@@ -184,9 +202,11 @@ async function renderSelectedContactsFromApi(task, selectedContacts) {
   }
 }
 
+
 function renderSelectedContactsFromApiTemplate(task, tempContacts) {
   let selectedHTML = '';
   let combinedContacts = [];
+
   if (task.contactsInitials && Array.isArray(task.contactsInitials)) {
     task.contactsInitials.forEach(c => {
       combinedContacts.push({
@@ -195,17 +215,14 @@ function renderSelectedContactsFromApiTemplate(task, tempContacts) {
       });
     });
   }
-  if (tempContacts && tempContacts.Initials && tempContacts.name) {
-    const tempEntries = Object.keys(tempContacts.Initials).map(key => ({
-      id: key,
-      name: tempContacts.name[key],
-      svgData: tempContacts.Initials[key]
-    }));
-    tempEntries.forEach(contact => {
-      const initials = getInitials(contact.name);
+  if (tempContacts && typeof tempContacts === 'object') {
+    Object.keys(tempContacts).forEach(key => {
+      const temp = tempContacts[key];
+      const initials = temp.initials || getInitials(temp.name);
       const alreadyInTask = combinedContacts.some(c => c.initials === initials);
+
       if (!alreadyInTask) {
-        const color = contact.svgData?.color || getRandomColor();
+        const color = temp.color || getRandomColor();
         const svg = `
           <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="21" cy="21" r="20" fill="${color}" stroke="white" stroke-width="2"/>
@@ -218,7 +235,6 @@ function renderSelectedContactsFromApiTemplate(task, tempContacts) {
       }
     });
   }
-
   if (combinedContacts.length <= 3) {
     combinedContacts.forEach(c => {
       selectedHTML += selectedContactsApiTemplate(c);
@@ -263,14 +279,74 @@ async function openDropdownContactsWithApi(task, taskId, contactsToSelect, selec
 
 
 async function showContactsWithSelectionStateApi(i, task, taskId, initialsFromTask = "", contacts, contactsToSelect) {
-  let alreadyInTask = false;
-  if (task?.contactsInitials && Array.isArray(task.contactsInitials)) {
-    alreadyInTask = task.contactsInitials.some(obj => {
-      const match = obj.svg.match(/<text[^>]*>([\s\S]*?)<\/text>/i);
-      const svgInitials = match ? match[1].trim() : "";
-      return svgInitials === initialsFromTask;
-    });
+  console.log("🧾 Lade deleteContacts aus API...");
+
+    let deletedContactsFromApi = [];
+  let tempContactsFromApi = [];
+
+  try {
+    const resDel = await fetch(`${BASE_URL}/deleteContacts.json`);
+    if (!resDel.ok) throw new Error("Fehler beim Laden der deleteContacts");
+    const dataDel = await resDel.json();
+    deletedContactsFromApi = Object.values(dataDel || {})
+      .filter(c => c && c.initials)
+      .map(c => c.initials.trim());
+  } catch (err) {
+    console.error("❌ Fehler beim Laden der deleteContacts:", err);
   }
+
+  try {
+    const resTemp = await fetch(`${BASE_URL}/tempContact.json`);
+    if (!resTemp.ok) throw new Error("Fehler beim Laden der tempContacts");
+    const dataTemp = await resTemp.json();
+    tempContactsFromApi = Object.values(dataTemp || {})
+      .filter(c => c && c.initials)
+      .map(c => c.initials.trim());
+  } catch (err) {
+    console.error("❌ Fehler beim Laden der tempContacts:", err);
+  }
+
+  console.log("🧾 deleteContacts aus API:", deletedContactsFromApi);
+  console.log("🧩 tempContacts aus API:", tempContactsFromApi);
+
+  let alreadyInTask = false;
+  let svgInitials = "";
+
+  if (task?.contactsInitials && Array.isArray(task.contactsInitials)) {
+    const contactObj = task.contactsInitials[i];
+    if (contactObj?.svg) {
+      const match = contactObj.svg.match(/<text[^>]*>([\s\S]*?)<\/text>/i);
+      svgInitials = match ? match[1].trim() : "";
+    }
+
+    alreadyInTask =
+      svgInitials === initialsFromTask &&
+      !deletedContactsFromApi.includes(svgInitials);
+  }
+
+  const contact = contacts[i];
+  const contactInitials = extractInitialsFromSvg(
+    task.contactsInitials[i]?.svg || ""
+  );
+
+  if (deletedContactsFromApi.includes(initialsFromTask)) {
+    console.log(`⚪ "${initialsFromTask}" ist in deleteContacts → unselected anzeigen`);
+    contactsToSelect.innerHTML += showContactsWithoutSelectionStateApiTemplate(
+      contact,
+      i,
+      contactInitials,
+      task
+    );
+    return;
+  }
+
+  if (tempContactsFromApi.includes(initialsFromTask)) {
+    console.log(`✅ "${initialsFromTask}" ist in tempContacts → selected anzeigen`);
+    showContactsWithSelectionStateApiTemplate( i, task, contacts, initialsFromTask, contactsToSelect, true
+    );
+    return;
+  }
+
   showContactsWithSelectionStateApiTemplate(i, task, contacts, initialsFromTask, contactsToSelect, alreadyInTask);
 }
 
@@ -565,7 +641,6 @@ async function pushUpdatedTaskToApi(updatedTask, taskId) {
       },
       body: JSON.stringify(updatedTask)
     });
-
     if (!response.ok) throw new Error("Fehler beim Speichern der Neuerungen");
   } catch (error) {
     console.error('❌ Fehler beim Aktualisieren:', error);
@@ -574,10 +649,11 @@ async function pushUpdatedTaskToApi(updatedTask, taskId) {
 }
 
 
-async function sendContactToDeleteApi(contactName, index) {
+async function sendContactToDeleteApi(contactInitials, index, taskId, contactName, contactColor) {
   const checkboxSvg = document.getElementById(`checkbox-svg-${index}`);
   if (!checkboxSvg) return;
   const isChecked = checkboxSvg.classList.contains('checked');
+
   try {
     if (!isChecked) {
       checkboxSvg.classList.add('checked');
@@ -589,31 +665,45 @@ async function sendContactToDeleteApi(contactName, index) {
       if (!res.ok) throw new Error('Fehler beim Laden der deleteContacts');
       const deleteContactsData = await res.json();
       const matchKey = Object.keys(deleteContactsData || {}).find(
-        key => deleteContactsData[key]?.name === contactName
+        key => deleteContactsData[key]?.initials === contactInitials
       );
       if (matchKey) {
-        const delRes = await fetch(`${BASE_URL}/deleteContacts/${matchKey}.json`, {
-          method: 'DELETE'
-        });
-        if (!delRes.ok) throw new Error('Fehler beim Löschen des Kontakts aus der API');
-        console.log(`🗑️ Kontakt "${contactName}" erfolgreich aus API gelöscht`);
-      } else {
-        console.log(`⚠️ Kein Eintrag mit Namen "${contactName}" in deleteContacts gefunden`);
+        await fetch(`${BASE_URL}/deleteContacts/${matchKey}.json`, { method: 'DELETE' });
+        deletedContacts = deletedContacts.filter(init => init !== contactInitials);
       }
+      await fetch(`${BASE_URL}/tempContact.json`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ initials: contactInitials, name: contactName, color: contactColor })
+      });
+      if (!deletedContacts.includes(contactInitials)) deletedContacts.push(contactInitials);
     } else {
       checkboxSvg.classList.remove('checked');
       checkboxSvg.innerHTML = `
         <rect x="4.38818" y="4" width="16" height="16" rx="3" stroke="#2A3647" stroke-width="2"/>
       `;
+      const tempRes = await fetch(`${BASE_URL}/tempContact.json`);
+      const tempData = await tempRes.json();
+      const tempKey = Object.keys(tempData || {}).find(key => tempData[key]?.initials === contactInitials);
+      if (tempKey) {
+        await fetch(`${BASE_URL}/tempContact/${tempKey}.json`, { method: 'DELETE' });
+      }
       const addRes = await fetch(`${BASE_URL}/deleteContacts.json`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: contactName })
+        body: JSON.stringify({ initials: contactInitials })
       });
-      if (!addRes.ok) throw new Error('Fehler beim Hinzufügen des Kontakts zur API');
-      console.log(`✅ Kontakt "${contactName}" zur API hinzugefügt`);
+      if (!addRes.ok) throw new Error('Fehler beim Hinzufügen des Kontakts zu deleteContacts');
+      if (!deletedContacts.includes(contactInitials)) deletedContacts.push(contactInitials);
     }
+    console.log('deletedContacts:', deletedContacts);
   } catch (err) {
     console.error('❌ Fehler beim Senden an API:', err);
   }
+}
+
+function extractInitialsFromSvg(svgString) {
+  if (!svgString || typeof svgString !== "string") return "";
+  const match = svgString.match(/<text[^>]*>([\s\S]*?)<\/text>/i);
+  return match ? match[1].trim() : "";
 }
