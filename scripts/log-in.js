@@ -1,10 +1,21 @@
-//Funktion wird bei DOMload ausgeführt und führt die Funktions aus moveLogoToTopLeft
-document.addEventListener("DOMContentLoaded", moveLogoToTopLeft)
+document.addEventListener("DOMContentLoaded", () => {
+    const logoWrapper = document.getElementById('logo-wrapper');
+    const logoWeiß = document.getElementById('logo-weiß');
+
+    if (window.innerWidth <= 733) {
+
+        logoWrapper.classList.add('logo-move-to-top-left');
+
+        setTimeout(() => {
+            logoWeiß.src = "/assets/imgs/join-logo/Capa 2.svg";
+        }, 500);
+    } else {
+        moveLogoToTopLeft();
+    }
+});
 
 const users = getAllUsers();
 
-//Funktion wird bei DOMload ausgeführt und führt die Funktion aus, die das Logo bewegen und den Log in Bereich anzeigen lässt.
-// lässt focussierte Inputfelder blau umrandet erscheinen
 document.addEventListener("DOMContentLoaded",
     () => {
         const inputs = document.querySelectorAll(".input-email-container input, .input-password-container input, .input-sign-up-name-container input, .input-sign-up-email-container input, .input-sign-up-password-container input, .input-sign-up-confirm-password-container input");
@@ -20,25 +31,22 @@ document.addEventListener("DOMContentLoaded",
         });
     });
 
-//function ativated when DOM is loaded
-//logo moves to top left
-//sign up and log in container become visible
-//log in area become visible
 function moveLogoToTopLeft() {
-    const logo = document.getElementById('logo');
+    const logoWrapper = document.getElementById('logo-wrapper');
+    const logoWeiß = document.getElementById('logo-weiß');
     const logInContainer = document.getElementById('log-in-container');
     const registryContainer = document.getElementById('registry-container');
 
-    if (logo) {
+    if (logoWrapper) {
         setTimeout(() => {
-            logo.classList.add('logo-move-to-top-left');
+            logoWrapper.classList.add('logo-move-to-top-left');
+            logoWeiß.classList.add('d-none');
             logInContainer.classList.remove('d-none');
             registryContainer.classList.remove('d-none');
         }, 500);
     };
 }
 
-//function changes log in to sign up container
 function showSignUpContainer() {
     const signUpContainer = document.getElementById("sign-up-container");
     const logInContainer = document.getElementById("log-in-container");
@@ -56,7 +64,7 @@ function showSignUpContainer() {
         responsiveRegistryContainer.classList.add("d-none");
     }
 }
-//function enables the button when checkbox is checked
+
 function enableSignUpButton() {
     const signUpButton = document.getElementById("sign-up-form-button");
     const customCheckbox = document.getElementById("custom-checkbox");
@@ -75,7 +83,6 @@ function enableSignUpButton() {
     }
 }
 
-//function disables the button when checkbox is unchecked
 function disableSignUpButton() {
     const signUpButton = document.getElementById("sign-up-form-button");
     const customCheckbox = document.getElementById("custom-checkbox");
@@ -90,7 +97,6 @@ function disableSignUpButton() {
     }
 }
 
-//function checks if passwords match and shows error text if not
 function checkSignUpPasswords(event) {
     event.preventDefault();
     const password = document.getElementById("input-sign-up-password");
@@ -103,7 +109,6 @@ function checkSignUpPasswords(event) {
     }
 }
 
-//function shows success text when signed up and goes back to log in container
 function visibleSignUp() {
     const successText = document.getElementById("successfully-signed-up")
     setTimeout(() => {
@@ -120,7 +125,6 @@ function visibleSignUp() {
 }
 
 function showOverlay() {
-    // event.preventDefault();
     const overlay = document.getElementById("overlay");
     overlay.classList.remove("d-none");
 }
@@ -129,9 +133,6 @@ function hideOverlay() {
     const overlay = document.getElementById("overlay");
     overlay.classList.add("d-none");
 }
-
-//Function is activ when something is typed in the password field
-//changes symbolls depending on input and pw visibility
 function changeSymbols() {
     const passwordInput = document.getElementById('input-password');
     const passwordValue = passwordInput.value;
@@ -152,8 +153,6 @@ function changeSymbols() {
         lockSymbol.classList.remove('d-none');
     }
 }
-
-//on log in function is checking PW and Email and if correct, goes to other page 
 async function goToStartpage(event) {
     event.preventDefault();
 
@@ -167,13 +166,12 @@ async function goToStartpage(event) {
         localStorage.setItem("currentUserId", user.id);
         localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('userInitials', (user.username.match(/\b\w/g) || []).join('').toUpperCase());
-        window.location.replace("html/summary.html"); // <-- overlay? + Infotext
+        window.location.replace("html/summary.html");
     } else {
         redError.classList.remove("d-none");
     }
 }
 
-//function chnanges the type of the password and the symbol accordingly
 function makePasswordVisible() {
     const visibilityOffSymbol = document.getElementById('visibility-off');
     const visibilityOnSymbol = document.getElementById('visibility-on');
@@ -182,7 +180,6 @@ function makePasswordVisible() {
     document.getElementById('input-password').type = 'text';
 }
 
-//function changes the type of the password and the symbol accordingly
 function hidePassword() {
     const visibilityOffSymbol = document.getElementById('visibility-off');
     const visibilityOnSymbol = document.getElementById('visibility-on');
@@ -191,7 +188,6 @@ function hidePassword() {
     document.getElementById('input-password').type = 'password';
 }
 
-//function goes back to log in an disables checkbox
 function backtoLogIn() {
     const logInContainer = document.getElementById('log-in-container');
     logInContainer.classList.remove('d-none');

@@ -84,13 +84,27 @@ footer {
     box-shadow: 0px 4px 4px rgb(182, 182, 182);
 }
 
-.logo {
+.mobile-overlay {
+    display: none;
+}
+
+.logo-weiß {
+    display: none;
+}
+
+.logo-wrapper {
     width: 300px;
     height: 300px;
+    display: flex;
+    justify-content: center;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.logo {
+    z-index: 4;
 }
 
 .logo-move-to-top-left {
@@ -112,7 +126,7 @@ footer {
     background-color: rgb(255, 255, 255);
     border-radius: 30px;
     padding: 48px 115px 85px 115px;
-    margin-top: 100px;
+    margin-top: 180px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -130,7 +144,7 @@ footer {
     display: flex;
     flex-direction: column;
     align-items: center;
-    animation: fade-in 1.5s ease forwards;
+    animation: fade-in 2.5s ease forwards;
     z-index: 2;
 }
 
@@ -151,7 +165,6 @@ h1 {
     margin: 0px;
     padding: 0px;
 }
-
 
 .line,
 .sign-up-line {
@@ -476,14 +489,12 @@ h1 {
     }
 }
 
-
-
 @keyframes fade-in {
-    from {
+    0% {
         opacity: 0;
     }
 
-    to {
+    100% {
         opacity: 1;
     }
 }
