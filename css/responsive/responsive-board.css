@@ -1,11 +1,54 @@
-@media (max-width: 950px) {
-    .title {
-        font-size: 45px;
+@media (max-width: 1370px) {
+    .current-board-tasks {
+        width: 214px;
     }
 
+    .board-tasks {
+        width: 230px;
+    }
+}
+
+@media (max-width: 1320px) {
     .board-task-div {
         display: flex;
         flex-direction: column;
+    }
+
+    .drop-div {
+        width: 255px;
+        display: flex;
+        flex-direction: row;
+        gap: 15px;
+    }
+
+    .board-tasks {
+        width: 100% !important;
+        margin-bottom: 5px;
+        overflow-x: auto;
+        position: relative;
+    }
+
+    .board-tasks-headline {
+        margin-bottom: 15px;
+        margin-top: 20px;
+        display: flex;
+        position: sticky;
+        left: 0;
+        z-index: 10;
+    }
+}
+
+@media (max-width: 1085px) {
+    .board-search-bar {
+        width: 100%;
+    }
+
+    #board-search-input {
+        width: 100%;
+    }
+
+    .board-search-bar-add-task {
+        width: 100%;
     }
 
     .board-search-div {
@@ -43,9 +86,14 @@
         align-items: center;
         padding-top: 3px;
     }
+}
+
+@media (max-width: 985px) {
+    .page-content {
+        overflow-x: hidden;
+    }
 
     .drop-div {
-        /* width: 255px; */
         display: flex;
         flex-direction: row;
         gap: 15px;
@@ -53,44 +101,12 @@
 }
 
 @media (max-width: 450px) {
-    .page-content {
-        overflow-x: hidden;
-    }
-
-    .board-search-bar {
-        width: 100%;
-    }
-
-    #board-search-input {
-        width: 100%;
-    }
-
-    .board-search-bar-add-task {
-        width: 100%;
-    }
-
-    .board-tasks {
-        width: 100% !important;
-        margin-bottom: 5px;
-        overflow-x: auto;
-        position: relative;
+    .title {
+        font-size: 45px;
     }
 
     .board-tasks-headline {
         font-size: 17px;
-        margin-bottom: 15px;
-        margin-top: 20px;
-        display: flex;
-        position: sticky;
-        left: 0;
-        z-index: 10;
-    }
-
-    .drop-div {
-        width: 255px;
-        display: flex;
-        flex-direction: row;
-        gap: 15px;
     }
 
     .board-task-btn {
