@@ -1,0 +1,88 @@
+@media (max-width: 950px) {
+    .title {
+        font-size: 45px;
+    }
+
+    .board-task-div {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .board-search-div {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+
+    .responsive-board-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        margin-bottom: 43px;
+    }
+
+    .responsive-board-header button {
+        align-items: flex-end;
+    }
+
+    .responsive-button-d-block {
+        display: block !important;
+    }
+
+    .responsive-button-d-none {
+        display: none !important;
+    }
+
+    #board-add-task-btn {
+        padding: 0;
+        width: 35px;
+        height: 35px;
+        text-align: center;
+        align-items: center;
+        padding-top: 3px;
+    }
+
+    .drop-div {
+        /* width: 255px; */
+        display: flex;
+        flex-direction: row;
+        gap: 15px;
+    }
+}
+
+@media (max-width: 450px) {
+    .board-search-bar {
+        width: 100%;
+    }
+
+    #board-search-input {
+        width: 100%;
+    }
+
+    .board-search-bar-add-task {
+        width: 100%;
+    }
+
+    .board-tasks {
+        width: 100% !important;
+        margin-bottom: 10px;
+        /* flex-direction: row; */
+    }
+
+    .board-tasks-headline {
+        font-size: 16px;
+        margin-bottom: 5px;
+        display: flex;
+
+    }
+
+    .drop-div {
+        width: 255px;
+        display: flex;
+        flex-direction: row;
+        gap: 15px;
+        /* overflow-x: auto; */
+    }
+}
