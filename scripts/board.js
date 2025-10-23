@@ -252,14 +252,14 @@ async function loadTasks(task) {
   await getTaskfromApiForArray(task, newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv);
 }
 
-function filterTasksByTitle(title) {
+function filterTasksByText(text) {
   const { newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv } = getBoardContainers();
   clearBoardContainers(newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv);
   // If search input is empty, load all tasks
-  if (!title || title.trim() === '') {
+  if (!text || text.trim() === '') {
     getTaskfromApiForArray(null, newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv);
   } else {
-    getTaskfromApiForArrayByTitle(title, newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv);
+    getTaskfromApiForArrayByText(text, newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv);
   }
 }
 
@@ -291,15 +291,15 @@ async function getTaskfromApiForArray(task, newTaskDiv, newTaskProgressDiv, newT
   }
 }
 
-async function getTaskfromApiForArrayByTitle(title, newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv) {
+async function getTaskfromApiForArrayByText(text, newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv) {
   try {
     const data = await getData('tasks');
     const tasksArray = data ? Object.entries(data).map(([taskId, task]) => {
       task.id = taskId;
       return task;
     }) : [];
-    const query = (title || '').toString().trim().toLowerCase();
-    const filtered = query === '' ? tasksArray : tasksArray.filter(t => (t.title || '').toLowerCase().includes(query));
+    const query = (text || '').toString().trim().toLowerCase();
+    const filtered = query === '' ? tasksArray : tasksArray.filter(t => (t.description || t.title || '').toLowerCase().includes(query));
     createElementForTaskArray(null, newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv, filtered);
   } catch (error) {
     console.error('Fehler beim Laden der Tasks:', error);
@@ -363,7 +363,9 @@ function debounce(fn, wait = 500) {
   };
 }
 
-const debouncedFilter = debounce((value) => filterTasksByTitle(value), 200);
+const debouncedFilter = debounce((value) => {
+  filterTasksByText(value);
+}, 200);
 inputElement.addEventListener('input', (event) => {
   debouncedFilter(event.target.value);
 });
