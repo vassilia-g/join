@@ -320,7 +320,7 @@ button {
     display: flex;
 }
 
-.assignee svg{
+.assignee svg {
     margin-right: -0.5rem;
 }
 
@@ -458,13 +458,14 @@ button {
     height: fit-content;
 }
 
-.overlay-assignee h4{
+.overlay-assignee h4 {
     padding-bottom: 6px;
 }
 
 
 .overlay-selected-contacts {
-    display: flex;;
+    display: flex;
+    ;
     gap: 16px;
 }
 
@@ -490,9 +491,9 @@ button {
     padding-left: 16px;
 }
 
-.contact-html-name p{
+.contact-html-name p {
     display: flex;
-    flex-direction: column;    
+    flex-direction: column;
     height: 42px;
     padding-top: 7px;
     padding-bottom: 7px;
@@ -654,6 +655,7 @@ button {
 
 
 }
+
 @keyframes slideUpBoard {
     0% {
         opacity: 0;
@@ -676,4 +678,8 @@ button {
         opacity: 0;
         transform: translate(-50%, 100%);
     }
+}
+
+.responsive-button {
+    display: none !important;
 }
