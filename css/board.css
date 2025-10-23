@@ -600,6 +600,19 @@ button {
     padding-top: 42px;
 }
 
+.edit-or-reset-btn-div {
+    display: flex;
+    gap: 16px;
+}
+
+#reset-task-btn {
+    border-radius: 4px;
+    border: solid 2px var(--color-primary);
+    background-color: white;
+    font-size: 18px;
+    width: 80px;
+}
+
 #edit-task-btn {
     width: 58px;
     display: flex;

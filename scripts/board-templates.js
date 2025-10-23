@@ -119,9 +119,15 @@ function boardTaskOverlayTemplate(task, taskId) {
   `;
 }
 
-function editTaskBtnTemplate() {
+function editandResetTaskBtnTemplate(taskId, task) {
+  console.log('neu',task);
+  
   return `
-    <button id="edit-task-btn" onclick="updateTaskAfterEdit('${currentTaskId}')">
+  <div class="edit-or-reset-btn-div">
+    <button id="reset-task-btn" onclick="resetTaskChangings('${currentTaskId}')">
+      <p>Reset</p>
+    </button>
+    <button id="edit-task-btn" onclick="updateTaskAfterEdit('${taskId}')">
       <p>Ok</p>
       <div id="edit-task-check">
         <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -134,6 +140,7 @@ function editTaskBtnTemplate() {
         </svg>
       </div>
     </button>
+  </div>
   `;
 }
 
@@ -201,25 +208,34 @@ function showApiSubtaskToEdit(subtask, index, taskId) {
 }
 
 
-function showContactsWithSelectionStateApiTemplate(i, task, contacts, initialsFromTask, contactsToSelect, alreadyInTask) {
+function showContactsWithSelectionStateApiTemplate(i, task, contacts, initialsFromTask, contactsToSelect, alreadyInTask, tempContactsFromApi) {
   const contact = contacts[i];
-  const contactInitials = extractInitialsFromSvg(task.contactsInitials[i]?.svg || "");
-  const checkedClass = alreadyInTask ? "checked" : "unchecked";
-  if (alreadyInTask) {
+  let contactInitials = extractInitialsFromSvg(task.contactsInitials[i]?.svg || "");
+  if (!contactInitials) {
+    contactInitials = getInitials(contact.name);
+  }
+
+  console.log(tempContactsFromApi);
+  
+  const isTempContact = tempContactsFromApi.includes(contactInitials) || tempContactsFromApi.includes(initialsFromTask);
+  const isSelected = alreadyInTask || isTempContact;
+  const checkedClass = isSelected ? "checked" : "unchecked";
+
+  if (isSelected) {
     contactsToSelect.innerHTML += `
       <div class="single-contact selected">
         <div class="contact-name">
           <svg width="42" height="42" class="${checkedClass}" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="21" cy="21" r="20" fill="${contact.color}" stroke="white" stroke-width="2"/>
             <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" font-size="14" fill="white">
-              ${initialsFromTask}
+              ${contactInitials}
             </text>
           </svg>
-          <span>${task.contactsNames[i]}</span>
+          <span>${task.contactsNames[i] || contact.name}</span>
         </div>
         <div class="contact-checkbox">
           <svg 
-            onclick="sendContactToDeleteApi('${contactInitials}', ${i}, '${task.id}')"
+            onclick="sendContactToDeleteApi('${contactInitials}', ${i}, '${task.id}', '${contact.name}', '${contact.color}')"
             class="checked" 
             id="checkbox-svg-${i}" 
             width="25" height="24" 

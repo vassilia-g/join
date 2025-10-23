@@ -138,9 +138,10 @@ async function getTaskContentFromApi(overlay, overlayContent, taskId) {
     const data = await response.json();
     const task = data[taskId];
     if (!task) throw new Error(`Task mit ID ${taskId} nicht gefunden`);
-    await getAddTaskInput(taskId, overlayContent)
+    await getAddTaskInput(taskId, overlayContent, task)
     await allAddTaskScripts();
     const contacts = await loadContactsWithoutRendering();
+    disableCategoryEdit();
     getTaskPriority(task);
     getTaskContent(task, taskId);
     getTaskContacts(task, taskId, contacts);
@@ -151,14 +152,20 @@ async function getTaskContentFromApi(overlay, overlayContent, taskId) {
   }
 }
 
+function disableCategoryEdit() {
+  const categoryEdit = document.getElementById('task-category');
+  categoryEdit.onclick = null;
+  categoryEdit.style.cursor = "default";
+}
 
-async function getAddTaskInput(taskId, overlayContent) {
+
+async function getAddTaskInput(taskId, overlayContent, task) {
   const htmlResponse = await fetch('../html/add-task.html');
     const html = await htmlResponse.text();
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = html;
     const taskContent = tempDiv.querySelector('.create-task');
-    getOverlayContent(overlayContent, taskContent, taskId);
+    getOverlayContent(overlayContent, taskContent, taskId, task);
 }
 
 
@@ -191,8 +198,6 @@ async function renderSelectedContactsFromApi(task, selectedContacts) {
     }
     const selectedHTML = renderSelectedContactsFromApiTemplate(filteredTask, tempContacts);
     selectedContacts.innerHTML = selectedHTML;
-
-    console.log("✅ Gerenderte Kontakte ohne gelöschte:", filteredTask.contactsInitials);
     return tempContacts;
 
   } catch (error) {
@@ -279,35 +284,41 @@ async function openDropdownContactsWithApi(task, taskId, contactsToSelect, selec
 
 
 async function showContactsWithSelectionStateApi(i, task, taskId, initialsFromTask = "", contacts, contactsToSelect) {
-  console.log("🧾 Lade deleteContacts aus API...");
 
-    let deletedContactsFromApi = [];
+  let deletedContactsFromApi = [];
   let tempContactsFromApi = [];
+  try {
+  const resDel = await fetch(`${BASE_URL}/deleteContacts.json`);
+  if (!resDel.ok) throw new Error("Fehler beim Laden der deleteContacts");
+  const dataDel = await resDel.json();
+  deletedContactsFromApi = Object.values(dataDel || {}).map(dc => dc.initials?.trim()).filter(Boolean);
+} catch(err) {
+  console.error("❌ Fehler beim Laden der deleteContacts:", err);
+}
 
   try {
-    const resDel = await fetch(`${BASE_URL}/deleteContacts.json`);
-    if (!resDel.ok) throw new Error("Fehler beim Laden der deleteContacts");
-    const dataDel = await resDel.json();
-    deletedContactsFromApi = Object.values(dataDel || {})
-      .filter(c => c && c.initials)
-      .map(c => c.initials.trim());
-  } catch (err) {
-    console.error("❌ Fehler beim Laden der deleteContacts:", err);
+  const resTemp = await fetch(`${BASE_URL}/tempContact.json`);
+  if (!resTemp.ok) throw new Error("Fehler beim Laden der tempContacts");
+  const dataTemp = await resTemp.json();
+  tempContactsFromApi = [];
+  for (const key in dataTemp) {
+    const entry = dataTemp[key];
+    if (entry && entry.initials) {
+      tempContactsFromApi.push(entry.initials.trim());
+    }
+    else if (typeof entry === "object") {
+      for (const innerKey in entry) {
+        const inner = entry[innerKey];
+        if (inner && inner.initials) {
+          tempContactsFromApi.push(inner.initials.trim());
+        }
+      }
+    }
   }
 
-  try {
-    const resTemp = await fetch(`${BASE_URL}/tempContact.json`);
-    if (!resTemp.ok) throw new Error("Fehler beim Laden der tempContacts");
-    const dataTemp = await resTemp.json();
-    tempContactsFromApi = Object.values(dataTemp || {})
-      .filter(c => c && c.initials)
-      .map(c => c.initials.trim());
-  } catch (err) {
-    console.error("❌ Fehler beim Laden der tempContacts:", err);
-  }
-
-  console.log("🧾 deleteContacts aus API:", deletedContactsFromApi);
-  console.log("🧩 tempContacts aus API:", tempContactsFromApi);
+} catch (err) {
+  console.error("❌ Fehler beim Laden der tempContacts:", err);
+}
 
   let alreadyInTask = false;
   let svgInitials = "";
@@ -341,13 +352,12 @@ async function showContactsWithSelectionStateApi(i, task, taskId, initialsFromTa
   }
 
   if (tempContactsFromApi.includes(initialsFromTask)) {
-    console.log(`✅ "${initialsFromTask}" ist in tempContacts → selected anzeigen`);
-    showContactsWithSelectionStateApiTemplate( i, task, contacts, initialsFromTask, contactsToSelect, true
+    showContactsWithSelectionStateApiTemplate( i, task, contacts, initialsFromTask, contactsToSelect, true, tempContactsFromApi
     );
     return;
   }
 
-  showContactsWithSelectionStateApiTemplate(i, task, contacts, initialsFromTask, contactsToSelect, alreadyInTask);
+  showContactsWithSelectionStateApiTemplate(i, task, contacts, initialsFromTask, contactsToSelect, alreadyInTask, tempContactsFromApi);
 }
 
 
@@ -370,14 +380,14 @@ async function allAddTaskScripts() {
 }
 
 
-function getOverlayContent(overlayContent, taskContent) {
+function getOverlayContent(overlayContent, taskContent, taskId, task) {
   overlayContent.innerHTML = '';
   overlayContent.appendChild(taskContent.cloneNode(true));
   const innerContainer = document.createElement('div');
   innerContainer.id = 'edit-task-btn-div';
   innerContainer.classList.add('edit-extra');
   overlayContent.appendChild(innerContainer);
-  innerContainer.innerHTML += editTaskBtnTemplate();
+  innerContainer.innerHTML += editandResetTaskBtnTemplate(taskId, task);
 }
 
 
@@ -535,7 +545,6 @@ async function deleteSubtaskFromApi(taskId, subtaskIndex) {
 async function checkIfSubtaskWasEdited(task, input, subtaskIndex, taskId) {
   const oldValue = task.subtasks[subtaskIndex];
   if (oldValue === input) {
-    console.log('🟢 Keine Änderung am Subtask.');
     return;
   }
   console.log(`✏️ Subtask geändert: "${oldValue}" → "${input}"`);
@@ -603,6 +612,7 @@ async function updateTaskAfterEdit(taskId) {
   const urgentButton = document.getElementById('urgent-priority-btn');
   const mediumButton = document.getElementById('medium-priority-btn');
   const lowButton = document.getElementById('low-priority-btn');
+  let priorityValue, priorityLevel;
   if (urgentButton.classList.contains('priority-urgent-active')) {
     priorityValue = urgentBoardSvg;
     priorityLevel = 'urgent';
@@ -613,11 +623,89 @@ async function updateTaskAfterEdit(taskId) {
     priorityValue = lowBoardSvg;
     priorityLevel = 'low';
   }
-  await updateTaskWithPriority(priorityLevel, priorityValue, taskId);
+  const res = await fetch(`${BASE_URL}/tasks/${taskId}.json`);
+  const task = await res.json();
+  await pushCheckedContacts(task, taskId);
   await pushCheckedSubtasks(taskId);
+  await updateTaskWithPriority(priorityLevel, priorityValue, taskId);
+
   closeTaskOverlay();
 }
 
+
+async function pushCheckedContacts(task, taskId) {
+  try {
+    const [deletedRes, tempRes] = await Promise.all([
+      fetch(`${BASE_URL}/deleteContacts.json`),
+      fetch(`${BASE_URL}/tempContact.json`)
+    ]);
+
+    const deletedData = deletedRes.ok ? await deletedRes.json() : {};
+    const tempData = tempRes.ok ? await tempRes.json() : {};
+
+    const deletedInitials = Object.values(deletedData || {})
+      .map(dc => dc.initials?.trim())
+      .filter(Boolean);
+
+    const tempContacts = Object.values(tempData || {}).map(tc => ({
+      initials: tc.initials?.trim(),
+      name: tc.name?.trim(),
+      color: tc.color
+    }));
+
+    if (!Array.isArray(task.contactsInitials)) task.contactsInitials = [];
+    if (!Array.isArray(task.contactsNames)) task.contactsNames = [];
+    task.contactsInitials = task.contactsInitials.filter(c => {
+      const initials = extractInitialsFromSvg(c.svg);
+      return !deletedInitials.includes(initials);
+    });
+
+    task.contactsNames = task.contactsNames.filter((name, index) => {
+      const initials = extractInitialsFromSvg(task.contactsInitials[index]?.svg || '');
+      return !deletedInitials.includes(initials);
+    });
+    tempContacts.forEach(tc => {
+      const exists = task.contactsInitials.some(
+        c => extractInitialsFromSvg(c.svg) === tc.initials
+      );
+      if (!exists) {
+        const svg = `
+          <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="21" cy="21" r="20" fill="${tc.color}" stroke="white" stroke-width="2"/>
+            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" font-size="14" fill="white">
+              ${tc.initials}
+            </text>
+          </svg>
+        `;
+        task.contactsInitials.push({ svg, initials: tc.initials });
+        task.contactsNames.push(tc.name);
+      }
+    });
+    await fetch(`${BASE_URL}/tasks/${taskId}.json`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contactsInitials: task.contactsInitials,
+        contactsNames: task.contactsNames
+      })
+    });
+    
+      await fetch(`${BASE_URL}/tempContact.json`, {
+      method: 'DELETE'
+    });
+
+    console.log('✅ Task-Kontakte erfolgreich aktualisiert:', {
+      contactsInitials: task.contactsInitials,
+      contactsNames: task.contactsNames
+    });
+
+    return { contactsInitials: task.contactsInitials, contactsNames: task.contactsNames };
+
+  } catch (err) {
+    console.error('❌ Fehler beim Pushen der Kontakte:', err);
+    return { contactsInitials: [], contactsNames: [] };
+  }
+}
 
 async function updateTaskWithPriority(priorityLevel, priorityValue, taskId) {
   const updatedTask = {
@@ -628,7 +716,7 @@ async function updateTaskWithPriority(priorityLevel, priorityValue, taskId) {
     priorityValue,
     priorityLevel
   };
-  await pushUpdatedTaskToApi(updatedTask);
+  await pushUpdatedTaskToApi(updatedTask, taskId);
 }
 
 
@@ -653,6 +741,8 @@ async function sendContactToDeleteApi(contactInitials, index, taskId, contactNam
   const checkboxSvg = document.getElementById(`checkbox-svg-${index}`);
   if (!checkboxSvg) return;
   const isChecked = checkboxSvg.classList.contains('checked');
+  console.log(contactInitials);
+  
 
   try {
     if (!isChecked) {
@@ -676,6 +766,7 @@ async function sendContactToDeleteApi(contactInitials, index, taskId, contactNam
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ initials: contactInitials, name: contactName, color: contactColor })
       });
+      console.log('tempSen1:', contactInitials);
       if (!deletedContacts.includes(contactInitials)) deletedContacts.push(contactInitials);
     } else {
       checkboxSvg.classList.remove('checked');
@@ -706,4 +797,28 @@ function extractInitialsFromSvg(svgString) {
   if (!svgString || typeof svgString !== "string") return "";
   const match = svgString.match(/<text[^>]*>([\s\S]*?)<\/text>/i);
   return match ? match[1].trim() : "";
+}
+
+
+async function resetTaskChangings(taskId) {
+
+  try {
+    const response = await fetch(`${BASE_URL}/deleteContacts.json`, {
+      method: 'DELETE'
+    });
+    if (!response.ok) throw new Error('Fehler beim Löschen der Task');
+  } catch (error) {
+    alert('Task konnte nicht gelöscht werden.');
+  }
+  try {
+    const response = await fetch(`${BASE_URL}/tempContact.json`, {
+      method: 'DELETE'
+    });
+    if (!response.ok) throw new Error('Fehler beim Löschen der Task');
+  } catch (error) {
+    alert('Task konnte nicht gelöscht werden.');
+  }
+  openTaskOverlay(taskId);
+
+
 }
