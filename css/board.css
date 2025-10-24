@@ -37,6 +37,7 @@ button {
     padding-left: 16px;
     border: none;
     font-size: 21px;
+    outline: none;
 }
 
 .add-task-search-icon {
