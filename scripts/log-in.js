@@ -1,11 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
     const logoWrapper = document.getElementById('logo-wrapper');
     const logoWeiß = document.getElementById('logo-weiß');
-
     if (window.innerWidth <= 733) {
-
         logoWrapper.classList.add("logo-move-to-top-left");
-
         setTimeout(() => {
             logoWeiß.src = "/assets/imgs/join-logo/Capa 2.svg";
         }, 500);
