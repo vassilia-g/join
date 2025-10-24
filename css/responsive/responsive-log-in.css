@@ -74,20 +74,20 @@
         background-color: var(--color-primary);
         z-index: 0;
         opacity: 0;
-        animation: overlay-fade 1s ease-in-out forwards;
+        animation: overlay-fade 0.9s ease-in-out forwards;
     }
 
     @keyframes overlay-fade {
-        10% {
-            opacity: 1;
-        }
-
-        20% {
+        0% {
             opacity: 1;
         }
 
         80% {
             opacity: 1;
+        }
+
+        90% {
+            opacity: 0.3;
         }
 
         100% {
@@ -106,8 +106,19 @@
         display: none;
     }
 
+    .logo-move-to-top-left {
+    animation: move-to-top-left 930ms ease-in-out forwards;
+    animation-timing-function: linear;
+}
+
     @keyframes move-to-top-left {
         0% {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        70% {
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);

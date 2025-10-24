@@ -43,7 +43,7 @@ function moveLogoToTopLeft() {
             logoWeiß.classList.add('d-none');
             logInContainer.classList.remove('d-none');
             registryContainer.classList.remove('d-none');
-        }, 500);
+        }, 700);
     };
 }
 
