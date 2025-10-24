@@ -107,9 +107,9 @@
     }
 
     .logo-move-to-top-left {
-    animation: move-to-top-left 930ms ease-in-out forwards;
-    animation-timing-function: linear;
-}
+        animation: move-to-top-left 930ms ease-in-out forwards;
+        animation-timing-function: linear;
+    }
 
     @keyframes move-to-top-left {
         0% {

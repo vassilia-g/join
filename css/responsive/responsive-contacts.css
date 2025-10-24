@@ -1,10 +1,10 @@
 @media (max-width: 1380px) {
-  
-  .contact-main-header{
+
+  .contact-main-header {
     gap: 20px;
   }
 
-  .contact-main{
+  .contact-main {
     padding: 100px 24px 20px 24px;
   }
 
@@ -12,15 +12,15 @@
 
 @media (max-width: 1280px) {
 
-  .h1-contacts{
+  .h1-contacts {
     font-size: 52px;
   }
 
-  .p-header-contact{
+  .p-header-contact {
     font-size: 20px;
   }
 
-  .contact-info h2{
+  .contact-info h2 {
     font-size: 34px;
   }
 
@@ -32,15 +32,15 @@
     width: calc(100% - 340px);
   }
 
-  .popup-contact{
+  .popup-contact {
     width: 940px;
   }
 
-  .input-add-contact{
+  .input-add-contact {
     width: 330px;
   }
 
-  .close-button{
+  .close-button {
     top: 30px;
     left: 890px;
   }
@@ -50,33 +50,33 @@
 
 @media (max-width: 1180px) {
 
-  .contact-sidebar{
+  .contact-sidebar {
     max-width: 400px;
     padding: 24px;
   }
 
-    .contact-main{
+  .contact-main {
     padding: 60px 24px 20px 24px;
     width: 100%;
   }
-  
+
 }
 
 @media (max-width: 1140px) {
 
-  .h1-contacts{
+  .h1-contacts {
     font-size: 40px;
   }
 
-  .p-header-contact{
+  .p-header-contact {
     font-size: 16px;
   }
 
-  .contact-info h2{
+  .contact-info h2 {
     font-size: 24px;
   }
 
-  .contact-avatar-show{
+  .contact-avatar-show {
     width: 70px;
     height: 70px;
     font-size: 24px;
@@ -90,7 +90,7 @@
     font-size: 14px;
   }
 
-  .contact-sidebar{
+  .contact-sidebar {
     max-width: 340px;
     padding: 24px;
   }
@@ -98,13 +98,13 @@
   .contact-item {
     padding: 10px 8px;
     border-radius: 10px;
-}
+  }
 
 }
 
 @media (max-width: 980px) {
 
-  .contact-sidebar{
+  .contact-sidebar {
     max-width: 280px;
     padding: 12px;
   }
@@ -117,7 +117,7 @@
     padding: 6px 4px;
   }
 
-  .contact-letter{
+  .contact-letter {
     font-size: 16px;
     margin: 8px 0px 3px 0px;
     padding-bottom: 14px;
@@ -127,11 +127,11 @@
     font-size: 14px;
   }
 
-  .contact-main{
+  .contact-main {
     padding: 40px 16px 20px 16px;
   }
 
-  .add-contact-button{
+  .add-contact-button {
     font-size: 16px;
   }
 
@@ -139,9 +139,9 @@
     gap: 16px;
   }
 
-      .popup-contact {
+  .popup-contact {
     width: 680px;
-  }  
+  }
 
   .popup-leftside {
     width: 300px;
@@ -152,15 +152,15 @@
     width: calc(100% - 300px);
   }
 
-  .popup-container{
+  .popup-container {
     flex-direction: column;
   }
 
-  .input-button{
+  .input-button {
     justify-content: center;
   }
 
-  .close-button{
+  .close-button {
     top: 20px;
     left: 630px;
   }
@@ -172,34 +172,34 @@
     gap: 12px;
   }
 
-  .h1-contacts{
+  .h1-contacts {
     font-size: 30px;
-  }  
+  }
 
-  .p-header-contact{
+  .p-header-contact {
     font-size: 12px;
-  }  
+  }
 
-  .contact-avatar-show{
+  .contact-avatar-show {
     width: 50px;
     height: 50px;
     font-size: 18px;
   }
 
-  .contact-info h2{
+  .contact-info h2 {
     font-size: 18px;
-  }  
+  }
 
-  .edit-delete-buttons{
+  .edit-delete-buttons {
     gap: 10px;
   }
 
-  .edit-delete-buttons svg{
+  .edit-delete-buttons svg {
     width: 20px;
     height: 20px;
   }
 
-  .desktop-only{
+  .desktop-only {
     gap: 5px;
     font-size: 14px;
   }
@@ -225,7 +225,7 @@
   }
 
   .contact-sidebar.hide {
-     display: none;
+    display: none;
   }
 
   .contact-main.is-open {
@@ -236,13 +236,13 @@
   }
 
   .contact-details.is-open {
-     display: block;
-     width: 100%;
+    display: block;
+    width: 100%;
   }
 
   .contact-sidebar {
     max-width: 100%;
-    flex: 1;    
+    flex: 1;
     padding: 24px 16px 24px 16px;
     margin-top: 96px;
     margin-bottom: 80px;
@@ -252,14 +252,14 @@
     display: none !important;
   }
 
-  .contacts-list{
+  .contacts-list {
     height: 100%;
   }
 
   .add-contact-button {
     position: fixed;
     bottom: 95px;
-    right: 16px; 
+    right: 16px;
     height: 56px;
     width: 56px;
     border-radius: 50%;
@@ -267,11 +267,11 @@
     justify-content: center;
     gap: 0;
     font-size: 0;
-    box-shadow: 0px 4px 6px rgba(0,0,0,0.2);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
     z-index: 2000;
   }
 
-  .sidebar{
+  .sidebar {
     position: fixed;
   }
 
@@ -280,57 +280,57 @@
     height: 32px;
   }
 
-  .contact-main-header{
+  .contact-main-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 16px;
     height: auto;
   }
 
-  .h1-contacts{
+  .h1-contacts {
     font-size: 47px;
   }
 
-  .contact-main-header .p-header-contact{
+  .contact-main-header .p-header-contact {
     order: 2;
     font-size: 20px;
   }
 
-    .contact-main-header .line{
+  .contact-main-header .line {
     order: 3;
     height: 3px;
     width: 90px;
   }
 
   .desktop-only {
-  display: none;
+    display: none;
   }
 
   .mobile-only {
-      display: block;
-      position: relative;
+    display: block;
+    position: relative;
   }
-    
-  .menu-toggle{
-        position: fixed;
-        bottom: 195px;
-        right: 0px;
-        height: 56px;
-        width: 56px;
-        border-radius: 50%;
-        background: var(--color-primary);
-        color: white;
-        font-size: 24px;
-        border: none;
-        cursor: pointer;
-        box-shadow: 0px 4px 6px rgba(0,0,0,0.2);
-        z-index: 2000;
+
+  .menu-toggle {
+    position: fixed;
+    bottom: 195px;
+    right: 0px;
+    height: 56px;
+    width: 56px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: white;
+    font-size: 24px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    z-index: 2000;
   }
 
   .menu-toggle:hover {
-        background-color: var(--color-accent);
-        box-shadow: 0px 4px 4px rgb(182, 182, 182);
-        transition: all 0.1s ease;
+    background-color: var(--color-accent);
+    box-shadow: 0px 4px 4px rgb(182, 182, 182);
+    transition: all 0.1s ease;
   }
 
   .menu-options {
@@ -344,7 +344,7 @@
     justify-content: center;
     width: 116px;
     height: 100px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     z-index: 2100;
     transform: translateX(120%);
     opacity: 0;
@@ -382,130 +382,130 @@
     right: 0px;
   }
 
-  .contact-avatar-show{
-      width: 80px;
-      height: 80px;
-      font-size: 27px;
-      font-weight: 400;
+  .contact-avatar-show {
+    width: 80px;
+    height: 80px;
+    font-size: 27px;
+    font-weight: 400;
   }
 
-  .contact-info h2{
-      font-size: 36px;
-      font-weight: 700;
+  .contact-info h2 {
+    font-size: 36px;
+    font-weight: 700;
   }
 
   .show-contact-template {
-      gap: 20px;
+    gap: 20px;
   }
 
   .contact-additional-info h3 {
-      font-size: 20px;
+    font-size: 20px;
   }
 
   .contact-additional-info h4 {
-      font-size: 16px;
+    font-size: 16px;
   }
 
-  .popup-leftside img{
-      display: none;
+  .popup-leftside img {
+    display: none;
   }
 
-  .popup-leftside{
-      width: 100%;
-      height: 352px;
-      border-radius: 28px 28px 0px 0px;
-      padding: 0px 24px 0px 24px;
+  .popup-leftside {
+    width: 100%;
+    height: 352px;
+    border-radius: 28px 28px 0px 0px;
+    padding: 0px 24px 0px 24px;
   }
 
-  .popup-leftside p{
-      font-size: 20px;
+  .popup-leftside p {
+    font-size: 20px;
   }
 
-  .h2-contacts{
-      font-size: 47px;
+  .h2-contacts {
+    font-size: 47px;
   }
 
-  .profile-picture{
-      position: absolute;
-      top: 292px;
+  .profile-picture {
+    position: absolute;
+    top: 292px;
   }
 
-  .close-button{
-      top: 16px;
-      right: 16px;
-      left: auto;
+  .close-button {
+    top: 16px;
+    right: 16px;
+    left: auto;
   }
 
-  .close-button svg{
-      fill: white;
+  .close-button svg {
+    fill: white;
   }
 
-  .popup-rightside{
-      width: 100%;
-      height: 352px;
-      padding: 0;
+  .popup-rightside {
+    width: 100%;
+    height: 352px;
+    padding: 0;
   }
 
-  .overlay-contact{
-      z-index: 2003;
+  .overlay-contact {
+    z-index: 2003;
   }
 
-  #add-contact-form{
-      margin-top: 70px;
-      width: 100%;
-      display: flex;
+  #add-contact-form {
+    margin-top: 70px;
+    width: 100%;
+    display: flex;
   }
 
-  #edit-contact-form{
-      margin-top: 70px;
-      width: 100%;
-      display: flex;
+  #edit-contact-form {
+    margin-top: 70px;
+    width: 100%;
+    display: flex;
   }
 
-  .delete-button{
-      background-color: white;
+  .delete-button {
+    background-color: white;
   }
 
-  .cancel-button{
-      display: none;
+  .cancel-button {
+    display: none;
   }
 
-  .input-add-contact{
-      width: 100%;
+  .input-add-contact {
+    width: 100%;
   }
 
-  .input-button{
-     justify-content: center;
+  .input-button {
+    justify-content: center;
   }
 
-  .input-container{
-      gap: 15px;
-      width: 100%;
-      padding: 0px 24px;
+  .input-container {
+    gap: 15px;
+    width: 100%;
+    padding: 0px 24px;
   }
 
-  .create-button{
-      width: 202px;
-      height: 51px;
+  .create-button {
+    width: 202px;
+    height: 51px;
   }
 
   .popup-contact {
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, 150%);
-      border-radius: 28px;
-      width: 90%;
-      height: auto;
-      flex-direction: column;
-      max-width: 400px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 150%);
+    border-radius: 28px;
+    width: 90%;
+    height: auto;
+    flex-direction: column;
+    max-width: 400px;
   }
 
   .popup-contact.active {
-      transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
   }
 
-  .input-group{
-      width: 100%;
+  .input-group {
+    width: 100%;
   }
 
   .close-button:hover {
@@ -513,16 +513,22 @@
   }
 
   .contact-info strong {
-      font-size: 20px;
-      font-weight: 400;
+    font-size: 20px;
+    font-weight: 400;
   }
 
   .contact-email {
-      font-size: 12px;
+    font-size: 12px;
   }
 
-  .contact-additional-info h3{
+  .contact-additional-info h3 {
     margin-bottom: 20px;
   }
 
+}
+
+@media (max-width: 350px) {
+  .sidebar-nav {
+    font-size: 16px;
+  }
 }

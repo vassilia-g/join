@@ -113,8 +113,10 @@
         height: 28px;
         width: 28px;
     }
+}
 
-    .sidebar-nav{
+@media (max-width: 350px) {
+    .sidebar-nav {
         font-size: 16px;
     }
 }
