@@ -101,6 +101,8 @@ function openDropdownContacts() {
     }
     dropdownIcon.classList.toggle("open");
     selectedContacts.classList.add('d-none');
+    console.log(contact);
+    
 }
 
 document.onclick = function (event) {
@@ -163,11 +165,12 @@ function checkContact(i) {
         svgContainer.outerHTML = showCheckedCheckbox(i);
         const svgHTML = initials.outerHTML;
         const name = contacts[i].name;
-        sendContactToAPI(svgHTML, name, checkbox);
+        sendContactToAPI(svgHTML, name, checkbox, i);
     }
 }
 
-async function sendContactToAPI(initialsSVG, name, checkbox) {
+async function sendContactToAPI(initialsSVG, name, checkbox, i) {
+    
     const response = await fetch(`${BASE_URL}/tempContact/Initials.json`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -175,11 +178,16 @@ async function sendContactToAPI(initialsSVG, name, checkbox) {
     });
     const data = await response.json();
     const generatedId = data.name;
-    checkbox.dataset.lastId = generatedId;  // <--- hier speichern
+    checkbox.dataset.lastId = generatedId;
     await fetch(`${BASE_URL}/tempContact/name/${generatedId}.json`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(name)
+    });
+        await fetch(`${BASE_URL}/tempContact/color/${generatedId}.json`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(contacts[i].color)
     });
 }
 

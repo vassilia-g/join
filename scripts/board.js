@@ -157,9 +157,8 @@ async function pushStatusToApi(newStatus, taskId) {
 
 async function createTask() {
   await loadContactsWithoutRendering();
+  await removeTempContactToApi();
   await getTaskInputs();
-  removeTempContactToAPI();
-  updateCategoryColor();
 }
 
 async function getTaskInputs() {
@@ -175,28 +174,31 @@ async function getContactsFromApi(title, description, dueDate, category, status,
   try {
     const initialsData = await getData('tempContact/Initials');
     const namesData = await getData('tempContact/name');
-    await createArrayForContacts(initialsData, namesData, title, description, dueDate, category, status, priorityLevel, priorityValue);
+    const colorData = await getData('tempContact/color');
+    await createArrayForContacts(initialsData, namesData, colorData, title, description, dueDate, category, status, priorityLevel, priorityValue);
   } catch (err) {
     console.error('Fehler beim Laden von tempContact:', err);
   }
 }
 
-async function createArrayForContacts(initialsData, namesData, title, description, dueDate, category, status, priorityLevel, priorityValue) {
+async function createArrayForContacts(initialsData, namesData, colorData, title, description, dueDate, category, status, priorityLevel, priorityValue) {
   let initialsArray = [];
   let namesArray = [];
-  if (initialsData && namesData) {
+  let colorArray = [];
+  if (initialsData && namesData && colorData) {
     Object.keys(initialsData).forEach(key => {
       if (namesData[key]) {
         initialsArray.push(initialsData[key]);
         namesArray.push(namesData[key]);
+        colorArray.push(colorData[key]);
       }
     });
   }
 
-  await pushContentIntoArray(title, description, dueDate, category, status, priorityLevel, priorityValue, initialsArray, namesArray);
+  await pushContentIntoArray(title, description, dueDate, category, status, priorityLevel, priorityValue, initialsArray, namesArray, colorArray);
 }
 
-async function pushContentIntoArray(title, description, dueDate, category, status, priorityLevel, priorityValue, initialsArray, namesArray) {
+async function pushContentIntoArray(title, description, dueDate, category, status, priorityLevel, priorityValue, initialsArray, namesArray, colorArray) {
   const newTask = {
     title,
     description,
@@ -208,7 +210,8 @@ async function pushContentIntoArray(title, description, dueDate, category, statu
     createdAt: new Date().toISOString(),
     priorityLevel,
     contactsInitials: initialsArray,
-    contactsNames: namesArray
+    contactsNames: namesArray,
+    contactsColor: colorArray
   };
   await pushNewTaskToApi(newTask);
 }
@@ -238,11 +241,22 @@ async function pushNewTaskToApi(newTask) {
   }
 }
 
-async function removeTempContactToAPI() {
+async function removeTempContactToApi() {
   try {
-    await deleteData('tempContact');
+    const response = await fetch(`${BASE_URL}/tempContact.json`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Fehler: ${response.status}`);
+    }
+
+    console.log("✅ tempContact wurde erfolgreich gelöscht!");
   } catch (error) {
-    console.error("Fehler beim Entfernen des Kontakts:", error);
+    console.error("❌ Fehler beim Entfernen des Kontakts:", error);
   }
 }
 
