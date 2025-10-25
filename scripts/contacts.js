@@ -118,6 +118,8 @@ function handleResize() {
     const sidebar = document.querySelector(".contact-sidebar");
     const main = document.querySelector(".contact-main");
     const panel = document.getElementById("contact-details");
+    // if required elements are missing, bail out safely
+    if (!sidebar || !main || !panel) return;
 
     if (window.innerWidth <= 720) {
         if (activeContactId) {
@@ -139,7 +141,17 @@ function handleResize() {
     }
 }
 
-window.addEventListener('resize', handleResize);
+// attach resize handler after DOM is ready to avoid null elements
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        window.addEventListener('resize', handleResize);
+        // run once to initialize correct layout
+        handleResize();
+    });
+} else {
+    window.addEventListener('resize', handleResize);
+    handleResize();
+}
 
 
 

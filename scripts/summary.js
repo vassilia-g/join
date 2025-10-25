@@ -16,8 +16,6 @@ async function updateSummaryCounters() {
     //Get tasks
     const allTasks = await tasks;
     const taskArray = Object.keys(allTasks).map(key => allTasks[key]);
-    console.log(taskArray);
-
     // Update counters
     tasksInBoardCounter.innerHTML = await getTasksCounter(taskArray);
     toDoCounter.innerHTML = await getTasksCounterByStatus(taskArray, "toDo");
@@ -53,11 +51,11 @@ async function getTaskDueDate(task) {
     if (!task || !task.dueDate) return '-';
 
     const parsed = new Date(task.dueDate);
-    
+
     if (isNaN(parsed.getTime())) {
         return String(task.dueDate);
     }
-    
+
     return parsed.toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' });
 }
 
