@@ -15,6 +15,7 @@ let subtasks = [];
 const CONTACTS_URL = "https://join-eeec9-default-rtdb.europe-west1.firebasedatabase.app/contacts";
 let subtaskListElement;
 let lastGeneratedId = null;
+let selectedContactsState = {};
 
 if (currentPage === 'add-task.html') {
   addSubtaskSvgs?.addEventListener('click', addSubtask);
@@ -145,27 +146,24 @@ function getInitials(name) {
     return (first + last).toUpperCase();
 }
 
-
 function checkContact(i) {
-    let checkbox = document.getElementById(`checkbox-${i}`);
-    let initials = document.getElementById(`initials-${i}`);
-
-    let svgContainer = checkbox.querySelector('svg');
-    if (checkbox.classList.contains("checked")) {
+    const checkbox = document.getElementById(`checkbox-${i}`);
+    const initials = document.getElementById(`initials-${i}`);
+    if (!checkbox || !initials) return;
+    if (selectedContactsState[i]) {
+        selectedContactsState[i] = false;
         initials.classList.remove("checked");
         checkbox.classList.remove("checked");
-        svgContainer.outerHTML = showEmptyCheckbox(i);
-        const svgHTML = initials.outerHTML;
-        const name = contacts[i].name;
+        checkbox.innerHTML = showEmptyCheckbox(i);
         removeContactToAPI(checkbox);
     } else {
-        checkbox.classList.add("checked");
+        selectedContactsState[i] = true;
         initials.classList.add("checked");
-        svgContainer.outerHTML = showCheckedCheckbox(i);
-        const svgHTML = initials.outerHTML;
-        const name = contacts[i].name;
-        sendContactToAPI(svgHTML, name, checkbox, i);
+        checkbox.classList.add("checked");
+        checkbox.innerHTML = showCheckedCheckbox(i);
+        sendContactToAPI(initials.outerHTML, contacts[i].name, checkbox, i);
     }
+    showSelectedContacts();
 }
 
 async function sendContactToAPI(initialsSVG, name, checkbox, i) {
@@ -203,16 +201,20 @@ async function removeContactToAPI(checkbox) {
 
 async function showSelectedContacts() {
     SelectedContactsComplete = '';
-    let checkedInitials = document.querySelectorAll("svg.checked");
-    if (checkedInitials.length <= 3) {
-        checkedInitials.forEach(svg => {
-            SelectedContactsComplete += `<div class="selected-contacts-svg">${svg.outerHTML}</div>`;
-        });
-    } else {
-        for (let i = 0; i < 3; i++) {
-            SelectedContactsComplete += `<div class="selected-contacts-svg">${checkedInitials[i].outerHTML}</div>`;
+    const checkedIndices = Object.keys(selectedContactsState).filter(i => selectedContactsState[i]);
+    checkedIndices.forEach((i, index) => {
+        const initialsSVG = `<svg class="initials-svg checked" width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="21" cy="21" r="20" fill="${contacts[i].color}" stroke="white" stroke-width="2"/>
+            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" font-size="14" fill="white">
+            ${getInitials(contacts[i].name)}</text>
+        </svg>`;
+        
+        if (index < 3) {
+            SelectedContactsComplete += `<div class="selected-contacts-svg">${initialsSVG}</div>`;
         }
-        const extraInitials = Array.from(checkedInitials).slice(3);
+    });
+    if (checkedIndices.length > 3) {
+        const extraInitials = checkedIndices.slice(3);
         SelectedContactsComplete += showMoreContacts(extraInitials);
     }
     selectedContacts.innerHTML = SelectedContactsComplete;

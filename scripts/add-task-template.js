@@ -55,9 +55,11 @@ function showSubtaskToEdit(index) {
 }
 
 
-function showContactsWithSelectionState(i, task, taskId) {
+function showContactsWithSelectionState(i, task) {
   console.log(contacts[i].name);
   const initials = getInitials(contacts[i].name);
+
+  // Prüfen, ob der Kontakt schon im Task ist
   let alreadyInTask = false;
   if (task?.contactsInitials && Array.isArray(task.contactsInitials)) {
     alreadyInTask = task.contactsInitials.some(obj => {
@@ -66,11 +68,15 @@ function showContactsWithSelectionState(i, task, taskId) {
       return svgInitials === initials;
     });
   }
-  if (isContactSelected(initials) || alreadyInTask) {
+
+  // Prüfen, ob der Kontakt aktuell selektiert ist (persistenter Zustand)
+  const isSelected = selectedContactsState[i] || alreadyInTask || isContactSelected(initials);
+
+  if (isSelected) {
     return `
       <div class="single-contact selected">
         <div class="contact-name">
-          <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg class="initials-svg checked" width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="21" cy="21" r="20" fill="${contacts[i].color}" stroke="white" stroke-width="2"/>
             <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" font-size="14" fill="white">
               ${initials}
@@ -97,7 +103,7 @@ function showContacts(i) {
   return `
         <div class="single-contact">
           <div class="contact-name">
-            <svg id="initials-${i}" width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg id="initials-${i}" class="initials-svg" width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
               <circle cx="21" cy="21" r="20" fill="${contacts[i].color}" stroke="white" stroke-width="2"/>
               <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" font-size="14" fill="white">
               ${initials}</text>

@@ -35,6 +35,7 @@ let currentSvg = uncheckedBox;
 const currentPage = window.location.pathname.split('/').pop();
 
 
+
 function initBoards() {
   return [
     { container: document.getElementById('new-task-div'), filler: document.getElementById('to-do-filler') },
@@ -119,8 +120,8 @@ function getMediumForDefault() {
 }
 
 
-function getContactDropdown() {
-  loadContactsWithoutRendering();
+async function getContactDropdown() {
+  await loadContactsWithoutRendering();
   const contactsToSelect = document.getElementById('contacts-to-select');
   const selectedContacts = document.getElementById('selected-contacts');
   const dropdownIcon = document.getElementById('dropdown-icon');
