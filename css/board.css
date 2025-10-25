@@ -38,6 +38,8 @@ button {
     padding-left: 16px;
     border: none;
     font-size: 21px;
+    outline: none;
+    cursor: pointer;
 }
 
 .add-task-search-icon {
@@ -48,6 +50,7 @@ button {
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 }
 
 .board-search-icon {
