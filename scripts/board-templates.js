@@ -1,3 +1,6 @@
+
+
+
 function boardTaskTemplate(taskElement, task, taskId, selectedContactsComplete) {
 taskElement.innerHTML = `
     <div class="task" id="${taskId}" draggable="true" ondragstart="drag(event)" onclick="openTaskOverlay('${taskId}')">

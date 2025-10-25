@@ -285,8 +285,7 @@ input::placeholder {
 }
 
 .delete-or-edit-icons {
-    display: flex;
-    align-items: center;
+    display: none;
 
 }
 

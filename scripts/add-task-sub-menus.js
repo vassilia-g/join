@@ -101,7 +101,6 @@ function openDropdownContacts() {
     }
     dropdownIcon.classList.toggle("open");
     selectedContacts.classList.add('d-none');
-    console.log(contact);
     
 }
 
@@ -205,7 +204,6 @@ async function removeContactToAPI(checkbox) {
 async function showSelectedContacts() {
     SelectedContactsComplete = '';
     let checkedInitials = document.querySelectorAll("svg.checked");
-
     if (checkedInitials.length <= 3) {
         checkedInitials.forEach(svg => {
             SelectedContactsComplete += `<div class="selected-contacts-svg">${svg.outerHTML}</div>`;
@@ -238,7 +236,6 @@ function showTechnicalTaskInInput() {
     categories.classList.remove('show');
     categories.innerHTML = '';
     selectedCategory = "Technical Task";
-    // setCategory();
     enableCreateTaskButton();
 }
 
@@ -248,7 +245,6 @@ function showUserStoryInInput() {
     categories.classList.remove('show');
     categories.innerHTML = '';
     selectedCategory = "User Story";
-    // setCategory();
     enableCreateTaskButton();
 }
 

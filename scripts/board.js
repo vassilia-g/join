@@ -24,6 +24,7 @@ const checkedBox = `<svg width="18" height="18" viewBox="0 0 18 18" fill="none" 
                       <path d="M5 9L9 13L17 1.5" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>`
 
+
 const taskInfoRef = document.getElementById('task-info');
 const assigneeRef = document.getElementById('assignee');
 const priorityRef = document.getElementById('priority');
@@ -33,25 +34,36 @@ let currentTaskId;
 let currentSvg = uncheckedBox;
 const currentPage = window.location.pathname.split('/').pop();
 
-const boards = [
-  { container: document.getElementById('new-task-div'), filler: document.getElementById('to-do-filler') },
-  { container: document.getElementById('new-task-progress-div'), filler: document.getElementById('progress-filler') },
-  { container: document.getElementById('new-task-feedback-div'), filler: document.getElementById('feedback-filler') },
-  { container: document.getElementById('new-task-done-div'), filler: document.getElementById('done-filler') }
-]
 
-boards.forEach(board => {
-  const observer = new MutationObserver(mutations => {
-    mutations.forEach(() => {
-      if (board.container.children.length > 0) {
-        board.filler.classList.add('d-none');
-      } else {
-        board.filler.classList.remove('d-none');
-      }
+function initBoards() {
+  return [
+    { container: document.getElementById('new-task-div'), filler: document.getElementById('to-do-filler') },
+    { container: document.getElementById('new-task-progress-div'), filler: document.getElementById('progress-filler') },
+    { container: document.getElementById('new-task-feedback-div'), filler: document.getElementById('feedback-filler') },
+    { container: document.getElementById('new-task-done-div'), filler: document.getElementById('done-filler') }
+  ];
+}
+
+
+let boards;
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  boards = initBoards();
+  boards.forEach(board => {
+    const observer = new MutationObserver(mutations => {
+      mutations.forEach(() => {
+        if (board.container.children.length > 0) {
+          board.filler.classList.add('d-none');
+        } else {
+          board.filler.classList.remove('d-none');
+        }
+      });
     });
+    observer.observe(board.container, { childList: true });
   });
-  observer.observe(board.container, { childList: true });
 });
+
 
 async function openAddTaskOverlay() {
   const overlayRef = document.getElementById('add-task-overlay');
@@ -62,8 +74,12 @@ async function openAddTaskOverlay() {
   const createTaskButton = document.getElementById("create-task-btn");
   createTaskButton.disabled = true;
   showOverlay(overlayRef);
-  getMediumForDefault()
+  getMediumForDefault();
+  getContactDropdown();
+  getSubtaskRef();
+  refreshBoard()
 }
+
 
 async function getAddTaskContent(overlayContentRef) {
   if (overlayContentRef.innerHTML.trim() === "") {
@@ -79,13 +95,18 @@ async function getAddTaskContent(overlayContentRef) {
   }
 }
 
+
 function showOverlay(overlayRef) {
   overlayRef.classList.add('show');
   overlayRef.classList.remove('hide');
   overlayRef.classList.remove('d-none');
 }
 
+
 function getMediumForDefault() {
+  const urgentButton = document.getElementById('urgent-priority-btn');
+  const mediumButton = document.getElementById('medium-priority-btn');
+  const lowButton = document.getElementById('low-priority-btn');
   mediumButton.classList.remove('priority-medium-default');
   mediumButton.classList.add('priority-medium-active');
   mediumButton.isActive = true;
@@ -96,6 +117,36 @@ function getMediumForDefault() {
   urgentButton.classList.add('priority-urgent-default');
   urgentButton.isActive = false;
 }
+
+
+function getContactDropdown() {
+  loadContactsWithoutRendering();
+  const contactsToSelect = document.getElementById('contacts-to-select');
+  const selectedContacts = document.getElementById('selected-contacts');
+  const dropdownIcon = document.getElementById('dropdown-icon');
+}
+
+function getSubtaskRef() {
+  const subtaskInput = document.getElementById('task-subtasks');
+  const subtaskPick = document.getElementById('delete-or-keep-subtask');
+  const selectedSubtasks = document.getElementById('selected-subtasks');
+  const addSubtaskSvgs = document.getElementById('add-subtask-svg');
+  addSubtaskSvgs.onclick = null;
+  addSubtaskSvgs.onclick = addSubtask;
+}
+
+
+function refreshBoard() {
+  const title = document.getElementById("task-title")
+  const category = document.getElementById("input-category")
+  const dueDate = document.getElementById("task-due-date")
+  const createTaskButton = document.getElementById("create-task-btn");
+  createTaskButton.onclick = async () => {
+    closeOverlay();
+    await createTask();
+  };
+}
+
 
 function closeOverlay() {
   const overlayRef = document.getElementById('add-task-overlay');
@@ -108,13 +159,16 @@ function closeOverlay() {
   }, 600);
 }
 
+
 function allowDrop(event) {
   event.preventDefault();
 }
 
+
 function drag(event) {
   event.dataTransfer.setData("text", event.target.id);
 }
+
 
 async function drop(event) {
   event.preventDefault();
@@ -124,6 +178,7 @@ async function drop(event) {
   dropZone.appendChild(draggedElement);
   await switchStatus(dropZone, taskId);
 }
+
 
 async function switchStatus(dropZone, taskId) {
   let newStatus;
@@ -146,6 +201,7 @@ async function switchStatus(dropZone, taskId) {
   await pushStatusToApi(newStatus, taskId)
 }
 
+
 async function pushStatusToApi(newStatus, taskId) {
   try {
     await patchData(`tasks/${taskId}`, { status: newStatus });
@@ -155,11 +211,12 @@ async function pushStatusToApi(newStatus, taskId) {
   loadTasks(taskId);
 }
 
+
 async function createTask() {
   await loadContactsWithoutRendering();
-  await removeTempContactToApi();
   await getTaskInputs();
 }
+
 
 async function getTaskInputs() {
   const title = document.getElementById('task-title').value;
@@ -169,6 +226,7 @@ async function getTaskInputs() {
   const status = "toDo";
   await getPriorityFromTask(title, description, dueDate, category, status);
 }
+
 
 async function getContactsFromApi(title, description, dueDate, category, status, priorityLevel, priorityValue) {
   try {
@@ -180,6 +238,7 @@ async function getContactsFromApi(title, description, dueDate, category, status,
     console.error('Fehler beim Laden von tempContact:', err);
   }
 }
+
 
 async function createArrayForContacts(initialsData, namesData, colorData, title, description, dueDate, category, status, priorityLevel, priorityValue) {
   let initialsArray = [];
@@ -197,6 +256,7 @@ async function createArrayForContacts(initialsData, namesData, colorData, title,
 
   await pushContentIntoArray(title, description, dueDate, category, status, priorityLevel, priorityValue, initialsArray, namesArray, colorArray);
 }
+
 
 async function pushContentIntoArray(title, description, dueDate, category, status, priorityLevel, priorityValue, initialsArray, namesArray, colorArray) {
   const newTask = {
@@ -216,6 +276,7 @@ async function pushContentIntoArray(title, description, dueDate, category, statu
   await pushNewTaskToApi(newTask);
 }
 
+
 async function getPriorityFromTask(title, description, dueDate, category, status) {
   let priorityLevel = '';
   if (urgentButton.isActive) priorityLevel = 'urgent';
@@ -231,15 +292,18 @@ async function getPriorityFromTask(title, description, dueDate, category, status
   await getContactsFromApi(title, description, dueDate, category, status, priorityLevel, priorityValue);
 }
 
+
 async function pushNewTaskToApi(newTask) {
   try {
     const data = await postData('tasks', newTask);
     if (data && data.name) newTask.id = data.name;
+    await removeTempContactToApi();
     window.location.href = "../html/board.html";
   } catch (error) {
     alert('Fehler beim Speichern der Task. Bitte versuche es erneut.');
   }
 }
+
 
 async function removeTempContactToApi() {
   try {
@@ -249,16 +313,15 @@ async function removeTempContactToApi() {
         'Content-Type': 'application/json',
       },
     });
-
     if (!response.ok) {
       throw new Error(`Fehler: ${response.status}`);
     }
-
     console.log("✅ tempContact wurde erfolgreich gelöscht!");
   } catch (error) {
     console.error("❌ Fehler beim Entfernen des Kontakts:", error);
   }
 }
+
 
 async function loadTasks(task) {
   const { newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv } = getBoardContainers();
@@ -266,16 +329,17 @@ async function loadTasks(task) {
   await getTaskfromApiForArray(task, newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv);
 }
 
+
 function filterTasksByText(text) {
   const { newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv } = getBoardContainers();
   clearBoardContainers(newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv);
-  // If search input is empty, load all tasks
   if (!text || text.trim() === '') {
     getTaskfromApiForArray(null, newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv);
   } else {
     getTaskfromApiForArrayByText(text, newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv);
   }
 }
+
 
 function getBoardContainers() {
   return {
@@ -286,11 +350,13 @@ function getBoardContainers() {
   };
 }
 
+
 function clearBoardContainers(...containers) {
   containers.forEach(c => {
     if (c) c.innerHTML = '';
   });
 }
+
 
 async function getTaskfromApiForArray(task, newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv) {
   try {
@@ -320,6 +386,7 @@ async function getTaskfromApiForArrayByText(text, newTaskDiv, newTaskProgressDiv
   }
 }
 
+
 function createElementForTaskArray(task, newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv, tasksArray) {
   tasksArray.forEach((task, i) => {
     const taskElement = document.createElement('div');
@@ -331,6 +398,7 @@ function createElementForTaskArray(task, newTaskDiv, newTaskProgressDiv, newTask
   checkIfEmpty(tasksArray);
   updateCategoryColor();
 }
+
 
 function getTargetColumn(newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv, taskElement, task) {
   let targetColumn;
@@ -351,6 +419,7 @@ function getTargetColumn(newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, new
   updateProgressBar(task);
 }
 
+
 function checkContactsLength(taskElement, task, taskId) {
   let selectedContactsComplete = '';
   if (!task.contactsInitials) task.contactsInitials = [];
@@ -369,6 +438,7 @@ function checkContactsLength(taskElement, task, taskId) {
   boardTaskTemplate(taskElement, task, taskId, selectedContactsComplete);
 }
 
+
 function debounce(fn, wait = 500) {
   let timeout;
   return (...args) => {
@@ -376,6 +446,7 @@ function debounce(fn, wait = 500) {
     timeout = setTimeout(() => fn(...args), wait);
   };
 }
+
 
 const debouncedFilter = debounce((value) => {
   filterTasksByText(value);
