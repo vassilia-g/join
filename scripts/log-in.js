@@ -134,22 +134,38 @@ function changeSymbols() {
     const passwordInput = document.getElementById('input-password');
     const passwordValue = passwordInput.value;
     const lockSymbol = document.getElementById('lock-symbol');
-    const visibilityOffSymbol = document.getElementById('visibility-off');
-    const visibilityOnSymbol = document.getElementById('visibility-on');
-
+    
     if (passwordValue.length >= 1) {
         lockSymbol.classList.add('d-none');
-        if (passwordInput.type === 'password') {
-            visibilityOffSymbol.classList.remove('d-none');
-        } if (passwordInput.type === 'text') {
-            visibilityOnSymbol.classList.remove('d-none');
-        }
+        hidePassword();
+        showPassword();
     } else {
-        visibilityOffSymbol.classList.add('d-none');
-        visibilityOnSymbol.classList.add('d-none');
-        lockSymbol.classList.remove('d-none');
+        standardPasswordSymbol()
     }
 }
+
+function standardPasswordSymbol() {
+    const visibilityOffSymbol = document.getElementById('visibility-off');
+    const visibilityOnSymbol = document.getElementById('visibility-on');
+    visibilityOffSymbol.classList.add('d-none');
+    visibilityOnSymbol.classList.add('d-none');
+    lockSymbol.classList.remove('d-none');
+}
+
+function hidePassword() {
+    const passwordInput = document.getElementById('input-password');
+    if (passwordInput.type === 'password') {
+        visibilityOffSymbol.classList.remove('d-none');
+    }
+}
+
+function showPassword() {
+    const passwordInput = document.getElementById('input-password');
+    if (passwordInput.type === 'text') {
+        visibilityOnSymbol.classList.remove('d-none');
+    }
+}
+
 async function goToStartpage(event) {
     event.preventDefault();
 
@@ -157,7 +173,7 @@ async function goToStartpage(event) {
     const inputPassword = document.getElementById("input-password");
     const redError = document.getElementById("error-email-password-text");
 
-    const users = await getAllUsers(); // <-- await hier
+    const users = await getAllUsers();
     const user = (users || []).find(u => u.email === inputEmail.value);
     if (user && user.password === inputPassword.value) {
         localStorage.setItem("currentUserId", user.id);
