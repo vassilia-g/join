@@ -1,6 +1,35 @@
 
 let deletedContacts = [];
 
+function initBoards() {
+  return [
+    { container: document.getElementById('new-task-div'), filler: document.getElementById('to-do-filler') },
+    { container: document.getElementById('new-task-progress-div'), filler: document.getElementById('progress-filler') },
+    { container: document.getElementById('new-task-feedback-div'), filler: document.getElementById('feedback-filler') },
+    { container: document.getElementById('new-task-done-div'), filler: document.getElementById('done-filler') }
+  ];
+}
+
+
+let boards;
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  boards = initBoards();
+  boards.forEach(board => {
+    const observer = new MutationObserver(mutations => {
+      mutations.forEach(() => {
+        if (board.container.children.length > 0) {
+          board.filler.classList.add('d-none');
+        } else {
+          board.filler.classList.remove('d-none');
+        }
+      });
+    });
+    observer.observe(board.container, { childList: true });
+  });
+});
+
 
 async function openTaskOverlay(taskId) {
   try {
@@ -173,9 +202,6 @@ async function getAddTaskInput(taskId, overlayContent, task) {
 function getTaskContacts(task, taskId, contacts) {
   const contactsToSelect = document.getElementById('contacts-to-select');
   const selectedContacts = document.getElementById('selected-contacts');
-  const assignContacts = document.getElementById('assign-contacts');
-  assignContacts.onclick = null;
-  assignContacts.onclick = () => openDropdownContactsWithApi(task, taskId, contactsToSelect, selectedContacts, contacts);
   renderSelectedContactsFromApi(task, selectedContacts);
 }
 
@@ -531,30 +557,83 @@ async function updateTaskAfterEdit(taskId) {
   closeTaskOverlay();
 }
 
-
 async function pushCheckedContacts(task, taskId) {
   try {
-    const [deletedRes, tempRes] = await Promise.all([fetch(`${BASE_URL}/deleteContacts.json`), fetch(`${BASE_URL}/tempContact.json`)]);
-    const deletedInitials = Object.values(await (deletedRes.ok ? deletedRes.json() : {})).map(dc => dc.initials?.trim()).filter(Boolean);
-    const tempContacts = Object.values(await (tempRes.ok ? tempRes.json() : {})).map(tc => ({ initials: tc.initials?.trim(), name: tc.name?.trim(), color: tc.color }));
-    task.contactsInitials = (task.contactsInitials || []).filter(c => !deletedInitials.includes(extractInitialsFromSvg(c.svg)));
-    task.contactsNames = (task.contactsNames || []).filter((_, i) => !deletedInitials.includes(extractInitialsFromSvg(task.contactsInitials[i]?.svg || '')));
-    tempContacts.forEach(tc => {
-      if (!task.contactsInitials.some(c => extractInitialsFromSvg(c.svg) === tc.initials)) {
-        task.contactsInitials.push({ initials: tc.initials, svg: `<svg width="42" height="42"><circle cx="21" cy="21" r="20" fill="${tc.color}" stroke="white" stroke-width="2"/><text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" font-size="14" fill="white">${tc.initials}</text></svg>` });
-        task.contactsNames.push(tc.name);
+    // 1️⃣ deleteContacts abrufen
+    const deletedRes = await fetch(`${BASE_URL}/deleteContacts.json`);
+    const deletedContacts = deletedRes.ok ? await deletedRes.json() : {};
+
+    const deletedInitials = Object.values(deletedContacts || {})
+      .map(dc => dc.initials?.trim())
+      .filter(Boolean);
+
+    // 2️⃣ Task-Daten aus dem übergebenen Task-Objekt als Arrays sichern
+    let contactsInitials = task.contactsInitials ? Object.values(task.contactsInitials) : [];
+    let contactsNames = task.contactsNames ? Object.values(task.contactsNames) : [];
+    let contactsColors = task.contactsColors ? Object.values(task.contactsColors) : [];
+
+    // 3️⃣ Kontakte aus Task entfernen, die in deleteContacts sind
+    const filteredInitials = [];
+    const filteredNames = [];
+    const filteredColors = [];
+
+    contactsInitials.forEach((c, i) => {
+      const initials = extractInitialsFromSvg(c.svg);
+      if (!deletedInitials.includes(initials)) {
+        filteredInitials.push(c);
+        filteredNames.push(contactsNames[i]);
+        filteredColors.push(contactsColors[i]);
       }
     });
+
+    // 4️⃣ TempContacts abrufen
+    const tempRes = await fetch(`${BASE_URL}/tempContact.json`);
+    const tempContacts = tempRes.ok ? Object.values(await tempRes.json() || {}).map(tc => ({
+      initials: tc.initials?.trim(),
+      name: tc.name?.trim(),
+      color: tc.color
+    })) : [];
+
+    // 5️⃣ Nur TempContacts hinzufügen, die noch nicht im Task sind
+    tempContacts.forEach(tc => {
+      if (!filteredInitials.some(c => extractInitialsFromSvg(c.svg) === tc.initials)) {
+        filteredInitials.push({
+          initials: tc.initials,
+          svg: `<svg width="42" height="42"><circle cx="21" cy="21" r="20" fill="${tc.color}" stroke="white" stroke-width="2"/><text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" font-size="14" fill="white">${tc.initials}</text></svg>`
+        });
+        filteredNames.push(tc.name);
+        filteredColors.push(tc.color);
+      }
+    });
+
+    // 6️⃣ Änderungen direkt in Firebase für die übergebene Task-ID updaten
+    await fetch(`${BASE_URL}/tasks/${taskId}.json`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contactsInitials: filteredInitials,
+        contactsNames: filteredNames,
+        contactsColors: filteredColors
+      })
+    });
+
+    // 7️⃣ deleteContacts und tempContacts in Firebase löschen
     await Promise.all([
-      fetch(`${BASE_URL}/tasks/${taskId}.json`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ contactsInitials: task.contactsInitials, contactsNames: task.contactsNames }) }),
+      fetch(`${BASE_URL}/deleteContacts.json`, { method: 'DELETE' }),
       fetch(`${BASE_URL}/tempContact.json`, { method: 'DELETE' })
     ]);
-    return { contactsInitials: task.contactsInitials, contactsNames: task.contactsNames };
+
+    console.log('✅ Kontakte aktualisiert, gelöschte entfernt, tempContacts hinzugefügt');
+
+    // 8️⃣ Task-Objekt lokal aktualisieren
+    task.contactsInitials = filteredInitials;
+    task.contactsNames = filteredNames;
+    task.contactsColors = filteredColors;
+
   } catch (err) {
-    return { contactsInitials: [], contactsNames: [] };
+    console.error("❌ Fehler beim pushCheckedContacts:", err);
   }
 }
-
 
 async function updateTaskWithPriority(priorityLevel, priorityValue, taskId) {
   const updatedTask = {
@@ -669,6 +748,12 @@ async function resetTaskChangings(taskId) {
     alert('Task konnte nicht gelöscht werden.');
   }
   openTaskOverlay(taskId);
-
-
 }
+
+
+const debouncedFilter = debounce((value) => {
+  filterTasksByText(value);
+}, 200);
+inputElement.addEventListener('input', (event) => {
+  debouncedFilter(event.target.value);
+});

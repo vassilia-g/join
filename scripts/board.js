@@ -35,37 +35,6 @@ let currentSvg = uncheckedBox;
 const currentPage = window.location.pathname.split('/').pop();
 
 
-
-function initBoards() {
-  return [
-    { container: document.getElementById('new-task-div'), filler: document.getElementById('to-do-filler') },
-    { container: document.getElementById('new-task-progress-div'), filler: document.getElementById('progress-filler') },
-    { container: document.getElementById('new-task-feedback-div'), filler: document.getElementById('feedback-filler') },
-    { container: document.getElementById('new-task-done-div'), filler: document.getElementById('done-filler') }
-  ];
-}
-
-
-let boards;
-
-
-document.addEventListener('DOMContentLoaded', () => {
-  boards = initBoards();
-  boards.forEach(board => {
-    const observer = new MutationObserver(mutations => {
-      mutations.forEach(() => {
-        if (board.container.children.length > 0) {
-          board.filler.classList.add('d-none');
-        } else {
-          board.filler.classList.remove('d-none');
-        }
-      });
-    });
-    observer.observe(board.container, { childList: true });
-  });
-});
-
-
 async function openAddTaskOverlay() {
   const overlayRef = document.getElementById('add-task-overlay');
   const overlayContentRef = document.getElementById('add-task-overlay-content');
@@ -121,16 +90,11 @@ function getMediumForDefault() {
 
 
 async function getContactDropdown() {
-  await loadContactsWithoutRendering();
-  const contactsToSelect = document.getElementById('contacts-to-select');
-  const selectedContacts = document.getElementById('selected-contacts');
-  const dropdownIcon = document.getElementById('dropdown-icon');
+  let { tasksArray, contactsArray } = await getContactsAndTask();
+  contactsArray = getContactsInitials(contactsArray);
 }
 
 function getSubtaskRef() {
-  const subtaskInput = document.getElementById('task-subtasks');
-  const subtaskPick = document.getElementById('delete-or-keep-subtask');
-  const selectedSubtasks = document.getElementById('selected-subtasks');
   const addSubtaskSvgs = document.getElementById('add-subtask-svg');
   addSubtaskSvgs.onclick = null;
   addSubtaskSvgs.onclick = addSubtask;
@@ -214,8 +178,10 @@ async function pushStatusToApi(newStatus, taskId) {
 
 
 async function createTask() {
-  await loadContactsWithoutRendering();
   await getTaskInputs();
+  await getPriorityFromTask();
+  await getContactsFromApi();
+
 }
 
 
@@ -225,41 +191,52 @@ async function getTaskInputs() {
   const dueDate = document.getElementById('task-due-date').value;
   const category = document.getElementById('input-category').innerText;
   const status = "toDo";
-  await getPriorityFromTask(title, description, dueDate, category, status);
+  return {title, description, dueDate, category, status};
 }
 
 
-async function getContactsFromApi(title, description, dueDate, category, status, priorityLevel, priorityValue) {
+async function getContactsFromApi() {
   try {
-    const initialsData = await getData('tempContact/Initials');
-    const namesData = await getData('tempContact/name');
-    const colorData = await getData('tempContact/color');
-    await createArrayForContacts(initialsData, namesData, colorData, title, description, dueDate, category, status, priorityLevel, priorityValue);
+    const tempContacts = await getData('tempContacts/'); 
+    if (!tempContacts) return;
+    const tempContactsArray = Object.entries(tempContacts).map(([id, contact]) => ({
+      id,
+      name: contact.name,
+      initials: contact.initials,
+      color: contact.color
+    }));
+
+    await createArrayForContacts(
+      tempContactsArray
+    );
   } catch (err) {
     console.error('Fehler beim Laden von tempContact:', err);
   }
 }
 
 
-async function createArrayForContacts(initialsData, namesData, colorData, title, description, dueDate, category, status, priorityLevel, priorityValue) {
+async function createArrayForContacts(tempContacts) {
   let initialsArray = [];
   let namesArray = [];
   let colorArray = [];
-  if (initialsData && namesData && colorData) {
-    Object.keys(initialsData).forEach(key => {
-      if (namesData[key]) {
-        initialsArray.push(initialsData[key]);
-        namesArray.push(namesData[key]);
-        colorArray.push(colorData[key]);
-      }
-    });
-  }
+  let idArray = [];
 
-  await pushContentIntoArray(title, description, dueDate, category, status, priorityLevel, priorityValue, initialsArray, namesArray, colorArray);
+  tempContacts.forEach(contact => {
+    initialsArray.push(contact.initials);
+    namesArray.push(contact.name);
+    colorArray.push(contact.color);
+    idArray.push(contact.id);
+  });
+
+  await pushContentIntoArray(
+    initialsArray, namesArray, colorArray, idArray
+  );
 }
 
 
-async function pushContentIntoArray(title, description, dueDate, category, status, priorityLevel, priorityValue, initialsArray, namesArray, colorArray) {
+async function pushContentIntoArray(initialsArray, namesArray, colorArray, idArray) {
+  let {title, description, dueDate, category, status} = await getTaskInputs();
+  let {priorityLevel, priorityValue} = await getPriorityFromTask();
   const newTask = {
     title,
     description,
@@ -272,13 +249,14 @@ async function pushContentIntoArray(title, description, dueDate, category, statu
     priorityLevel,
     contactsInitials: initialsArray,
     contactsNames: namesArray,
-    contactsColor: colorArray
+    contactsColor: colorArray,
+    contactsId: idArray
   };
   await pushNewTaskToApi(newTask);
 }
 
 
-async function getPriorityFromTask(title, description, dueDate, category, status) {
+async function getPriorityFromTask() {
   let priorityLevel = '';
   if (urgentButton.isActive) priorityLevel = 'urgent';
   else if (mediumButton.isActive) priorityLevel = 'medium';
@@ -290,7 +268,7 @@ async function getPriorityFromTask(title, description, dueDate, category, status
       : document.querySelector('.priority-low-active')
         ? lowBoardSvg
         : '';
-  await getContactsFromApi(title, description, dueDate, category, status, priorityLevel, priorityValue);
+  return {priorityLevel, priorityValue};
 }
 
 
@@ -307,20 +285,7 @@ async function pushNewTaskToApi(newTask) {
 
 
 async function removeTempContactToApi() {
-  try {
-    const response = await fetch(`${BASE_URL}/tempContact.json`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    if (!response.ok) {
-      throw new Error(`Fehler: ${response.status}`);
-    }
-    console.log("✅ tempContact wurde erfolgreich gelöscht!");
-  } catch (error) {
-    console.error("❌ Fehler beim Entfernen des Kontakts:", error);
-  }
+await deleteData("tempContacts/");
 }
 
 
@@ -447,11 +412,3 @@ function debounce(fn, wait = 500) {
     timeout = setTimeout(() => fn(...args), wait);
   };
 }
-
-
-const debouncedFilter = debounce((value) => {
-  filterTasksByText(value);
-}, 200);
-inputElement.addEventListener('input', (event) => {
-  debouncedFilter(event.target.value);
-});

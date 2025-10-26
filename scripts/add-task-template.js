@@ -55,34 +55,17 @@ function showSubtaskToEdit(index) {
 }
 
 
-function showContactsWithSelectionState(i, task) {
-  console.log(contacts[i].name);
-  const initials = getInitials(contacts[i].name);
-
-  // Prüfen, ob der Kontakt schon im Task ist
-  let alreadyInTask = false;
-  if (task?.contactsInitials && Array.isArray(task.contactsInitials)) {
-    alreadyInTask = task.contactsInitials.some(obj => {
-      const match = obj.svg.match(/<text[^>]*>(.*?)<\/text>/);
-      const svgInitials = match ? match[1].trim() : "";
-      return svgInitials === initials;
-    });
-  }
-
-  // Prüfen, ob der Kontakt aktuell selektiert ist (persistenter Zustand)
-  const isSelected = selectedContactsState[i] || alreadyInTask || isContactSelected(initials);
-
-  if (isSelected) {
+function showContactsWithSelectionState(i, task, contacts) {
     return `
       <div class="single-contact selected">
         <div class="contact-name">
           <svg class="initials-svg checked" width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="21" cy="21" r="20" fill="${contacts[i].color}" stroke="white" stroke-width="2"/>
+            <circle cx="21" cy="21" r="20" fill="${task.contactsColor?.[i] || '#ccc'}" stroke="white" stroke-width="2"/>
             <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" font-size="14" fill="white">
-              ${initials}
+              ${task.contactsInitials?.[i] || ''}
             </text>
           </svg>
-          <span>${contacts[i].name}</span>
+          <span>${task.contactsNames[i]}</span>
         </div>
         <div class="contact-checkbox">
           <svg onclick="checkContact(${i})" width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -92,32 +75,30 @@ function showContactsWithSelectionState(i, task) {
         </div>
       </div>
     `;
-  } else {
-    return showContacts(i);
-  }
 }
 
 
-function showContacts(i) {
-  let initials = getInitials(contacts[i].name);
-  return `
+function showContacts(contacts, i) {
+  const contact = contacts[i];
+      return `
         <div class="single-contact">
           <div class="contact-name">
             <svg id="initials-${i}" class="initials-svg" width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="21" cy="21" r="20" fill="${contacts[i].color}" stroke="white" stroke-width="2"/>
+              <circle cx="21" cy="21" r="20" fill="${contact.color}" stroke="white" stroke-width="2"/>
               <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" font-size="14" fill="white">
-              ${initials}</text>
+                ${contact.initials}
+              </text>
             </svg>
-            <span>${contacts[i].name}</span>
+            <span>${contact.name}</span>
           </div>
-          <div class="contact-checkbox" id="checkbox-${i}" dataindex=${i}>
+          <div class="contact-checkbox" id="checkbox-${i}" data-index="${i}">
             <svg onclick="checkContact(${i})" width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect x="4.38818" y="4" width="16" height="16" rx="3" stroke="#2A3647" stroke-width="2"/>
             </svg>
           </div>
         </div>
       `;
-}
+ }
 
 
 function showEmptyCheckbox(i) {
