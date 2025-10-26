@@ -331,11 +331,12 @@ async function getTaskfromApiForArray(task, newTaskDiv, newTaskProgressDiv, newT
       task.id = taskId;
       return task;
     }) : [];
-    createElementForTaskArray(task, newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv, tasksArray);
+    createElementForTaskArray(tasksArray, newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv, tasksArray);
   } catch (error) {
     console.error('Fehler beim Laden der Tasks:', error);
   }
 }
+
 
 async function getTaskfromApiForArrayByText(text, newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv) {
   try {
@@ -353,7 +354,7 @@ async function getTaskfromApiForArrayByText(text, newTaskDiv, newTaskProgressDiv
 }
 
 
-function createElementForTaskArray(task, newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv, tasksArray) {
+function createElementForTaskArray(tasksArray, newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv, tasksArray) {
   tasksArray.forEach((task, i) => {
     const taskElement = document.createElement('div');
     checkContactsLength(taskElement, task, task.id);
@@ -389,15 +390,15 @@ function getTargetColumn(newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, new
 function checkContactsLength(taskElement, task, taskId) {
   let selectedContactsComplete = '';
   if (!task.contactsInitials) task.contactsInitials = [];
-  if (task.contactsInitials.length <= 3) {
-    task.contactsInitials.forEach(contact => {
-      selectedContactsComplete += `<div class="selected-contacts-svg">${contact.svg || contact.initials || ''}</div>`;
-    });
-  } else {
-    for (let i = 0; i < 3; i++) {
-      const contact = task.contactsInitials[i];
-      selectedContactsComplete += `<div class="selected-contacts-svg">${contact.svg || contact.initials || ''}</div>`;
-    }
+  if (!task.contactsColor) task.contactsColor = [];
+  const displayCount = Math.min(task.contactsInitials.length, 3);
+  for (let i = 0; i < displayCount; i++) {
+    const contact = task.contactsInitials[i];
+    const color = task.contactsColor[i] || '#ccc';
+    const contactSVG = svgTemplate(color, contact);
+    selectedContactsComplete += `<div class="selected-contacts-svg">${contactSVG}</div>`;
+  }
+  if (task.contactsInitials.length > 3) {
     const extraInitials = task.contactsInitials.slice(3);
     selectedContactsComplete += showMoreContacts(extraInitials);
   }

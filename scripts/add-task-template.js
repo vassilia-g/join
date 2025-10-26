@@ -55,17 +55,18 @@ function showSubtaskToEdit(index) {
 }
 
 
-function showContactsWithSelectionState(i, task, contacts) {
+function showContactsWithSelectionState(contact, i) {
+  initials = getInitials(contact.name);
     return `
       <div class="single-contact selected">
         <div class="contact-name">
           <svg class="initials-svg checked" width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="21" cy="21" r="20" fill="${task.contactsColor?.[i] || '#ccc'}" stroke="white" stroke-width="2"/>
+            <circle cx="21" cy="21" r="20" fill="${contact.color || '#ccc'}" stroke="white" stroke-width="2"/>
             <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" font-size="14" fill="white">
-              ${task.contactsInitials?.[i] || ''}
+              ${initials}
             </text>
           </svg>
-          <span>${task.contactsNames[i]}</span>
+          <span>${contact.name}</span>
         </div>
         <div class="contact-checkbox">
           <svg onclick="checkContact(${i})" width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">

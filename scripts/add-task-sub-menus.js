@@ -110,19 +110,30 @@ async function getContactsAndTask() {
 
 
 async function openDropdownContacts() {
-    let { tasksArray, contactsArray } = await getContactsAndTask();
-    contactsArray = getContactsInitials(contactsArray);
-    console.log(contactsArray);
-    if (contactsToSelect.classList.contains('show')) {
-        hideDropdownContacts();
-        dropdownIcon.classList.remove("open");
-        showSelectedContacts();
-        return;
+  let { tasksArray, contactsArray } = await getContactsAndTask();
+  contactsArray = getContactsInitials(contactsArray);
+  if (contactsToSelect.classList.contains('show')) {
+    hideDropdownContacts();
+    dropdownIcon.classList.remove("open");
+    showSelectedContacts();
+    return;
+  }
+  const usedContactIds = tasksArray
+    .flatMap(task => task.contactsId || []) 
+    .filter(id => id);
+  contactsToSelect.innerHTML = '';
+  for (let i = 0; i < contactsArray.length; i++) {
+    const contact = contactsArray[i];
+    const isAlreadyAssigned = usedContactIds.includes(contact.id);
+    selectedContactsState[i] = isAlreadyAssigned;
+    if (isAlreadyAssigned) {
+      contactsToSelect.innerHTML += showContactsWithSelectionState(contact, i);
+    } else {
+      contactsToSelect.innerHTML += showContacts(contactsArray, i);
     }
-    for (let i = 0; i < contactsArray.length; i++) {
-        contactsToSelect.innerHTML += showContacts(contactsArray, i);   
-    }
-    toggleClasslistForDropdown();
+  }
+
+  toggleClasslistForDropdown();
 }
 
 function getContactsInitials(contacts) {
@@ -220,16 +231,19 @@ async function sendContactToAPI(i) {
 
 
 async function removeContactToAPI(i) {
-  const lastGeneratedId = tempContactIds[i];
-  if (!lastGeneratedId) {
-    console.warn("⚠️ Keine gespeicherte ID für Index", i);
+  const { contactsArray } = await getContactsAndTask();
+  const contact = contactsArray[i];
+  if (!contact || !contact.id) {
+    console.warn("⚠️ Keine gespeicherte ID für Index", i, contact);
     return;
   }
   try {
-    await fetch(`${BASE_URL}/tempContact/Initials/${lastGeneratedId}.json`, { method: 'DELETE' });
-    await fetch(`${BASE_URL}/tempContact/name/${lastGeneratedId}.json`, { method: 'DELETE' });
-    await fetch(`${BASE_URL}/tempContact/color/${lastGeneratedId}.json`, { method: 'DELETE' });
-    delete tempContactIds[i];
+    const response = await fetch(`${BASE_URL}/tempContacts/${contact.id}.json`, {
+      method: 'DELETE'
+    });
+    if (!response.ok) {
+      throw new Error(`Fehler beim Löschen: ${response.status}`);
+    }
   } catch (err) {
     console.error("❌ Fehler beim Entfernen:", err);
   }
@@ -237,24 +251,19 @@ async function removeContactToAPI(i) {
 
 
 async function showSelectedContacts() {
-    SelectedContactsComplete = '';
-    const checkedIndices = Object.keys(selectedContactsState).filter(i => selectedContactsState[i]);
-    checkedIndices.forEach((i, index) => {
-        const initialsSVG = `<svg class="initials-svg checked" width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="21" cy="21" r="20" fill="${contacts[i].color}" stroke="white" stroke-width="2"/>
-            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" font-size="14" fill="white">
-            ${getInitials(contacts[i].name)}</text>
-        </svg>`;
-        
-        if (index < 3) {
-            SelectedContactsComplete += `<div class="selected-contacts-svg">${initialsSVG}</div>`;
-        }
-    });
-    if (checkedIndices.length > 3) {
-        const extraInitials = checkedIndices.slice(3);
-        SelectedContactsComplete += showMoreContacts(extraInitials);
+  const { contactsArray } = await getContactsAndTask();
+  const selectedIds = Object.keys(selectedContactsState).filter(i => selectedContactsState[i]);
+  const selectedContactsHTML = selectedIds.map(i => {
+    const contact = contactsArray[i];
+    if (!contact) {
+      console.warn("⚠️ Kein Kontakt gefunden für Index", i);
+      return '';
     }
-    selectedContacts.innerHTML = SelectedContactsComplete;
+    const color = contact.color || '#ccc';
+    const initials = getInitials(contact.name);
+    return svgTemplate(color, initials);
+  }).join('');
+  selectedContacts.innerHTML += selectedContactsHTML;
 }
 
 

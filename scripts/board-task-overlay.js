@@ -162,23 +162,18 @@ async function editTask(taskId) {
 
 
 async function getTaskContentFromApi(overlay, overlayContent, taskId) {
-  try {
-    const response = await fetch(`${BASE_URL}/tasks.json`);
-    const data = await response.json();
+    const data = await getData('tasks/');
     const task = data[taskId];
     if (!task) throw new Error(`Task mit ID ${taskId} nicht gefunden`);
     await getAddTaskInput(taskId, overlayContent, task)
     await allAddTaskScripts();
-    const contacts = await loadContactsWithoutRendering();
     disableCategoryEdit();
     getTaskPriority(task);
     getTaskContent(task, taskId);
-    getTaskContacts(task, taskId, contacts);
+    getTaskContacts(task, taskId);
     overlay.classList.remove('d-none');
     overlay.classList.add('active');
-  } catch (error) {
-    alert('Task konnte nicht geladen werden.');
-  }
+
 }
 
 
@@ -199,79 +194,32 @@ async function getAddTaskInput(taskId, overlayContent, task) {
 }
 
 
-function getTaskContacts(task, taskId, contacts) {
-  const contactsToSelect = document.getElementById('contacts-to-select');
-  const selectedContacts = document.getElementById('selected-contacts');
-  renderSelectedContactsFromApi(task, selectedContacts);
-}
-
-
-async function renderSelectedContactsFromApi(task, selectedContacts) {
-  try {
-    const [tempContactsRes, deleteContactsRes] = await Promise.all([
-      fetch(`${BASE_URL}/tempContact.json`),
-      fetch(`${BASE_URL}/deleteContacts.json`)
-    ]);
-    if (!tempContactsRes.ok || !deleteContactsRes.ok) throw new Error('Fehler beim Laden der Contacts');
-    const tempContacts = await tempContactsRes.json();
-    const deletedInitials = Object.values(await deleteContactsRes.json() || {}).map(dc => dc.initials);
-    const filteredTask = { 
-      ...task, 
-      contactsInitials: (task.contactsInitials || []).filter(c => {
-        const m = c.svg.match(/<text[^>]*>([\s\S]*?)<\/text>/i);
-        return !deletedInitials.includes(m ? m[1].trim() : "");
-      })
-    };
-    selectedContacts.innerHTML = renderSelectedContactsFromApiTemplate(filteredTask, tempContacts);
-    return tempContacts;
-  } catch (e) {
-    console.error('❌ Fehler beim Rendern der Contacts:', e);
-    selectedContacts.innerHTML = '';
-    return null;
+async function getTaskContacts(task, taskId) {
+  tempContacts = await getData('tempContacts/');
+  if (task?.contactsId) {
+    renderSelectedContactsFromApi(task, taskId, tempContacts)
+  } else {
+    
   }
 }
 
 
-function renderSelectedContactsFromApiTemplate(task, tempContacts) {
-  const combined = [
-    ...(task.contactsInitials || []).map(c => ({ svg: c.svg, initials: extractInitialsFromSvg(c.svg) })),
-    ...Object.values(tempContacts || {}).map(t => {
-      const initials = t.initials || getInitials(t.name);
-      if (!task.contactsInitials?.some(c => extractInitialsFromSvg(c.svg) === initials)) {
-        const color = t.color || getRandomColor();
-        return { initials, svg: `<svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="21" cy="21" r="20" fill="${color}" stroke="white" stroke-width="2"/><text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" font-size="14" fill="white">${initials}</text></svg>` };
-      }
-    }).filter(Boolean)
-  ];
-  const html = combined.slice(0,3).map(c => selectedContactsApiTemplate(c)).join('');
-  return combined.length > 3 ? html + showMoreApiContacts(combined.slice(3)) : html;
+async function renderSelectedContactsFromApi(task, taskId, tempContacts) {
+  const colors = task.contactsColor || [];
+  const initials = task.contactsInitials || [];
+  if (colors.length !== initials.length) {
+    console.warn(`⚠️ Unterschiedliche Längen in contactsColor und contactsInitials bei Task ${taskId}`);
+  }
+  initials.forEach((contactInitials, i) => {
+    const color = colors[i] || '#ccc';
+    selectedContacts.innerHTML += svgTemplate(color, contactInitials);
+  });
 }
 
 
 function extractInitialsFromSvg(svgString) {
   const match = svgString.match(/<text[^>]*>([\s\S]*?)<\/text>/i);
   return match ? match[1].trim() : '';
-}
-
-
-
-async function openDropdownContactsWithApi(task, taskId, contactsToSelect, selectedContacts, contacts) {
-  const dropdownIcon = document.getElementById('dropdown-icon');
-  const tempContacts = await renderSelectedContactsFromApi(task, selectedContacts);
-  if (contactsToSelect.innerHTML === '') {
-    for (let i = 0; i < contacts.length; i++) {
-      const contact = contacts[i];
-      const initialsFromTask = getInitials(contact.name);
-      await showContactsWithSelectionStateApi(i, task, taskId, initialsFromTask, contacts, contactsToSelect);
-    }
-    setTimeout(() => {
-      contactsToSelect.classList.add('show');
-    }, 10);
-  } else {
-    hideDropdownContactsApi(contactsToSelect, selectedContacts, task, tempContacts);
-  }
-  dropdownIcon.classList.toggle("open");
-  selectedContacts.classList.add('d-none');
 }
 
 
@@ -285,18 +233,6 @@ async function showContactsWithSelectionStateApi(i, task, taskId, initialsFromTa
   if (deleted.includes(initialsFromTask)) return contactsToSelect.innerHTML += showContactsWithoutSelectionStateApiTemplate(contacts[i], i, contactInitials, task);
   if (temp.includes(initialsFromTask)) return showContactsWithSelectionStateApiTemplate(i, task, contacts, initialsFromTask, contactsToSelect, true, temp);
   showContactsWithSelectionStateApiTemplate(i, task, contacts, initialsFromTask, contactsToSelect, alreadyInTask, temp);
-}
-
-
-function hideDropdownContactsApi(contactsToSelect, selectedContacts, task, tempContacts) {
-    contactsToSelect.classList.remove('show');
-    setTimeout(() => {
-        contactsToSelect.innerHTML = '';
-    }, 300);
-    setTimeout(() => {
-        selectedContacts.classList.remove('d-none');
-    }, 300);
-    selectedContacts.innerHTML += renderSelectedContactsFromApi(task, selectedContacts);
 }
 
 

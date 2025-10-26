@@ -45,15 +45,20 @@ function showMoreContacts(extraInitials) {
 
 function boardTaskOverlayTemplate(task, taskId) {
   const subtasks = Array.isArray(task.subtasks) ? task.subtasks : [];
+
   let contactsHTML = '';
-  if (task.contactsInitials && Object.keys(task.contactsInitials).length > 0) {
-    contactsHTML = Object.values(task.contactsInitials)
-      .map(item => item.svg)
+  if (task.contactsInitials && task.contactsInitials.length > 0) {
+    contactsHTML = task.contactsInitials
+      .map((contact, i) => {
+        const color = task.contactsColor?.[i] || '#ccc';
+        return svgTemplate(color, contact);
+      })
       .join('');
   }
+
   let contactsName = '';
-  if (task.contactsNames && Object.keys(task.contactsInitials).length > 0) {
-    contactsName = Object.values(task.contactsNames)
+  if (task.contactsNames && task.contactsNames.length > 0) {
+    contactsName = task.contactsNames
       .map(name => `<p>${name}</p>`)
       .join('');
   }
@@ -210,6 +215,16 @@ function showApiSubtaskToEdit(subtask, index, taskId) {
       </div>`;
 }
 
+function svgTemplate(color, contact){
+  return `
+      <svg class="initials-svg" width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="21" cy="21" r="20" fill="${color}" stroke="white" stroke-width="2"/>
+        <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" font-size="14" fill="white">
+          ${contact}
+        </text>
+      </svg>
+    `;
+}
 
 function showContactsWithSelectionStateApiTemplate(i, task, contacts, initialsFromTask, contactsToSelect, alreadyInTask, tempContactsFromApi) {
   const contact = contacts[i];
