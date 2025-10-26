@@ -231,6 +231,12 @@ button {
     justify-content: space-between;
     gap: 24px;
     z-index: 3000;
+    transition: transform 0.15s ease;
+}
+
+.task:active {
+    transform: rotate(3deg);
+    cursor: grabbing;
 }
 
 
