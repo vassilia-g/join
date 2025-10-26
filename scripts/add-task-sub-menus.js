@@ -16,6 +16,9 @@ const CONTACTS_URL = "https://join-eeec9-default-rtdb.europe-west1.firebasedatab
 let subtaskListElement;
 let lastGeneratedId = null;
 let selectedContactsState = {};
+const tempContactIds = {};
+let contactActionInProgress = {};
+
 
 if (currentPage === 'add-task.html') {
   addSubtaskSvgs?.addEventListener('click', addSubtask);
@@ -23,16 +26,20 @@ if (currentPage === 'add-task.html') {
   addSubtaskSvgs?.addEventListener('click', () => getNewSubtaskToApi(taskId));
 }
 
+
 function deleteSubtask() {
     subtaskInput.value = "";
     subtaskPick.classList.add('d-none');
 }
 
+
 subtaskInput.addEventListener("click", showSubtaskPick);
+
 
 function showSubtaskPick() {
     subtaskPick.classList.remove('d-none');
 }
+
 
 function addSubtask() {
     subtasks.push(subtaskInput.value);
@@ -53,6 +60,7 @@ function deleteSubtaskFromList(index) {
     }
 }
 
+
 function editSubtask(index) {
     selectedSubtasks.innerHTML = "";
     for (let i = 0; i < subtasks.length; i++) {
@@ -66,11 +74,13 @@ function editSubtask(index) {
     subtaskListElement[index].innerHTML = showSubtaskToEdit(index);
 }
 
+
 function deleteEditedSubtask(index) {
     subtaskListElement = document.getElementsByClassName('subtask-list-element');
     subtaskListElement[index].remove();
     subtasks.splice(index, 1);
 }
+
 
 function keepEditedSubtask(index) {
     let editInput = document.getElementById('edit-input');
@@ -81,29 +91,57 @@ function keepEditedSubtask(index) {
     }
 }
 
+
 function isContactSelected(initials) {
     const selectedSvgs = selectedContacts.querySelectorAll("svg text");
     return Array.from(selectedSvgs).some(textE1 => textE1.textContent.trim() === initials);
 }
 
 
-function openDropdownContacts() {
-
-    if (contactsToSelect.innerHTML == '') {
-        for (let i = 0; i < contacts.length; i++) {
-            contactsToSelect.innerHTML += showContactsWithSelectionState(i);
-        }
-        setTimeout(() => {
-            contactsToSelect.classList.add('show');
-        }, 10);
-    } else {
-        hideDropdownContacts();
-        showSelectedContacts();
-    }
-    dropdownIcon.classList.toggle("open");
-    selectedContacts.classList.add('d-none');
-    
+async function getContactsAndTask() {
+    const dataRes = await getData("tasks/");
+    const contactRes = await getData("contacts/");
+    const tasksArray = dataRes ? Object.values(dataRes) : [];
+    const contactsArray = contactRes
+        ? Object.entries(contactRes).map(([id, contact]) => ({ id, ...contact }))
+        : [];
+    return { tasksArray, contactsArray };
 }
+
+
+async function openDropdownContacts() {
+    let { tasksArray, contactsArray } = await getContactsAndTask();
+    contactsArray = getContactsInitials(contactsArray);
+    console.log(contactsArray);
+    if (contactsToSelect.classList.contains('show')) {
+        hideDropdownContacts();
+        dropdownIcon.classList.remove("open");
+        showSelectedContacts();
+        return;
+    }
+    for (let i = 0; i < contactsArray.length; i++) {
+        contactsToSelect.innerHTML += showContacts(contactsArray, i);   
+    }
+    toggleClasslistForDropdown();
+}
+
+function getContactsInitials(contacts) {
+    return contacts.map(contact => {
+        return {
+            ...contact,
+            initials: getInitials(contact.name)
+        };
+    });
+}
+
+
+function toggleClasslistForDropdown() {
+    contactsToSelect.classList.add('show');
+    dropdownIcon.classList.add("open");
+    selectedContacts.classList.add('d-none');
+}
+
+
 
 document.onclick = function (event) {
     const isClickOnSvg = event.target.closest('svg');
@@ -121,16 +159,13 @@ document.onclick = function (event) {
     }
 }
 
+
 function hideDropdownContacts() {
     contactsToSelect.classList.remove('show');
-    setTimeout(() => {
-        contactsToSelect.innerHTML = '';
-    }, 300);
-    setTimeout(() => {
-        selectedContacts.classList.remove('d-none');
-    }, 300);
-
+    dropdownIcon.classList.remove("open");
+    selectedContacts.classList.remove('d-none');
 }
+
 
 function hideDropdownCategories() {
     categories.classList.remove('show');
@@ -139,12 +174,14 @@ function hideDropdownCategories() {
     }, 300);
 }
 
+
 function getInitials(name) {
     const parts = name.split(" ");
     const first = parts[0].charAt(0);
     const last = parts.length > 1 ? parts[parts.length - 1].charAt(0) : "";
     return (first + last).toUpperCase();
 }
+
 
 function checkContact(i) {
     const checkbox = document.getElementById(`checkbox-${i}`);
@@ -155,49 +192,49 @@ function checkContact(i) {
         initials.classList.remove("checked");
         checkbox.classList.remove("checked");
         checkbox.innerHTML = showEmptyCheckbox(i);
-        removeContactToAPI(checkbox);
+        removeContactToAPI(i);
     } else {
         selectedContactsState[i] = true;
         initials.classList.add("checked");
         checkbox.classList.add("checked");
         checkbox.innerHTML = showCheckedCheckbox(i);
-        sendContactToAPI(initials.outerHTML, contacts[i].name, checkbox, i);
+        sendContactToAPI(i);
     }
     showSelectedContacts();
 }
 
-async function sendContactToAPI(initialsSVG, name, checkbox, i) {
-    
-    const response = await fetch(`${BASE_URL}/tempContact/Initials.json`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ svg: initialsSVG })
-    });
-    const data = await response.json();
-    const generatedId = data.name;
-    checkbox.dataset.lastId = generatedId;
-    await fetch(`${BASE_URL}/tempContact/name/${generatedId}.json`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(name)
-    });
-        await fetch(`${BASE_URL}/tempContact/color/${generatedId}.json`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(contacts[i].color)
-    });
+
+async function sendContactToAPI(i) {
+    let {contactsArray } = await getContactsAndTask();
+    contactsArray = getContactsInitials(contactsArray);
+    let contactsIds = contactsArray.map(contact => contact.id);
+    console.log(contactsIds);
+    const payload = {
+            id: contactsIds[i],
+            name: contactsArray[i].name,
+            initials: contactsArray[i].initials,
+            color: contactsArray[i].color
+        };
+    await postData("tempContacts", payload)
 }
 
-async function removeContactToAPI(checkbox) {
-    const lastGeneratedId = checkbox.dataset.lastId;
-    if (!lastGeneratedId) return;
 
+async function removeContactToAPI(i) {
+  const lastGeneratedId = tempContactIds[i];
+  if (!lastGeneratedId) {
+    console.warn("⚠️ Keine gespeicherte ID für Index", i);
+    return;
+  }
+  try {
     await fetch(`${BASE_URL}/tempContact/Initials/${lastGeneratedId}.json`, { method: 'DELETE' });
     await fetch(`${BASE_URL}/tempContact/name/${lastGeneratedId}.json`, { method: 'DELETE' });
-
-    console.log("Kontakt erfolgreich entfernt");
-    delete checkbox.dataset.lastId;
+    await fetch(`${BASE_URL}/tempContact/color/${lastGeneratedId}.json`, { method: 'DELETE' });
+    delete tempContactIds[i];
+  } catch (err) {
+    console.error("❌ Fehler beim Entfernen:", err);
+  }
 }
+
 
 async function showSelectedContacts() {
     SelectedContactsComplete = '';
@@ -220,6 +257,7 @@ async function showSelectedContacts() {
     selectedContacts.innerHTML = SelectedContactsComplete;
 }
 
+
 function openCategories() {
     if (categories.innerHTML == '') {
         categories.innerHTML += showCategories();
@@ -232,6 +270,7 @@ function openCategories() {
     dropdownIconCategories.classList.toggle("open");
 }
 
+
 function showTechnicalTaskInInput() {
     categoryInput.innerHTML = 'Technical Task';
     dropdownIconCategories.classList.toggle("open");
@@ -241,6 +280,7 @@ function showTechnicalTaskInInput() {
     enableCreateTaskButton();
 }
 
+
 function showUserStoryInInput() {
     categoryInput.innerHTML = 'User Story';
     dropdownIconCategories.classList.toggle("open");
@@ -249,6 +289,7 @@ function showUserStoryInInput() {
     selectedCategory = "User Story";
     enableCreateTaskButton();
 }
+
 
 function eventListenerForSelectCategory(inputElement, warning, categorySpan) {
     if (!inputElement.dataset.listenerAdded) {
