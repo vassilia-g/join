@@ -180,19 +180,17 @@ async function pushStatusToApi(newStatus, taskId) {
 async function createTask() {
   const taskInputs = await getTaskInputs();
   const priority = await getPriorityFromTask();
-  const contacts = await getContactsFromApi();
-
+  const {initialsArray, namesArray, colorArray, idArray} = await getContactsFromArray();
   const newTask = {
     ...taskInputs,
     ...priority,
     subtasks,
     createdAt: new Date().toISOString(),
-    contactsInitials: contacts.initialsArray,
-    contactsNames: contacts.namesArray,
-    contactsColor: contacts.colorArray,
-    contactsId: contacts.idArray
+    contactsInitials: initialsArray,
+    contactsNames: namesArray,
+    contactsColor: colorArray,
+    contactsId: idArray
   };
-
   await pushNewTaskToApi(newTask);
 }
 
@@ -207,64 +205,19 @@ async function getTaskInputs() {
 }
 
 
-async function getContactsFromApi() {
-  const tempContacts = await getData('tempContacts/');
-  if (!tempContacts) return {initialsArray: [], namesArray: [], colorArray: [], idArray: []};
+async function getContactsFromArray() {
+  console.log(checkedContacts);
+  
+  const initialsArray = checkedContacts.map(c => c.initials);
+  const namesArray = checkedContacts.map(c => c.name);
+  const colorArray = checkedContacts.map(c => c.color);
+  const idArray = checkedContacts.map(c => c.id);
+  checkedContacts = [];
 
-  const tempContactsArray = Object.entries(tempContacts).map(([id, contact]) => ({
-    id,
-    name: contact.name,
-    initials: contact.initials,
-    color: contact.color
-  }));
-
-  const initialsArray = tempContactsArray.map(c => c.initials);
-  const namesArray = tempContactsArray.map(c => c.name);
-  const colorArray = tempContactsArray.map(c => c.color);
-  const idArray = tempContactsArray.map(c => c.id);
+  console.log(checkedContacts);
+  
 
   return {initialsArray, namesArray, colorArray, idArray};
-}
-
-
-async function createArrayForContacts(tempContacts) {
-  let initialsArray = [];
-  let namesArray = [];
-  let colorArray = [];
-  let idArray = [];
-
-  tempContacts.forEach(contact => {
-    initialsArray.push(contact.initials);
-    namesArray.push(contact.name);
-    colorArray.push(contact.color);
-    idArray.push(contact.id);
-  });
-
-  await pushContentIntoArray(
-    initialsArray, namesArray, colorArray, idArray
-  );
-}
-
-
-async function pushContentIntoArray(initialsArray, namesArray, colorArray, idArray) {
-  let {title, description, dueDate, category, status} = await getTaskInputs();
-  let {priorityLevel, priorityValue} = await getPriorityFromTask();
-  const newTask = {
-    title,
-    description,
-    dueDate,
-    category,
-    subtasks,
-    status,
-    priorityValue,
-    createdAt: new Date().toISOString(),
-    priorityLevel,
-    contactsInitials: initialsArray,
-    contactsNames: namesArray,
-    contactsColor: colorArray,
-    contactsId: idArray
-  };
-  return {newTask}
 }
 
 
