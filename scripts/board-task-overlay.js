@@ -1,5 +1,6 @@
 
 let deletedContacts = [];
+let boards;
 
 function initBoards() {
   return [
@@ -9,9 +10,6 @@ function initBoards() {
     { container: document.getElementById('new-task-done-div'), filler: document.getElementById('done-filler') }
   ];
 }
-
-
-let boards;
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -128,16 +126,14 @@ function toggleTaskDivs(taskInfo, taskContent, taskStatus, hasContent, hasDetail
 async function deleteTask(taskId) {
   if (!confirm("Willst du diese Task wirklich löschen?")) return;
   try {
-    const response = await fetch(`${BASE_URL}/tasks/${taskId}.json`, {
-      method: 'DELETE'
-    });
+    const response = await deleteData(`tasks/${taskId}`)
     if (!response.ok) throw new Error('Fehler beim Löschen der Task');
     loadTasks();
     closeTaskOverlay();
   } catch (error) {
     alert('Task konnte nicht gelöscht werden.');
   }
-}
+}  
 
 
 function loadScriptOnce(id, src) {
@@ -154,12 +150,9 @@ function loadScriptOnce(id, src) {
 
 
 async function editTask(taskId) {
-  
-  currentTaskId = taskId;
   const overlay = document.getElementById('task-overlay');
   const overlayContent = document.getElementById('task-overlay-content');
   await getTaskContentFromApi(overlay, overlayContent, taskId); 
-  
 }
 
 
@@ -175,7 +168,6 @@ async function getTaskContentFromApi(overlay, overlayContent, taskId) {
     getTaskContacts(task, taskId);
     overlay.classList.remove('d-none');
     overlay.classList.add('active');
-
 }
 
 
@@ -206,35 +198,20 @@ async function getTaskContacts(task, taskId) {
 
 
 async function renderSelectedContactsFromApi(task, taskId) {
-  const colors = task.contactsColor || [];
-  const initials = task.contactsInitials || [];
-  const names = task.contactsNames || [];
-  const ids = task.contactsId || [];
-  const emails = task.contactsEmail || [];
-  const phones = task.contactsPhones || [];
-  if (colors.length !== initials.length) {
-    console.warn(`⚠️ Unterschiedliche Längen in contactsColor und contactsInitials bei Task ${taskId}`);
-  }
-  for (let i = 0; i < initials.length; i++) {
+  const { contactsColor = [], contactsInitials = [], contactsNames = [], contactsId = [], contactsEmail = [], contactsPhones = [] } = task;
+  if (contactsColor.length !== contactsInitials.length) console.warn(`⚠️ Unterschiedliche Längen in contactsColor und contactsInitials bei Task ${taskId}`);
+  contactsInitials.forEach((initials, i) => {
     const contact = {
-      id: ids[i],
-      color: colors[i] || '#ccc',
-      initials: initials[i],
-      name: names[i],
-      email: emails[i] || '',
-      phone: phones[i] || ''
+      id: contactsId[i],
+      color: contactsColor[i] || '#ccc',
+      initials,
+      name: contactsNames[i],
+      email: contactsEmail[i] || '',
+      phone: contactsPhones[i] || ''
     };
-    if (!checkedContacts.some(c => c.id === contact.id)) {
-      checkedContacts.push(contact);
-    }
+    if (!checkedContacts.some(c => c.id === contact.id)) checkedContacts.push(contact);
     selectedContacts.innerHTML += svgTemplate(contact.color, contact.initials);
-  }
-}
-
-
-function extractInitialsFromSvg(svgString) {
-  const match = svgString.match(/<text[^>]*>([\s\S]*?)<\/text>/i);
-  return match ? match[1].trim() : '';
+  });
 }
 
 
@@ -289,12 +266,12 @@ function getTaskContent(task, taskId) {
   document.getElementById('task-due-date').value = task.dueDate || '';
   document.getElementById('input-category').innerText = task.category || '';
   const newSubtaskInput = document.getElementById('task-subtasks');
-  newSubtaskInput.addEventListener('click', () => showSubtaskPicks(task, taskId));
+  newSubtaskInput.addEventListener('click', () => showSubtaskPicks(taskId));
   getSubtasks(task, taskId);
 }
 
 
-function showSubtaskPicks(task, taskId) {
+function showSubtaskPicks(taskId) {
     const subtaskPicks = document.getElementById('delete-or-keep-subtask');
     const addSubtaskSvg = document.getElementById('add-subtask-svg');
     subtaskPicks.classList.remove('d-none');
@@ -340,11 +317,7 @@ async function getSubtasksFromApi(subtaskInput, taskId) {
       task.subtasks = [];
     }
     task.subtasks.push(subtaskInput);
-    await fetch(`${BASE_URL}/tasks/${taskId}.json`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(task),
-    });
+    await putData(`tasks/${taskId}.json`, task);
     getSubtasks(task, taskId);
     document.getElementById('task-subtasks').value = '';
   } catch (error) {
@@ -395,11 +368,7 @@ async function deleteSubtaskFromApi(taskId, subtaskIndex) {
       return;
     }
     task.subtasks.splice(subtaskIndex, 1);
-    await fetch(`${BASE_URL}/tasks/${taskId}.json`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(task),
-    });
+    await putData(`tasks/${taskId}`, task)
     getSubtasks(task, taskId);
   } catch (error) {
     alert('Subtask konnte nicht gelöscht werden.');
@@ -412,18 +381,14 @@ async function checkIfSubtaskWasEdited(task, input, subtaskIndex, taskId) {
   if (oldValue === input) {
     return;
   }
-  console.log(`✏️ Subtask geändert: "${oldValue}" → "${input}"`);
   task.subtasks[subtaskIndex] = input;
   try {
-    await fetch(`${BASE_URL}/tasks/${taskId}.json`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(task),
-    });
+    await putData(`tasks/${taskId}`, task) 
   } catch (error) {
     alert('Subtask konnte nicht gespeichert werden.');
   }
 }
+
 
 
 function toggleBoxChecked(checkbox) {
@@ -473,9 +438,6 @@ function updateProgressBar(task) {
 
 
 async function updateTaskAfterEdit(taskId) {
-  const urgentButton = document.getElementById('urgent-priority-btn');
-  const mediumButton = document.getElementById('medium-priority-btn');
-  const lowButton = document.getElementById('low-priority-btn');
   let priorityValue, priorityLevel;
   if (urgentButton.classList.contains('priority-urgent-active')) {
     priorityValue = urgentBoardSvg;
@@ -487,8 +449,6 @@ async function updateTaskAfterEdit(taskId) {
     priorityValue = lowBoardSvg;
     priorityLevel = 'low';
   }
-  const res = await fetch(`${BASE_URL}/tasks/${taskId}.json`);
-  const task = await res.json();
   await pushCheckedContacts(taskId);
   await pushCheckedSubtasks(taskId);
   await updateTaskWithPriority(priorityLevel, priorityValue, taskId);
@@ -539,7 +499,7 @@ async function pushUpdatedTaskToApi(updatedTask, taskId) {
   } catch (error) {
     console.error('❌ Fehler beim Aktualisieren:', error);
   }
-    loadTasks(updatedTask);
+    loadTasks();
 }
 
 

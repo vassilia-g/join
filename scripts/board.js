@@ -30,7 +30,6 @@ const assigneeRef = document.getElementById('assignee');
 const priorityRef = document.getElementById('priority');
 const inputElement = document.getElementById('board-search-input');
 let tasksCache = [];
-let currentTaskId;
 let currentSvg = uncheckedBox;
 const currentPage = window.location.pathname.split('/').pop();
 
@@ -115,9 +114,6 @@ function getSubtaskRef() {
 
 
 function refreshBoard() {
-  const title = document.getElementById("task-title")
-  const category = document.getElementById("input-category")
-  const dueDate = document.getElementById("task-due-date")
   const createTaskButton = document.getElementById("create-task-btn");
   createTaskButton.onclick = async () => {
     closeOverlay();
@@ -186,7 +182,7 @@ async function pushStatusToApi(newStatus, taskId) {
   } catch (error) {
     console.error("❌ Fehler beim Aktualisieren:", error);
   }
-  loadTasks(taskId);
+  await loadTasks();
 }
 
 
@@ -199,7 +195,6 @@ async function loadTasks(taskId = null) {
   } else {
     tasksArray = Object.entries(tasksData).map(([id, task]) => ({ id, ...task }));
   }
-  console.log(tasksArray); // ✅ jetzt ein echtes Array
   createElementForTaskArray(tasksArray);
 }
 

@@ -126,12 +126,10 @@ function boardTaskOverlayTemplate(task, taskId) {
   `;
 }
 
-function editandResetTaskBtnTemplate(taskId, task) {
-  console.log('neu',taskId);
-  
+function editandResetTaskBtnTemplate(taskId) {
   return `
   <div class="edit-or-reset-btn-div">
-    <button id="reset-task-btn" onclick="resetTaskChangings('${currentTaskId}')">
+    <button id="reset-task-btn" onclick="resetTaskChangings('${taskId}')">
       <p>Reset</p>
     </button>
     <button id="edit-task-btn" onclick="updateTaskAfterEdit('${taskId}')">
@@ -151,8 +149,8 @@ function editandResetTaskBtnTemplate(taskId, task) {
   `;
 }
 
+
 function showApiSubtask(checkboxClass, checkboxIcon, taskId, subtaskIndex, subtask) {
-  
     return `
     <div class="subtasks-list-api">
       <li>
