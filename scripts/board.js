@@ -178,10 +178,22 @@ async function pushStatusToApi(newStatus, taskId) {
 
 
 async function createTask() {
-  await getTaskInputs();
-  await getPriorityFromTask();
-  await getContactsFromApi();
+  const taskInputs = await getTaskInputs();
+  const priority = await getPriorityFromTask();
+  const contacts = await getContactsFromApi();
 
+  const newTask = {
+    ...taskInputs,
+    ...priority,
+    subtasks,
+    createdAt: new Date().toISOString(),
+    contactsInitials: contacts.initialsArray,
+    contactsNames: contacts.namesArray,
+    contactsColor: contacts.colorArray,
+    contactsId: contacts.idArray
+  };
+
+  await pushNewTaskToApi(newTask);
 }
 
 
@@ -196,22 +208,22 @@ async function getTaskInputs() {
 
 
 async function getContactsFromApi() {
-  try {
-    const tempContacts = await getData('tempContacts/'); 
-    if (!tempContacts) return;
-    const tempContactsArray = Object.entries(tempContacts).map(([id, contact]) => ({
-      id,
-      name: contact.name,
-      initials: contact.initials,
-      color: contact.color
-    }));
+  const tempContacts = await getData('tempContacts/');
+  if (!tempContacts) return {initialsArray: [], namesArray: [], colorArray: [], idArray: []};
 
-    await createArrayForContacts(
-      tempContactsArray
-    );
-  } catch (err) {
-    console.error('Fehler beim Laden von tempContact:', err);
-  }
+  const tempContactsArray = Object.entries(tempContacts).map(([id, contact]) => ({
+    id,
+    name: contact.name,
+    initials: contact.initials,
+    color: contact.color
+  }));
+
+  const initialsArray = tempContactsArray.map(c => c.initials);
+  const namesArray = tempContactsArray.map(c => c.name);
+  const colorArray = tempContactsArray.map(c => c.color);
+  const idArray = tempContactsArray.map(c => c.id);
+
+  return {initialsArray, namesArray, colorArray, idArray};
 }
 
 
@@ -252,7 +264,7 @@ async function pushContentIntoArray(initialsArray, namesArray, colorArray, idArr
     contactsColor: colorArray,
     contactsId: idArray
   };
-  await pushNewTaskToApi(newTask);
+  return {newTask}
 }
 
 

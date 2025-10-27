@@ -228,7 +228,7 @@ async function sendContactToAPI(contactId) {
     const payload = {
         id: contact.id,
         name: contact.name,
-        initials: contact.initials,
+        initials: getInitials(contact.name),
         color: contact.color
     };
     await postData("tempContacts", payload);
