@@ -34,8 +34,21 @@ let currentTaskId;
 let currentSvg = uncheckedBox;
 const currentPage = window.location.pathname.split('/').pop();
 
+function openAddTaskInstedOverlay() {
+  const overlayBackground = document.getElementById('overlay-background');
+  const content = document.getElementById('add-task-overlay');
+  if(window.innerWidth < 1360){
+    overlayBackground.style.display = "none";
+    content.style.display = "none";
+    window.location.href = "../html/add-task.html";
+  }else{
+    overlayBackground.style.display = "flex";
+    content.style.display = "flex";
+  }
+}
 
 async function openAddTaskOverlay() {
+  openAddTaskInstedOverlay();
   const overlayRef = document.getElementById('add-task-overlay');
   const overlayContentRef = document.getElementById('add-task-overlay-content');
   const overlayBackgroundRef = document.getElementById('overlay-background');
