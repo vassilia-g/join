@@ -13,6 +13,7 @@ const lowSvgPath = lowSvg.querySelectorAll("path");
 urgentButton.isActive = false;
 mediumButton.isActive = false;
 lowButton.isActive = false;
+let checkedContacts = [];
 const addToBoardDiv = document.querySelector('.add-task-to-board-div');
 let selectedPriority = "";
 let selectedCategory = "";
@@ -307,6 +308,5 @@ function showTaskDiv() {
 function hideTaskDiv() {
   addToBoardDiv.classList.remove('show');
   addToBoardDiv.classList.add('hide');
-
   createTask();
 }
