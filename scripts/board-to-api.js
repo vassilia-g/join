@@ -103,7 +103,7 @@ async function pushCheckedContacts(taskId) {
     const objValue = {};
     value.forEach((v, i) => objValue[i] = v);
     const path = `tasks/${taskId}/${key}`;
-    await patchData(path, objValue);
+    await putData(path, objValue);
   }
 }
 

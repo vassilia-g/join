@@ -110,13 +110,15 @@ async function getContactsAndTask() {
 async function openDropdownContacts() {
   let { contactsArray } = await getContactsAndTask();
   contactsArray = getContactsInitials(contactsArray);
-  console.log(contactsArray);
+  console.log(checkedContacts);
+
   if (contactsToSelect.classList.contains('show')) {
     hideDropdownContacts();
     dropdownIcon.classList.remove("open");
     showSelectedContacts();
     return;
   }
+
   contactsToSelect.innerHTML = '';
 
   for (let i = 0; i < contactsArray.length; i++) {
@@ -128,6 +130,12 @@ async function openDropdownContacts() {
       ? showCheckedCheckbox(contact.id, contactData)
       : showEmptyCheckbox(contact.id, contactData);
     contactsToSelect.innerHTML += selectedContactsFromTaskTemplate(contact, initials, checkboxSvg);
+    if (isChecked) {
+      checkedContacts = [
+        ...checkedContacts.filter(c => c.id !== contact.id),
+        contact
+      ];
+    }
   }
 
   toggleClasslistForDropdown();
@@ -207,14 +215,17 @@ function checkContact(contactId, contactData) {
     initials.classList.add("checked");
     checkbox.classList.add("checked");
     checkbox.innerHTML = showCheckedCheckbox(contactId, contactData);
-    if (!checkedContacts.some(c => c.id === contact.id)) {
-      checkedContacts.push(contact);
-    }
-  }
+if (!checkedContacts.some(c => c.id === contact.id)) {
+  checkedContacts.push(contact);
+    } else {
+  checkedContacts = checkedContacts.map(c => 
+    c.id === contact.id ? contact : c
+  );
+}
   console.log("checkedContacts:", checkedContacts);
   showSelectedContacts();
 }
-
+}
 
 async function showSelectedContacts() {
     selectedContacts.innerHTML = '';

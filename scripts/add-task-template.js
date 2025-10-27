@@ -27,10 +27,12 @@ function showSubtask(index) {
 
 
 function selectedContactsFromTaskTemplate(contact, initials, checkboxSvg) {
+
+  const contactData = encodeURIComponent(JSON.stringify(contact));
     return `
       <div class="single-contact">
         <div class="contact-name">
-          <svg id="initials-${contact.id}" class="initials-svg" width="42" height="42" viewBox="0 0 42 42">
+          <svg onclick="checkContact('${contact.id}', '${contactData}')" id="initials-${contact.id}" class="initials-svg checked" width="42" height="42" viewBox="0 0 42 42">
             <circle cx="21" cy="21" r="20" fill="${contact.color}" stroke="white" stroke-width="2"/>
             <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" font-size="14" fill="white">
               ${initials}
@@ -38,7 +40,7 @@ function selectedContactsFromTaskTemplate(contact, initials, checkboxSvg) {
           </svg>
           <span>${contact.name}</span>
         </div>
-        <div class="contact-checkbox" id="checkbox-${contact.id}">
+        <div class="contact-checkbox checked" id="checkbox-${contact.id}">
           ${checkboxSvg}
         </div>
       </div>

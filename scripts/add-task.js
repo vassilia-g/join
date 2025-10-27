@@ -48,7 +48,6 @@ const picker = flatpickr("#task-due-date", {
 
 function initAddTask() {
   loadContactsWithoutRendering();
-  removeContactToAPI();
 };
 
 
