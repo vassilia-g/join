@@ -26,6 +26,26 @@ function showSubtask(index) {
 }
 
 
+function selectedContactsFromTaskTemplate(contact, initials, checkboxSvg) {
+    return `
+      <div class="single-contact">
+        <div class="contact-name">
+          <svg id="initials-${contact.id}" class="initials-svg" width="42" height="42" viewBox="0 0 42 42">
+            <circle cx="21" cy="21" r="20" fill="${contact.color}" stroke="white" stroke-width="2"/>
+            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" font-size="14" fill="white">
+              ${initials}
+            </text>
+          </svg>
+          <span>${contact.name}</span>
+        </div>
+        <div class="contact-checkbox" id="checkbox-${contact.id}">
+          ${checkboxSvg}
+        </div>
+      </div>
+    `;
+}
+
+
 function showSubtaskToEdit(index) {
   return `<div class="edit-subtask-container">
       <input id="edit-input" class="edit-input" type="text" value="${subtasks[index]}">
@@ -63,33 +83,6 @@ function svgTemplate(color, contact){
           ${contact}
         </text>
       </svg>
-    `;
-}
-
-
-function showContactsWithSelectionState(contacts, i) {
-    const contact = contacts[i];
-  initials = getInitials(contact.name);
-  console.log(contact.id);
-  
-    return `
-      <div class="single-contact selected">
-        <div class="contact-name">
-          <svg class="initials-svg id="initials-${contact.id}" checked" width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="21" cy="21" r="20" fill="${contact.color || '#ccc'}" stroke="white" stroke-width="2"/>
-            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" font-size="14" fill="white">
-              ${initials}
-            </text>
-          </svg>
-          <span>${contact.name}</span>
-        </div>
-        <div class="contact-checkbox">
-          <svg id="checkbox-${contact.id}" onclick="checkContact('${contact.id}')" width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M20.3882 11V17C20.3882 18.6569 19.045 20 17.3882 20H7.38818C5.73133 20 4.38818 18.6569 4.38818 17V7C4.38818 5.34315 5.73133 4 7.38818 4H15.3882" stroke="#2A3647" stroke-width="2" stroke-linecap="round"/>
-            <path d="M8.38818 12L12.3882 16L20.3882 4.5" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-      </div>
     `;
 }
 

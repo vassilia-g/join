@@ -107,7 +107,6 @@ async function getContactsAndTask() {
     return { tasksArray, contactsArray };
 }
 
-//zeigt nur noch contacts unselected
 async function openDropdownContacts() {
   let { contactsArray } = await getContactsAndTask();
   contactsArray = getContactsInitials(contactsArray);
@@ -119,9 +118,18 @@ async function openDropdownContacts() {
     return;
   }
   contactsToSelect.innerHTML = '';
+
   for (let i = 0; i < contactsArray.length; i++) {
-      contactsToSelect.innerHTML += showContacts(contactsArray, i);
+    const contact = contactsArray[i];
+    const isChecked = checkedContacts.some(c => c.id === contact.id);
+    const initials = getInitials(contact.name);
+    const contactData = encodeURIComponent(JSON.stringify(contact));
+    const checkboxSvg = isChecked
+      ? showCheckedCheckbox(contact.id, contactData)
+      : showEmptyCheckbox(contact.id, contactData);
+    contactsToSelect.innerHTML += selectedContactsFromTaskTemplate(contact, initials, checkboxSvg);
   }
+
   toggleClasslistForDropdown();
 }
 
