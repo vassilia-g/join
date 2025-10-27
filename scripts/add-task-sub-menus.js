@@ -108,14 +108,17 @@ async function getContactsAndTask() {
 }
 
 async function openDropdownContacts() {
+  const contactsToSelect = document.getElementById('contacts-to-select');
+  const dropdownIcon = document.getElementById('dropdown-icon');
+  const selectedContacts = document.getElementById('selected-contacts');
   let { contactsArray } = await getContactsAndTask();
   contactsArray = getContactsInitials(contactsArray);
   console.log(checkedContacts);
 
   if (contactsToSelect.classList.contains('show')) {
-    hideDropdownContacts();
+    hideDropdownContacts(contactsToSelect, dropdownIcon, selectedContacts);
     dropdownIcon.classList.remove("open");
-    showSelectedContacts();
+    showSelectedContacts(selectedContacts);
     return;
   }
 
@@ -138,7 +141,7 @@ async function openDropdownContacts() {
     }
   }
 
-  toggleClasslistForDropdown();
+  toggleClasslistForDropdown(contactsToSelect, dropdownIcon, selectedContacts);
 }
 
 
@@ -152,7 +155,7 @@ function getContactsInitials(contacts) {
 }
 
 
-function toggleClasslistForDropdown() {
+function toggleClasslistForDropdown(contactsToSelect, dropdownIcon, selectedContacts) {
     contactsToSelect.classList.add('show');
     dropdownIcon.classList.add("open");
     selectedContacts.classList.add('d-none');
@@ -177,10 +180,12 @@ document.onclick = function (event) {
 }
 
 
-function hideDropdownContacts() {
+function hideDropdownContacts(contactsToSelect, dropdownIcon, selectedContacts) {
     contactsToSelect.classList.remove('show');
     dropdownIcon.classList.remove("open");
-    selectedContacts.classList.remove('d-none');
+        setTimeout(() => {
+        selectedContacts.classList.remove('d-none');
+    }, 200);
 }
 
 
@@ -227,7 +232,7 @@ if (!checkedContacts.some(c => c.id === contact.id)) {
 }
 }
 
-async function showSelectedContacts() {
+async function showSelectedContacts(selectedContacts) {
     selectedContacts.innerHTML = '';
     if (!checkedContacts || checkedContacts.length === 0) return;
     let contactsHTML = '';

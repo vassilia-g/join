@@ -198,6 +198,7 @@ async function getTaskContacts(task, taskId) {
 
 
 async function renderSelectedContactsFromApi(task, taskId) {
+  const selectedContacts = document.getElementById('selected-contacts')
   const { contactsColor = [], contactsInitials = [], contactsNames = [], contactsId = [], contactsEmail = [], contactsPhones = [] } = task;
   if (contactsColor.length !== contactsInitials.length) console.warn(`⚠️ Unterschiedliche Längen in contactsColor und contactsInitials bei Task ${taskId}`);
   contactsInitials.forEach((initials, i) => {
