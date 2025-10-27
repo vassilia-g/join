@@ -110,24 +110,28 @@ async function getContactsAndTask() {
 
 
 async function openDropdownContacts() {
-  let { tasksArray, contactsArray } = await getContactsAndTask();
+  let { contactsArray } = await getContactsAndTask();
   contactsArray = getContactsInitials(contactsArray);
+  const tempContacts = await getData('tempContacts/');
+  const tempContactsArray = Object.values(tempContacts || []);
+  console.log("Temp Contacts:", tempContactsArray);
   if (contactsToSelect.classList.contains('show')) {
     hideDropdownContacts();
     dropdownIcon.classList.remove("open");
     showSelectedContacts();
     return;
   }
-  const usedContactIds = tasksArray
-    .flatMap(task => task.contactsId || []) 
-    .filter(id => id);
+  const usedContactIds = tempContactsArray.length
+    ? tempContactsArray.map(c => c.id).filter(Boolean)
+    : []; 
   contactsToSelect.innerHTML = '';
   for (let i = 0; i < contactsArray.length; i++) {
     const contact = contactsArray[i];
     const isAlreadyAssigned = usedContactIds.includes(contact.id);
-    selectedContactsState[i] = isAlreadyAssigned;
+    selectedContactsState[contact.id] = isAlreadyAssigned;
+
     if (isAlreadyAssigned) {
-      contactsToSelect.innerHTML += showContactsWithSelectionState(contact, i);
+      contactsToSelect.innerHTML += showContactsWithSelectionState(contactsArray, i);
     } else {
       contactsToSelect.innerHTML += showContacts(contactsArray, i);
     }
@@ -194,76 +198,74 @@ function getInitials(name) {
 }
 
 
-function checkContact(i) {
-    const checkbox = document.getElementById(`checkbox-${i}`);
-    const initials = document.getElementById(`initials-${i}`);
+function checkContact(contactId) {
+    const checkbox = document.getElementById(`checkbox-${contactId}`);
+    const initials = document.getElementById(`initials-${contactId}`);
     if (!checkbox || !initials) return;
-    if (selectedContactsState[i]) {
-        selectedContactsState[i] = false;
+
+    if (selectedContactsState[contactId]) {
+        selectedContactsState[contactId] = false;
         initials.classList.remove("checked");
         checkbox.classList.remove("checked");
-        checkbox.innerHTML = showEmptyCheckbox(i);
-        removeContactToAPI(i);
+        checkbox.innerHTML = showEmptyCheckbox(contactId);
+        removeContactToAPI(contactId);
     } else {
-        selectedContactsState[i] = true;
+        selectedContactsState[contactId] = true;
         initials.classList.add("checked");
         checkbox.classList.add("checked");
-        checkbox.innerHTML = showCheckedCheckbox(i);
-        sendContactToAPI(i);
+        checkbox.innerHTML = showCheckedCheckbox(contactId);
+        sendContactToAPI(contactId);
     }
+
     showSelectedContacts();
 }
 
+async function sendContactToAPI(contactId) {
+    const { contactsArray } = await getContactsAndTask();
+    const contact = contactsArray.find(c => c.id === contactId);
+    if (!contact) return;
 
-async function sendContactToAPI(i) {
-    let {contactsArray } = await getContactsAndTask();
-    contactsArray = getContactsInitials(contactsArray);
-    let contactsIds = contactsArray.map(contact => contact.id);
-    console.log(contactsIds);
     const payload = {
-            id: contactsIds[i],
-            name: contactsArray[i].name,
-            initials: contactsArray[i].initials,
-            color: contactsArray[i].color
-        };
-    await postData("tempContacts", payload)
+        id: contact.id,
+        name: contact.name,
+        initials: contact.initials,
+        color: contact.color
+    };
+    await postData("tempContacts", payload);
 }
 
-
-async function removeContactToAPI(i) {
-  const { contactsArray } = await getContactsAndTask();
-  const contact = contactsArray[i];
-  if (!contact || !contact.id) {
-    console.warn("⚠️ Keine gespeicherte ID für Index", i, contact);
-    return;
-  }
-  try {
-    const response = await fetch(`${BASE_URL}/tempContacts/${contact.id}.json`, {
-      method: 'DELETE'
-    });
-    if (!response.ok) {
-      throw new Error(`Fehler beim Löschen: ${response.status}`);
+async function removeContactToAPI(contactId) {
+    try {
+        const response = await fetch(`${BASE_URL}/tempContacts/${contactId}.json`, { method: 'DELETE' });
+        if (!response.ok) throw new Error(`Fehler: ${response.status}`);
+    } catch (err) {
+        console.error("❌ Fehler beim Entfernen:", err);
     }
-  } catch (err) {
-    console.error("❌ Fehler beim Entfernen:", err);
-  }
 }
-
 
 async function showSelectedContacts() {
-  const { contactsArray } = await getContactsAndTask();
-  const selectedIds = Object.keys(selectedContactsState).filter(i => selectedContactsState[i]);
-  const selectedContactsHTML = selectedIds.map(i => {
-    const contact = contactsArray[i];
-    if (!contact) {
-      console.warn("⚠️ Kein Kontakt gefunden für Index", i);
-      return '';
-    }
-    const color = contact.color || '#ccc';
-    const initials = getInitials(contact.name);
-    return svgTemplate(color, initials);
-  }).join('');
-  selectedContacts.innerHTML += selectedContactsHTML;
+    selectedContacts.innerHTML = '';
+    const { tasksArray } = await getContactsAndTask();
+    console.log(tasksArray);
+    
+    const tempContacts = await getData('tempContacts/');
+    const tempContactsArray = Object.values(tempContacts || {});
+    console.log("Temp Contacts:", tempContactsArray);
+    tempContactsArray.forEach(contact => selectedContactsState[contact.id] = true);
+    const tempContactsHTML = tempContactsArray.map(contact => {
+      if (!contact) return '';
+      const color = contact.color || '#ccc';
+      const initials = getInitials(contact.name || contact.email || '?');
+      return svgTemplate(color, initials);
+    }).join('');
+    tasksArray.forEach(task => task.contactsId?.forEach(id => selectedContactsState[id] = true));
+    const taskContactsHTML = tasksArray.map(tContact => {
+        if (!tContact) return '';      
+        const tColor = tContact.contactsColor;
+        const tInitials = tContact.contactsIntials;
+        return svgTemplate(tColor, tInitials)
+    }).join('');
+    selectedContacts.innerHTML += tempContactsHTML + taskContactsHTML;
 }
 
 
