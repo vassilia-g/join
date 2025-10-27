@@ -12,6 +12,19 @@
     box-shadow: 4px 0 6px -2px rgba(0, 0, 0, 0.096);
     padding: 48px 48px 48px 48px;
     box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+.header-contact-list {
+    width: 100%;
+    position: sticky;
+    top: 0;
+}
+
+.contact-container{
+    box-sizing: border-box;
+    overflow-x: auto;
+    width: 100%;
 }
 
 .add-contact-button {
@@ -20,6 +33,7 @@
     align-items: center;
     justify-content: center;
     height: 56px;
+    min-height: 56px;
     width: 100%;
     border-radius: 8px;
     background-color: var(--color-primary);
@@ -41,7 +55,6 @@
 .contact-main {
     display: flex;
     flex-direction: column;
-    width: calc(100% - 456px);
     padding: 100px 52px 20px 52px;
     box-sizing: border-box;
     position: relative;
@@ -76,8 +89,6 @@
 .contacts-list {
     margin-top: 20px;
     width: 100%;
-    height: calc(100% - 76px);
-    overflow-y: auto;
     display: flex;
     flex-direction: column;
     gap: 10px;
