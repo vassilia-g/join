@@ -443,3 +443,206 @@
         font-size: 16px;
     }
 }
+
+@media (max-width: 1440px) and (max-height: 750px) {
+    .log-in-container {
+        width: 280px;
+        margin-top: 150px;
+    }
+
+    @keyframes move-to-top-left {
+        0% {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        100% {
+            top: 44px;
+            left: 45.5px;
+            width: 51px;
+            height: 72px;
+            transform: translate(0, 0);
+        }
+    }
+}
+
+@media (max-width: 960px) and (max-height: 700px) {
+    .log-in-container {
+        margin-top: 80px;
+    }
+}
+
+@media (max-width: 960px) and (max-height: 630px) {
+    .log-in-container {
+        margin-top: 80px;
+        max-height: 222px;
+        padding: 25px 115px 85px 115px;
+    }
+
+    .sign-up-container {
+        padding: 25px 115px 130px 115px;
+        margin-top: 80px;
+    }
+
+    .sign-up-container h1 {
+        font-size: 40px;
+    }
+
+    .sign-up-line {
+        width: 75px;
+    }
+
+    .input-sign-up-name-container,
+    .input-sign-up-email-container,
+    .input-sign-up-password-container,
+    .input-sign-up-confirm-password-container {
+        height: 26px;
+    }
+
+    .input-email-container ::placeholder,
+    .input-password-container ::placeholder,
+    .input-sign-up-name-container ::placeholder,
+    .input-sign-up-email-container ::placeholder,
+    .input-sign-up-password-container ::placeholder,
+    .input-sign-up-confirm-password-container ::placeholder {
+        font-size: 16px;
+    }
+
+    .form-sign-up {
+        gap: 12px;
+    }
+
+    .input-main-container {
+        padding-top: 15px;
+    }
+
+    .enabled-sign-up-form-button,
+    .disabled-sign-up-form-button {
+        height: 32px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 950px) and (max-height: 590px) {
+    .sign-up-container h1 {
+        font-size: 32px;
+    }
+
+    .sign-up-container {
+        margin-top: 32px;
+        padding: 15px 115px 132px 115px
+    }
+
+    .sign-up-line {
+        width: 59px;
+    }
+
+    .sign-up-header {
+        gap: 45px;
+    }
+
+    @keyframes move-to-top-left {
+        0% {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        100% {
+            top: 24px;
+            left: 25.5px;
+            width: 41px;
+            height: 62px;
+            transform: translate(0, 0);
+        }
+    }
+
+    .accept-policy {
+        padding-top: 0px;
+    }
+
+    .form-sign-up {
+        gap: 7px;
+    }
+
+    .log-in-container {
+        margin-top: 10px;
+        max-height: 190px;
+        padding: 15px 115px 75px 115px;
+    }
+
+    .log-in-guest-button,
+    .log-in-button {
+        height: 32px;
+        font-size: 16px;
+    }
+
+    .log-in-header {
+        margin-top: 30px;
+    }
+
+    .log-in-container h1 {
+        font-size: 32px;
+    }
+
+    .line,
+    .sign-up-line {
+        width: 56px;
+    }
+
+    .privacy-legal-link-container {
+        height: 24px;
+    }
+}
+
+@media (max-width: 700px) and (max-height: 420px) {
+    .responsive-header {
+        height: 50px;
+    }
+
+    .log-in-button-container {
+        gap: 5px;
+    }
+
+    .log-in-guest-button,
+    .log-in-button {
+        height: 30px;
+    }
+
+    .form-log-in {
+    gap: 14px;
+}
+
+.input-email-container, .input-password-container{
+    height: 20px;
+}
+
+    .log-in-container {
+        padding: 15px 65px 54px 65px;
+        margin-top: 0px;
+}
+
+.log-in-header{
+    margin-top: 25px;
+}
+
+.registry-container {
+    height: 0px;
+}
+
+
+    .sign-up-container {
+        margin-top: 0px;
+        padding: 15px 65px 70px 65px;
+    }
+      
+    .input-email-container ::placeholder,
+    .input-password-container ::placeholder,
+    .input-sign-up-name-container ::placeholder,
+    .input-sign-up-email-container ::placeholder,
+    .input-sign-up-password-container ::placeholder,
+    .input-sign-up-confirm-password-container ::placeholder {
+        font-size: 16px;
+    }
+}
