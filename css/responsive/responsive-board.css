@@ -1,14 +1,4 @@
-@media (max-width: 1370px) {
-    .current-board-tasks {
-        width: 214px;
-    }
-
-    .board-tasks {
-        width: 230px;
-    }
-}
-
-@media (max-width: 1320px) {
+@media (max-width: 1375px) {
     .board-content {
         width: 100%;
     }
@@ -49,6 +39,16 @@
 
     .board-tasks-headline {
         font-size: 17px;
+    }
+}
+
+@media (max-width: 1370px) {
+    .current-board-tasks {
+        width: 214px;
+    }
+
+    .board-tasks {
+        width: 230px;
     }
 }
 
