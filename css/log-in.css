@@ -381,7 +381,7 @@ h1 {
 .log-in-button:hover {
     background-color: var(--color-accent);
     box-shadow: 0px 4px 4px rgb(182, 182, 182);
-    border-width: 0px;
+    border: 1px solid transparent;
 }
 
 .log-in-guest-button {
