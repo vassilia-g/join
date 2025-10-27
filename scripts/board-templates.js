@@ -45,7 +45,6 @@ function showMoreContacts(extraInitials) {
 
 function boardTaskOverlayTemplate(task, taskId) {
   const subtasks = Array.isArray(task.subtasks) ? task.subtasks : [];
-
   let contactsHTML = '';
   if (task.contactsInitials && task.contactsInitials.length > 0) {
     contactsHTML = task.contactsInitials
@@ -128,7 +127,7 @@ function boardTaskOverlayTemplate(task, taskId) {
 }
 
 function editandResetTaskBtnTemplate(taskId, task) {
-  console.log('neu',task);
+  console.log('neu',taskId);
   
   return `
   <div class="edit-or-reset-btn-div">

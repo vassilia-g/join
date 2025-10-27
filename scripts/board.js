@@ -190,6 +190,42 @@ async function pushStatusToApi(newStatus, taskId) {
 }
 
 
+async function loadTasks(taskId = null) {
+  getStatusPosition();
+  let tasksData = await getData('tasks/') || {};
+  let tasksArray;
+  if (taskId) {
+    tasksArray = tasksData[taskId] ? [{ id: taskId, ...tasksData[taskId] }] : [];
+  } else {
+    tasksArray = Object.entries(tasksData).map(([id, task]) => ({ id, ...task }));
+  }
+  console.log(tasksArray); // ✅ jetzt ein echtes Array
+  createElementForTaskArray(tasksArray);
+}
+
+
+function getStatusPosition() {
+  const { newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv } = getBoardContainers();
+  clearBoardContainers(newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv);
+  return { newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv };
+}
+
+
+function createElementForTaskArray(tasksArray) {
+  const { newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv } = getStatusPosition(); 
+  tasksArray.forEach(task => {
+    const taskElement = document.createElement('div');
+    checkContactsLength(taskElement, task, task.id);
+    taskElement.setAttribute("data-task-index", task.id);
+    taskElement.setAttribute("onclick", `openTaskOverlay('${task.id}')`);
+    getTargetColumn(newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv, taskElement, task);
+    updateProgressBar(task);
+  });
+  updateCategoryColor();
+  checkIfEmpty(tasksArray);
+}
+
+
 async function createTask() {
   const taskInputs = await getTaskInputs();
   const priority = await getPriorityFromTask();
@@ -254,23 +290,10 @@ async function pushNewTaskToApi(newTask) {
   try {
     const data = await postData('tasks', newTask);
     if (data && data.name) newTask.id = data.name;
-    await removeTempContactToApi();
     window.location.href = "../html/board.html";
   } catch (error) {
     alert('Fehler beim Speichern der Task. Bitte versuche es erneut.');
   }
-}
-
-
-async function removeTempContactToApi() {
-await deleteData("tempContacts/");
-}
-
-
-async function loadTasks(task) {
-  const { newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv } = getBoardContainers();
-  clearBoardContainers(newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv);
-  await getTaskfromApiForArray(task, newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv);
 }
 
 
@@ -302,20 +325,6 @@ function clearBoardContainers(...containers) {
 }
 
 
-async function getTaskfromApiForArray(task, newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv) {
-  try {
-    const data = await getData('tasks');
-    const tasksArray = data ? Object.entries(data).map(([taskId, task]) => {
-      task.id = taskId;
-      return task;
-    }) : [];
-    createElementForTaskArray(tasksArray, newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv, tasksArray);
-  } catch (error) {
-    console.error('Fehler beim Laden der Tasks:', error);
-  }
-}
-
-
 async function getTaskfromApiForArrayByText(text, newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv) {
   try {
     const data = await getData('tasks');
@@ -329,19 +338,6 @@ async function getTaskfromApiForArrayByText(text, newTaskDiv, newTaskProgressDiv
   } catch (error) {
     console.error('Fehler beim Laden der Tasks:', error);
   }
-}
-
-
-function createElementForTaskArray(tasksArray, newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv, tasksArray) {
-  tasksArray.forEach((task, i) => {
-    const taskElement = document.createElement('div');
-    checkContactsLength(taskElement, task, task.id);
-    taskElement.setAttribute("data-task-index", i);
-    taskElement.setAttribute("onclick", `openTaskOverlay('${task.id}')`);
-    getTargetColumn(newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv, taskElement, task);
-  });
-  checkIfEmpty(tasksArray);
-  updateCategoryColor();
 }
 
 
@@ -361,11 +357,12 @@ function getTargetColumn(newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, new
       targetColumn = newTaskDiv;
   }
   targetColumn.appendChild(taskElement);
-  updateProgressBar(task);
 }
 
 
 function checkContactsLength(taskElement, task, taskId) {
+  console.log(taskId);
+  
   let selectedContactsComplete = '';
   if (!task.contactsInitials) task.contactsInitials = [];
   if (!task.contactsColor) task.contactsColor = [];
