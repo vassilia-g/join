@@ -121,6 +121,12 @@
     }
 }
 
+@media (max-width: 880px) {
+    .overlay-titel h3 {
+        font-size: 52px;
+    }
+}
+
 @media (max-width: 720px) {
     #task-overlay-content {
         width: 90vw;
@@ -131,6 +137,28 @@
     .task-additional-info,
     .task-main-info {
         align-items: center;
+    }
+
+    .overlay-titel h3 {
+        font-size: 48px;
+    }
+}
+
+@media (max-width: 680px) {
+    .overlay-titel h3 {
+        font-size: 44px;
+    }
+}
+
+@media (max-width: 650px) {
+    .overlay-titel h3 {
+        font-size: 32px;
+    }
+}
+
+@media (max-width: 470px) {
+    .overlay-titel h3 {
+        font-size: 19px;
     }
 }
 
@@ -155,10 +183,6 @@
     .overlay-priority h4,
     .overlay-assignee h4 {
         font-size: 17px;
-    }
-
-    .overlay-titel h3 {
-        font-size: 48px;
     }
 
     .contact-html-name,
