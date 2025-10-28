@@ -238,15 +238,12 @@ function clearSubtaskInput() {
 
 
 function enableCreateTaskButton() {
-  const title = document.getElementById("task-title").value.trim();
-  const category = document.getElementById("input-category").textContent.trim();
-  const dueDate = document.getElementById("task-due-date").value.trim();
-
-  if (title !== "" && dueDate !== "" && category !== "Select task category") {
-    createTaskButton.disabled = false;
-  } else {
-    createTaskButton.disabled = true;
-  }
+  const createTaskButton = document.getElementById("create-task-btn");
+  if (!createTaskButton) return;
+  const title = document.getElementById("task-title")?.value.trim() || "";
+  const category = document.getElementById("input-category")?.textContent.trim() || "";
+  const dueDate = document.getElementById("task-due-date")?.value.trim() || "";
+  createTaskButton.disabled = !(title && dueDate && category !== "Select task category");
 }
 
 
