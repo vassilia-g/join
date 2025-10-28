@@ -290,11 +290,7 @@ async function pushNewTaskToApi(newTask) {
 function filterTasksByText(text) {
   const { newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv } = getBoardContainers();
   clearBoardContainers(newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv);
-  if (!text || text.trim() === '') {
-    getTaskfromApiForArray(null, newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv);
-  } else {
-    getTaskfromApiForArrayByText(text, newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv);
-  }
+  getTaskfromApiForArrayByText(text, newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv);
 }
 
 
@@ -323,8 +319,14 @@ async function getTaskfromApiForArrayByText(text, newTaskDiv, newTaskProgressDiv
       return task;
     }) : [];
     const query = (text || '').toString().trim().toLowerCase();
-    const filtered = query === '' ? tasksArray : tasksArray.filter(t => (t.description || t.title || '').toLowerCase().includes(query));
-    createElementForTaskArray(null, newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv, filtered);
+    const filtered = query === ''
+      ? tasksArray
+      : tasksArray.filter(t => {
+          const title = (t.title || '').toLowerCase();
+          const description = (t.description || '').toLowerCase();
+          return title.includes(query) || description.includes(query);
+    });
+    createElementForTaskArray(filtered, newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv);
   } catch (error) {
     console.error('Fehler beim Laden der Tasks:', error);
   }
