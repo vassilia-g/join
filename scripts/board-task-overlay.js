@@ -126,10 +126,9 @@ function toggleTaskDivs(taskInfo, taskContent, taskStatus, hasContent, hasDetail
 async function deleteTask(taskId) {
   if (!confirm("Willst du diese Task wirklich löschen?")) return;
   try {
-    const response = await deleteData(`tasks/${taskId}`)
-    if (!response.ok) throw new Error('Fehler beim Löschen der Task');
-    loadTasks();
+    await deleteData(`tasks/${taskId}`);
     closeTaskOverlay();
+    loadTasks();
   } catch (error) {
     alert('Task konnte nicht gelöscht werden.');
   }

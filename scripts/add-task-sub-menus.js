@@ -212,17 +212,19 @@ function checkContact(contactId) {
   const checkbox = document.getElementById(`checkbox-${contactId}`);
   const initialsSvg = document.getElementById(`initials-${contactId}`);
   if (!checkbox || !initialsSvg) return;
+  const svg = checkbox.querySelector('svg');
+  if (!svg) return console.warn('⚠️ Kein SVG in Checkbox gefunden:', contactId);
 
-  const isChecked = checkbox.classList.contains("checked");
+  const isChecked = svg.classList.contains('checked');
 
   if (isChecked) {
-    initialsSvg.classList.remove("checked");
-    checkbox.classList.remove("checked");
+    svg.classList.remove('checked');
+    initialsSvg.classList.remove('checked');
     checkbox.innerHTML = showEmptyCheckbox(contact);
     checkedContacts = checkedContacts.filter(c => c.id !== contact.id);
   } else {
-    initialsSvg.classList.add("checked");
-    checkbox.classList.add("checked");
+    svg.classList.add('checked');
+    initialsSvg.classList.add('checked');
     checkbox.innerHTML = showCheckedCheckbox(contact);
     if (!checkedContacts.some(c => c.id === contact.id)) {
       checkedContacts.push(contact);
@@ -230,6 +232,7 @@ function checkContact(contactId) {
       checkedContacts = checkedContacts.map(c => c.id === contact.id ? contact : c);
     }
   }
+
   console.log("checkedContacts:", checkedContacts);
   showSelectedContacts();
 }
