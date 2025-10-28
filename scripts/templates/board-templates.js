@@ -181,9 +181,6 @@ function showApiSubtask(checkboxClass, checkboxIcon, taskId, subtaskIndex, subta
 }
 
 function showApiSubtaskToEdit(subtask, index, taskId) {
-
-  console.log(subtask, index, taskId);
-  
     return `
       <div class="edit-subtask-container">
         <input id="edit-input" class="edit-input" type="text" value="${subtask}">

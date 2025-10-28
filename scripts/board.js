@@ -73,7 +73,7 @@ async function getAddTaskContent(overlayContentRef) {
     overlayContentRef.appendChild(content.cloneNode(true));
     await loadScriptOnce('add-task-script', '../scripts/add-task.js');
     await loadScriptOnce('add-task-sub-menu-script', '../scripts/add-task-sub-menus.js');
-    await loadScriptOnce('add-task-template-script', '../scripts/add-task-template.js');
+    await loadScriptOnce('add-task-template-script', '../scripts/templates/add-task-template.js');
   }
 }
 
@@ -250,18 +250,12 @@ async function getTaskInputs() {
 
 
 async function getContactsFromArray() {
-  console.log(checkedContacts);
-  
   const initialsArray = checkedContacts.map(c => getInitials(c.name));
   const namesArray = checkedContacts.map(c => c.name);
   const colorArray = checkedContacts.map(c => c.color);
   const idArray = checkedContacts.map(c => c.id);
   console.log(checkedContacts);
   checkedContacts = [];
-
-  
-  
-
   return {initialsArray, namesArray, colorArray, idArray};
 }
 
@@ -357,8 +351,6 @@ function getTargetColumn(newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, new
 
 
 function checkContactsLength(taskElement, task, taskId) {
-  console.log(taskId);
-  
   let selectedContactsComplete = '';
   if (!task.contactsInitials) task.contactsInitials = [];
   if (!task.contactsColor) task.contactsColor = [];

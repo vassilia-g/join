@@ -87,30 +87,6 @@ function svgTemplate(color, contact){
 }
 
 
-function showContacts(contacts, i) {
-  const contact = contacts[i];
-  const initials = getInitials(contact.name);
-      return `
-        <div class="single-contact">
-          <div class="contact-name">
-            <svg id="initials-${contact.id}" class="initials-svg" width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="21" cy="21" r="20" fill="${contact.color}" stroke="white" stroke-width="2"/>
-              <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" font-size="14" fill="white">
-                ${initials}
-              </text>
-            </svg>
-            <span>${contact.name}</span>
-          </div>
-          <div class="contact-checkbox" id="checkbox-${contact.id}" data-index="${contact.id}">
-            <svg onclick="checkContact('${contact.id}')" width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="4.38818" y="4" width="16" height="16" rx="3" stroke="#2A3647" stroke-width="2"/>
-            </svg>
-          </div>
-        </div>
-      `;
- }
-
-
 function showEmptyCheckbox(contact) {
   return `
       <svg onclick="checkContact('${contact.id}')" width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">

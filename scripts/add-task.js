@@ -156,25 +156,18 @@ priorityButtons.forEach(btn => {
 
 
 function togglePriorityBtn(clickedButton) {
-let priorities = ["urgent", "medium", "low"];
+  const priorities = ["urgent", "medium", "low"];
   priorities.forEach(pr => {
     const btn = document.getElementById(`${pr}-priority-btn`);
-    btn.classList.remove(`priority-${pr}-active`);
-    btn.classList.add(`priority-${pr}-default`);
+    btn.classList.toggle(`priority-${pr}-active`, false);
+    btn.classList.toggle(`priority-${pr}-default`, true);
     btn.isActive = false;
   });
-  const currentPriority = priorities.find(pr =>
-    clickedButton.id.includes(pr)
-  );
-  if (clickedButton.classList.contains(`priority-${currentPriority}-default`)) {
-    clickedButton.classList.remove(`priority-${currentPriority}-default`);
-    clickedButton.classList.add(`priority-${currentPriority}-active`);
-    clickedButton.isActive = true;
-  } else {
-    clickedButton.classList.add(`priority-${currentPriority}-default`);
-    clickedButton.classList.remove(`priority-${currentPriority}-active`);
-    clickedButton.isActive = false;
-  }
+  const current = priorities.find(pr => clickedButton.id.includes(pr));
+  const isDefault = clickedButton.classList.contains(`priority-${current}-default`);
+  clickedButton.classList.toggle(`priority-${current}-default`, !isDefault);
+  clickedButton.classList.toggle(`priority-${current}-active`, isDefault);
+  clickedButton.isActive = isDefault;
 }
 
 

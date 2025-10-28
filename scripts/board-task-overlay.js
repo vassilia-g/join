@@ -211,8 +211,6 @@ async function renderSelectedContactsFromApi(task, taskId) {
     };
     if (!checkedContacts.some(c => c.id === contact.id)) checkedContacts.push(contact);
     selectedContacts.innerHTML += svgTemplate(contact.color, contact.initials);
-    console.log(contact.initials);
-    
   });
 }
 
@@ -220,7 +218,7 @@ async function renderSelectedContactsFromApi(task, taskId) {
 async function allAddTaskScripts() {
     await loadScriptOnce('add-task-script', '../scripts/add-task.js');
     await loadScriptOnce('add-task-sub-menu-script', '../scripts/add-task-sub-menus.js');
-    await loadScriptOnce('add-task-template-script', '../scripts/add-task-template.js');
+    await loadScriptOnce('add-task-template-script', '../scripts/templates/add-task-template.js');
 }
 
 
@@ -355,7 +353,6 @@ async function checkIfSubtaskWasEdited(task, input, subtaskIndex, taskId) {
     alert('Subtask konnte nicht gespeichert werden.');
   }
 }
-
 
 
 function toggleBoxChecked(checkbox) {
