@@ -685,9 +685,8 @@ button {
 
 #task-overlay-content .delete-or-done-edit {
     display: flex;
-
-
 }
+
 
 @keyframes slideUpBoard {
     0% {
