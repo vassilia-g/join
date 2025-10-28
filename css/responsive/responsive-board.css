@@ -75,6 +75,23 @@
     }
 }
 
+@media (max-width: 1370px) {
+    .current-board-tasks {
+        width: 214px;
+    }
+
+    .board-tasks {
+        width: 230px;
+    }
+}
+
+@media (max-width: 1200px) {
+    #task-overlay-content .create-task {
+        flex-direction: column;
+        gap: 20px;
+    }
+}
+
 @media (max-width: 1085px) {
     .board-search-bar {
         width: 100%;
@@ -137,6 +154,49 @@
     }
 }
 
+
+
+@media (max-width: 880px) {
+    .overlay-titel h3 {
+        font-size: 52px;
+    }
+}
+
+@media (max-width: 720px) {
+    #task-overlay-content {
+        width: 90vw;
+        max-height: 926px;
+        overflow-y: scroll;
+    }
+
+    .task-additional-info,
+    .task-main-info {
+        align-items: center;
+    }
+
+    .overlay-titel h3 {
+        font-size: 48px;
+    }
+}
+
+@media (max-width: 680px) {
+    .overlay-titel h3 {
+        font-size: 44px;
+    }
+}
+
+@media (max-width: 650px) {
+    .overlay-titel h3 {
+        font-size: 32px;
+    }
+}
+
+@media (max-width: 470px) {
+    .overlay-titel h3 {
+        font-size: 19px;
+    }
+}
+
 @media (max-width: 450px) {
     .title {
         font-size: 45px;
@@ -150,6 +210,25 @@
     .current-board-tasks {
         width: 100%;
     }
+}
+
+@media (max-width: 420px) {
+
+    .overlay-due-date h4,
+    .overlay-priority h4,
+    .overlay-assignee h4 {
+        font-size: 17px;
+    }
+
+    .contact-html-name,
+    .contact-html {
+        gap: 15x;
+    }
+
+    .contact-html-name p {
+        font-size: 16px;
+    }
+
 }
 
 @media (max-width: 350px) {
