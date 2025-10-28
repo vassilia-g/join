@@ -384,6 +384,7 @@ button {
 }
 
 #task-overlay-content {
+    max-width: 1075px;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -392,10 +393,10 @@ button {
     border-radius: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
-    display: flex;
+    /* display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-between; */
     transition: transform 0.5s ease;
     z-index: 1001;
     padding: 40px;
@@ -406,7 +407,7 @@ button {
 }
 
 .task-overlay {
-    width: 525px;
+    /* width: 525px; */
     height: fit-content;
     gap: 24px;
     box-sizing: border-box;

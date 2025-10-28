@@ -114,6 +114,17 @@
     }
 }
 
+@media (max-width: 720px) {
+    #task-overlay-content {
+        width: 90vw;
+        max-height: 926px;
+        overflow-y: scroll;
+
+    }
+
+
+}
+
 @media (max-width: 450px) {
     .title {
         font-size: 45px;
@@ -127,6 +138,29 @@
     .current-board-tasks {
         width: 100%;
     }
+}
+
+@media (max-width: 420px) {
+
+    .overlay-due-date h4,
+    .overlay-priority h4,
+    .overlay-assignee h4 {
+        font-size: 17px;
+    }
+
+    .overlay-titel h3{
+        font-size: 48px;
+    }
+
+    .contact-html-name,
+    .contact-html {
+        gap: 15x;
+    }
+
+    .contact-html-name p {
+        font-size: 16px;
+    }
+
 }
 
 @media (max-width: 350px) {
