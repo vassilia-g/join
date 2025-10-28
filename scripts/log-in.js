@@ -11,7 +11,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
+
 const users = getAllUsers();
+
 
 document.addEventListener("DOMContentLoaded",
     () => {
@@ -28,6 +30,7 @@ document.addEventListener("DOMContentLoaded",
         });
     });
 
+
 function moveLogoToTopLeft() {
     const logoWrapper = document.getElementById('logo-wrapper');
     const logoWeiß = document.getElementById('logo-weiß');
@@ -43,6 +46,7 @@ function moveLogoToTopLeft() {
         }, 700);
     };
 }
+
 
 function showSignUpContainer() {
     const signUpContainer = document.getElementById("sign-up-container");
@@ -62,6 +66,7 @@ function showSignUpContainer() {
     }
 }
 
+
 function enableSignUpButton() {
     const signUpButton = document.getElementById("sign-up-form-button");
     const customCheckbox = document.getElementById("custom-checkbox");
@@ -80,6 +85,7 @@ function enableSignUpButton() {
     }
 }
 
+
 function disableSignUpButton() {
     const signUpButton = document.getElementById("sign-up-form-button");
     const customCheckbox = document.getElementById("custom-checkbox");
@@ -94,6 +100,7 @@ function disableSignUpButton() {
     }
 }
 
+
 function checkSignUpPasswords(event) {
     event.preventDefault();
     const password = document.getElementById("input-sign-up-password");
@@ -105,6 +112,7 @@ function checkSignUpPasswords(event) {
         errorText.classList.add("d-none");
     }
 }
+
 
 function visibleSignUp() {
     const successText = document.getElementById("successfully-signed-up")
@@ -121,15 +129,19 @@ function visibleSignUp() {
     }, 2000);
 }
 
+
 function showOverlay() {
     const overlay = document.getElementById("overlay");
     overlay.classList.remove("d-none");
 }
 
+
 function hideOverlay() {
     const overlay = document.getElementById("overlay");
     overlay.classList.add("d-none");
 }
+
+
 function changeSymbols() {
     const passwordInput = document.getElementById('input-password');
     const passwordValue = passwordInput.value;
@@ -144,6 +156,7 @@ function changeSymbols() {
     }
 }
 
+
 function standardPasswordSymbol() {
     const visibilityOffSymbol = document.getElementById('visibility-off');
     const visibilityOnSymbol = document.getElementById('visibility-on');
@@ -152,6 +165,7 @@ function standardPasswordSymbol() {
     lockSymbol.classList.remove('d-none');
 }
 
+
 function hidePassword() {
     const passwordInput = document.getElementById('input-password');
     if (passwordInput.type === 'password') {
@@ -159,12 +173,14 @@ function hidePassword() {
     }
 }
 
+
 function showPassword() {
     const passwordInput = document.getElementById('input-password');
     if (passwordInput.type === 'text') {
         visibilityOnSymbol.classList.remove('d-none');
     }
 }
+
 
 async function goToStartpage(event) {
     event.preventDefault();
@@ -185,6 +201,7 @@ async function goToStartpage(event) {
     }
 }
 
+
 function makePasswordVisible() {
     const visibilityOffSymbol = document.getElementById('visibility-off');
     const visibilityOnSymbol = document.getElementById('visibility-on');
@@ -193,6 +210,7 @@ function makePasswordVisible() {
     document.getElementById('input-password').type = 'text';
 }
 
+
 function hidePassword() {
     const visibilityOffSymbol = document.getElementById('visibility-off');
     const visibilityOnSymbol = document.getElementById('visibility-on');
@@ -200,6 +218,7 @@ function hidePassword() {
     visibilityOffSymbol.classList.remove('d-none');
     document.getElementById('input-password').type = 'password';
 }
+
 
 function backtoLogIn() {
     const logInContainer = document.getElementById('log-in-container');
@@ -214,10 +233,12 @@ function backtoLogIn() {
     clearSignUpForm();
 }
 
+
 function clearSignUpForm() {
     const signUpForm = document.getElementById("form-sign-up");
     signUpForm.reset();
 }
+
 
 function guestLogIn() {
     localStorage.setItem("currentUserId", "guest");

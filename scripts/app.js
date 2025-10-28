@@ -9,6 +9,7 @@ function getSignUpValues(form) {
     };
 }
 
+
 async function validateSignUpValues(values) {
     if (!values.username || !values.email || !values.pw || values.pw !== values.pw2) return false;
     const errorEmailExists = document.getElementById('error-email-exists');

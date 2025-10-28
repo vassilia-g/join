@@ -7,6 +7,7 @@ function initContacts() {
     showOwnContact();
 }
 
+
 async function showOwnContact() {
     const ownContactContainer = document.getElementById('own-contact');
     const user = await getUser();
@@ -23,6 +24,7 @@ async function showOwnContact() {
         };
     };
 }
+
 
 function showSidebarAndHeader() {
     let sidebar = document.getElementById('sidebar');
@@ -114,6 +116,7 @@ function setActiveContact(element, contact) {
     }
 }
 
+
 function handleResize() {
     const sidebar = document.querySelector(".contact-sidebar");
     const main = document.querySelector(".contact-main");
@@ -154,7 +157,6 @@ if (document.readyState === 'loading') {
 }
 
 
-
 function hideContactContent() {
     const panel = document.getElementById("contact-details");
     const sidebar = document.querySelector(".contact-sidebar");
@@ -181,6 +183,7 @@ function hideContactContent() {
         panel.innerHTML = "";
     }, 100);
 }
+
 
 function getInitials(name) {
     if (!name || typeof name !== "string" || !name.trim()) {
@@ -225,6 +228,7 @@ function addContactOverlay() {
     }
 }
 
+
 function editContactOverlay(user) {
     const overlay = document.getElementById("contact-edit-overlay");
     const popup = overlay.querySelector(".popup-contact");
@@ -248,6 +252,7 @@ function editContactOverlay(user) {
     }
 }
 
+
 function fillEditContactForm(contact) {
     document.getElementById("edit-name").value = contact.name || contact.username;
     document.getElementById("edit-email").value = contact.email;
@@ -264,6 +269,7 @@ function fillEditContactForm(contact) {
 
 }
 
+
 function onEditContact(contactId) {
     let contact = contacts.find(c => c.id === contactId);
     if (!contact && contactId === currentUserId) {
@@ -279,7 +285,6 @@ function onEditContact(contactId) {
 }
 
 
-
 function getContactFromForm(form) {
     return {
         name: form.name.value.trim(),
@@ -287,8 +292,6 @@ function getContactFromForm(form) {
         phone: form.phone.value.trim()
     };
 }
-
-
 
 
 function updateUIAfterAdd(form, newId, contact) {
@@ -303,7 +306,6 @@ function updateUIAfterAdd(form, newId, contact) {
         }
     });
 }
-
 
 
 function showToast(message) {
@@ -321,6 +323,7 @@ function showToast(message) {
         setTimeout(() => toast.remove(), 500);
     }, 2000);
 }
+
 
 function toggleMobileMenu(btn) {
     const menu = btn.nextElementSibling;

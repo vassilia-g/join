@@ -6,6 +6,7 @@ class Contact {
     }
 }
 
+
 async function loadContacts() {
     try {
         const res = await fetch(BASE_URL + "contacts.json");
@@ -29,6 +30,7 @@ async function loadContacts() {
         console.error("Fehler beim Laden:", err);
     }
 }
+
 
 async function addContact(event) {
     event.preventDefault();
@@ -71,6 +73,7 @@ async function deleteContactById(id) {
     }
 }
 
+
 async function createContact(contact) {
     if (!contact.color) {
         contact.color = getRandomColor();
@@ -112,6 +115,7 @@ async function saveEditedContact(event) {
     editContactOverlay();
     showToast("Contact updated");
 }
+
 
 async function updateContactInDatabase(id, updatedContact) {
     await fetch(`${BASE_URL}contacts/${id}.json`, {

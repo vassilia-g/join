@@ -43,6 +43,7 @@ function showSidebar() {
     `;
 }
 
+
 function showHeader(initials = 'GU') {
     return `
         <div class="header-content">
@@ -65,6 +66,7 @@ function showHeader(initials = 'GU') {
         </div>
     `;
 }
+
 
 function showSidebarBeforeLogin() {
     return `
@@ -95,6 +97,7 @@ function showSidebarBeforeLogin() {
     `;
 }
 
+
 function showHeaderBeforeLogin() {
     return `
       <div class="header-content">
@@ -104,4 +107,3 @@ function showHeaderBeforeLogin() {
         </div>
     `;
 }
-

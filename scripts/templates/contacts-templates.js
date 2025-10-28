@@ -17,6 +17,7 @@ function contactList(contact) {
     `;
 }
 
+
 function showContactContent(contact) {
 
     const detailsDiv = document.getElementById("contact-details");
@@ -69,6 +70,7 @@ function showContactContent(contact) {
         `;
 }
 
+
 function showOwnContactDetails(user) {
     return `
         <span class="contact-letter">Own Contact Details</span>
@@ -83,6 +85,7 @@ function showOwnContactDetails(user) {
         </div>
     `;
 }
+
 
 function showInputButtons(contact) {
     return `

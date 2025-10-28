@@ -9,6 +9,7 @@ function logOut() {
     window.location.replace("../index.html");
 }
 
+
 function dropdownMenu(event) {
     const dropdown = document.querySelector('.dropdown-content');
 
@@ -25,10 +26,12 @@ function dropdownMenu(event) {
     });
 }
 
+
 function init() {
     showSidebarAndHeader();
     changeSidebarLinksStyle();
 }
+
 
 function showSidebarAndHeader() {
     let sidebar = document.getElementById('sidebar');
@@ -43,6 +46,7 @@ function showSidebarAndHeader() {
         header.innerHTML = showHeader(userInitials);
     }
 }
+
 
 function changeSidebarLinksStyle() {
     let currentPage = window.location.pathname.split("/").pop();
@@ -63,6 +67,7 @@ function changeSidebarLinksStyle() {
     }
 }
 
+
 function changeAddTaskLink() {
     let addTaskIcon = document.getElementsByClassName('sidebar-add-task-icon')[0];
     let addTaskIconPath = addTaskIcon.querySelectorAll("path");
@@ -74,6 +79,7 @@ function changeAddTaskLink() {
         path.setAttribute("fill", "#FFFFFF");
     });
 }
+
 
 function changeBoardLink() {
     let boardIcon = document.getElementsByClassName('sidebar-board-icon')[0];
@@ -87,6 +93,7 @@ function changeBoardLink() {
     });
 }
 
+
 function changeContactsLink() {
     let contactsIcon = document.getElementsByClassName('sidebar-contacts-icon')[0];
     let contactsIconPath = contactsIcon.querySelectorAll("path");
@@ -98,6 +105,7 @@ function changeContactsLink() {
         path.setAttribute("fill", "#FFFFFF");
     });
 }
+
 
 function changeSummaryLink() {
     let summaryIcon = document.getElementsByClassName('sidebar-summary-icon')[0];
@@ -111,10 +119,12 @@ function changeSummaryLink() {
     });
 }
 
+
 function changeHelpLink() {
     let helpIcon = document.getElementsByClassName('help');
     helpIcon[0].classList.add('d-none');
 }
+
 
 function changeLegalNoticeLink() {
     legalLinks[1].classList.add('selected-legal-link');
@@ -122,6 +132,7 @@ function changeLegalNoticeLink() {
         event.preventDefault();
     };
 }
+
 
 function changePrivacyPolicyLink() {
     legalLinks[0].classList.add('selected-legal-link');

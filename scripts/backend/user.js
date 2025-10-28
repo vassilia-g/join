@@ -74,12 +74,14 @@ class User {
     }
 }
 
+
 const UserCollection = {
     async loadAll() {
         const data = await getData("users") || {};
         return Object.entries(data).map(([key, u]) => new User(key, u.username, u.password, u.email, u.status, u.createdAt));
     }
 };
+
 
 // Returns the currently logged-in user or null
 async function getUser() {

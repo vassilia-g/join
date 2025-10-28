@@ -4,6 +4,7 @@ function dropdownMenu() {
     document.querySelector('.dropdown-content').classList.toggle('d-none');
 }
 
+
 async function updateSummaryCounters() {
     let toDoCounter = document.getElementById('to-do-counter');
     let doneCounter = document.getElementById('done-counter');
@@ -28,17 +29,21 @@ async function updateSummaryCounters() {
     dueDate.innerHTML = await getTaskDueDate(firstDueDateTask);
 }
 
+
 async function getTasksCounter(allTasks) {
     return allTasks.length;
 }
+
 
 async function getTasksCounterByStatus(allTasks, status) {
     return allTasks.filter(task => task.status === status).length;
 }
 
+
 async function getTasksCounterByPriorityLevel(allTasks, priorityLevel) {
     return allTasks.filter(task => task.priorityLevel === priorityLevel).length;
 }
+
 
 async function getFirstDueDateTask(allTasks) {
     if (!Array.isArray(allTasks) || allTasks.length === 0) return null;
@@ -46,6 +51,7 @@ async function getFirstDueDateTask(allTasks) {
     // Return the first task with priorityLevel 'urgent'
     return allTasks.find(task => task.priorityLevel === 'urgent') || null;
 }
+
 
 async function getTaskDueDate(task) {
     if (!task || !task.dueDate) return '-';
@@ -58,6 +64,7 @@ async function getTaskDueDate(task) {
 
     return parsed.toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' });
 }
+
 
 async function updateDayTime() {
     const welcomeMsg = document.getElementById('welcome-message');
@@ -72,6 +79,7 @@ async function updateDayTime() {
     updateUserGreeting(welcomeMsg, hour, punctuation);
 }
 
+
 function updateUserGreeting(welcomeMsg, hour, punctuation) {
     if (hour >= 3 && hour < 12) {
         welcomeMsg.innerHTML = `Good Morning${punctuation}`;
@@ -83,6 +91,7 @@ function updateUserGreeting(welcomeMsg, hour, punctuation) {
         welcomeMsg.innerHTML = `Good Night${punctuation}`;
     }
 }
+
 
 function guestGreeting(userName, isGuest) {
     if (isGuest) {

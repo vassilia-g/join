@@ -31,6 +31,7 @@ taskElement.innerHTML = `
   `;
 }
 
+
 function showMoreContacts(extraInitials) {
   return `
       <div class="selected-contacts-svg">
@@ -126,6 +127,7 @@ function boardTaskOverlayTemplate(task, taskId) {
   `;
 }
 
+
 function editandResetTaskBtnTemplate(taskId) {
   return `
   <div class="edit-or-reset-btn-div">
@@ -179,6 +181,7 @@ function showApiSubtask(checkboxClass, checkboxIcon, taskId, subtaskIndex, subta
       </li>
     </div>`;
 }
+
 
 function showApiSubtaskToEdit(subtask, index, taskId) {
     return `
@@ -266,6 +269,7 @@ function showContactsWithSelectionStateApiTemplate(i, task, contacts, initialsFr
     contactsToSelect.innerHTML += showContactsWithoutSelectionStateApiTemplate(contact, i, contactInitials, task);
   }
 }
+
 
 function showContactsWithoutSelectionStateApiTemplate(contact, i, contactInitials, task) {
   const initials = getInitials(contact.name);
