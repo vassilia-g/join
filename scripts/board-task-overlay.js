@@ -317,7 +317,7 @@ async function getSubtasksFromApi(subtaskInput, taskId) {
       task.subtasks = [];
     }
     task.subtasks.push(subtaskInput);
-    await putData(`tasks/${taskId}.json`, task);
+    await putData(`tasks/${taskId}`, task);
     getSubtasks(task, taskId);
     document.getElementById('task-subtasks').value = '';
   } catch (error) {
