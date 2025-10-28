@@ -52,6 +52,13 @@
     }
 }
 
+@media (max-width: 1200px){
+    #task-overlay-content .create-task {
+    flex-direction: column;
+    gap: 20px;
+}
+}
+
 @media (max-width: 1085px) {
     .board-search-bar {
         width: 100%;
@@ -119,10 +126,12 @@
         width: 90vw;
         max-height: 926px;
         overflow-y: scroll;
-
     }
 
-
+    .task-additional-info,
+    .task-main-info {
+        align-items: center;
+    }
 }
 
 @media (max-width: 450px) {
@@ -148,7 +157,7 @@
         font-size: 17px;
     }
 
-    .overlay-titel h3{
+    .overlay-titel h3 {
         font-size: 48px;
     }
 

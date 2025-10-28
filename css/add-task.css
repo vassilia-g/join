@@ -84,7 +84,8 @@ input::placeholder {
     justify-content: space-between;
     width: 50%;
     height: 376px;
-    padding-right: 2rem;
+    /* padding-right: 2rem; */
+    align-items: center;
 }
 
 #task-title-label::after {
