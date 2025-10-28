@@ -204,6 +204,7 @@ input::placeholder {
 
 #contacts-to-select.show {
     max-height: 280px;
+    overflow-y: scroll;
 }
 
 .single-contact {
