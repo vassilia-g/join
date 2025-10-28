@@ -52,11 +52,11 @@
     }
 }
 
-@media (max-width: 1200px){
+@media (max-width: 1200px) {
     #task-overlay-content .create-task {
-    flex-direction: column;
-    gap: 20px;
-}
+        flex-direction: column;
+        gap: 20px;
+    }
 }
 
 @media (max-width: 1085px) {
