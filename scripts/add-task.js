@@ -13,6 +13,7 @@ const lowSvgPath = lowSvg.querySelectorAll("path");
 urgentButton.isActive = false;
 mediumButton.isActive = false;
 lowButton.isActive = false;
+let globalContactsArray = [];
 let checkedContacts = [];
 const addToBoardDiv = document.querySelector('.add-task-to-board-div');
 let selectedPriority = "";

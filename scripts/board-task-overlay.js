@@ -212,6 +212,8 @@ async function renderSelectedContactsFromApi(task, taskId) {
     };
     if (!checkedContacts.some(c => c.id === contact.id)) checkedContacts.push(contact);
     selectedContacts.innerHTML += svgTemplate(contact.color, contact.initials);
+    console.log(contact.initials);
+    
   });
 }
 

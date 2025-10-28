@@ -252,13 +252,14 @@ async function getTaskInputs() {
 async function getContactsFromArray() {
   console.log(checkedContacts);
   
-  const initialsArray = checkedContacts.map(c => c.initials);
+  const initialsArray = checkedContacts.map(c => getInitials(c.name));
   const namesArray = checkedContacts.map(c => c.name);
   const colorArray = checkedContacts.map(c => c.color);
   const idArray = checkedContacts.map(c => c.id);
+  console.log(checkedContacts);
   checkedContacts = [];
 
-  console.log(checkedContacts);
+  
   
 
   return {initialsArray, namesArray, colorArray, idArray};

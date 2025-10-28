@@ -112,8 +112,9 @@ async function openDropdownContacts() {
   const dropdownIcon = document.getElementById('dropdown-icon');
   const selectedContacts = document.getElementById('selected-contacts');
   let { contactsArray } = await getContactsAndTask();
-  contactsArray = getContactsInitials(contactsArray);
-  console.log(checkedContacts);
+  contacts = getContactsInitials(contactsArray);
+  globalContactsArray = contacts;
+  console.log(contactsArray);
 
   if (contactsToSelect.classList.contains('show')) {
     hideDropdownContacts(contactsToSelect, dropdownIcon, selectedContacts);
@@ -128,10 +129,9 @@ async function openDropdownContacts() {
     const contact = contactsArray[i];
     const isChecked = checkedContacts.some(c => c.id === contact.id);
     const initials = getInitials(contact.name);
-    const contactData = encodeURIComponent(JSON.stringify(contact));
     const checkboxSvg = isChecked
-      ? showCheckedCheckbox(contact.id, contactData)
-      : showEmptyCheckbox(contact.id, contactData);
+      ? showCheckedCheckbox(contact)
+      : showEmptyCheckbox(contact);
     contactsToSelect.innerHTML += selectedContactsFromTaskTemplate(contact, initials, checkboxSvg);
     if (isChecked) {
       checkedContacts = [
@@ -205,34 +205,37 @@ function getInitials(name) {
 }
 
 
-function checkContact(contactId, contactData) {
-  const contact = JSON.parse(decodeURIComponent(contactData));
+function checkContact(contactId) {
+  const contact = globalContactsArray.find(c => c.id === contactId);
+  if (!contact) return console.warn('⚠️ Kein Kontakt mit dieser ID gefunden:', contactId);
+  contact.initials = getInitials(contact.name);
   const checkbox = document.getElementById(`checkbox-${contactId}`);
-  const initials = document.getElementById(`initials-${contactId}`);
-  if (!checkbox || !initials) return;
+  const initialsSvg = document.getElementById(`initials-${contactId}`);
+  if (!checkbox || !initialsSvg) return;
+
   const isChecked = checkbox.classList.contains("checked");
+
   if (isChecked) {
-    initials.classList.remove("checked");
+    initialsSvg.classList.remove("checked");
     checkbox.classList.remove("checked");
-    checkbox.innerHTML = showEmptyCheckbox(contactId, contactData);
+    checkbox.innerHTML = showEmptyCheckbox(contact);
     checkedContacts = checkedContacts.filter(c => c.id !== contact.id);
   } else {
-    initials.classList.add("checked");
+    initialsSvg.classList.add("checked");
     checkbox.classList.add("checked");
-    checkbox.innerHTML = showCheckedCheckbox(contactId, contactData);
-if (!checkedContacts.some(c => c.id === contact.id)) {
-  checkedContacts.push(contact);
+    checkbox.innerHTML = showCheckedCheckbox(contact);
+    if (!checkedContacts.some(c => c.id === contact.id)) {
+      checkedContacts.push(contact);
     } else {
-  checkedContacts = checkedContacts.map(c => 
-    c.id === contact.id ? contact : c
-  );
-}
+      checkedContacts = checkedContacts.map(c => c.id === contact.id ? contact : c);
+    }
+  }
   console.log("checkedContacts:", checkedContacts);
   showSelectedContacts();
 }
-}
 
-async function showSelectedContacts(selectedContacts) {
+async function showSelectedContacts() {
+    const selectedContacts = document.getElementById('selected-contacts');
     selectedContacts.innerHTML = '';
     if (!checkedContacts || checkedContacts.length === 0) return;
     let contactsHTML = '';
