@@ -266,11 +266,13 @@ button {
     font-family: 'Inter';
     font-style: normal;
     font-weight: 400;
+    overflow-y: hidden;
 }
 
 .task-title {
     width: 100%;
     height: 19px;
+    overflow-y: hidden;
 }
 
 .task-content {
