@@ -146,11 +146,47 @@ function drag(event) {
 
 async function drop(event) {
   event.preventDefault();
+
   const taskId = event.dataTransfer.getData("text");
   const draggedElement = document.getElementById(taskId);
   const dropZone = event.currentTarget;
+
   dropZone.appendChild(draggedElement);
+  const placeholder = document.getElementById(`placeholder-${dropZone.id}`)
+  if (placeholder) placeholder.classList.add('d-none');
   await switchStatus(dropZone, taskId);
+}
+
+
+document.addEventListener('DOMContentLoaded', getHoverEffect);
+
+
+function createPlaceholder(zone) {
+  const p = document.createElement('div');
+  p.classList.add('placeholder-drag-and-drop');
+  zone.appendChild(p);
+  return p;
+}
+
+
+function getHoverEffect() {
+  document.querySelectorAll('.drop-div').forEach((zone) => {
+    let placeholder;
+    zone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      if (!placeholder) placeholder = createPlaceholder(zone);
+    });
+    zone.addEventListener('dragleave', (e) => {
+      if (!zone.contains(e.relatedTarget) && placeholder) placeholder.remove(), placeholder = null;
+    });
+    zone.addEventListener('drop', async (e) => {
+      e.preventDefault();
+      const el = document.getElementById(e.dataTransfer.getData("text"));
+      if (placeholder) placeholder.remove();
+      zone.appendChild(el);
+      await switchStatus(zone, el.id);
+    });
+  });
 }
 
 
@@ -349,25 +385,6 @@ function getTargetColumn(newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, new
       targetColumn = newTaskDiv;
   }
   targetColumn.appendChild(taskElement);
-}
-
-
-function checkContactsLength(taskElement, task, taskId) {
-  let selectedContactsComplete = '';
-  if (!task.contactsInitials) task.contactsInitials = [];
-  if (!task.contactsColor) task.contactsColor = [];
-  const displayCount = Math.min(task.contactsInitials.length, 3);
-  for (let i = 0; i < displayCount; i++) {
-    const contact = task.contactsInitials[i];
-    const color = task.contactsColor[i] || '#ccc';
-    const contactSVG = svgTemplate(color, contact);
-    selectedContactsComplete += `<div class="selected-contacts-svg">${contactSVG}</div>`;
-  }
-  if (task.contactsInitials.length > 3) {
-    const extraInitials = task.contactsInitials.slice(3);
-    selectedContactsComplete += showMoreContacts(extraInitials);
-  }
-  boardTaskTemplate(taskElement, task, taskId, selectedContactsComplete);
 }
 
 

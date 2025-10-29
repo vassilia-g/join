@@ -29,6 +29,25 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+function checkContactsLength(taskElement, task, taskId) {
+  let selectedContactsComplete = '';
+  if (!task.contactsInitials) task.contactsInitials = [];
+  if (!task.contactsColor) task.contactsColor = [];
+  const displayCount = Math.min(task.contactsInitials.length, 3);
+  for (let i = 0; i < displayCount; i++) {
+    const contact = task.contactsInitials[i];
+    const color = task.contactsColor[i] || '#ccc';
+    const contactSVG = svgTemplate(color, contact);
+    selectedContactsComplete += `<div class="selected-contacts-svg">${contactSVG}</div>`;
+  }
+  if (task.contactsInitials.length > 3) {
+    const extraInitials = task.contactsInitials.slice(3);
+    selectedContactsComplete += showMoreContacts(extraInitials);
+  }
+  boardTaskTemplate(taskElement, task, taskId, selectedContactsComplete);
+}
+
+
 async function openTaskOverlay(taskId) {
   try {
     const response = await fetch(`${BASE_URL}/tasks.json`);
