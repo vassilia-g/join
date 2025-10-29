@@ -32,6 +32,7 @@
         -webkit-overflow-scrolling: touch;
         scrollbar-width: thin;
         scrollbar-color: rgba(0, 0, 0, 0.25) transparent;
+        scrollbar-width: none;
     }
 
     .board-tasks::-webkit-scrollbar {
