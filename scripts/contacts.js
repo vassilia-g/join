@@ -103,7 +103,7 @@ function setActiveContact(element, contact) {
         panel.classList.add("is-open");
         main.classList.add("is-open");
 
-        if (window.innerWidth <= 720) {
+        if (window.innerWidth <= 1000) {
             sidebar.classList.add("hide");
             main.style.display = "block";
             panel.style.display = "block";
@@ -124,7 +124,7 @@ function handleResize() {
     // if required elements are missing, bail out safely
     if (!sidebar || !main || !panel) return;
 
-    if (window.innerWidth <= 720) {
+    if (window.innerWidth <= 1000) {
         if (activeContactId) {
             // Show details view on mobile when contact is active
             sidebar.classList.add("hide");
@@ -136,7 +136,7 @@ function handleResize() {
             main.style.display = "none";
             panel.style.display = "none";
         }
-    } else if (window.innerWidth > 720) {
+    } else if (window.innerWidth > 1000) {
         // Desktop view - show both sidebar and main
         sidebar.classList.remove("hide");
         main.style.display = "block";
@@ -166,7 +166,7 @@ function hideContactContent() {
     panel.classList.remove("is-open");
     main.classList.remove("is-open");
 
-    if (window.innerWidth <= 720) {
+    if (window.innerWidth <= 1000) {
         sidebar.classList.remove("hide");
         main.style.display = "none";
         sidebar.style.width = "100%";

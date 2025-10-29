@@ -22,6 +22,12 @@
     }
 }
 
+@media (min-width: 721px) and (max-width: 1000px) {
+    .main {
+        margin-left: 232px;
+    }
+}
+
 @media(max-width: 720px) {
     .content {
         flex-direction: column-reverse;

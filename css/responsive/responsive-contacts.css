@@ -95,10 +95,6 @@
     border-radius: 10px;
   }
 
-  .contact-main {
-    width: unset;
-  }
-
 }
 
 @media (max-width: 1050px) {
@@ -126,152 +122,9 @@
   }
 }
 
-@media (max-width: 980px) {
 
-  .contact-sidebar {
-    max-width: 360px;
-    padding: 12px;
-  }
-
-  .contact-email {
-    font-size: 16px;
-  }
-
-  .contact-item {
-    padding: 6px 4px;
-  }
-
-  .contact-letter {
-    font-size: 16px;
-    margin: 8px 0px 3px 0px;
-    padding-bottom: 14px;
-  }
-
-  .contact-main {
-    padding: 40px 16px 20px 16px;
-  }
-
-  .add-contact-button {
-    font-size: 16px;
-  }
-
-  .show-contact-template {
-    gap: 16px;
-  }
-
-  .popup-contact {
-    width: 680px;
-  }
-
-  .popup-leftside {
-    width: 300px;
-    padding: 0px 20px;
-  }
-
-  .popup-rightside {
-    width: calc(100% - 300px);
-  }
-
-  .popup-container {
-    flex-direction: column;
-  }
-
-  .input-button {
-    justify-content: center;
-  }
-
-  .close-button {
-    top: 20px;
-    left: 630px;
-  }
-
-}
-
-@media (max-width: 930px) {
-
-  .contact-main-header {
-    gap: 12px;
-  }
-
-  .h1-contacts {
-    font-size: 30px;
-  }
-
-  .p-header-contact {
-    font-size: 12px;
-  }
-
-  .contact-avatar-show {
-    width: 50px;
-    height: 50px;
-    font-size: 18px;
-  }
-
-  .contact-info h2 {
-    font-size: 18px;
-  }
-
-  .edit-delete-buttons {
-    gap: 10px;
-  }
-
-  .edit-delete-buttons svg {
-    width: 20px;
-    height: 20px;
-  }
-
-  .desktop-only {
-    gap: 5px;
-    font-size: 14px;
-  }
-
-}
-
-@media (max-width: 870px) {
-
-  .contact-sidebar {
-    max-width: 320px;
-    padding: 12px;
-  }
-
-  .contact-email{
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 815px) {
-
-  .contact-sidebar {
-    max-width: 274px;
-    padding: 12px 4px;
-  }
-
-  .contact-email{
-    font-size: 12px;
-  }
-
-  .show-contact-template {
-    gap: 4px;
-  }
-}
-
-@media (max-width: 750px) {
-
-  .show-contact-template{
-    flex-direction: column;
-    align-items: start;
-    gap: 12px;
-  }
-
-  .contact-additional-info h3 {
-    font-size: 18px;
-    margin-bottom: 30px;
-  }
-}
-
-
-@media (max-width: 720px) {
-  .contact-main-section {
+@media (max-width: 1000px){
+    .contact-main-section {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -280,7 +133,7 @@
 
   .contact-main {
     display: none;
-    width: 100%;
+    width: calc(100% - 232px);
     overflow-y: hidden;
     padding: 32px 16px 32px 16px;
   }
@@ -305,7 +158,6 @@
     max-width: 100%;
     flex: 1;
     padding: 24px 16px 24px 16px;
-    margin-top: 96px;
   }
 
   .contact-sidebar.hide {
@@ -318,7 +170,7 @@
 
   .add-contact-button {
     position: fixed;
-    bottom: 95px;
+    bottom: 30px;
     right: 16px;
     height: 56px;
     width: 56px;
@@ -351,7 +203,7 @@
 
   .menu-toggle {
     position: fixed;
-    bottom: 195px;
+    bottom: 130px;
     right: 0px;
     height: 56px;
     width: 56px;
@@ -373,7 +225,7 @@
 
   .menu-options {
     position: fixed;
-    bottom: 190px;
+    bottom: 120px;
     right: -4px;
     background: #fff;
     border-radius: 20px 20px 0px 20px;
@@ -418,6 +270,75 @@
     position: absolute;
     top: -100px;
     right: 0px;
+  }
+
+        #toast-container {
+        top: auto;
+        bottom: 25%; /* näher am unteren Rand */
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .toast {
+        transform: translateY(100%); /* Startposition unten */
+    }
+
+    .toast.show {
+        transform: translateY(0); /* Reinschieben nach oben */
+    }
+
+}
+
+@media (max-width: 980px) {
+
+    .popup-contact {
+    width: 680px;
+  }
+
+  .popup-leftside {
+    width: 300px;
+    padding: 0px 20px;
+  }
+
+  .popup-rightside {
+    width: calc(100% - 300px);
+  }
+
+  .popup-container {
+    flex-direction: column;
+  }
+
+  .input-button {
+    justify-content: center;
+  }
+
+  .close-button {
+    top: 20px;
+    left: 630px;
+  }
+
+}
+
+@media (max-width: 720px) {
+
+  .contact-sidebar{
+    margin-top: 96px;
+  }
+
+    .contact-main {
+      width: 100%;
+  }
+
+    .add-contact-button {
+    bottom: 100px;
+  }
+
+  .menu-toggle {
+    bottom: 200px;
+  }
+
+  .menu-options {
+    bottom: 192px;
   }
 
   .contact-avatar-show {
@@ -562,6 +483,8 @@
   .contact-additional-info h3 {
     margin-bottom: 20px;
   }
+
+
 
 }
 
