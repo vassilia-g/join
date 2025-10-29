@@ -92,6 +92,7 @@ button {
     display: flex;
     flex-direction: column;
     width: 244px;
+    min-height: fit-content;
 }
 
 .board-tasks-headline {

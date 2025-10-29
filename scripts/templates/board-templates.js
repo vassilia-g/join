@@ -9,7 +9,7 @@ function boardTaskTemplate(taskElement, task, taskId, selectedContactsComplete) 
         <h3 class="task-title">${task.title}</h3>
         <div class="task-content">${task.description}</div>
       </div>
-      <div class="task-status">
+      <div class="task-status" title="${task.checkedSubtasks?.subtasks?.length || 0} of ${task.subtasks?.length || 0} done">
         <div id="progress-bar-div">
           <div id="progress-bar-${taskId}" class="progress-bar"></div>
         </div>
