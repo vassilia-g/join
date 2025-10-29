@@ -12,6 +12,7 @@
 .create-task {
     display: flex;
     font-size: 20px;
+    overflow-x: scroll;
 }
 
 .create-task label {
@@ -20,7 +21,7 @@
 
 .textarea {
     position: relative;
-    width: 440px;
+    /* width: 440px; */
 }
 
 .input-border-size {
@@ -213,10 +214,15 @@ input::placeholder {
     align-items: center;
     justify-content: space-between;
     cursor: pointer;
+    border-radius: 8px;
 }
 
 .single-contact:hover {
     background-color: #EFEFEF;
+}
+
+.single-contact-clicked {
+    background-color: var(--color-primary)
 }
 
 .contact-name {

@@ -181,7 +181,7 @@
 @media (max-width: 720px) {
     #task-overlay-content {
         width: 80%;
-        max-height: 926px;
+        /* max-height: 926px; */
         overflow-y: scroll;
     }
 
