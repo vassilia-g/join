@@ -183,8 +183,12 @@
     z-index: 2000;
   }
 
-  .sidebar {
+  /* .sidebar {
     position: fixed;
+  } */
+
+    .sidebar {
+    position: relative;
   }
 
   .add-contact-button svg {
