@@ -569,4 +569,8 @@
   .sidebar-nav {
     font-size: 16px;
   }
+
+  .toast {
+    width: 280px;
+  }
 }
