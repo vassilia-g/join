@@ -33,33 +33,20 @@ async function deleteSubtaskFromApi(taskId, subtaskIndex) {
 }
 
 
-async function pushCheckedSubtasks(taskId) {
-  const subtasksList = document.getElementById('selected-subtasks');
-  if (!subtasksList) return;
-  const subtasksItems = subtasksList.querySelectorAll('li');
-  const checkedSubtasks = [];
-  subtasksItems.forEach(li => {
-    const checkboxDiv = li.querySelector('.checkbox-subtasks');
-    const subtaskText = li.querySelector('p').innerText.trim();
-    if (checkboxDiv && checkboxDiv.classList.contains('checked')) {
-      checkedSubtasks.push(subtaskText);
+async function pushSubtasksWithStatus(taskId) {
+    const subtasksList = document.getElementById('selected-subtasks');
+    if (!subtasksList) return;
+    const subtasksData = Array.from(subtasksList.querySelectorAll('li')).map(li => ({
+        text: li.querySelector('p').innerText.trim(),
+        checked: li.querySelector('.checkbox-subtasks')?.classList.contains('checked') || false
+    }));
+
+    try {
+        await putData(`tasks/${taskId}/subtasks`, subtasksData.map(s => s.text));
+        await putData(`tasks/${taskId}/checkedSubtasks`, { subtasks: subtasksData.filter(s => s.checked).map(s => s.text) });
+    } catch (error) {
+        console.error('❌ Fehler beim Pushen der Subtasks:', error);
     }
-  });
-  await pushCheckedSubtasksToApi(taskId, checkedSubtasks);
-}
-
-
-async function pushCheckedSubtasksToApi(taskId, checkedSubtasks) {
-  try {
-    const response = await fetch(`${BASE_URL}/tasks/${taskId}/checkedSubtasks.json`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ subtasks: checkedSubtasks })
-    });
-    if (!response.ok) throw new Error("Fehler beim Pushen der Subtasks");
-  } catch (error) {
-    console.error('❌ Fehler beim Pushen der Subtasks:', error);
-  }
 }
 
 
@@ -73,6 +60,8 @@ function updateProgressBar(task) {
 
 
 async function updateTaskAfterEdit(taskId) {
+  isEditingTask = false;
+  currentTaskId = null;
   let priorityValue, priorityLevel;
   if (urgentButton.classList.contains('priority-urgent-active')) {
     priorityValue = urgentBoardSvg;
@@ -85,9 +74,10 @@ async function updateTaskAfterEdit(taskId) {
     priorityLevel = 'low';
   }
   await pushCheckedContacts(taskId);
-  await pushCheckedSubtasks(taskId);
+  await pushSubtasksWithStatus(taskId);
   await updateTaskWithPriority(priorityLevel, priorityValue, taskId);
   closeTaskOverlay();
+  subtasks = [];
 }
 
 
@@ -147,6 +137,9 @@ function extractInitialsFromSvg(svgString) {
 
 async function resetTaskChangings(taskId) {
   openTaskOverlay(taskId);
+  isEditingTask = false;
+  currentTaskId = null;
+  subtasks = [];
 }
 
 

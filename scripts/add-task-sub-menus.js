@@ -19,11 +19,7 @@ const tempContactIds = {};
 let contactActionInProgress = {};
 
 
-if (currentPage === 'add-task.html') {
-  addSubtaskSvgs?.addEventListener('click', addSubtask);
-} else if (currentPage === 'board.html') {
-  addSubtaskSvgs?.addEventListener('click', () => getNewSubtaskToApi(taskId));
-}
+addSubtaskSvgs?.addEventListener('click', addSubtask);
 
 
 function deleteSubtask() {
@@ -40,14 +36,37 @@ function showSubtaskPick() {
 }
 
 
-function addSubtask() {
+async function addSubtask() {
     subtasks.push(subtaskInput.value);
     selectedSubtasks.innerHTML = "";
-    for (let index = 0; index < subtasks.length; index++) {
-        selectedSubtasks.innerHTML += showSubtask(index);
+    if (isEditingTask && currentTaskId) {
+        const task = await getData(`tasks/${currentTaskId}`);
+        renderSubtasksFromTask(task, currentTaskId);
+    } else {
+        renderSubtasks(subtasks);
     }
     subtaskInput.value = "";
     subtaskPick.classList.add('d-none');
+}
+
+
+function renderSubtasksFromTask(task, taskId) {
+    const checked = Array.isArray(task.checkedSubtasks?.subtasks)
+        ? task.checkedSubtasks.subtasks
+        : Object.values(task.checkedSubtasks?.subtasks || []);
+    subtasks.forEach((subtask, i) => {
+        const isChecked = checked.includes(subtask);
+        selectedSubtasks.innerHTML += showApiSubtask(
+            isChecked ? 'checked' : 'unchecked',
+            isChecked ? checkedBox : uncheckedBox,
+            taskId, i, subtask
+        );
+    });
+}
+
+
+function renderSubtasks(list) {
+    list.forEach((subtask, i) => selectedSubtasks.innerHTML += showSubtask(i, subtask));
 }
 
 

@@ -32,6 +32,8 @@ const inputElement = document.getElementById('board-search-input');
 let tasksCache = [];
 let currentSvg = uncheckedBox;
 const currentPage = window.location.pathname.split('/').pop();
+let isEditingTask = false;
+let currentEditTaskId = null;
 
 function openAddTaskInstedOverlay() {
   const overlayBackground = document.getElementById('overlay-background');

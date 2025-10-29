@@ -29,25 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-function checkContactsLength(taskElement, task, taskId) {
-  let selectedContactsComplete = '';
-  if (!task.contactsInitials) task.contactsInitials = [];
-  if (!task.contactsColor) task.contactsColor = [];
-  const displayCount = Math.min(task.contactsInitials.length, 3);
-  for (let i = 0; i < displayCount; i++) {
-    const contact = task.contactsInitials[i];
-    const color = task.contactsColor[i] || '#ccc';
-    const contactSVG = svgTemplate(color, contact);
-    selectedContactsComplete += `<div class="selected-contacts-svg">${contactSVG}</div>`;
-  }
-  if (task.contactsInitials.length > 3) {
-    const extraInitials = task.contactsInitials.slice(3);
-    selectedContactsComplete += showMoreContacts(extraInitials);
-  }
-  boardTaskTemplate(taskElement, task, taskId, selectedContactsComplete);
-}
-
-
 async function openTaskOverlay(taskId) {
   try {
     const response = await fetch(`${BASE_URL}/tasks.json`);
@@ -168,8 +149,14 @@ function loadScriptOnce(id, src) {
 
 
 async function editTask(taskId) {
+  isEditingTask = true;
+  currentTaskId = taskId;
   const overlay = document.getElementById('task-overlay');
   const overlayContent = document.getElementById('task-overlay-content');
+  console.log(isEditingTask);
+  console.log(currentTaskId);
+  
+  
   await getTaskContentFromApi(overlay, overlayContent, taskId); 
 }
 
@@ -294,14 +281,14 @@ function showSubtaskPicks(taskId) {
     const subtaskPicks = document.getElementById('delete-or-keep-subtask');
     const addSubtaskSvg = document.getElementById('add-subtask-svg');
     subtaskPicks.classList.remove('d-none');
-    addSubtaskSvg.addEventListener('click', () => getNewSubtaskToApi(taskId));
 }
 
 
 function getSubtasks(task, taskId) {
   const subtasksList = document.getElementById('selected-subtasks');
   subtasksList.innerHTML = '';
-  if (task.subtasks && task.subtasks.length > 0) {
+  if (task?.subtasks?.length > 0) {
+    subtasks.push(...task.subtasks);
     let checkedSubtasks = task.checkedSubtasks || [];
     if (!Array.isArray(checkedSubtasks)) {
       checkedSubtasks = Object.values(checkedSubtasks);
@@ -378,4 +365,23 @@ function toggleBoxChecked(checkbox) {
   const isChecked = checkbox.classList.toggle('checked');
   checkbox.classList.toggle('unchecked', !isChecked);
   checkbox.innerHTML = isChecked ? checkedBox : uncheckedBox;
+}
+
+
+function checkContactsLength(taskElement, task, taskId) {
+  let selectedContactsComplete = '';
+  if (!task.contactsInitials) task.contactsInitials = [];
+  if (!task.contactsColor) task.contactsColor = [];
+  const displayCount = Math.min(task.contactsInitials.length, 3);
+  for (let i = 0; i < displayCount; i++) {
+    const contact = task.contactsInitials[i];
+    const color = task.contactsColor[i] || '#ccc';
+    const contactSVG = svgTemplate(color, contact);
+    selectedContactsComplete += `<div class="selected-contacts-svg">${contactSVG}</div>`;
+  }
+  if (task.contactsInitials.length > 3) {
+    const extraInitials = task.contactsInitials.slice(3);
+    selectedContactsComplete += showMoreContacts(extraInitials);
+  }
+  boardTaskTemplate(taskElement, task, taskId, selectedContactsComplete);
 }
