@@ -66,7 +66,7 @@ async function deleteContactById(id) {
             main.classList.remove("is-open");
         }
 
-        showToast("Contact successfully deleted");
+        showToast("Contact deleted");
     } catch (err) {
         console.error("Fehler beim Löschen:", err);
         showToast("Error deleting contact");

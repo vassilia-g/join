@@ -2,7 +2,7 @@
 
 
 function boardTaskTemplate(taskElement, task, taskId, selectedContactsComplete) {
-taskElement.innerHTML = `
+  taskElement.innerHTML = `
     <div class="task" id="${taskId}" draggable="true" ondragstart="drag(event)" onclick="openTaskOverlay('${taskId}')">
       <span class="category">${task.category}</span>
       <div class="task-description">
@@ -153,7 +153,7 @@ function editandResetTaskBtnTemplate(taskId) {
 
 
 function showApiSubtask(checkboxClass, checkboxIcon, taskId, subtaskIndex, subtask) {
-    return `
+  return `
     <div class="subtasks-list-api">
       <li>
         <div class="checkbox-subtasks ${checkboxClass}" onclick="toggleBoxChecked(this)">
@@ -184,7 +184,7 @@ function showApiSubtask(checkboxClass, checkboxIcon, taskId, subtaskIndex, subta
 
 
 function showApiSubtaskToEdit(subtask, index, taskId) {
-    return `
+  return `
       <div class="edit-subtask-container">
         <input id="edit-input" class="edit-input" type="text" value="${subtask}">
         <div class="delete-or-done-edit">
@@ -213,7 +213,7 @@ function showApiSubtaskToEdit(subtask, index, taskId) {
 }
 
 
-function svgTemplate(color, contact){
+function svgTemplate(color, contact) {
   return `
       <svg class="initials-svg" width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="21" cy="21" r="20" fill="${color}" stroke="white" stroke-width="2"/>
@@ -233,7 +233,7 @@ function showContactsWithSelectionStateApiTemplate(i, task, contacts, initialsFr
   }
 
   console.log(tempContactsFromApi);
-  
+
   const isTempContact = tempContactsFromApi.includes(contactInitials) || tempContactsFromApi.includes(initialsFromTask);
   const isSelected = alreadyInTask || isTempContact;
   const checkedClass = isSelected ? "checked" : "unchecked";
@@ -295,7 +295,7 @@ function showContactsWithoutSelectionStateApiTemplate(contact, i, contactInitial
 
 
 function selectedContactsApiTemplate(c) {
-  return  `
+  return `
         <div class="selected-contacts-svg selected">
           ${c.svg}
         </div>
