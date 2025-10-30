@@ -227,12 +227,10 @@ function checkContact(contactId) {
 function toggleCheckbox(checkbox, initialsSvg, contact) {
   const svg = checkbox.querySelector('svg');
   if (!svg) return console.warn('⚠️ Kein SVG in Checkbox gefunden:', contact.id);
-
   const isChecked = svg.classList.contains('checked');
   svg.classList.toggle('checked', !isChecked);
   initialsSvg.classList.toggle('checked', !isChecked);
   checkbox.innerHTML = isChecked ? showEmptyCheckbox(contact) : showCheckedCheckbox(contact);
-
   checkedContacts = isChecked
     ? checkedContacts.filter(c => c.id !== contact.id)
     : [...checkedContacts.filter(c => c.id !== contact.id), contact];
