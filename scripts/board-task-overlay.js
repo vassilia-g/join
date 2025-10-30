@@ -1,9 +1,15 @@
-
+/** 
+ * Local state and DOM references used by the task overlay module.
+ */
 let deletedContacts = [];
 let boards;
 let searchBarElement = document.querySelector('.board-search-bar');
 let warningText = document.querySelector('.no-task-found-warning');
 
+/** 
+ * Initialize board definitions (container + filler) for the four columns.
+ * Returns an array with references used to observe and manage empty-state fillers.
+ */
 function initBoards() {
   return [
     { container: document.getElementById('new-task-div'), filler: document.getElementById('to-do-filler') },
@@ -13,7 +19,10 @@ function initBoards() {
   ];
 }
 
-
+/** 
+ * Set up MutationObservers for each board to toggle its empty-state filler
+ * whenever children are added or removed.
+ */
 document.addEventListener('DOMContentLoaded', () => {
   boards = initBoards();
   boards.forEach(board => {
@@ -30,7 +39,10 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-
+/** 
+ * Fetch a specific task from the backend and open the overlay with its data.
+ * Handles network errors and missing task cases.
+ */
 async function openTaskOverlay(taskId) {
   try {
     const response = await fetch(`${BASE_URL}/tasks.json`);
@@ -38,7 +50,7 @@ async function openTaskOverlay(taskId) {
     const data = await response.json();
     const task = data[taskId];
     if (!task) {
-      console.warn(`❌ Task mit ID ${taskId} nicht gefunden.`);
+      console.warn(`Task mit ID ${taskId} nicht gefunden.`);
       return;
     }
     getOverlayContentWithTask(task, taskId);
@@ -49,7 +61,10 @@ async function openTaskOverlay(taskId) {
   }
 }
 
-
+/** 
+ * Inject the task markup into the overlay and animate it visible.
+ * Uses the boardTaskOverlayTemplate to build the content.
+ */
 function getOverlayContentWithTask(task, taskId) {
   const overlay = document.getElementById('task-overlay');
   const overlayContent = document.getElementById('task-overlay-content');
@@ -62,7 +77,9 @@ function getOverlayContentWithTask(task, taskId) {
   }, 10);
 }
 
-
+/** 
+ * Close the visible task overlay with exit animation and hide afterwards.
+ */
 function closeTaskOverlay() {
   const overlay = document.getElementById('task-overlay');
   const overlayContent = document.getElementById('task-overlay-content');
@@ -74,7 +91,10 @@ function closeTaskOverlay() {
   }, 500);
 }
 
-
+/** 
+ * Update category label colors for all category elements in the overlay/board.
+ * Specific categories get hardcoded background colors.
+ */
 function updateCategoryColor() {
   const categoryElements = document.querySelectorAll('.category');
   categoryElements.forEach(categoryElement => {
@@ -89,7 +109,11 @@ function updateCategoryColor() {
   });
 }
 
-
+/** 
+ * Check if the given tasks array is empty and toggle the search/no-results UI.
+ * Also inspects each task's rendered element to toggle visibility of parts
+ * depending on available task data (description, contacts, subtasks).
+ */
 function checkIfEmpty(tasks) {
   if (tasks.length == 0) {
     searchBarElement.classList.add('no-task-found');
@@ -109,7 +133,10 @@ function checkIfEmpty(tasks) {
   });
 }
 
-
+/** 
+ * Inspect a single task's data and determine which UI parts should be visible.
+ * Detects presence of description, details (priority/contacts) and subtasks.
+ */
 function checkContentFromTask(taskInfo, taskContent, taskStatus, task) {
   const hasContent =
     (typeof task.description === 'string' && task.description.trim() !== '');
@@ -125,14 +152,18 @@ function checkContentFromTask(taskInfo, taskContent, taskStatus, task) {
   toggleTaskDivs(taskInfo, taskContent, taskStatus, hasContent, hasDetails, hasSubtasks)
 }
 
-
+/** 
+ * Show or hide specific sub-elements of a task card based on booleans.
+ */
 function toggleTaskDivs(taskInfo, taskContent, taskStatus, hasContent, hasDetails, hasSubtasks) {
   if (taskInfo) taskInfo.classList.toggle('d-none', !hasDetails);
   if (taskContent) taskContent.classList.toggle('d-none', !hasContent);
   if (taskStatus) taskStatus.classList.toggle('d-none', !hasSubtasks);
 }
 
-
+/** 
+ * Prompt for deletion and remove a task via DELETE API call, then refresh UI.
+ */
 async function deleteTask(taskId) {
   if (!confirm("Willst du diese Task wirklich löschen?")) return;
   try {
@@ -144,7 +175,9 @@ async function deleteTask(taskId) {
   }
 }
 
-
+/** 
+ * Utility to load a script tag only once. Returns a promise resolved when loaded.
+ */
 function loadScriptOnce(id, src) {
   return new Promise((resolve, reject) => {
     if (document.getElementById(id)) return resolve();
@@ -157,7 +190,9 @@ function loadScriptOnce(id, src) {
   });
 }
 
-
+/** 
+ * Enter edit mode for a task: set flags and fetch edit-ready content into overlay.
+ */
 async function editTask(taskId) {
   isEditingTask = true;
   currentTaskId = taskId;
@@ -170,7 +205,10 @@ async function editTask(taskId) {
   await getTaskContentFromApi(overlay, overlayContent, taskId);
 }
 
-
+/** 
+ * Fetch task data and prepare the add-task form populated with that task's values.
+ * Loads required scripts and initializes UI (priority, contacts, subtasks).
+ */
 async function getTaskContentFromApi(overlay, overlayContent, taskId) {
   const data = await getData('tasks/');
   const task = data[taskId];
@@ -185,14 +223,18 @@ async function getTaskContentFromApi(overlay, overlayContent, taskId) {
   overlay.classList.add('active');
 }
 
-
+/** 
+ * Disable category editing in the add/edit overlay to prevent changing it while editing.
+ */
 function disableCategoryEdit() {
   const categoryEdit = document.getElementById('task-category');
   categoryEdit.onclick = null;
   categoryEdit.style.cursor = "default";
 }
 
-
+/** 
+ * Load the add-task HTML fragment, clone the form structure and insert into overlay.
+ */
 async function getAddTaskInput(taskId, overlayContent, task) {
   const htmlResponse = await fetch('../html/add-task.html');
   const html = await htmlResponse.text();
@@ -202,7 +244,9 @@ async function getAddTaskInput(taskId, overlayContent, task) {
   getOverlayContent(overlayContent, taskContent, taskId, task);
 }
 
-
+/** 
+ * If task has contact IDs, render the selected contacts into the edit overlay.
+ */
 async function getTaskContacts(task, taskId) {
   if (task?.contactsId) {
     renderSelectedContactsFromApi(task, taskId)
@@ -211,7 +255,10 @@ async function getTaskContacts(task, taskId) {
   }
 }
 
-
+/** 
+ * Populate the selected-contacts container from task contact arrays.
+ * Ensures checkedContacts global receives the rendered items for later updates.
+ */
 async function renderSelectedContactsFromApi(task, taskId) {
   const selectedContacts = document.getElementById('selected-contacts')
   const { contactsColor = [], contactsInitials = [], contactsNames = [], contactsId = [], contactsEmail = [], contactsPhones = [] } = task;
@@ -230,14 +277,18 @@ async function renderSelectedContactsFromApi(task, taskId) {
   });
 }
 
-
+/** 
+ * Ensure all add-task related scripts are loaded (used when editing to reuse the form UI).
+ */
 async function allAddTaskScripts() {
   await loadScriptOnce('add-task-script', '../scripts/add-task.js');
   await loadScriptOnce('add-task-sub-menu-script', '../scripts/add-task-sub-menus.js');
   await loadScriptOnce('add-task-template-script', '../scripts/templates/add-task-template.js');
 }
 
-
+/** 
+ * Replace overlayContent with a cloned create-task form and append edit buttons area.
+ */
 function getOverlayContent(overlayContent, taskContent, taskId, task) {
   overlayContent.innerHTML = '';
   overlayContent.appendChild(taskContent.cloneNode(true));
@@ -248,7 +299,9 @@ function getOverlayContent(overlayContent, taskContent, taskId, task) {
   innerContainer.innerHTML += editandResetTaskBtnTemplate(taskId, task);
 }
 
-
+/** 
+ * Initialize priority button state and attach click handlers to toggle selection.
+ */
 function getTaskPriority(task) {
   const urgentButton = document.getElementById('urgent-priority-btn');
   const mediumButton = document.getElementById('medium-priority-btn');
@@ -259,7 +312,9 @@ function getTaskPriority(task) {
   lowButton.addEventListener('click', () => togglePriorityBtn(lowButton));
 }
 
-
+/** 
+ * Set the active priority button according to task.priorityLevel.
+ */
 function getPriorityFromTaskApi(urgentButton, mediumButton, lowButton, task) {
   if (task.priorityLevel === 'urgent') {
     urgentButton.classList.add('priority-urgent-active');
@@ -275,7 +330,9 @@ function getPriorityFromTaskApi(urgentButton, mediumButton, lowButton, task) {
   };
 }
 
-
+/** 
+ * Populate add-task inputs (title, description, due date, category) and initialize subtasks UI.
+ */
 function getTaskContent(task, taskId) {
   document.getElementById('task-title').value = task.title || '';
   document.getElementById('task-description').value = task.description || '';
@@ -286,14 +343,18 @@ function getTaskContent(task, taskId) {
   getSubtasks(task, taskId);
 }
 
-
+/** 
+ * Reveal the subtask action controls (delete/keep) when user focuses the subtask input area.
+ */
 function showSubtaskPicks(taskId) {
   const subtaskPicks = document.getElementById('delete-or-keep-subtask');
   const addSubtaskSvg = document.getElementById('add-subtask-svg');
   subtaskPicks.classList.remove('d-none');
 }
 
-
+/** 
+ * Render the task's subtasks into the selected-subtasks list and mark checked states.
+ */
 function getSubtasks(task, taskId) {
   const subtasksList = document.getElementById('selected-subtasks');
   subtasksList.innerHTML = '';
@@ -313,7 +374,9 @@ function getSubtasks(task, taskId) {
   }
 }
 
-
+/** 
+ * Read new subtask input and forward to the API add helper.
+ */
 async function getNewSubtaskToApi(taskId) {
   const subtaskInput = document.getElementById('task-subtasks').value.trim();
   if (!subtaskInput) {
@@ -323,7 +386,9 @@ async function getNewSubtaskToApi(taskId) {
   await getSubtasksFromApi(subtaskInput, taskId);
 }
 
-
+/** 
+ * Fetch task, append a new subtask and PUT the updated task back to the backend.
+ */
 async function getSubtasksFromApi(subtaskInput, taskId) {
   try {
     const response = await fetch(`${BASE_URL}/tasks/${taskId}.json`);
@@ -341,7 +406,9 @@ async function getSubtasksFromApi(subtaskInput, taskId) {
   }
 }
 
-
+/** 
+ * Populate the subtask edit UI for a single subtask index so the user can change text.
+ */
 async function editApiSubtask(taskId, subtaskIndex) {
   const subtasksList = document.getElementById('selected-subtasks');
   subtasksList.innerHTML = '';
@@ -352,11 +419,13 @@ async function editApiSubtask(taskId, subtaskIndex) {
     const subtask = task.subtasks[subtaskIndex];
     subtasksList.innerHTML += showApiSubtaskToEdit(subtask, subtaskIndex, taskId);
   } catch (error) {
-    console.error('❌ Fehler beim Laden des Subtasks:', error);
+    console.error('Fehler beim Laden des Subtasks:', error);
   }
 }
 
-
+/** 
+ * Compare edited subtask value with the stored one and save if changed.
+ */
 async function checkIfSubtaskWasEdited(task, input, subtaskIndex, taskId) {
   const oldValue = task.subtasks[subtaskIndex];
   if (oldValue === input) {
@@ -370,14 +439,19 @@ async function checkIfSubtaskWasEdited(task, input, subtaskIndex, taskId) {
   }
 }
 
-
+/** 
+ * Toggle a subtask checkbox visual state and icon between checked/unchecked.
+ */
 function toggleBoxChecked(checkbox) {
   const isChecked = checkbox.classList.toggle('checked');
   checkbox.classList.toggle('unchecked', !isChecked);
   checkbox.innerHTML = isChecked ? checkedBox : uncheckedBox;
 }
 
-
+/** 
+ * Render selected contacts (up to three) and an overflow indicator for a task card.
+ * Builds HTML for selected contacts and forwards to the boardTaskTemplate builder.
+ */
 function checkContactsLength(taskElement, task, taskId) {
   let selectedContactsComplete = '';
   if (!task.contactsInitials) task.contactsInitials = [];
