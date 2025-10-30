@@ -1,6 +1,5 @@
 async function checkEditedApiSubtask(taskId, subtaskIndex) {
   const inputValue = document.getElementById('edit-input').value;
-  console.log(subtaskIndex);
   try {
     const response = await fetch(`${BASE_URL}/tasks.json`);
     const data = await response.json();

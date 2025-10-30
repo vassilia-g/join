@@ -198,10 +198,6 @@ async function editTask(taskId) {
   currentTaskId = taskId;
   const overlay = document.getElementById('task-overlay');
   const overlayContent = document.getElementById('task-overlay-content');
-  console.log(isEditingTask);
-  console.log(currentTaskId);
-
-
   await getTaskContentFromApi(overlay, overlayContent, taskId);
 }
 

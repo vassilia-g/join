@@ -21,7 +21,6 @@ async function validateSignUpValues(values) {
     const errorEmailExists = document.getElementById('error-email-exists');
     const existingUser = await User.loadUserByEmail(values.email);
     if (existingUser) {
-        console.log('Email already registered:', values.email);
         errorEmailExists.classList.remove('d-none');
         return false;
     }
@@ -33,7 +32,6 @@ async function validateSignUpValues(values) {
  * Create and save a new user, update UI 
  */
 async function signUpUser(form) {
-    console.log('signUpUser() wurde aufgerufen');
     const values = getSignUpValues(form);
     const errorEmailExists = document.getElementById('error-email-exists');
     if (!await validateSignUpValues(values)) return;
@@ -48,7 +46,6 @@ async function signUpUser(form) {
     );
 
     await user.save();
-    console.log('User saved:', user);
     errorEmailExists.classList.add('d-none');
     visibleSignUp();
     return true;
@@ -69,7 +66,6 @@ document.addEventListener("submit", async (event) => {
     if (form?.id === "form-sign-up") {
         const ok = await signUpUser(form);
         if (!ok) {
-            console.log('Sign up validation failed');
         }
     }
 });

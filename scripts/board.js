@@ -339,7 +339,6 @@ async function getContactsFromArray() {
   const namesArray = checkedContacts.map(c => c.name);
   const colorArray = checkedContacts.map(c => c.color);
   const idArray = checkedContacts.map(c => c.id);
-  console.log(checkedContacts);
   checkedContacts = [];
   return { initialsArray, namesArray, colorArray, idArray };
 }

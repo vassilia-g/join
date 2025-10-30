@@ -80,11 +80,11 @@ function deleteSubtaskFromList(index) {
 function editSubtask(index) {
     selectedSubtasks.innerHTML = "";
     for (let i = 0; i < subtasks.length; i++) {
-    if (i === index) {
-      selectedSubtasks.innerHTML = "";
-      selectedSubtasks.innerHTML += showSubtaskToEdit(i);
-    } 
-  }
+        if (i === index) {
+            selectedSubtasks.innerHTML = "";
+            selectedSubtasks.innerHTML += showSubtaskToEdit(i);
+        }
+    }
     subtaskListElement = document.getElementsByClassName('subtask-list-element');
     subtaskListElement[index].classList.add('subtask-list-element-edit');
     subtaskListElement[index].innerHTML = showSubtaskToEdit(index);
@@ -126,28 +126,28 @@ async function getContactsAndTask() {
 
 
 async function openDropdownContacts() {
-  const contactsToSelect = document.getElementById('contacts-to-select');
-  const dropdownIcon = document.getElementById('dropdown-icon');
-  const selectedContacts = document.getElementById('selected-contacts');
-  const { contactsArray } = await getContactsAndTask();
-  const contacts = getContactsInitials(contactsArray);
-  globalContactsArray = contacts;
-  if (contactsToSelect.classList.contains('show')) {
-    hideDropdownContacts(contactsToSelect, dropdownIcon, selectedContacts);
-    dropdownIcon.classList.remove("open");
-    showSelectedContacts(selectedContacts);
-    return;
-  }
-  contactsToSelect.innerHTML = contacts.map(c => renderContact(c)).join('');
-  toggleClasslistForDropdown(contactsToSelect, dropdownIcon, selectedContacts);
+    const contactsToSelect = document.getElementById('contacts-to-select');
+    const dropdownIcon = document.getElementById('dropdown-icon');
+    const selectedContacts = document.getElementById('selected-contacts');
+    const { contactsArray } = await getContactsAndTask();
+    const contacts = getContactsInitials(contactsArray);
+    globalContactsArray = contacts;
+    if (contactsToSelect.classList.contains('show')) {
+        hideDropdownContacts(contactsToSelect, dropdownIcon, selectedContacts);
+        dropdownIcon.classList.remove("open");
+        showSelectedContacts(selectedContacts);
+        return;
+    }
+    contactsToSelect.innerHTML = contacts.map(c => renderContact(c)).join('');
+    toggleClasslistForDropdown(contactsToSelect, dropdownIcon, selectedContacts);
 }
 
 
 function renderContact(contact) {
-  const isChecked = checkedContacts.some(c => c.id === contact.id);
-  if (isChecked) checkedContacts = [...checkedContacts.filter(c => c.id !== contact.id), contact];
-  const checkboxSvg = isChecked ? showCheckedCheckbox(contact) : showEmptyCheckbox(contact);
-  return selectedContactsFromTaskTemplate(contact, getInitials(contact.name), checkboxSvg);
+    const isChecked = checkedContacts.some(c => c.id === contact.id);
+    if (isChecked) checkedContacts = [...checkedContacts.filter(c => c.id !== contact.id), contact];
+    const checkboxSvg = isChecked ? showCheckedCheckbox(contact) : showEmptyCheckbox(contact);
+    return selectedContactsFromTaskTemplate(contact, getInitials(contact.name), checkboxSvg);
 }
 
 
@@ -189,7 +189,7 @@ document.onclick = function (event) {
 function hideDropdownContacts(contactsToSelect, dropdownIcon, selectedContacts) {
     contactsToSelect.classList.remove('show');
     dropdownIcon.classList.remove("open");
-        setTimeout(() => {
+    setTimeout(() => {
         selectedContacts.classList.remove('d-none');
     }, 200);
 }
@@ -212,28 +212,27 @@ function getInitials(name) {
 
 
 function checkContact(contactId) {
-  const contact = globalContactsArray.find(c => c.id === contactId);
-  if (!contact) return console.warn('⚠️ Kein Kontakt mit dieser ID gefunden:', contactId);
-  contact.initials = getInitials(contact.name);
-  const checkbox = document.getElementById(`checkbox-${contactId}`);
-  const initialsSvg = document.getElementById(`initials-${contactId}`);
-  if (!checkbox || !initialsSvg) return;
-  toggleCheckbox(checkbox, initialsSvg, contact);
-  console.log("checkedContacts:", checkedContacts);
-  showSelectedContacts();
+    const contact = globalContactsArray.find(c => c.id === contactId);
+    if (!contact) return console.warn('⚠️ Kein Kontakt mit dieser ID gefunden:', contactId);
+    contact.initials = getInitials(contact.name);
+    const checkbox = document.getElementById(`checkbox-${contactId}`);
+    const initialsSvg = document.getElementById(`initials-${contactId}`);
+    if (!checkbox || !initialsSvg) return;
+    toggleCheckbox(checkbox, initialsSvg, contact);
+    showSelectedContacts();
 }
 
 
 function toggleCheckbox(checkbox, initialsSvg, contact) {
-  const svg = checkbox.querySelector('svg');
-  if (!svg) return console.warn('⚠️ Kein SVG in Checkbox gefunden:', contact.id);
-  const isChecked = svg.classList.contains('checked');
-  svg.classList.toggle('checked', !isChecked);
-  initialsSvg.classList.toggle('checked', !isChecked);
-  checkbox.innerHTML = isChecked ? showEmptyCheckbox(contact) : showCheckedCheckbox(contact);
-  checkedContacts = isChecked
-    ? checkedContacts.filter(c => c.id !== contact.id)
-    : [...checkedContacts.filter(c => c.id !== contact.id), contact];
+    const svg = checkbox.querySelector('svg');
+    if (!svg) return console.warn('⚠️ Kein SVG in Checkbox gefunden:', contact.id);
+    const isChecked = svg.classList.contains('checked');
+    svg.classList.toggle('checked', !isChecked);
+    initialsSvg.classList.toggle('checked', !isChecked);
+    checkbox.innerHTML = isChecked ? showEmptyCheckbox(contact) : showCheckedCheckbox(contact);
+    checkedContacts = isChecked
+        ? checkedContacts.filter(c => c.id !== contact.id)
+        : [...checkedContacts.filter(c => c.id !== contact.id), contact];
 }
 
 

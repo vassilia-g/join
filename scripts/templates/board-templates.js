@@ -242,8 +242,6 @@ function showContactsWithSelectionStateApiTemplate(i, task, contacts, initialsFr
     contactInitials = getInitials(contact.name);
   }
 
-  console.log(tempContactsFromApi);
-
   const isTempContact = tempContactsFromApi.includes(contactInitials) || tempContactsFromApi.includes(initialsFromTask);
   const isSelected = alreadyInTask || isTempContact;
   const checkedClass = isSelected ? "checked" : "unchecked";
