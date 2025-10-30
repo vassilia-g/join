@@ -1,3 +1,7 @@
+/** 
+ * On DOMContentLoaded: adjust logo position for small screens or move logo to top-left.
+ * Also swaps logo image on small screens after a short delay.
+ */
 document.addEventListener("DOMContentLoaded", () => {
     const logoWrapper = document.getElementById('logo-wrapper');
     const logoWeiß = document.getElementById('logo-weiß');
@@ -11,10 +15,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-
+/** 
+ * Cached promise of loading all users from backend.
+ * (Used later for login checks.)
+ */
 const users = getAllUsers();
 
-
+/** 
+ * On DOMContentLoaded: attach focus/blur handlers to inputs to toggle active border styles.
+ */
 document.addEventListener("DOMContentLoaded",
     () => {
         const inputs = document.querySelectorAll(".input-email-container input, .input-password-container input, .input-sign-up-name-container input, .input-sign-up-email-container input, .input-sign-up-password-container input, .input-sign-up-confirm-password-container input");
@@ -30,7 +39,9 @@ document.addEventListener("DOMContentLoaded",
         });
     });
 
-
+/** 
+ * Move logo element to top-left with animations and reveal login/registry containers.
+ */
 function moveLogoToTopLeft() {
     const logoWrapper = document.getElementById('logo-wrapper');
     const logoWeiß = document.getElementById('logo-weiß');
@@ -47,7 +58,9 @@ function moveLogoToTopLeft() {
     };
 }
 
-
+/** 
+ * Show the sign-up form container and hide login/registry UI, reset visible errors.
+ */
 function showSignUpContainer() {
     const signUpContainer = document.getElementById("sign-up-container");
     const logInContainer = document.getElementById("log-in-container");
@@ -66,7 +79,9 @@ function showSignUpContainer() {
     }
 }
 
-
+/** 
+ * Enable the sign-up button and toggle checkbox visuals when user accepts terms.
+ */
 function enableSignUpButton() {
     const signUpButton = document.getElementById("sign-up-form-button");
     const customCheckbox = document.getElementById("custom-checkbox");
@@ -85,7 +100,9 @@ function enableSignUpButton() {
     }
 }
 
-
+/** 
+ * Disable the sign-up button and toggle checkbox visuals when user unchecks acceptance.
+ */
 function disableSignUpButton() {
     const signUpButton = document.getElementById("sign-up-form-button");
     const customCheckbox = document.getElementById("custom-checkbox");
@@ -100,7 +117,9 @@ function disableSignUpButton() {
     }
 }
 
-
+/** 
+ * Validate sign-up password and confirmation; show error message when they don't match.
+ */
 function checkSignUpPasswords(event) {
     event.preventDefault();
     const password = document.getElementById("input-sign-up-password");
@@ -113,7 +132,9 @@ function checkSignUpPasswords(event) {
     }
 }
 
-
+/** 
+ * Show a brief overlay animation after successful sign-up and return to login view.
+ */
 function visibleSignUp() {
     const successText = document.getElementById("successfully-signed-up")
     setTimeout(() => {
@@ -129,24 +150,30 @@ function visibleSignUp() {
     }, 2000);
 }
 
-
+/** 
+ * Reveal the generic overlay element.
+ */
 function showOverlay() {
     const overlay = document.getElementById("overlay");
     overlay.classList.remove("d-none");
 }
 
-
+/** 
+ * Hide the generic overlay element.
+ */
 function hideOverlay() {
     const overlay = document.getElementById("overlay");
     overlay.classList.add("d-none");
 }
 
-
+/** 
+ * Update password input symbols visibility based on input length.
+ */
 function changeSymbols() {
     const passwordInput = document.getElementById('input-password');
     const passwordValue = passwordInput.value;
     const lockSymbol = document.getElementById('lock-symbol');
-    
+
     if (passwordValue.length >= 1) {
         lockSymbol.classList.add('d-none');
         hidePassword();
@@ -156,7 +183,9 @@ function changeSymbols() {
     }
 }
 
-
+/** 
+ * Reset password visibility icons to default state.
+ */
 function standardPasswordSymbol() {
     const visibilityOffSymbol = document.getElementById('visibility-off');
     const visibilityOnSymbol = document.getElementById('visibility-on');
@@ -165,7 +194,10 @@ function standardPasswordSymbol() {
     lockSymbol.classList.remove('d-none');
 }
 
-
+/** 
+ * Show "visibility off" icon when input is currently masked.
+ * (Note: function name duplicates another later in file.)
+ */
 function hidePassword() {
     const passwordInput = document.getElementById('input-password');
     if (passwordInput.type === 'password') {
@@ -173,7 +205,9 @@ function hidePassword() {
     }
 }
 
-
+/** 
+ * Show the plain-text password and update icons.
+ */
 function showPassword() {
     const passwordInput = document.getElementById('input-password');
     if (passwordInput.type === 'text') {
@@ -181,7 +215,9 @@ function showPassword() {
     }
 }
 
-
+/** 
+ * Handle user login: validate credentials and redirect to summary on success.
+ */
 async function goToStartpage(event) {
     event.preventDefault();
 
@@ -201,7 +237,9 @@ async function goToStartpage(event) {
     }
 }
 
-
+/** 
+ * Make password visible: show "visibility on" icon and set input type to text.
+ */
 function makePasswordVisible() {
     const visibilityOffSymbol = document.getElementById('visibility-off');
     const visibilityOnSymbol = document.getElementById('visibility-on');
@@ -210,7 +248,10 @@ function makePasswordVisible() {
     document.getElementById('input-password').type = 'text';
 }
 
-
+/** 
+ * Hide password (alternate definition): set masks and icons, set input type to password.
+ * (This function duplicates an earlier hidePassword definition; consider consolidating.)
+ */
 function hidePassword() {
     const visibilityOffSymbol = document.getElementById('visibility-off');
     const visibilityOnSymbol = document.getElementById('visibility-on');
@@ -219,7 +260,9 @@ function hidePassword() {
     document.getElementById('input-password').type = 'password';
 }
 
-
+/** 
+ * Return UI to login view, clear form and reset sign-up controls.
+ */
 function backtoLogIn() {
     const logInContainer = document.getElementById('log-in-container');
     logInContainer.classList.remove('d-none');
@@ -233,13 +276,17 @@ function backtoLogIn() {
     clearSignUpForm();
 }
 
-
+/** 
+ * Reset the sign-up form fields.
+ */
 function clearSignUpForm() {
     const signUpForm = document.getElementById("form-sign-up");
     signUpForm.reset();
 }
 
-
+/** 
+ * Log in as guest: set guest id in localStorage and redirect to summary.
+ */
 function guestLogIn() {
     localStorage.setItem("currentUserId", "guest");
     localStorage.setItem('isLoggedIn', 'true');
