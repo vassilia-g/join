@@ -1,10 +1,11 @@
 const tasks = getData("tasks");
 
+// Toggle dropdown visibility
 function dropdownMenu() {
     document.querySelector('.dropdown-content').classList.toggle('d-none');
 }
 
-
+// Update all summary counters and due date display
 async function updateSummaryCounters() {
     let toDoCounter = document.getElementById('to-do-counter');
     let doneCounter = document.getElementById('done-counter');
@@ -17,6 +18,7 @@ async function updateSummaryCounters() {
     //Get tasks
     const allTasks = await tasks;
     const taskArray = Object.keys(allTasks).map(key => allTasks[key]);
+
     // Update counters
     tasksInBoardCounter.innerHTML = await getTasksCounter(taskArray);
     toDoCounter.innerHTML = await getTasksCounterByStatus(taskArray, "toDo");
@@ -29,30 +31,28 @@ async function updateSummaryCounters() {
     dueDate.innerHTML = await getTaskDueDate(firstDueDateTask);
 }
 
-
+// Return total number of tasks
 async function getTasksCounter(allTasks) {
     return allTasks.length;
 }
 
-
+// Count tasks matching given status
 async function getTasksCounterByStatus(allTasks, status) {
     return allTasks.filter(task => task.status === status).length;
 }
 
-
+// Count tasks matching given priority level
 async function getTasksCounterByPriorityLevel(allTasks, priorityLevel) {
     return allTasks.filter(task => task.priorityLevel === priorityLevel).length;
 }
 
-
+// Return first urgent task from array (or null)
 async function getFirstDueDateTask(allTasks) {
     if (!Array.isArray(allTasks) || allTasks.length === 0) return null;
-
-    // Return the first task with priorityLevel 'urgent'
     return allTasks.find(task => task.priorityLevel === 'urgent') || null;
 }
 
-
+// Format a task due date for display
 async function getTaskDueDate(task) {
     if (!task || !task.dueDate) return '-';
 
@@ -65,7 +65,7 @@ async function getTaskDueDate(task) {
     return parsed.toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' });
 }
 
-
+// Update greeting and user-related time info
 async function updateDayTime() {
     const welcomeMsg = document.getElementById('welcome-message');
     const userName = document.getElementById('user-name');
@@ -79,7 +79,7 @@ async function updateDayTime() {
     updateUserGreeting(welcomeMsg, hour, punctuation);
 }
 
-
+// Set welcome text based on hour of day
 function updateUserGreeting(welcomeMsg, hour, punctuation) {
     if (hour >= 3 && hour < 12) {
         welcomeMsg.innerHTML = `Good Morning${punctuation}`;
@@ -92,7 +92,7 @@ function updateUserGreeting(welcomeMsg, hour, punctuation) {
     }
 }
 
-
+// Show or hide username for guest users
 function guestGreeting(userName, isGuest) {
     if (isGuest) {
         userName.classList.add("d-none");
@@ -101,7 +101,7 @@ function guestGreeting(userName, isGuest) {
     }
 }
 
-
+// Load and display current user's name
 async function updateUserName() {
     try {
         const el = document.getElementById('user-name');
@@ -119,10 +119,6 @@ async function updateUserName() {
         if (el) el.textContent = "User";
     }
 }
-
-// document.addEventListener("DOMContentLoaded", () => {
-
-// });
 
 document.addEventListener("DOMContentLoaded", () => {
     updateSummaryCounters();

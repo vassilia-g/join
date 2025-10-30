@@ -37,7 +37,7 @@
     }
 
     .drop-div::-webkit-scrollbar {
-        height: 8px;
+        height: 5px;
     }
 
     .drop-div::-webkit-scrollbar-track {
@@ -46,7 +46,7 @@
 
     .drop-div::-webkit-scrollbar-thumb {
         background: var(--color-primary);
-        border-radius: 8px;
+        border-radius: 10px;
     }
 
     .drop-div::-webkit-scrollbar-thumb:hover {

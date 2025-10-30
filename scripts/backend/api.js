@@ -8,7 +8,6 @@ async function safeFetch(path = "", options = {}) {
         const text = await response.text().catch(() => '');
         throw new Error(`Request failed (${response.status}): ${text}`);
     }
-    // try parse json, return null if no body
     try {
         return await response.json();
     } catch (e) {
