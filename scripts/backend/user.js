@@ -1,4 +1,7 @@
-/** User model with helpers for backend persistence and lookup */
+/** 
+ * User model with helpers for backend persistence and lookup 
+ * @constructor
+ * */
 class User {
     constructor(id, username, password, email, status = "active", createdAt = Date.now(), phone = "") {
         this.id = id || null; /** will be set when saved to backend */
@@ -10,7 +13,9 @@ class User {
         this.phone = phone;
     }
 
-    /** Persist this user to backend and return the posted object (or this) */
+    /** 
+     * Persist this user to backend and return the posted object (or this) 
+     */
     async save() {
         const payload = {
             createdAt: this.createdAt || Date.now(),
@@ -24,7 +29,9 @@ class User {
         return this;
     }
 
-    /** Load one user by id from backend */
+    /** 
+     * Load one user by id from backend 
+     */
     static async loadById(id) {
         if (id == null) return null;
         const response = await getData("users/" + id);
@@ -40,14 +47,18 @@ class User {
         );
     }
 
-    /** Find a user by email among all users (case-insensitive) */
+    /** 
+     * Find a user by email among all users (case-insensitive) 
+     */
     static async loadUserByEmail(email) {
         if (!email) return null;
         const allUsers = await UserCollection.loadAll();
         return allUsers.find(u => u.email.toLowerCase() === email.toLowerCase()) || null;
     }
 
-    /** Update the currently logged-in user's record with provided contact data */
+    /** 
+     * Update the currently logged-in user's record with provided contact data 
+     */
     static async updateOwnUser(updatedContact) {
         const userId = localStorage.getItem("currentUserId");
         if (!userId) {
@@ -73,7 +84,9 @@ class User {
     }
 }
 
-/** Checks if user already exists if not, create user */
+/** 
+ * Checks if user already exists if not, create user 
+ */
 const UserCollection = {
     async loadAll() {
         const data = await getData("users") || {};
@@ -82,7 +95,9 @@ const UserCollection = {
 };
 
 
-/** Returns the currently logged-in user or null */
+/** 
+ * Returns the currently logged-in user or null 
+ */
 async function getUser() {
     const id = localStorage.getItem("currentUserId");
     if (!id) return null;
