@@ -1,3 +1,7 @@
+/** 
+ * Simple Contact model holding relation ids.
+ * @constructor
+ */
 class Contact {
     constructor(id, user_owner_id, friend_user_id) {
         this.id = id;
@@ -6,7 +10,9 @@ class Contact {
     }
 }
 
-
+/** 
+ * Load all contacts from backend, normalize data and render list.
+ */
 async function loadContacts() {
     try {
         const res = await fetch(BASE_URL + "contacts.json");
@@ -31,7 +37,9 @@ async function loadContacts() {
     }
 }
 
-
+/** 
+ * Read add-contact form, validate and create a new contact then update UI.
+ */
 async function addContact(event) {
     event.preventDefault();
 
@@ -48,7 +56,9 @@ async function addContact(event) {
     }
 }
 
-
+/** 
+ * Delete contact by id from backend and refresh contact view/UI.
+ */
 async function deleteContactById(id) {
     try {
         await fetch(`${BASE_URL}/contacts/${id}.json`, {
@@ -73,7 +83,9 @@ async function deleteContactById(id) {
     }
 }
 
-
+/** 
+ * POST a new contact to backend, ensuring it has a color.
+ */
 async function createContact(contact) {
     if (!contact.color) {
         contact.color = getRandomColor();
@@ -88,7 +100,9 @@ async function createContact(contact) {
     return res.json();
 }
 
-
+/** 
+ * Save edited contact data (own user or normal contact) and refresh UI.
+ */
 async function saveEditedContact(event) {
     event.preventDefault();
     const form = event.target;
@@ -116,7 +130,9 @@ async function saveEditedContact(event) {
     showToast("Contact updated");
 }
 
-
+/** 
+ * PUT updated contact object to backend by id.
+ */
 async function updateContactInDatabase(id, updatedContact) {
     await fetch(`${BASE_URL}contacts/${id}.json`, {
         method: "PUT",
