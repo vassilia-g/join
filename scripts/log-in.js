@@ -117,7 +117,7 @@ function checkSignUpPasswords(event) {
 function visibleSignUp() {
     const successText = document.getElementById("successfully-signed-up")
     setTimeout(() => {
-        showOverlay(event);
+        showOverlay();
         successText.classList.remove("d-none");
         successText.classList.add("from-bottom-to-the-mid");
     }, 500)
