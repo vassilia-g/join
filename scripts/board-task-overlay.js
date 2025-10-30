@@ -1,6 +1,8 @@
 
 let deletedContacts = [];
 let boards;
+let searchBarElement = document.querySelector('.board-search-bar');
+let warningText = document.querySelector('.no-task-found-warning');
 
 function initBoards() {
   return [
@@ -49,15 +51,15 @@ async function openTaskOverlay(taskId) {
 
 
 function getOverlayContentWithTask(task, taskId) {
-    const overlay = document.getElementById('task-overlay');
-    const overlayContent = document.getElementById('task-overlay-content');
-    overlayContent.innerHTML = boardTaskOverlayTemplate(task, taskId);
-    overlay.classList.remove('d-none');
-    overlayContent.classList.remove('d-none');
-    setTimeout(() => {
-      overlay.classList.add('active');
-      overlayContent.classList.add('active');
-    }, 10);
+  const overlay = document.getElementById('task-overlay');
+  const overlayContent = document.getElementById('task-overlay-content');
+  overlayContent.innerHTML = boardTaskOverlayTemplate(task, taskId);
+  overlay.classList.remove('d-none');
+  overlayContent.classList.remove('d-none');
+  setTimeout(() => {
+    overlay.classList.add('active');
+    overlayContent.classList.add('active');
+  }, 10);
 }
 
 
@@ -89,6 +91,14 @@ function updateCategoryColor() {
 
 
 function checkIfEmpty(tasks) {
+  if (tasks.length == 0) {
+    searchBarElement.classList.add('no-task-found');
+    warningText.classList.remove('d-none');
+  } else {
+    searchBarElement.classList.remove('no-task-found');
+    warningText.classList.add('d-none');
+  }
+
   tasks.forEach(task => {
     const taskElement = document.querySelector(`[data-task-index="${task.id}"]`);
     if (!taskElement) return;
@@ -101,25 +111,25 @@ function checkIfEmpty(tasks) {
 
 
 function checkContentFromTask(taskInfo, taskContent, taskStatus, task) {
-    const hasContent =
-      (typeof task.description === 'string' && task.description.trim() !== '');
-    const hasDetails =
-      (typeof task.priorityValue === 'string' && task.priorityValue.trim() !== '') ||
-      (task.contactsInitials && Object.keys(task.contactsInitials).length > 0);
-    const hasSubtasks = (() => {
-      if (!task.subtasks) return false;
-      if (Array.isArray(task.subtasks)) return task.subtasks.length > 0;
-      if (typeof task.subtasks === 'string') return task.subtasks.trim() !== '';
-      return false;
-    })();
-    toggleTaskDivs(taskInfo, taskContent, taskStatus, hasContent, hasDetails, hasSubtasks)
+  const hasContent =
+    (typeof task.description === 'string' && task.description.trim() !== '');
+  const hasDetails =
+    (typeof task.priorityValue === 'string' && task.priorityValue.trim() !== '') ||
+    (task.contactsInitials && Object.keys(task.contactsInitials).length > 0);
+  const hasSubtasks = (() => {
+    if (!task.subtasks) return false;
+    if (Array.isArray(task.subtasks)) return task.subtasks.length > 0;
+    if (typeof task.subtasks === 'string') return task.subtasks.trim() !== '';
+    return false;
+  })();
+  toggleTaskDivs(taskInfo, taskContent, taskStatus, hasContent, hasDetails, hasSubtasks)
 }
 
 
 function toggleTaskDivs(taskInfo, taskContent, taskStatus, hasContent, hasDetails, hasSubtasks) {
-    if (taskInfo) taskInfo.classList.toggle('d-none', !hasDetails);
-    if (taskContent) taskContent.classList.toggle('d-none', !hasContent);
-    if (taskStatus) taskStatus.classList.toggle('d-none', !hasSubtasks);
+  if (taskInfo) taskInfo.classList.toggle('d-none', !hasDetails);
+  if (taskContent) taskContent.classList.toggle('d-none', !hasContent);
+  if (taskStatus) taskStatus.classList.toggle('d-none', !hasSubtasks);
 }
 
 
@@ -132,7 +142,7 @@ async function deleteTask(taskId) {
   } catch (error) {
     alert('Task konnte nicht gelöscht werden.');
   }
-}  
+}
 
 
 function loadScriptOnce(id, src) {
@@ -155,24 +165,24 @@ async function editTask(taskId) {
   const overlayContent = document.getElementById('task-overlay-content');
   console.log(isEditingTask);
   console.log(currentTaskId);
-  
-  
-  await getTaskContentFromApi(overlay, overlayContent, taskId); 
+
+
+  await getTaskContentFromApi(overlay, overlayContent, taskId);
 }
 
 
 async function getTaskContentFromApi(overlay, overlayContent, taskId) {
-    const data = await getData('tasks/');
-    const task = data[taskId];
-    if (!task) throw new Error(`Task mit ID ${taskId} nicht gefunden`);
-    await getAddTaskInput(taskId, overlayContent, task)
-    await allAddTaskScripts();
-    disableCategoryEdit();
-    getTaskPriority(task);
-    getTaskContent(task, taskId);
-    getTaskContacts(task, taskId);
-    overlay.classList.remove('d-none');
-    overlay.classList.add('active');
+  const data = await getData('tasks/');
+  const task = data[taskId];
+  if (!task) throw new Error(`Task mit ID ${taskId} nicht gefunden`);
+  await getAddTaskInput(taskId, overlayContent, task)
+  await allAddTaskScripts();
+  disableCategoryEdit();
+  getTaskPriority(task);
+  getTaskContent(task, taskId);
+  getTaskContacts(task, taskId);
+  overlay.classList.remove('d-none');
+  overlay.classList.add('active');
 }
 
 
@@ -185,11 +195,11 @@ function disableCategoryEdit() {
 
 async function getAddTaskInput(taskId, overlayContent, task) {
   const htmlResponse = await fetch('../html/add-task.html');
-    const html = await htmlResponse.text();
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = html;
-    const taskContent = tempDiv.querySelector('.create-task');
-    getOverlayContent(overlayContent, taskContent, taskId, task);
+  const html = await htmlResponse.text();
+  const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = html;
+  const taskContent = tempDiv.querySelector('.create-task');
+  getOverlayContent(overlayContent, taskContent, taskId, task);
 }
 
 
@@ -222,9 +232,9 @@ async function renderSelectedContactsFromApi(task, taskId) {
 
 
 async function allAddTaskScripts() {
-    await loadScriptOnce('add-task-script', '../scripts/add-task.js');
-    await loadScriptOnce('add-task-sub-menu-script', '../scripts/add-task-sub-menus.js');
-    await loadScriptOnce('add-task-template-script', '../scripts/templates/add-task-template.js');
+  await loadScriptOnce('add-task-script', '../scripts/add-task.js');
+  await loadScriptOnce('add-task-sub-menu-script', '../scripts/add-task-sub-menus.js');
+  await loadScriptOnce('add-task-template-script', '../scripts/templates/add-task-template.js');
 }
 
 
@@ -251,7 +261,7 @@ function getTaskPriority(task) {
 
 
 function getPriorityFromTaskApi(urgentButton, mediumButton, lowButton, task) {
-    if (task.priorityLevel === 'urgent') {
+  if (task.priorityLevel === 'urgent') {
     urgentButton.classList.add('priority-urgent-active');
     urgentButton.classList.remove('priority-urgent-default');
   }
@@ -278,9 +288,9 @@ function getTaskContent(task, taskId) {
 
 
 function showSubtaskPicks(taskId) {
-    const subtaskPicks = document.getElementById('delete-or-keep-subtask');
-    const addSubtaskSvg = document.getElementById('add-subtask-svg');
-    subtaskPicks.classList.remove('d-none');
+  const subtaskPicks = document.getElementById('delete-or-keep-subtask');
+  const addSubtaskSvg = document.getElementById('add-subtask-svg');
+  subtaskPicks.classList.remove('d-none');
 }
 
 
@@ -354,7 +364,7 @@ async function checkIfSubtaskWasEdited(task, input, subtaskIndex, taskId) {
   }
   task.subtasks[subtaskIndex] = input;
   try {
-    await putData(`tasks/${taskId}`, task) 
+    await putData(`tasks/${taskId}`, task)
   } catch (error) {
     alert('Subtask konnte nicht gespeichert werden.');
   }

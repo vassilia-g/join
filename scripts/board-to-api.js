@@ -1,4 +1,4 @@
- async function checkEditedApiSubtask(taskId, subtaskIndex) {
+async function checkEditedApiSubtask(taskId, subtaskIndex) {
   const inputValue = document.getElementById('edit-input').value;
   console.log(subtaskIndex);
   try {
@@ -7,7 +7,7 @@
     const task = data[taskId];
     if (!task) throw new Error(`Task mit ID ${taskId} nicht gefunden`);
     checkIfSubtaskWasEdited(task, inputValue, subtaskIndex, taskId);
-    getSubtasks(task, taskId);    
+    getSubtasks(task, taskId);
   } catch (error) {
     console.error('❌ Fehler beim Öffnen des Edit-Overlays:', error);
     alert('Task konnte nicht geladen werden.');
@@ -29,24 +29,24 @@ async function deleteSubtaskFromApi(taskId, subtaskIndex) {
     getSubtasks(task, taskId);
   } catch (error) {
     alert('Subtask konnte nicht gelöscht werden.');
-  }   
+  }
 }
 
 
 async function pushSubtasksWithStatus(taskId) {
-    const subtasksList = document.getElementById('selected-subtasks');
-    if (!subtasksList) return;
-    const subtasksData = Array.from(subtasksList.querySelectorAll('li')).map(li => ({
-        text: li.querySelector('p').innerText.trim(),
-        checked: li.querySelector('.checkbox-subtasks')?.classList.contains('checked') || false
-    }));
+  const subtasksList = document.getElementById('selected-subtasks');
+  if (!subtasksList) return;
+  const subtasksData = Array.from(subtasksList.querySelectorAll('li')).map(li => ({
+    text: li.querySelector('p').innerText.trim(),
+    checked: li.querySelector('.checkbox-subtasks')?.classList.contains('checked') || false
+  }));
 
-    try {
-        await putData(`tasks/${taskId}/subtasks`, subtasksData.map(s => s.text));
-        await putData(`tasks/${taskId}/checkedSubtasks`, { subtasks: subtasksData.filter(s => s.checked).map(s => s.text) });
-    } catch (error) {
-        console.error('❌ Fehler beim Pushen der Subtasks:', error);
-    }
+  try {
+    await putData(`tasks/${taskId}/subtasks`, subtasksData.map(s => s.text));
+    await putData(`tasks/${taskId}/checkedSubtasks`, { subtasks: subtasksData.filter(s => s.checked).map(s => s.text) });
+  } catch (error) {
+    console.error('❌ Fehler beim Pushen der Subtasks:', error);
+  }
 }
 
 
@@ -112,7 +112,7 @@ async function updateTaskWithPriority(priorityLevel, priorityValue, taskId) {
 
 
 async function pushUpdatedTaskToApi(updatedTask, taskId) {
-    try {
+  try {
     const response = await fetch(`${BASE_URL}/tasks/${taskId}.json`, {
       method: 'PATCH',
       headers: {
@@ -124,7 +124,7 @@ async function pushUpdatedTaskToApi(updatedTask, taskId) {
   } catch (error) {
     console.error('❌ Fehler beim Aktualisieren:', error);
   }
-    loadTasks();
+  loadTasks();
 }
 
 
@@ -146,6 +146,8 @@ async function resetTaskChangings(taskId) {
 const debouncedFilter = debounce((value) => {
   filterTasksByText(value);
 }, 200);
+
 inputElement.addEventListener('input', (event) => {
   debouncedFilter(event.target.value);
 });
+
