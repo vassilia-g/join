@@ -310,7 +310,6 @@ function showTaskDiv() {
   }, 1000)
 }
 
-
 function hideTaskDiv() {
   addToBoardDiv.classList.remove('show');
   addToBoardDiv.classList.add('hide');
