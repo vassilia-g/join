@@ -1,7 +1,18 @@
+/**
+ * Collection of sidebar navigation link elements.
+ * @type {HTMLCollectionOf<Element>}
+ */
 let navLinks = document.getElementsByClassName('nav');
+
+/**
+ * Collection of legal footer links used to highlight the active page.
+ * @type {HTMLCollectionOf<Element>}
+ */
 let legalLinks = document.getElementsByClassName('legal-link');
 
-// logout helper
+/**
+ * Log out the current user by clearing localStorage keys and redirecting to the index page.
+ */
 function logOut() {
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem("currentUserId");
@@ -9,7 +20,10 @@ function logOut() {
     window.location.replace("../index.html");
 }
 
-
+/**
+ * Toggle a small dropdown menu and install a one-time outside-click handler to close it.
+ * @param {Event} event - click event from the dropdown trigger
+ */
 function dropdownMenu(event) {
     const dropdown = document.querySelector('.dropdown-content');
 
@@ -26,13 +40,19 @@ function dropdownMenu(event) {
     });
 }
 
-
+/**
+ * Initialize UI pieces needed after page load.
+ * Calls routines to render header/sidebar and highlight the current sidebar link.
+ */
 function init() {
     showSidebarAndHeader();
     changeSidebarLinksStyle();
 }
 
-
+/**
+ * Render the sidebar and header markup.
+ * If the user is not logged in, show the pre-login header/sidebar variants.
+ */
 function showSidebarAndHeader() {
     let sidebar = document.getElementById('sidebar');
     let header = document.getElementById('header');
@@ -47,7 +67,10 @@ function showSidebarAndHeader() {
     }
 }
 
-
+/**
+ * Determine the current page from the URL and apply the appropriate active styling
+ * to the matching sidebar link.
+ */
 function changeSidebarLinksStyle() {
     let currentPage = window.location.pathname.split("/").pop();
     if (currentPage === "add-task.html") {
@@ -67,7 +90,9 @@ function changeSidebarLinksStyle() {
     }
 }
 
-
+/**
+ * Highlight the "Add Task" sidebar link and prevent navigation to the same page.
+ */
 function changeAddTaskLink() {
     let addTaskIcon = document.getElementsByClassName('sidebar-add-task-icon')[0];
     let addTaskIconPath = addTaskIcon.querySelectorAll("path");
@@ -80,7 +105,9 @@ function changeAddTaskLink() {
     });
 }
 
-
+/**
+ * Highlight the "Board" sidebar link and prevent navigation to the same page.
+ */
 function changeBoardLink() {
     let boardIcon = document.getElementsByClassName('sidebar-board-icon')[0];
     let boardIconPath = boardIcon.querySelectorAll("path");
@@ -93,7 +120,9 @@ function changeBoardLink() {
     });
 }
 
-
+/**
+ * Highlight the "Contacts" sidebar link and prevent navigation to the same page.
+ */
 function changeContactsLink() {
     let contactsIcon = document.getElementsByClassName('sidebar-contacts-icon')[0];
     let contactsIconPath = contactsIcon.querySelectorAll("path");
@@ -106,7 +135,9 @@ function changeContactsLink() {
     });
 }
 
-
+/**
+ * Highlight the "Summary" sidebar link and prevent navigation to the same page.
+ */
 function changeSummaryLink() {
     let summaryIcon = document.getElementsByClassName('sidebar-summary-icon')[0];
     let summaryIconPath = summaryIcon.querySelectorAll("path");
@@ -119,13 +150,17 @@ function changeSummaryLink() {
     });
 }
 
-
+/**
+ * Hide the help icon in the sidebar (used when on the help page).
+ */
 function changeHelpLink() {
     let helpIcon = document.getElementsByClassName('help');
     helpIcon[0].classList.add('d-none');
 }
 
-
+/**
+ * Mark the legal notice footer link as active and disable navigation.
+ */
 function changeLegalNoticeLink() {
     legalLinks[1].classList.add('selected-legal-link');
     legalLinks[1].onclick = function (event) {
@@ -133,7 +168,9 @@ function changeLegalNoticeLink() {
     };
 }
 
-
+/**
+ * Mark the privacy policy footer link as active and disable navigation.
+ */
 function changePrivacyPolicyLink() {
     legalLinks[0].classList.add('selected-legal-link');
     legalLinks[0].onclick = function (event) {
