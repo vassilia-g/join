@@ -13,6 +13,7 @@ class User {
         this.phone = phone;
     }
 
+
     /** 
      * Persist this user to backend and return the posted object (or this) 
      */
@@ -28,6 +29,7 @@ class User {
         this.id = response.name; /** Firebase returns the new key in 'name' */
         return this;
     }
+
 
     /** 
      * Load one user by id from backend 
@@ -47,6 +49,7 @@ class User {
         );
     }
 
+
     /** 
      * Find a user by email among all users (case-insensitive) 
      */
@@ -55,6 +58,7 @@ class User {
         const allUsers = await UserCollection.loadAll();
         return allUsers.find(u => u.email.toLowerCase() === email.toLowerCase()) || null;
     }
+
 
     /** 
      * Update the currently logged-in user's record with provided contact data 
@@ -83,6 +87,7 @@ class User {
         });
     }
 }
+
 
 /** 
  * Checks if user already exists if not, create user 

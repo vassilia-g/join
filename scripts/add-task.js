@@ -33,11 +33,13 @@ const priorityButtons = [
   document.getElementById('low-priority-btn')
 ];
 
+
 /** 
  * Attach input listeners for create task button enabling.
  */
 document.getElementById("task-title").addEventListener("input", enableCreateTaskButton);
 document.getElementById("task-due-date").addEventListener("input", enableCreateTaskButton);
+
 
 /** 
  * Initialize flatpickr date picker with configuration and arrow handling.
@@ -55,12 +57,14 @@ const picker = flatpickr("#task-due-date", {
   onYearChange: checkArrows
 });
 
+
 /** 
  * Initialize add-task module by loading contacts (without rendering).
  */
 function initAddTask() {
   loadContactsWithoutRendering();
 };
+
 
 /** 
  * Load contacts from backend but do not render; return normalized list.
@@ -82,6 +86,7 @@ async function loadContactsWithoutRendering() {
   }
 };
 
+
 /** 
  * Inject sidebar and header markup and username initials into UI.
  */
@@ -92,6 +97,7 @@ function showSidebarAndHeader() {
   sidebar.innerHTML = showSidebar();
   header.innerHTML = showHeader(userInitials);
 };
+
 
 /** 
  * Manage flatpickr year navigation arrow visibility.
@@ -111,6 +117,7 @@ function checkArrows(selectedDates, dateStr, instance) {
     }
   }
 };
+
 
 /** 
  * Format manual date input while typing and validate.
@@ -132,6 +139,7 @@ dateInput.addEventListener("input", function (e) {
   validateDate(formatted);
 });
 
+
 /** 
  * Hide field warnings when user types into the field.
  */
@@ -140,6 +148,7 @@ fieldWarnings.forEach(function (warning) {
     warning.classList.add("d-none");
   });
 });
+
 
 /** 
  * Validate a dd/mm/yyyy date string and show error if in the past.
@@ -161,6 +170,7 @@ function validateDate(dateStr) {
   }
 }
 
+
 /** 
  * Reset date input validation UI.
  */
@@ -169,6 +179,7 @@ function resetDateValidation() {
   dateWarning.classList.add("d-none");
 }
 
+
 /** 
  * Open the flatpickr calendar.
  */
@@ -176,12 +187,14 @@ function showCalender() {
   picker.open();
 };
 
+
 /** 
  * Attach toggle handlers to priority buttons.
  */
 priorityButtons.forEach(btn => {
   btn.addEventListener('click', () => togglePriorityBtn(btn));
 });
+
 
 /** 
  * Toggle priority button visual state (ensuring single selection).
@@ -201,6 +214,7 @@ function togglePriorityBtn(clickedButton) {
   clickedButton.isActive = isDefault;
 }
 
+
 /** 
  * Clear all task inputs and reset UI to defaults.
  */
@@ -215,6 +229,7 @@ function clearTask() {
   setDefaultToContactDropdown();
 }
 
+
 /** 
  * Reset priority button visuals to default.
  */
@@ -226,6 +241,7 @@ function changeButtonsToDefault() {
   urgentButton.classList.remove('priority-urgent-active');
   urgentButton.classList.add('priority-urgent-default');
 }
+
 
 /** 
  * Clear textual input fields and disable create button.
@@ -240,12 +256,14 @@ function clearAllInputFields() {
   createTaskButton.disabled = true;
 }
 
+
 /** 
  * Remove selected contacts from local state.
  */
 function clearContacts() {
   checkedContacts = [];
 }
+
 
 /** 
  * Reset contact checkboxes UI to unchecked state.
@@ -269,6 +287,7 @@ function setDefaultToContactCheckboxes() {
   });
 }
 
+
 /** 
  * Reset the contacts dropdown UI.
  */
@@ -277,6 +296,7 @@ function setDefaultToContactDropdown() {
   dropdownIcon.classList.remove('open');
   setTimeout(() => { contactsToSelect.innerHTML = ''; }, 300);
 }
+
 
 /** 
  * Reset category dropdown UI to default.
@@ -288,6 +308,7 @@ function setDefaultToCategoryDropdown() {
   setTimeout(() => { categories.innerHTML = ''; }, 300);
 }
 
+
 /** 
  * Clear subtask input area and hide controls.
  */
@@ -296,6 +317,7 @@ function clearSubtaskInput() {
   subtaskInput.value = '';
   subtaskPick.classList.add('d-none');
 }
+
 
 /** 
  * Enable or disable the create-task button based on required fields.
@@ -308,6 +330,7 @@ function enableCreateTaskButton() {
   const dueDate = document.getElementById("task-due-date")?.value.trim() || "";
   createTaskButton.disabled = !(title && dueDate && category !== "Select task category");
 }
+
 
 /** 
  * Show a field warning for an input or category selection and attach listeners to hide it.
@@ -333,6 +356,7 @@ function showFieldWarning(inputElement) {
   }
 }
 
+
 /** 
  * Add input listener to hide/show warning based on content.
  */
@@ -351,6 +375,7 @@ function eventListenerForInput(inputElement, warning) {
   }
 }
 
+
 /** 
  * Animate the small "task added" div into view briefly.
  */
@@ -362,6 +387,7 @@ function showTaskDiv() {
     hideTaskDiv();
   }, 1000)
 }
+
 
 /** 
  * Hide the small "task added" div and proceed to create task.

@@ -15,11 +15,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
+
 /** 
  * Cached promise of loading all users from backend.
  * (Used later for login checks.)
  */
 const users = getAllUsers();
+
 
 /** 
  * On DOMContentLoaded: attach focus/blur handlers to inputs to toggle active border styles.
@@ -39,6 +41,7 @@ document.addEventListener("DOMContentLoaded",
         });
     });
 
+
 /** 
  * Move logo element to top-left with animations and reveal login/registry containers.
  */
@@ -57,6 +60,7 @@ function moveLogoToTopLeft() {
         }, 700);
     };
 }
+
 
 /** 
  * Show the sign-up form container and hide login/registry UI, reset visible errors.
@@ -79,6 +83,7 @@ function showSignUpContainer() {
     }
 }
 
+
 /** 
  * Enable the sign-up button and toggle checkbox visuals when user accepts terms.
  */
@@ -100,6 +105,7 @@ function enableSignUpButton() {
     }
 }
 
+
 /** 
  * Disable the sign-up button and toggle checkbox visuals when user unchecks acceptance.
  */
@@ -117,6 +123,7 @@ function disableSignUpButton() {
     }
 }
 
+
 /** 
  * Validate sign-up password and confirmation; show error message when they don't match.
  */
@@ -131,6 +138,7 @@ function checkSignUpPasswords(event) {
         errorText.classList.add("d-none");
     }
 }
+
 
 /** 
  * Show a brief overlay animation after successful sign-up and return to login view.
@@ -150,6 +158,7 @@ function visibleSignUp() {
     }, 2000);
 }
 
+
 /** 
  * Reveal the generic overlay element.
  */
@@ -158,6 +167,7 @@ function showOverlay() {
     overlay.classList.remove("d-none");
 }
 
+
 /** 
  * Hide the generic overlay element.
  */
@@ -165,6 +175,7 @@ function hideOverlay() {
     const overlay = document.getElementById("overlay");
     overlay.classList.add("d-none");
 }
+
 
 /** 
  * Update password input symbols visibility based on input length.
@@ -183,6 +194,7 @@ function changeSymbols() {
     }
 }
 
+
 /** 
  * Reset password visibility icons to default state.
  */
@@ -193,6 +205,7 @@ function standardPasswordSymbol() {
     visibilityOnSymbol.classList.add('d-none');
     lockSymbol.classList.remove('d-none');
 }
+
 
 /** 
  * Show "visibility off" icon when input is currently masked.
@@ -205,6 +218,7 @@ function hidePassword() {
     }
 }
 
+
 /** 
  * Show the plain-text password and update icons.
  */
@@ -214,6 +228,7 @@ function showPassword() {
         visibilityOnSymbol.classList.remove('d-none');
     }
 }
+
 
 /** 
  * Handle user login: validate credentials and redirect to summary on success.
@@ -237,6 +252,7 @@ async function goToStartpage(event) {
     }
 }
 
+
 /** 
  * Make password visible: show "visibility on" icon and set input type to text.
  */
@@ -247,6 +263,7 @@ function makePasswordVisible() {
     visibilityOnSymbol.classList.remove('d-none');
     document.getElementById('input-password').type = 'text';
 }
+
 
 /** 
  * Hide password (alternate definition): set masks and icons, set input type to password.
@@ -259,6 +276,7 @@ function hidePassword() {
     visibilityOffSymbol.classList.remove('d-none');
     document.getElementById('input-password').type = 'password';
 }
+
 
 /** 
  * Return UI to login view, clear form and reset sign-up controls.
@@ -276,6 +294,7 @@ function backtoLogIn() {
     clearSignUpForm();
 }
 
+
 /** 
  * Reset the sign-up form fields.
  */
@@ -283,6 +302,7 @@ function clearSignUpForm() {
     const signUpForm = document.getElementById("form-sign-up");
     signUpForm.reset();
 }
+
 
 /** 
  * Log in as guest: set guest id in localStorage and redirect to summary.

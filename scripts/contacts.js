@@ -4,6 +4,7 @@
 let contacts = [];
 let activeContactId = null;
 
+
 /** 
  * Initialize contacts module: load contacts and show current user's contact.
  */
@@ -11,6 +12,7 @@ function initContacts() {
     loadContacts();
     showOwnContact();
 }
+
 
 /** 
  * Render current logged-in user's contact in the UI.
@@ -32,6 +34,7 @@ async function showOwnContact() {
     };
 }
 
+
 /** 
  * Inject sidebar and header markup and username initials into UI.
  */
@@ -42,6 +45,7 @@ function showSidebarAndHeader() {
     sidebar.innerHTML = showSidebar();
     header.innerHTML = showHeader(userInitials);
 }
+
 
 /** 
  * Render contact list grouped by initial letter.
@@ -66,6 +70,7 @@ function renderContactList() {
     });
 }
 
+
 /** 
  * Render contact list grouped by initial letter.
  */
@@ -77,6 +82,7 @@ function getSortedContacts() {
     });
 }
 
+
 /** 
  * Create a DOM header element for a given alphabet letter.
  */
@@ -86,6 +92,7 @@ function createLetterHeader(letter) {
     letterDiv.textContent = letter;
     return letterDiv;
 }
+
 
 /** 
  * Build a contact item DOM node and attach click handler.
@@ -102,6 +109,7 @@ function createContactItem(contact, index, sortedContacts) {
 
     return div;
 }
+
 
 /** 
  * Toggle active state for a contact and show/hide details panel.
@@ -135,6 +143,7 @@ function setActiveContact(element, contact) {
     }
 }
 
+
 /** 
  * Handle resize events to adapt sidebar/main layout responsively.
  */
@@ -165,6 +174,7 @@ function handleResize() {
     }
 }
 
+
 // attach resize handler after DOM is ready to avoid null elements
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
@@ -176,6 +186,7 @@ if (document.readyState === 'loading') {
     window.addEventListener('resize', handleResize);
     handleResize();
 }
+
 
 /** 
  * Hide the contact details panel and reset active selection.
@@ -207,6 +218,7 @@ function hideContactContent() {
     }, 100);
 }
 
+
 /** 
  * Compute initials from a full name for avatar display.
  */
@@ -225,6 +237,7 @@ function getInitials(name) {
     return initials;
 }
 
+
 /** 
  * Return a random color string from the palette.
  */
@@ -232,6 +245,7 @@ function getRandomColor() {
     const colors = ["#FF7A00", "#FF5EB3", "#6E52FF", "#9327FF", "#00BEE8", "#1FD7C1", "#FF745E", "#FFA35E", "#FC71FF", "#FFC701", "#0038FF", "#C3FF2B", "#FFE62B", "#FF4646", "#FFBB2B",];
     return colors[Math.floor(Math.random() * colors.length)];
 }
+
 
 /** 
  * Open the add-contact overlay and initialize animation.
@@ -252,6 +266,7 @@ function addContactOverlay() {
     }
 }
 
+
 /** 
  * Close the add-contact overlay with transition handling.
  */
@@ -265,6 +280,7 @@ function removeActiveFromOverlayContact(overlay, popup) {
     });
 }
 
+
 /** 
  * Clear input fields in the add-contact form.
  */
@@ -274,6 +290,7 @@ function clearInputs() {
         contactInputs[i].value = "";
     }
 }
+
 
 /** 
  * Toggle edit-contact overlay and insert edit form for a user.
@@ -301,6 +318,7 @@ function editContactOverlay(user) {
     }
 }
 
+
 /** 
  * Fill the edit contact form fields and avatar preview.
  */
@@ -320,6 +338,7 @@ function fillEditContactForm(contact) {
 
 }
 
+
 /** 
  * Open edit overlay for a contact id (or current user).
  */
@@ -337,6 +356,7 @@ function onEditContact(contactId) {
     editContactOverlay(contactId);
 }
 
+
 /** 
  * Extract contact data from an add-contact or edit-contact form.
  */
@@ -347,6 +367,7 @@ function getContactFromForm(form) {
         phone: form.phone.value.trim()
     };
 }
+
 
 /** 
  * After creating a contact, refresh list, reset form and select the new contact.
@@ -363,6 +384,7 @@ function updateUIAfterAdd(form, newId, contact) {
         }
     });
 }
+
 
 /** 
  * Show a short toast message to the user.
@@ -382,6 +404,7 @@ function showToast(message) {
         setTimeout(() => toast.remove(), 500);
     }, 2000);
 }
+
 
 /** 
  * Toggle a mobile context menu for a contact item and close on outside click.

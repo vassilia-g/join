@@ -10,6 +10,7 @@ class Contact {
     }
 }
 
+
 /** 
  * Load all contacts from backend, normalize data and render list.
  */
@@ -37,6 +38,7 @@ async function loadContacts() {
     }
 }
 
+
 /** 
  * Read add-contact form, validate and create a new contact then update UI.
  */
@@ -55,6 +57,7 @@ async function addContact(event) {
         console.error("Error adding contact:", err);
     }
 }
+
 
 /** 
  * Delete contact by id from backend and refresh contact view/UI.
@@ -83,6 +86,7 @@ async function deleteContactById(id) {
     }
 }
 
+
 /** 
  * POST a new contact to backend, ensuring it has a color.
  */
@@ -99,6 +103,7 @@ async function createContact(contact) {
 
     return res.json();
 }
+
 
 /** 
  * Save edited contact data (own user or normal contact) and refresh UI.
@@ -129,6 +134,7 @@ async function saveEditedContact(event) {
     editContactOverlay();
     showToast("Contact updated");
 }
+
 
 /** 
  * PUT updated contact object to backend by id.

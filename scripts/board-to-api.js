@@ -18,6 +18,7 @@ async function checkEditedApiSubtask(taskId, subtaskIndex) {
   }
 }
 
+
 /** 
  * Delete a subtask from a task in the backend and refresh subtasks UI.
  * @param {string} taskId - ID of the task
@@ -40,6 +41,7 @@ async function deleteSubtaskFromApi(taskId, subtaskIndex) {
   }
 }
 
+
 /** 
  * Read subtasks from the DOM (text + checked state) and push both lists to the backend.
  * @param {string} taskId - ID of the task to update
@@ -60,6 +62,7 @@ async function pushSubtasksWithStatus(taskId) {
   }
 }
 
+
 /** 
  * Update a task progress bar width according to subtasks done / total.
  * @param {Object} task - task object containing id, subtasks and checkedSubtasks
@@ -71,6 +74,7 @@ function updateProgressBar(task) {
   const getProgress = total > 0 ? (100 * done) / total : 0;
   progressBar.style.width = `${getProgress}%`;
 }
+
 
 /** 
  * Apply all pending changes after editing a task (contacts, subtasks, priority) and close overlay.
@@ -97,6 +101,7 @@ async function updateTaskAfterEdit(taskId) {
   subtasks = [];
 }
 
+
 /** 
  * Push selected contacts arrays to the backend for a task.
  * Converts arrays to object-indexed payload expected by the backend.
@@ -118,6 +123,7 @@ async function pushCheckedContacts(taskId) {
   }
 }
 
+
 /** 
  * Build an updated task object with priority and other editable fields and send patch to backend.
  * @param {string} priorityLevel - 'urgent'|'medium'|'low'
@@ -135,6 +141,7 @@ async function updateTaskWithPriority(priorityLevel, priorityValue, taskId) {
   };
   await pushUpdatedTaskToApi(updatedTask, taskId);
 }
+
 
 /** 
  * Send a PATCH request to update task fields on the backend and reload tasks list.
@@ -157,6 +164,7 @@ async function pushUpdatedTaskToApi(updatedTask, taskId) {
   loadTasks();
 }
 
+
 /** 
  * Extract initials or text content from an SVG string (used to parse contact initials).
  * @param {string} svgString - svg markup containing a <text> element
@@ -167,6 +175,7 @@ function extractInitialsFromSvg(svgString) {
   const match = svgString.match(/<text[^>]*>([\s\S]*?)<\/text>/i);
   return match ? match[1].trim() : "";
 }
+
 
 /** 
  * Cancel current editing state and re-open the task overlay for the given task.
@@ -180,6 +189,7 @@ async function resetTaskChangings(taskId) {
   subtasks = [];
 }
 
+
 /** 
  * Debounced filter helper to avoid excessive API calls while typing.
  * Uses debounce(fn, wait) defined in board.js.
@@ -187,6 +197,7 @@ async function resetTaskChangings(taskId) {
 const debouncedFilter = debounce((value) => {
   filterTasksByText(value);
 }, 200);
+
 
 /** 
  * Attach debounced input listener to the global inputElement for search/filtering.

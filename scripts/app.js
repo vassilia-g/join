@@ -13,6 +13,7 @@ function getSignUpValues(form) {
     };
 }
 
+
 /** 
  * Validate sign-up values and check if email already exists 
  */
@@ -27,6 +28,7 @@ async function validateSignUpValues(values) {
 
     return true;
 }
+
 
 /** 
  * Create and save a new user, update UI 
@@ -50,6 +52,7 @@ async function signUpUser(form) {
     visibleSignUp();
     return true;
 }
+
 
 /** 
  * Return all users (async helper)

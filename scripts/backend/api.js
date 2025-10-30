@@ -17,12 +17,14 @@ async function safeFetch(path = "", options = {}) {
     }
 }
 
+
 /** 
  * GET (Read) 
  */
 async function getData(path = "") {
     return await safeFetch(path, { method: 'GET' });
 }
+
 
 /** 
  * POST (Create) 
@@ -35,6 +37,7 @@ async function postData(path = "", data = {}) {
     });
 }
 
+
 /** 
  * PUT (Replace) 
  */
@@ -46,6 +49,7 @@ async function putData(path = "", data = {}) {
     });
 }
 
+
 /** 
  * PATCH (Partial update) 
  */
@@ -56,6 +60,7 @@ async function patchData(path = "", data = {}) {
         body: JSON.stringify(data)
     });
 }
+
 
 /** 
  * DELETE (Delete) 

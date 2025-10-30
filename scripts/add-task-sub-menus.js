@@ -4,6 +4,7 @@
  */
 let SelectedContactsComplete = '';
 
+
 /**
  * DOM references for dropdown icons, category and contact elements, subtasks and lists.
  * These are queried once and reused by the sub-menu functions.
@@ -19,6 +20,7 @@ const subtaskPick = document.getElementById('delete-or-keep-subtask');
 const selectedSubtasks = document.getElementById('selected-subtasks');
 const addSubtaskSvgs = document.getElementById('add-subtask-svg');
 
+
 /**
  * Local state for subtasks and contacts used by the add-task UI.
  * subtasks: working list of new subtasks (array of strings)
@@ -32,10 +34,12 @@ let lastGeneratedId = null;
 const tempContactIds = {};
 let contactActionInProgress = {};
 
+
 /**
  * Attach click handler to the "add subtask" SVG button if present.
  */
 addSubtaskSvgs?.addEventListener('click', addSubtask);
+
 
 /**
  * Clear the current subtask input and hide the subtask action controls.
@@ -45,10 +49,12 @@ function deleteSubtask() {
     subtaskPick.classList.add('d-none');
 }
 
+
 /**
  * Show the subtask controls when the subtask input is focused/clicked.
  */
 subtaskInput.addEventListener("click", showSubtaskPick);
+
 
 /**
  * Reveal subtask action controls.
@@ -56,6 +62,7 @@ subtaskInput.addEventListener("click", showSubtaskPick);
 function showSubtaskPick() {
     subtaskPick.classList.remove('d-none');
 }
+
 
 /**
  * Add the current subtask input value to local subtasks array and render list.
@@ -73,6 +80,7 @@ async function addSubtask() {
     subtaskInput.value = "";
     subtaskPick.classList.add('d-none');
 }
+
 
 /**
  * Render subtasks using task data (for editing).
@@ -94,6 +102,7 @@ function renderSubtasksFromTask(task, taskId) {
     });
 }
 
+
 /**
  * Render a list of new subtasks (used when creating a task).
  * @param {Array<string>} list - array of subtask text values
@@ -101,6 +110,7 @@ function renderSubtasksFromTask(task, taskId) {
 function renderSubtasks(list) {
     list.forEach((subtask, i) => selectedSubtasks.innerHTML += showSubtask(i, subtask));
 }
+
 
 /**
  * Remove a subtask from the local subtasks list and re-render the list.
@@ -113,6 +123,7 @@ function deleteSubtaskFromList(index) {
         selectedSubtasks.innerHTML += showSubtask(index);
     }
 }
+
 
 /**
  * Replace the given subtask entry with an edit input UI.
@@ -131,6 +142,7 @@ function editSubtask(index) {
     subtaskListElement[index].innerHTML = showSubtaskToEdit(index);
 }
 
+
 /**
  * Remove the currently edited subtask element from the DOM and local subtasks.
  * @param {number} index - index of the edited subtask to remove
@@ -140,6 +152,7 @@ function deleteEditedSubtask(index) {
     subtaskListElement[index].remove();
     subtasks.splice(index, 1);
 }
+
 
 /**
  * Keep the edited subtask value and re-render the subtasks list.
@@ -154,6 +167,7 @@ function keepEditedSubtask(index) {
     }
 }
 
+
 /**
  * Check whether a contact with given initials is already selected in the UI.
  * @param {string} initials - initials text to check
@@ -163,6 +177,7 @@ function isContactSelected(initials) {
     const selectedSvgs = selectedContacts.querySelectorAll("svg text");
     return Array.from(selectedSvgs).some(textE1 => textE1.textContent.trim() === initials);
 }
+
 
 /**
  * Fetch tasks and contacts from the API and return arrays for both.
@@ -177,6 +192,7 @@ async function getContactsAndTask() {
         : [];
     return { tasksArray, contactsArray };
 }
+
 
 /**
  * Open the contacts dropdown, load contacts, render items and toggle visibility.
@@ -199,6 +215,7 @@ async function openDropdownContacts() {
     toggleClasslistForDropdown(contactsToSelect, dropdownIcon, selectedContacts);
 }
 
+
 /**
  * Render a single contact row for the dropdown. Uses checkedContacts to set checkbox state.
  * @param {Object} contact - contact object with id, name, color, initials
@@ -210,6 +227,7 @@ function renderContact(contact) {
     const checkboxSvg = isChecked ? showCheckedCheckbox(contact) : showEmptyCheckbox(contact);
     return selectedContactsFromTaskTemplate(contact, getInitials(contact.name), checkboxSvg);
 }
+
 
 /**
  * Map contact objects to include initials for display.
@@ -225,6 +243,7 @@ function getContactsInitials(contacts) {
     });
 }
 
+
 /**
  * Toggle the CSS classes to show the contacts dropdown and hide the compact selected-contacts view.
  * @param {Element} contactsToSelect - dropdown container
@@ -236,6 +255,7 @@ function toggleClasslistForDropdown(contactsToSelect, dropdownIcon, selectedCont
     dropdownIcon.classList.add("open");
     selectedContacts.classList.add('d-none');
 }
+
 
 /**
  * Global click handler to close dropdowns when clicking outside and ignore clicks on SVGs.
@@ -256,6 +276,7 @@ document.onclick = function (event) {
     }
 }
 
+
 /**
  * Hide the contacts dropdown and restore the compact selected-contacts view after a short delay.
  * @param {Element} contactsToSelect
@@ -270,6 +291,7 @@ function hideDropdownContacts(contactsToSelect, dropdownIcon, selectedContacts) 
     }, 200);
 }
 
+
 /**
  * Hide the categories dropdown and clear its content after the closing transition.
  */
@@ -279,6 +301,7 @@ function hideDropdownCategories() {
         categories.innerHTML = '';
     }, 300);
 }
+
 
 /**
  * Compute initials from a name string (first and last word characters).
@@ -291,6 +314,7 @@ function getInitials(name) {
     const last = parts.length > 1 ? parts[parts.length - 1].charAt(0) : "";
     return (first + last).toUpperCase();
 }
+
 
 /**
  * Toggle a contact checkbox by id, update checkedContacts state and selected contacts view.
@@ -306,6 +330,7 @@ function checkContact(contactId) {
     toggleCheckbox(checkbox, initialsSvg, contact);
     showSelectedContacts();
 }
+
 
 /**
  * Internal helper to toggle a checkbox SVG and update the checkedContacts array.
@@ -325,6 +350,7 @@ function toggleCheckbox(checkbox, initialsSvg, contact) {
         : [...checkedContacts.filter(c => c.id !== contact.id), contact];
 }
 
+
 /**
  * Render the compact selected contacts area from checkedContacts state.
  * Shows nothing if no contacts are selected.
@@ -343,6 +369,7 @@ async function showSelectedContacts() {
     selectedContacts.innerHTML = contactsHTML;
 }
 
+
 /** Toggle categories dropdown visibility, injecting content when opened.*/
 function openCategories() {
     if (categories.innerHTML == '') {
@@ -356,6 +383,7 @@ function openCategories() {
     dropdownIconCategories.classList.toggle("open");
 }
 
+
 /** Select "Technical Task" as category and update UI state.*/
 function showTechnicalTaskInInput() {
     categoryInput.innerHTML = 'Technical Task';
@@ -366,6 +394,7 @@ function showTechnicalTaskInInput() {
     enableCreateTaskButton();
 }
 
+
 /** Select "User Story" as category and update UI state.*/
 function showUserStoryInInput() {
     categoryInput.innerHTML = 'User Story';
@@ -375,6 +404,7 @@ function showUserStoryInInput() {
     selectedCategory = "User Story";
     enableCreateTaskButton();
 }
+
 
 /**
  * Observe category text node for changes to hide/show the validation warning.

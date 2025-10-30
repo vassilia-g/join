@@ -4,11 +4,13 @@
  */
 let navLinks = document.getElementsByClassName('nav');
 
+
 /**
  * Collection of legal footer links used to highlight the active page.
  * @type {HTMLCollectionOf<Element>}
  */
 let legalLinks = document.getElementsByClassName('legal-link');
+
 
 /**
  * Log out the current user by clearing localStorage keys and redirecting to the index page.
@@ -19,6 +21,7 @@ function logOut() {
     localStorage.removeItem("userInitials");
     window.location.replace("../index.html");
 }
+
 
 /**
  * Toggle a small dropdown menu and install a one-time outside-click handler to close it.
@@ -40,6 +43,7 @@ function dropdownMenu(event) {
     });
 }
 
+
 /**
  * Initialize UI pieces needed after page load.
  * Calls routines to render header/sidebar and highlight the current sidebar link.
@@ -48,6 +52,7 @@ function init() {
     showSidebarAndHeader();
     changeSidebarLinksStyle();
 }
+
 
 /**
  * Render the sidebar and header markup.
@@ -66,6 +71,7 @@ function showSidebarAndHeader() {
         header.innerHTML = showHeader(userInitials);
     }
 }
+
 
 /**
  * Determine the current page from the URL and apply the appropriate active styling
@@ -90,6 +96,7 @@ function changeSidebarLinksStyle() {
     }
 }
 
+
 /**
  * Highlight the "Add Task" sidebar link and prevent navigation to the same page.
  */
@@ -104,6 +111,7 @@ function changeAddTaskLink() {
         path.setAttribute("fill", "#FFFFFF");
     });
 }
+
 
 /**
  * Highlight the "Board" sidebar link and prevent navigation to the same page.
@@ -120,6 +128,7 @@ function changeBoardLink() {
     });
 }
 
+
 /**
  * Highlight the "Contacts" sidebar link and prevent navigation to the same page.
  */
@@ -134,6 +143,7 @@ function changeContactsLink() {
         path.setAttribute("fill", "#FFFFFF");
     });
 }
+
 
 /**
  * Highlight the "Summary" sidebar link and prevent navigation to the same page.
@@ -150,6 +160,7 @@ function changeSummaryLink() {
     });
 }
 
+
 /**
  * Hide the help icon in the sidebar (used when on the help page).
  */
@@ -157,6 +168,7 @@ function changeHelpLink() {
     let helpIcon = document.getElementsByClassName('help');
     helpIcon[0].classList.add('d-none');
 }
+
 
 /**
  * Mark the legal notice footer link as active and disable navigation.
@@ -167,6 +179,7 @@ function changeLegalNoticeLink() {
         event.preventDefault();
     };
 }
+
 
 /**
  * Mark the privacy policy footer link as active and disable navigation.

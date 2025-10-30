@@ -35,6 +35,7 @@ const currentPage = window.location.pathname.split('/').pop();
 let isEditingTask = false;
 let currentEditTaskId = null;
 
+
 /** 
  * Return to add-task page on small screens or show overlay on large screens 
  */
@@ -50,6 +51,7 @@ function openAddTaskInstedOverlay() {
     content.style.display = "flex";
   }
 }
+
 
 /** 
  * Open add-task overlay, load content and initialize controls 
@@ -70,6 +72,7 @@ async function openAddTaskOverlay() {
   refreshBoard()
 }
 
+
 /** 
  * Load add-task HTML fragment and required scripts once 
  */
@@ -87,6 +90,7 @@ async function getAddTaskContent(overlayContentRef) {
   }
 }
 
+
 /** 
  * Show overlay element (make visible) 
  */
@@ -95,6 +99,7 @@ function showOverlay(overlayRef) {
   overlayRef.classList.remove('hide');
   overlayRef.classList.remove('d-none');
 }
+
 
 /** 
  * Set medium priority as default in UI buttons 
@@ -114,6 +119,7 @@ function getMediumForDefault() {
   urgentButton.isActive = false;
 }
 
+
 /** 
  * Prepare contact dropdown data for add-task overlay 
  */
@@ -121,6 +127,7 @@ async function getContactDropdown() {
   let { tasksArray, contactsArray } = await getContactsAndTask();
   contactsArray = getContactsInitials(contactsArray);
 }
+
 
 /** 
  * Attach subtask add handler to SVG control 
@@ -130,6 +137,7 @@ function getSubtaskRef() {
   addSubtaskSvgs.onclick = null;
   addSubtaskSvgs.onclick = addSubtask;
 }
+
 
 /** 
  * Wire create-task button to createTask and close overlay 
@@ -141,6 +149,7 @@ function refreshBoard() {
     await createTask();
   };
 }
+
 
 /** 
  * Hide overlay with exit animation 
@@ -156,6 +165,7 @@ function closeOverlay() {
   }, 600);
 }
 
+
 /** 
  * Allow dropping by preventing default 
  */
@@ -163,12 +173,14 @@ function allowDrop(event) {
   event.preventDefault();
 }
 
+
 /** 
  * Set drag data when drag starts 
  */
 function drag(event) {
   event.dataTransfer.setData("text", event.target.id);
 }
+
 
 /** 
  * Handle drop: move element into drop zone and update status 
@@ -199,6 +211,7 @@ function createPlaceholder(zone) {
   return p;
 }
 
+
 /** 
  * Add hover/drag UI feedback and placeholder management for drop zones 
  */
@@ -221,6 +234,7 @@ function getHoverEffect() {
     });
   });
 }
+
 
 /** 
  * Map drop zone id to task status and push update 
@@ -246,6 +260,7 @@ async function switchStatus(dropZone, taskId) {
   await pushStatusToApi(newStatus, taskId)
 }
 
+
 /** 
  * Send status patch to backend and reload tasks 
  */
@@ -257,6 +272,7 @@ async function pushStatusToApi(newStatus, taskId) {
   }
   await loadTasks();
 }
+
 
 /** 
  * Load tasks from backend and render them 
@@ -273,6 +289,7 @@ async function loadTasks(taskId = null) {
   createElementForTaskArray(tasksArray);
 }
 
+
 /** 
  * Clear and return column container references 
  */
@@ -281,6 +298,7 @@ function getStatusPosition() {
   clearBoardContainers(newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv);
   return { newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv };
 }
+
 
 /** 
  * Create DOM elements for each task and place them in columns 
@@ -298,6 +316,7 @@ function createElementForTaskArray(tasksArray) {
   updateCategoryColor();
   checkIfEmpty(tasksArray);
 }
+
 
 /** 
  * Collect inputs, contacts and priority then push new task to API 
@@ -319,6 +338,7 @@ async function createTask() {
   await pushNewTaskToApi(newTask);
 }
 
+
 /** 
  * Read task input fields from overlay 
  */
@@ -331,6 +351,7 @@ async function getTaskInputs() {
   return { title, description, dueDate, category, status };
 }
 
+
 /** 
  * Build contact arrays from checkedContacts and reset selection 
  */
@@ -342,6 +363,7 @@ async function getContactsFromArray() {
   checkedContacts = [];
   return { initialsArray, namesArray, colorArray, idArray };
 }
+
 
 /** 
  * Determine priority level and SVG for task 
@@ -361,6 +383,7 @@ async function getPriorityFromTask() {
   return { priorityLevel, priorityValue };
 }
 
+
 /** 
  * POST new task to backend and redirect to board 
  */
@@ -374,6 +397,7 @@ async function pushNewTaskToApi(newTask) {
   }
 }
 
+
 /** 
  * Clear columns and fetch filtered tasks by text 
  */
@@ -382,6 +406,7 @@ function filterTasksByText(text) {
   clearBoardContainers(newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv);
   getTaskfromApiForArrayByText(text, newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv);
 }
+
 
 /** 
  * Return references to the four task column containers 
@@ -395,6 +420,7 @@ function getBoardContainers() {
   };
 }
 
+
 /** 
  * Empty given container elements safely 
  */
@@ -403,6 +429,7 @@ function clearBoardContainers(...containers) {
     if (c) c.innerHTML = '';
   });
 }
+
 
 /** 
  * Fetch tasks, filter by text and render filtered array 
@@ -428,6 +455,7 @@ async function getTaskfromApiForArrayByText(text, newTaskDiv, newTaskProgressDiv
   }
 }
 
+
 /** 
  * Decide which column a task belongs to and append DOM element 
  */
@@ -448,6 +476,7 @@ function getTargetColumn(newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, new
   }
   targetColumn.appendChild(taskElement);
 }
+
 
 /** 
  * Return a debounced wrapper of a function to limit call rate 
