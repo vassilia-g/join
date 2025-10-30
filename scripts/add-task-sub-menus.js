@@ -1,4 +1,13 @@
+/**
+ * HTML snippet holding rendered selected contacts (used when building contact display).
+ * @type {string}
+ */
 let SelectedContactsComplete = '';
+
+/**
+ * DOM references for dropdown icons, category and contact elements, subtasks and lists.
+ * These are queried once and reused by the sub-menu functions.
+ */
 const dropdownIcon = document.getElementById('dropdown-icon');
 const categories = document.getElementById('categories');
 const dropdownIconCategories = document.getElementById('dropdown-icon-categories');
@@ -9,6 +18,13 @@ const subtaskInput = document.getElementById('task-subtasks');
 const subtaskPick = document.getElementById('delete-or-keep-subtask');
 const selectedSubtasks = document.getElementById('selected-subtasks');
 const addSubtaskSvgs = document.getElementById('add-subtask-svg');
+
+/**
+ * Local state for subtasks and contacts used by the add-task UI.
+ * subtasks: working list of new subtasks (array of strings)
+ * tempContactIds: temporary mapping used when creating contacts
+ * contactActionInProgress: flags to prevent concurrent contact actions
+ */
 let subtasks = [];
 const CONTACTS_URL = "https://join-eeec9-default-rtdb.europe-west1.firebasedatabase.app/contacts";
 let subtaskListElement;
@@ -16,24 +32,35 @@ let lastGeneratedId = null;
 const tempContactIds = {};
 let contactActionInProgress = {};
 
-
+/**
+ * Attach click handler to the "add subtask" SVG button if present.
+ */
 addSubtaskSvgs?.addEventListener('click', addSubtask);
 
-
+/**
+ * Clear the current subtask input and hide the subtask action controls.
+ */
 function deleteSubtask() {
     subtaskInput.value = "";
     subtaskPick.classList.add('d-none');
 }
 
-
+/**
+ * Show the subtask controls when the subtask input is focused/clicked.
+ */
 subtaskInput.addEventListener("click", showSubtaskPick);
 
-
+/**
+ * Reveal subtask action controls.
+ */
 function showSubtaskPick() {
     subtaskPick.classList.remove('d-none');
 }
 
-
+/**
+ * Add the current subtask input value to local subtasks array and render list.
+ * When editing an existing task it will render subtasks from the task instead.
+ */
 async function addSubtask() {
     subtasks.push(subtaskInput.value);
     selectedSubtasks.innerHTML = "";
@@ -47,7 +74,12 @@ async function addSubtask() {
     subtaskPick.classList.add('d-none');
 }
 
-
+/**
+ * Render subtasks using task data (for editing).
+ * Preserves the checked state by comparing against checkedSubtasks in the task.
+ * @param {Object} task - task object from backend
+ * @param {string} taskId - id of the task
+ */
 function renderSubtasksFromTask(task, taskId) {
     const checked = Array.isArray(task.checkedSubtasks?.subtasks)
         ? task.checkedSubtasks.subtasks
@@ -62,12 +94,18 @@ function renderSubtasksFromTask(task, taskId) {
     });
 }
 
-
+/**
+ * Render a list of new subtasks (used when creating a task).
+ * @param {Array<string>} list - array of subtask text values
+ */
 function renderSubtasks(list) {
     list.forEach((subtask, i) => selectedSubtasks.innerHTML += showSubtask(i, subtask));
 }
 
-
+/**
+ * Remove a subtask from the local subtasks list and re-render the list.
+ * @param {number} index - index of subtask to delete
+ */
 function deleteSubtaskFromList(index) {
     subtasks.splice(index, 1);
     selectedSubtasks.innerHTML = "";
@@ -76,7 +114,10 @@ function deleteSubtaskFromList(index) {
     }
 }
 
-
+/**
+ * Replace the given subtask entry with an edit input UI.
+ * @param {number} index - index of subtask to edit
+ */
 function editSubtask(index) {
     selectedSubtasks.innerHTML = "";
     for (let i = 0; i < subtasks.length; i++) {
@@ -90,14 +131,20 @@ function editSubtask(index) {
     subtaskListElement[index].innerHTML = showSubtaskToEdit(index);
 }
 
-
+/**
+ * Remove the currently edited subtask element from the DOM and local subtasks.
+ * @param {number} index - index of the edited subtask to remove
+ */
 function deleteEditedSubtask(index) {
     subtaskListElement = document.getElementsByClassName('subtask-list-element');
     subtaskListElement[index].remove();
     subtasks.splice(index, 1);
 }
 
-
+/**
+ * Keep the edited subtask value and re-render the subtasks list.
+ * @param {number} index - index of the subtask
+ */
 function keepEditedSubtask(index) {
     let editInput = document.getElementById('edit-input');
     subtasks[index] = editInput.value;
@@ -107,13 +154,20 @@ function keepEditedSubtask(index) {
     }
 }
 
-
+/**
+ * Check whether a contact with given initials is already selected in the UI.
+ * @param {string} initials - initials text to check
+ * @returns {boolean} true if contact is already selected
+ */
 function isContactSelected(initials) {
     const selectedSvgs = selectedContacts.querySelectorAll("svg text");
     return Array.from(selectedSvgs).some(textE1 => textE1.textContent.trim() === initials);
 }
 
-
+/**
+ * Fetch tasks and contacts from the API and return arrays for both.
+ * @returns {Promise<{tasksArray: Array, contactsArray: Array}>}
+ */
 async function getContactsAndTask() {
     const dataRes = await getData("tasks/");
     const contactRes = await getData("contacts/");
@@ -124,7 +178,10 @@ async function getContactsAndTask() {
     return { tasksArray, contactsArray };
 }
 
-
+/**
+ * Open the contacts dropdown, load contacts, render items and toggle visibility.
+ * Maintains the checkedContacts selection state.
+ */
 async function openDropdownContacts() {
     const contactsToSelect = document.getElementById('contacts-to-select');
     const dropdownIcon = document.getElementById('dropdown-icon');
@@ -142,7 +199,11 @@ async function openDropdownContacts() {
     toggleClasslistForDropdown(contactsToSelect, dropdownIcon, selectedContacts);
 }
 
-
+/**
+ * Render a single contact row for the dropdown. Uses checkedContacts to set checkbox state.
+ * @param {Object} contact - contact object with id, name, color, initials
+ * @returns {string} HTML string for the contact row
+ */
 function renderContact(contact) {
     const isChecked = checkedContacts.some(c => c.id === contact.id);
     if (isChecked) checkedContacts = [...checkedContacts.filter(c => c.id !== contact.id), contact];
@@ -150,7 +211,11 @@ function renderContact(contact) {
     return selectedContactsFromTaskTemplate(contact, getInitials(contact.name), checkboxSvg);
 }
 
-
+/**
+ * Map contact objects to include initials for display.
+ * @param {Array<Object>} contacts - array of contact objects
+ * @returns {Array<Object>} contacts with initials property
+ */
 function getContactsInitials(contacts) {
     return contacts.map(contact => {
         return {
@@ -160,15 +225,21 @@ function getContactsInitials(contacts) {
     });
 }
 
-
+/**
+ * Toggle the CSS classes to show the contacts dropdown and hide the compact selected-contacts view.
+ * @param {Element} contactsToSelect - dropdown container
+ * @param {Element} dropdownIcon - dropdown icon element
+ * @param {Element} selectedContacts - compact selected contacts element
+ */
 function toggleClasslistForDropdown(contactsToSelect, dropdownIcon, selectedContacts) {
     contactsToSelect.classList.add('show');
     dropdownIcon.classList.add("open");
     selectedContacts.classList.add('d-none');
 }
 
-
-
+/**
+ * Global click handler to close dropdowns when clicking outside and ignore clicks on SVGs.
+ */
 document.onclick = function (event) {
     const isClickOnSvg = event.target.closest('svg');
     if (isClickOnSvg) {
@@ -185,7 +256,12 @@ document.onclick = function (event) {
     }
 }
 
-
+/**
+ * Hide the contacts dropdown and restore the compact selected-contacts view after a short delay.
+ * @param {Element} contactsToSelect
+ * @param {Element} dropdownIcon
+ * @param {Element} selectedContacts
+ */
 function hideDropdownContacts(contactsToSelect, dropdownIcon, selectedContacts) {
     contactsToSelect.classList.remove('show');
     dropdownIcon.classList.remove("open");
@@ -194,7 +270,9 @@ function hideDropdownContacts(contactsToSelect, dropdownIcon, selectedContacts) 
     }, 200);
 }
 
-
+/**
+ * Hide the categories dropdown and clear its content after the closing transition.
+ */
 function hideDropdownCategories() {
     categories.classList.remove('show');
     setTimeout(() => {
@@ -202,7 +280,11 @@ function hideDropdownCategories() {
     }, 300);
 }
 
-
+/**
+ * Compute initials from a name string (first and last word characters).
+ * @param {string} name - full name
+ * @returns {string} two-letter initials (uppercased)
+ */
 function getInitials(name) {
     const parts = name.split(" ");
     const first = parts[0].charAt(0);
@@ -210,7 +292,10 @@ function getInitials(name) {
     return (first + last).toUpperCase();
 }
 
-
+/**
+ * Toggle a contact checkbox by id, update checkedContacts state and selected contacts view.
+ * @param {string} contactId - id of the contact to toggle
+ */
 function checkContact(contactId) {
     const contact = globalContactsArray.find(c => c.id === contactId);
     if (!contact) return console.warn('⚠️ Kein Kontakt mit dieser ID gefunden:', contactId);
@@ -222,7 +307,12 @@ function checkContact(contactId) {
     showSelectedContacts();
 }
 
-
+/**
+ * Internal helper to toggle a checkbox SVG and update the checkedContacts array.
+ * @param {Element} checkbox - checkbox container element
+ * @param {Element} initialsSvg - initials SVG element
+ * @param {Object} contact - contact object
+ */
 function toggleCheckbox(checkbox, initialsSvg, contact) {
     const svg = checkbox.querySelector('svg');
     if (!svg) return console.warn('⚠️ Kein SVG in Checkbox gefunden:', contact.id);
@@ -235,7 +325,10 @@ function toggleCheckbox(checkbox, initialsSvg, contact) {
         : [...checkedContacts.filter(c => c.id !== contact.id), contact];
 }
 
-
+/**
+ * Render the compact selected contacts area from checkedContacts state.
+ * Shows nothing if no contacts are selected.
+ */
 async function showSelectedContacts() {
     const selectedContacts = document.getElementById('selected-contacts');
     selectedContacts.innerHTML = '';
@@ -250,7 +343,7 @@ async function showSelectedContacts() {
     selectedContacts.innerHTML = contactsHTML;
 }
 
-
+/** Toggle categories dropdown visibility, injecting content when opened.*/
 function openCategories() {
     if (categories.innerHTML == '') {
         categories.innerHTML += showCategories();
@@ -263,7 +356,7 @@ function openCategories() {
     dropdownIconCategories.classList.toggle("open");
 }
 
-
+/** Select "Technical Task" as category and update UI state.*/
 function showTechnicalTaskInInput() {
     categoryInput.innerHTML = 'Technical Task';
     dropdownIconCategories.classList.toggle("open");
@@ -273,7 +366,7 @@ function showTechnicalTaskInInput() {
     enableCreateTaskButton();
 }
 
-
+/** Select "User Story" as category and update UI state.*/
 function showUserStoryInInput() {
     categoryInput.innerHTML = 'User Story';
     dropdownIconCategories.classList.toggle("open");
@@ -283,7 +376,13 @@ function showUserStoryInInput() {
     enableCreateTaskButton();
 }
 
-
+/**
+ * Observe category text node for changes to hide/show the validation warning.
+ * Adds the observer only once per input element.
+ * @param {Element} inputElement - wrapper element for category input
+ * @param {Element} warning - warning element to toggle
+ * @param {Element} categorySpan - the actual span containing category text
+ */
 function eventListenerForSelectCategory(inputElement, warning, categorySpan) {
     if (!inputElement.dataset.listenerAdded) {
         const observer = new MutationObserver(() => {
