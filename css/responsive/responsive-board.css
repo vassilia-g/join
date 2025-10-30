@@ -18,6 +18,8 @@
         display: flex;
         flex-direction: row;
         gap: 15px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
     }
 
     .board-tasks {
@@ -29,26 +31,25 @@
     }
 
     .board-tasks {
-        -webkit-overflow-scrolling: touch;
         scrollbar-width: thin;
         scrollbar-color: rgba(0, 0, 0, 0.25) transparent;
         scrollbar-width: none;
     }
 
-    .board-tasks::-webkit-scrollbar {
+    .drop-div::-webkit-scrollbar {
         height: 8px;
     }
 
-    .board-tasks::-webkit-scrollbar-track {
+    .drop-div::-webkit-scrollbar-track {
         background: transparent;
     }
 
-    .board-tasks::-webkit-scrollbar-thumb {
+    .drop-div::-webkit-scrollbar-thumb {
         background: var(--color-primary);
         border-radius: 8px;
     }
 
-    .board-tasks::-webkit-scrollbar-thumb:hover {
+    .drop-div::-webkit-scrollbar-thumb:hover {
         background: var(--color-primary);
     }
 
@@ -180,6 +181,7 @@
     .overlay-titel h3 {
         font-size: 52px;
     }
+
     #task-overlay-content {
         width: 70%;
     }
@@ -194,6 +196,7 @@
 }
 
 @media (max-width: 720px) {
+
     .task-additional-info,
     .task-main-info {
         align-items: center;
@@ -262,7 +265,7 @@
 }
 
 @media (max-width: 515px) {
-     #task-overlay-content .task-main-info {
+    #task-overlay-content .task-main-info {
         width: 100%;
         align-items: center;
     }
@@ -386,8 +389,9 @@
         width: 20px;
         height: 19px;
     }
+
     #task-overlay-content {
-        padding: 20px;    
+        padding: 20px;
     }
 }
 
@@ -436,7 +440,8 @@
     .sidebar-nav {
         font-size: 16px;
     }
-    .overlay-titel h3{
+
+    .overlay-titel h3 {
         font-size: 18px;
     }
 }
@@ -449,6 +454,7 @@
         scrollbar-width: thin;
         scrollbar-color: rgba(0, 0, 0, 0.25) transparent;
     }
+
     .task-overlay {
         height: 100%;
         justify-content: space-between;
@@ -459,6 +465,7 @@
     #task-overlay-content {
         height: 700px;
     }
+
     #overlay-subtasks-details {
         height: 70px;
         overflow: hidden;
@@ -466,6 +473,7 @@
         scrollbar-width: thin;
         scrollbar-color: rgba(0, 0, 0, 0.25) transparent;
     }
+
     .overlay-footer {
         margin-top: 0;
     }
@@ -476,6 +484,7 @@
     #task-overlay-content {
         height: 650px;
     }
+
     #overlay-subtasks-details {
         height: 60px;
         overflow: hidden;
@@ -483,6 +492,7 @@
         scrollbar-width: thin;
         scrollbar-color: rgba(0, 0, 0, 0.25) transparent;
     }
+
     .overlay-footer {
         margin-top: -1rem;
     }
@@ -493,24 +503,29 @@
     .task-overlay {
         gap: 12px;
     }
+
     #task-overlay-content {
         height: 550px;
     }
-    .overlay-selected-contacts svg{
+
+    .overlay-selected-contacts svg {
         width: 36px;
         height: 36px;
         padding-top: 0;
         padding-bottom: 0;
     }
-    .contact-html-name p{
+
+    .contact-html-name p {
         font-size: 15px;
         padding-top: 0;
         padding-bottom: 0;
     }
+
     .overlay-footer {
         margin-top: 0;
     }
-    .overlay-titel h3{
+
+    .overlay-titel h3 {
         font-size: 30px;
     }
 }
@@ -520,12 +535,15 @@
         height: 500px;
         padding: 20px;
     }
-    #task-overlay-content h4{
+
+    #task-overlay-content h4 {
         font-size: 16px;
     }
+
     .task-overlay {
         gap: 8px;
     }
+
     .overlay-footer {
         margin-top: -0.8rem;
     }
@@ -535,6 +553,7 @@
     #task-overlay-content {
         height: 450px;
     }
+
     .task-overlay {
         gap: 8px;
 
@@ -545,10 +564,12 @@
     #task-overlay-content {
         height: 400px;
     }
-        #overlay-subtasks-details {
+
+    #overlay-subtasks-details {
         height: 40px;
     }
-        .overlay-footer {
+
+    .overlay-footer {
         margin-top: -1rem;
     }
 }
