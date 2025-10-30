@@ -1,3 +1,6 @@
+/** 
+ * References to DOM elements and initial state for add-task UI.
+ */
 const dateInput = document.getElementById("task-due-date");
 const dateWarning = document.getElementById("date-warning");
 const fieldWarnings = document.querySelectorAll(".field-warning");
@@ -30,11 +33,15 @@ const priorityButtons = [
   document.getElementById('low-priority-btn')
 ];
 
-
+/** 
+ * Attach input listeners for create task button enabling.
+ */
 document.getElementById("task-title").addEventListener("input", enableCreateTaskButton);
 document.getElementById("task-due-date").addEventListener("input", enableCreateTaskButton);
 
-
+/** 
+ * Initialize flatpickr date picker with configuration and arrow handling.
+ */
 const picker = flatpickr("#task-due-date", {
   dateFormat: "d/m/Y",
   allowInput: true,
@@ -48,12 +55,16 @@ const picker = flatpickr("#task-due-date", {
   onYearChange: checkArrows
 });
 
-
+/** 
+ * Initialize add-task module by loading contacts (without rendering).
+ */
 function initAddTask() {
   loadContactsWithoutRendering();
 };
 
-
+/** 
+ * Load contacts from backend but do not render; return normalized list.
+ */
 async function loadContactsWithoutRendering() {
   try {
     const res = await fetch(CONTACTS_URL + ".json");
@@ -67,11 +78,13 @@ async function loadContactsWithoutRendering() {
     return contacts;
   } catch (err) {
     console.error("Fehler beim Laden:", err);
-    return []; 
+    return [];
   }
 };
 
-
+/** 
+ * Inject sidebar and header markup and username initials into UI.
+ */
 function showSidebarAndHeader() {
   let sidebar = document.getElementById('sidebar');
   let header = document.getElementById('header');
@@ -80,7 +93,9 @@ function showSidebarAndHeader() {
   header.innerHTML = showHeader(userInitials);
 };
 
-
+/** 
+ * Manage flatpickr year navigation arrow visibility.
+ */
 function checkArrows(selectedDates, dateStr, instance) {
   const minDate = instance.config.minDate;
   const currentYear = instance.currentYear;
@@ -97,7 +112,9 @@ function checkArrows(selectedDates, dateStr, instance) {
   }
 };
 
-
+/** 
+ * Format manual date input while typing and validate.
+ */
 dateInput.addEventListener("input", function (e) {
   let value = e.target.value.replace(/\D/g, "");
   if (value.length > 8) value = value.slice(0, 8);
@@ -115,14 +132,18 @@ dateInput.addEventListener("input", function (e) {
   validateDate(formatted);
 });
 
-
+/** 
+ * Hide field warnings when user types into the field.
+ */
 fieldWarnings.forEach(function (warning) {
   warning.addEventListener("input", function () {
     warning.classList.add("d-none");
   });
 });
 
-
+/** 
+ * Validate a dd/mm/yyyy date string and show error if in the past.
+ */
 function validateDate(dateStr) {
   if (!dateStr || dateStr.length !== 10) {
     resetDateValidation();
@@ -140,23 +161,31 @@ function validateDate(dateStr) {
   }
 }
 
-
+/** 
+ * Reset date input validation UI.
+ */
 function resetDateValidation() {
   dateInput.classList.remove("error");
   dateWarning.classList.add("d-none");
 }
 
-
+/** 
+ * Open the flatpickr calendar.
+ */
 function showCalender() {
   picker.open();
 };
 
-
+/** 
+ * Attach toggle handlers to priority buttons.
+ */
 priorityButtons.forEach(btn => {
   btn.addEventListener('click', () => togglePriorityBtn(btn));
 });
 
-
+/** 
+ * Toggle priority button visual state (ensuring single selection).
+ */
 function togglePriorityBtn(clickedButton) {
   const priorities = ["urgent", "medium", "low"];
   priorities.forEach(pr => {
@@ -172,7 +201,9 @@ function togglePriorityBtn(clickedButton) {
   clickedButton.isActive = isDefault;
 }
 
-
+/** 
+ * Clear all task inputs and reset UI to defaults.
+ */
 function clearTask() {
   clearAllInputFields();
   changeButtonsToDefault();
@@ -184,7 +215,9 @@ function clearTask() {
   setDefaultToContactDropdown();
 }
 
-
+/** 
+ * Reset priority button visuals to default.
+ */
 function changeButtonsToDefault() {
   mediumButton.classList.remove('priority-medium-active');
   mediumButton.classList.add('priority-medium-default');
@@ -194,7 +227,9 @@ function changeButtonsToDefault() {
   urgentButton.classList.add('priority-urgent-default');
 }
 
-
+/** 
+ * Clear textual input fields and disable create button.
+ */
 function clearAllInputFields() {
   document.getElementById("task-title").value = '';
   document.getElementById("task-description").value = '';
@@ -205,12 +240,16 @@ function clearAllInputFields() {
   createTaskButton.disabled = true;
 }
 
-
+/** 
+ * Remove selected contacts from local state.
+ */
 function clearContacts() {
   checkedContacts = [];
 }
 
-
+/** 
+ * Reset contact checkboxes UI to unchecked state.
+ */
 function setDefaultToContactCheckboxes() {
   document.querySelectorAll('[id^="checkbox-"]').forEach(el => {
     try {
@@ -230,14 +269,18 @@ function setDefaultToContactCheckboxes() {
   });
 }
 
-
+/** 
+ * Reset the contacts dropdown UI.
+ */
 function setDefaultToContactDropdown() {
   contactsToSelect.innerHTML = '';
   dropdownIcon.classList.remove('open');
   setTimeout(() => { contactsToSelect.innerHTML = ''; }, 300);
 }
 
-
+/** 
+ * Reset category dropdown UI to default.
+ */
 function setDefaultToCategoryDropdown() {
   categoryInput.innerHTML = 'Select task category';
   categories.classList.remove('show');
@@ -245,14 +288,18 @@ function setDefaultToCategoryDropdown() {
   setTimeout(() => { categories.innerHTML = ''; }, 300);
 }
 
-
+/** 
+ * Clear subtask input area and hide controls.
+ */
 function clearSubtaskInput() {
   selectedSubtasks.innerHTML = '';
   subtaskInput.value = '';
   subtaskPick.classList.add('d-none');
 }
 
-
+/** 
+ * Enable or disable the create-task button based on required fields.
+ */
 function enableCreateTaskButton() {
   const createTaskButton = document.getElementById("create-task-btn");
   if (!createTaskButton) return;
@@ -262,7 +309,9 @@ function enableCreateTaskButton() {
   createTaskButton.disabled = !(title && dueDate && category !== "Select task category");
 }
 
-
+/** 
+ * Show a field warning for an input or category selection and attach listeners to hide it.
+ */
 function showFieldWarning(inputElement) {
   const wrapper = inputElement.closest(".task-label-divs");
   const warning = wrapper.querySelector(".field-warning");
@@ -284,7 +333,9 @@ function showFieldWarning(inputElement) {
   }
 }
 
-
+/** 
+ * Add input listener to hide/show warning based on content.
+ */
 function eventListenerForInput(inputElement, warning) {
   if (!inputElement.dataset.listenerAdded) {
     inputElement.addEventListener("input", function () {
@@ -300,7 +351,9 @@ function eventListenerForInput(inputElement, warning) {
   }
 }
 
-
+/** 
+ * Animate the small "task added" div into view briefly.
+ */
 function showTaskDiv() {
   addToBoardDiv.classList.remove('hide');
   addToBoardDiv.classList.add('show');
@@ -310,6 +363,9 @@ function showTaskDiv() {
   }, 1000)
 }
 
+/** 
+ * Hide the small "task added" div and proceed to create task.
+ */
 function hideTaskDiv() {
   addToBoardDiv.classList.remove('show');
   addToBoardDiv.classList.add('hide');
