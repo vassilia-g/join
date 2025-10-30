@@ -276,19 +276,19 @@
     right: 0px;
   }
 
-        #toast-container {
-        top: auto;
-        bottom: 25%; /* näher am unteren Rand */
-        left: 50%;
-        transform: translateX(-50%);
-    }
+  #toast-container {
+    top: auto;
+    bottom: 25%; 
+    left: 50%;
+    transform: translateX(-50%);
+  }
 
     .toast {
-        transform: translateY(100%); /* Startposition unten */
+        transform: translateY(100%); 
     }
 
     .toast.show {
-        transform: translateY(0); /* Reinschieben nach oben */
+        transform: translateY(0); 
     }
 
 }
@@ -327,6 +327,10 @@
 
   .contact-sidebar{
     margin-top: 96px;
+  }
+
+    .sidebar {
+    position: fixed;
   }
 
     .contact-main {
