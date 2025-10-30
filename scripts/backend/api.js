@@ -1,6 +1,8 @@
 const BASE_URL = "https://join-eeec9-default-rtdb.europe-west1.firebasedatabase.app/";
 
-/** Internal helper to perform fetch and handle JSON + errors */
+/** 
+ * Internal helper to perform fetch and handle JSON + errors 
+ */
 async function safeFetch(path = "", options = {}) {
     const url = BASE_URL + path + ".json";
     const response = await fetch(url, options);
@@ -15,12 +17,16 @@ async function safeFetch(path = "", options = {}) {
     }
 }
 
-/** GET (Read) */
+/** 
+ * GET (Read) 
+ */
 async function getData(path = "") {
     return await safeFetch(path, { method: 'GET' });
 }
 
-/** POST (Create) */
+/** 
+ * POST (Create) 
+ */
 async function postData(path = "", data = {}) {
     return await safeFetch(path, {
         method: 'POST',
@@ -29,7 +35,9 @@ async function postData(path = "", data = {}) {
     });
 }
 
-/** PUT (Replace) */
+/** 
+ * PUT (Replace) 
+ */
 async function putData(path = "", data = {}) {
     return await safeFetch(path, {
         method: 'PUT',
@@ -38,7 +46,9 @@ async function putData(path = "", data = {}) {
     });
 }
 
-/** PATCH (Partial update) */
+/** 
+ * PATCH (Partial update) 
+ */
 async function patchData(path = "", data = {}) {
     return await safeFetch(path, {
         method: 'PATCH',
@@ -47,7 +57,9 @@ async function patchData(path = "", data = {}) {
     });
 }
 
-/** DELETE (Delete) */
+/** 
+ * DELETE (Delete) 
+ */
 async function deleteData(path = "") {
     return await safeFetch(path, { method: 'DELETE' });
 }
