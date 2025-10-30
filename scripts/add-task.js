@@ -10,6 +10,8 @@ const mediumSvgPath = mediumSvg.querySelectorAll("path");
 const lowButton = document.getElementById('low-priority-btn');
 const lowSvg = document.getElementById('low-svg');
 const lowSvgPath = lowSvg.querySelectorAll("path");
+const contactsToSelect = document.getElementById('contacts-to-select');
+const selectedContacts = document.getElementById('selected-contacts');
 urgentButton.isActive = false;
 mediumButton.isActive = false;
 lowButton.isActive = false;
@@ -173,14 +175,23 @@ function togglePriorityBtn(clickedButton) {
 
 function clearTask() {
   clearAllInputFields();
-  changeUrgentBtnToDefault();
-  changeMediumBtnToDefault();
-  changeLowBtnToDefault();
+  changeButtonsToDefault();
+  clearContacts();
   setDefaultToContactCheckboxes();
   showSelectedContacts();
   clearSubtaskInput();
   setDefaultToCategoryDropdown();
   setDefaultToContactDropdown();
+}
+
+
+function changeButtonsToDefault() {
+  mediumButton.classList.remove('priority-medium-active');
+  mediumButton.classList.add('priority-medium-default');
+  lowButton.classList.remove('priority-low-active');
+  lowButton.classList.add('priority-low-default');
+  urgentButton.classList.remove('priority-urgent-active');
+  urgentButton.classList.add('priority-urgent-default');
 }
 
 
@@ -192,6 +203,11 @@ function clearAllInputFields() {
   mediumButton.classList.remove("selected");
   lowButton.classList.remove("selected");
   createTaskButton.disabled = true;
+}
+
+
+function clearContacts() {
+  checkedContacts = [];
 }
 
 

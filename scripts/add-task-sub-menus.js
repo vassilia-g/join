@@ -1,5 +1,3 @@
-const contactsToSelect = document.getElementById('contacts-to-select');
-const selectedContacts = document.getElementById('selected-contacts');
 let SelectedContactsComplete = '';
 const dropdownIcon = document.getElementById('dropdown-icon');
 const categories = document.getElementById('categories');
