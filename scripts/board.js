@@ -35,19 +35,21 @@ const currentPage = window.location.pathname.split('/').pop();
 let isEditingTask = false;
 let currentEditTaskId = null;
 
+/** Return to add-task page on small screens or show overlay on large screens */
 function openAddTaskInstedOverlay() {
   const overlayBackground = document.getElementById('overlay-background');
   const content = document.getElementById('add-task-overlay');
-  if(window.innerWidth < 1360){
+  if (window.innerWidth < 1360) {
     overlayBackground.style.display = "none";
     content.style.display = "none";
     window.location.href = "../html/add-task.html";
-  }else{
+  } else {
     overlayBackground.style.display = "flex";
     content.style.display = "flex";
   }
 }
 
+/** Open add-task overlay, load content and initialize controls */
 async function openAddTaskOverlay() {
   openAddTaskInstedOverlay();
   const overlayRef = document.getElementById('add-task-overlay');
@@ -64,7 +66,7 @@ async function openAddTaskOverlay() {
   refreshBoard()
 }
 
-
+/** Load add-task HTML fragment and required scripts once */
 async function getAddTaskContent(overlayContentRef) {
   if (overlayContentRef.innerHTML.trim() === "") {
     const response = await fetch('add-task.html');
@@ -79,14 +81,14 @@ async function getAddTaskContent(overlayContentRef) {
   }
 }
 
-
+/** Show overlay element (make visible) */
 function showOverlay(overlayRef) {
   overlayRef.classList.add('show');
   overlayRef.classList.remove('hide');
   overlayRef.classList.remove('d-none');
 }
 
-
+/** Set medium priority as default in UI buttons */
 function getMediumForDefault() {
   const urgentButton = document.getElementById('urgent-priority-btn');
   const mediumButton = document.getElementById('medium-priority-btn');
@@ -102,19 +104,20 @@ function getMediumForDefault() {
   urgentButton.isActive = false;
 }
 
-
+/** Prepare contact dropdown data for add-task overlay */
 async function getContactDropdown() {
   let { tasksArray, contactsArray } = await getContactsAndTask();
   contactsArray = getContactsInitials(contactsArray);
 }
 
+/** Attach subtask add handler to SVG control */
 function getSubtaskRef() {
   const addSubtaskSvgs = document.getElementById('add-subtask-svg');
   addSubtaskSvgs.onclick = null;
   addSubtaskSvgs.onclick = addSubtask;
 }
 
-
+/** Wire create-task button to createTask and close overlay */
 function refreshBoard() {
   const createTaskButton = document.getElementById("create-task-btn");
   createTaskButton.onclick = async () => {
@@ -123,7 +126,7 @@ function refreshBoard() {
   };
 }
 
-
+/** Hide overlay with exit animation */
 function closeOverlay() {
   const overlayRef = document.getElementById('add-task-overlay');
   overlayRef.classList.remove('show');
@@ -135,17 +138,17 @@ function closeOverlay() {
   }, 600);
 }
 
-
+/** Allow dropping by preventing default */
 function allowDrop(event) {
   event.preventDefault();
 }
 
-
+/** Set drag data when drag starts */
 function drag(event) {
   event.dataTransfer.setData("text", event.target.id);
 }
 
-
+/** Handle drop: move element into drop zone and update status */
 async function drop(event) {
   event.preventDefault();
 
@@ -162,7 +165,7 @@ async function drop(event) {
 
 document.addEventListener('DOMContentLoaded', getHoverEffect);
 
-
+/** Create a visual placeholder element inside a drop zone */
 function createPlaceholder(zone) {
   const p = document.createElement('div');
   p.classList.add('placeholder-drag-and-drop');
@@ -170,7 +173,7 @@ function createPlaceholder(zone) {
   return p;
 }
 
-
+/** Add hover/drag UI feedback and placeholder management for drop zones */
 function getHoverEffect() {
   document.querySelectorAll('.drop-div').forEach((zone) => {
     let placeholder;
@@ -191,7 +194,7 @@ function getHoverEffect() {
   });
 }
 
-
+/** Map drop zone id to task status and push update */
 async function switchStatus(dropZone, taskId) {
   let newStatus;
   switch (dropZone.id) {
@@ -213,17 +216,17 @@ async function switchStatus(dropZone, taskId) {
   await pushStatusToApi(newStatus, taskId)
 }
 
-
+/** Send status patch to backend and reload tasks */
 async function pushStatusToApi(newStatus, taskId) {
   try {
     await patchData(`tasks/${taskId}`, { status: newStatus });
   } catch (error) {
-    console.error("❌ Fehler beim Aktualisieren:", error);
+    console.error("Fehler beim Aktualisieren:", error);
   }
   await loadTasks();
 }
 
-
+/** Load tasks from backend and render them */
 async function loadTasks(taskId = null) {
   getStatusPosition();
   let tasksData = await getData('tasks/') || {};
@@ -236,16 +239,16 @@ async function loadTasks(taskId = null) {
   createElementForTaskArray(tasksArray);
 }
 
-
+/** Clear and return column container references */
 function getStatusPosition() {
   const { newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv } = getBoardContainers();
   clearBoardContainers(newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv);
   return { newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv };
 }
 
-
+/** Create DOM elements for each task and place them in columns */
 function createElementForTaskArray(tasksArray) {
-  const { newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv } = getStatusPosition(); 
+  const { newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv } = getStatusPosition();
   tasksArray.forEach(task => {
     const taskElement = document.createElement('div');
     checkContactsLength(taskElement, task, task.id);
@@ -258,11 +261,11 @@ function createElementForTaskArray(tasksArray) {
   checkIfEmpty(tasksArray);
 }
 
-
+/** Collect inputs, contacts and priority then push new task to API */
 async function createTask() {
   const taskInputs = await getTaskInputs();
   const priority = await getPriorityFromTask();
-  const {initialsArray, namesArray, colorArray, idArray} = await getContactsFromArray();
+  const { initialsArray, namesArray, colorArray, idArray } = await getContactsFromArray();
   const newTask = {
     ...taskInputs,
     ...priority,
@@ -276,17 +279,17 @@ async function createTask() {
   await pushNewTaskToApi(newTask);
 }
 
-
+/** Read task input fields from overlay */
 async function getTaskInputs() {
   const title = document.getElementById('task-title').value;
   const description = document.getElementById('task-description').value;
   const dueDate = document.getElementById('task-due-date').value;
   const category = document.getElementById('input-category').innerText;
   const status = "toDo";
-  return {title, description, dueDate, category, status};
+  return { title, description, dueDate, category, status };
 }
 
-
+/** Build contact arrays from checkedContacts and reset selection */
 async function getContactsFromArray() {
   const initialsArray = checkedContacts.map(c => getInitials(c.name));
   const namesArray = checkedContacts.map(c => c.name);
@@ -294,10 +297,10 @@ async function getContactsFromArray() {
   const idArray = checkedContacts.map(c => c.id);
   console.log(checkedContacts);
   checkedContacts = [];
-  return {initialsArray, namesArray, colorArray, idArray};
+  return { initialsArray, namesArray, colorArray, idArray };
 }
 
-
+/** Determine priority level and SVG for task */
 async function getPriorityFromTask() {
   let priorityLevel = '';
   if (urgentButton.isActive) priorityLevel = 'urgent';
@@ -310,10 +313,10 @@ async function getPriorityFromTask() {
       : document.querySelector('.priority-low-active')
         ? lowBoardSvg
         : '';
-  return {priorityLevel, priorityValue};
+  return { priorityLevel, priorityValue };
 }
 
-
+/** POST new task to backend and redirect to board */
 async function pushNewTaskToApi(newTask) {
   try {
     const data = await postData('tasks', newTask);
@@ -324,14 +327,14 @@ async function pushNewTaskToApi(newTask) {
   }
 }
 
-
+/** Clear columns and fetch filtered tasks by text */
 function filterTasksByText(text) {
   const { newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv } = getBoardContainers();
   clearBoardContainers(newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv);
   getTaskfromApiForArrayByText(text, newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv);
 }
 
-
+/** Return references to the four task column containers */
 function getBoardContainers() {
   return {
     newTaskDiv: document.getElementById('new-task-div'),
@@ -341,14 +344,14 @@ function getBoardContainers() {
   };
 }
 
-
+/** Empty given container elements safely */
 function clearBoardContainers(...containers) {
   containers.forEach(c => {
     if (c) c.innerHTML = '';
   });
 }
 
-
+/** Fetch tasks, filter by text and render filtered array */
 async function getTaskfromApiForArrayByText(text, newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv) {
   try {
     const data = await getData('tasks');
@@ -360,17 +363,17 @@ async function getTaskfromApiForArrayByText(text, newTaskDiv, newTaskProgressDiv
     const filtered = query === ''
       ? tasksArray
       : tasksArray.filter(t => {
-          const title = (t.title || '').toLowerCase();
-          const description = (t.description || '').toLowerCase();
-          return title.includes(query) || description.includes(query);
-    });
+        const title = (t.title || '').toLowerCase();
+        const description = (t.description || '').toLowerCase();
+        return title.includes(query) || description.includes(query);
+      });
     createElementForTaskArray(filtered, newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv);
   } catch (error) {
     console.error('Fehler beim Laden der Tasks:', error);
   }
 }
 
-
+/** Decide which column a task belongs to and append DOM element */
 function getTargetColumn(newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv, taskElement, task) {
   let targetColumn;
   switch (task.status) {
@@ -389,7 +392,7 @@ function getTargetColumn(newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, new
   targetColumn.appendChild(taskElement);
 }
 
-
+/** Return a debounced wrapper of a function to limit call rate */
 function debounce(fn, wait = 500) {
   let timeout;
   return (...args) => {
