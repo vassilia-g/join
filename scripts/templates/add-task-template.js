@@ -30,7 +30,7 @@ function selectedContactsFromTaskTemplate(contact, initials, checkboxSvg) {
     return `
       <div class="single-contact" onclick="checkContact('${contact.id}')">
         <div class="contact-name">
-          <svg id="initials-${contact.id}" class="initials-svg" width="42" height="42" viewBox="0 0 42 42">
+          <svg id="initials-${contact.id}" onclick="checkContact('${contact.id}')" class="initials-svg" width="42" height="42" viewBox="0 0 42 42">
             <circle cx="21" cy="21" r="20" fill="${contact.color}" stroke="white" stroke-width="2"/>
             <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" font-size="14" fill="white">
               ${initials}
@@ -89,7 +89,7 @@ function svgTemplate(color, contact){
 
 function showEmptyCheckbox(contact) {
   return `
-      <svg onclick="checkContact('${contact.id}')" width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="4.38818" y="4" width="16" height="16" rx="3" stroke="#2A3647" stroke-width="2"/>
       </svg>
     `;
@@ -98,7 +98,7 @@ function showEmptyCheckbox(contact) {
 
 function showCheckedCheckbox(contact) {
   return `
-      <svg onclick="checkContact('${contact.id}')" class="checked" width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg class="checked" width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M20.3882 11V17C20.3882 18.6569 19.045 20 17.3882 20H7.38818C5.73133 20 4.38818 18.6569 4.38818 17V7C4.38818 5.34315 5.73133 4 7.38818 4H15.3882" stroke="#2A3647" stroke-width="2" stroke-linecap="round"/>
         <path d="M8.38818 12L12.3882 16L20.3882 4.5" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
