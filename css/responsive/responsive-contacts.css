@@ -325,9 +325,6 @@
 
 @media (max-width: 720px) {
 
-  .contact-sidebar{
-    margin-top: 96px;
-  }
 
     .sidebar {
     position: fixed;
@@ -339,6 +336,12 @@
 
     .add-contact-button {
     bottom: 100px;
+  }
+
+  .contact-main-section{
+    height: unset;
+    margin-top: 96px;
+    margin-bottom: 80px;
   }
 
   .menu-toggle {
