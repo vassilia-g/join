@@ -1,3 +1,8 @@
+/**
+ * Base URL for the Firebase Realtime Database used by the Join application.
+ * All API requests are built upon this endpoint.
+ * @constant {string}
+ */
 const BASE_URL = "https://join-eeec9-default-rtdb.europe-west1.firebasedatabase.app/";
 
 /** 
