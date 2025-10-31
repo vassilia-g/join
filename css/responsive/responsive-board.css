@@ -485,7 +485,6 @@
     }
     
     .overlay-selected-contacts {
-        height: 20vh;
         overflow: hidden;
         overflow-y: scroll;
         scrollbar-width: thin;
