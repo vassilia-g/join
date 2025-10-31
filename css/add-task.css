@@ -21,7 +21,6 @@
 
 .textarea {
     position: relative;
-    /* width: 440px; */
 }
 
 .input-border-size {
@@ -85,7 +84,6 @@ input::placeholder {
     justify-content: space-between;
     width: 50%;
     height: 376px;
-    /* padding-right: 2rem; */
     align-items: center;
 }
 
