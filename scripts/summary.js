@@ -159,7 +159,11 @@ async function updateUserName() {
     }
 }
 
-
+/**
+ * Initializes the Board summary once the DOM is fully loaded.
+ * Updates counters, daytime greeting, and username display.
+ * If a guest user is detected, triggers the guest greeting function.
+ */
 document.addEventListener("DOMContentLoaded", () => {
     updateSummaryCounters();
     updateDayTime();
