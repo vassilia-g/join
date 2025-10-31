@@ -63,27 +63,23 @@ async function addContact(event) {
  * Delete contact by id from backend and refresh contact view/UI.
  */
 async function deleteContactById(id) {
-    try {
-        await fetch(`${BASE_URL}/contacts/${id}.json`, {
-            method: "DELETE"
-        });
-
-        await loadContacts();
-        document.getElementById("contact-details").innerHTML = "";
-
-        const sidebar = document.querySelector(".contact-sidebar");
-        const main = document.querySelector(".contact-main");
-
-        if (window.innerWidth <= 720) {
-            sidebar.classList.remove("hide");
-            main.classList.remove("is-open");
-        }
-
-        showToast("Contact deleted");
-    } catch (err) {
-        console.error("Fehler beim Löschen:", err);
-        showToast("Error deleting contact");
+  try {
+    const tasks = await (await fetch(`${BASE_URL}/tasks.json`)).json();
+    const updateTask = (task, taskId, i) => ["contactsId","contactsNames","contactsInitials","contactsColor"]
+      .forEach(async key => await fetch(`${BASE_URL}/tasks/${taskId}/${key}.json`, {
+        method: "PUT", body: JSON.stringify(task[key]?.filter((_, j) => j !== i) || [])
+      }));
+    for (const [taskId, t] of Object.entries(tasks || {})) {
+      if (Array.isArray(t.contactsId) && t.contactsId.includes(id))
+        updateTask(t, taskId, t.contactsId.indexOf(id));
     }
+    await fetch(`${BASE_URL}/contacts/${id}.json`, { method: "DELETE" });
+    await loadContacts();
+    document.getElementById("contact-details").innerHTML = "";
+    if (window.innerWidth <= 720) document.querySelector(".contact-sidebar").classList.remove("hide"),
+      document.querySelector(".contact-main").classList.remove("is-open");
+    showToast("Contact deleted");
+  } catch (e) { console.error("Fehler beim Löschen:", e); showToast("Error deleting contact"); }
 }
 
 

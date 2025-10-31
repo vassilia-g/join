@@ -439,10 +439,6 @@ button {
     border-radius: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
-    /* display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between; */
     transition: transform 0.5s ease;
     z-index: 1001;
     padding: 40px;
@@ -453,7 +449,6 @@ button {
 }
 
 .task-overlay {
-    /* width: 525px; */
     height: fit-content;
     gap: 24px;
     box-sizing: border-box;
@@ -523,7 +518,6 @@ button {
 
 .overlay-selected-contacts {
     display: flex;
-    ;
     gap: 16px;
 }
 
@@ -609,10 +603,6 @@ button {
     left: 0;
 }
 
-/* #task-overlay-content .create-task {
-    flex-direction: column;
-} */
-
 #task-overlay-content .task-main-info {
     width: 100%;
 }
@@ -621,14 +611,8 @@ button {
     width: 100%;
     border-left: none;
     padding-left: 0;
-    /* align-items: start; */
     align-items: center;
 }
-
-/* .task-additional-info{
-    align-items: center;
-} */
-
 
 #task-overlay-content #selected-subtasks {
     padding-left: 2rem;
@@ -708,9 +692,8 @@ button {
 
 .drop-div {
     width: 100%;
-    /* min-height: 50%; */
     height: 100%;
-    /* background-color: red; */
+    overflow-y: scroll;
 }
 
 .subtasks-list-api {

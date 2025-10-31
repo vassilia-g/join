@@ -479,6 +479,7 @@ h1 {
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+        z-index: 20;
     }
 
     100% {
@@ -487,6 +488,7 @@ h1 {
         width: 101px;
         height: 122px;
         transform: translate(0, 0);
+        z-index: 20;
     }
 }
 

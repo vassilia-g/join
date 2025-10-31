@@ -115,32 +115,25 @@ function createContactItem(contact, index, sortedContacts) {
  * Toggle active state for a contact and show/hide details panel.
  */
 function setActiveContact(element, contact) {
-    const isActive = element.classList.contains("active");
     const panel = document.getElementById("contact-details");
     const sidebar = document.querySelector(".contact-sidebar");
     const main = document.querySelector(".contact-main");
+    const isActive = element.classList.contains("active");
 
-    document.querySelectorAll(".contact-item").forEach(item => {
-        item.classList.remove("active");
-    });
+    document.querySelectorAll(".contact-item").forEach(i => i.classList.remove("active"));
 
-    if (!isActive) {
-        element.classList.add("active");
-        showContactContent(contact);
-        panel.classList.add("is-open");
-        main.classList.add("is-open");
+    if (isActive) return hideContactContent(), activeContactId = null;
 
-        if (window.innerWidth <= 1000) {
-            sidebar.classList.add("hide");
-            main.style.display = "block";
-            panel.style.display = "block";
-        }
+    element.classList.add("active");
+    showContactContent(contact);
+    [panel, main].forEach(e => e.classList.add("is-open"));
 
-        activeContactId = contact.id;
-    } else {
-        hideContactContent();
-        activeContactId = null;
+    if (window.innerWidth <= 1000) {
+        sidebar.classList.add("hide");
+        main.style.display = panel.style.display = "block";
     }
+
+    activeContactId = contact.id;
 }
 
 
@@ -151,27 +144,17 @@ function handleResize() {
     const sidebar = document.querySelector(".contact-sidebar");
     const main = document.querySelector(".contact-main");
     const panel = document.getElementById("contact-details");
-    // if required elements are missing, bail out safely
     if (!sidebar || !main || !panel) return;
 
-    if (window.innerWidth <= 1000) {
-        if (activeContactId) {
-            // Show details view on mobile when contact is active
-            sidebar.classList.add("hide");
-            main.style.display = "block";
-            panel.style.display = "block";
-        } else {
-            // Hide main content when no contact is active
-            sidebar.classList.remove("hide");
-            main.style.display = "none";
-            panel.style.display = "none";
-        }
-    } else if (window.innerWidth > 1000) {
-        // Desktop view - show both sidebar and main
-        sidebar.classList.remove("hide");
-        main.style.display = "block";
-        panel.style.display = "block";
-    }
+    const isMobile = window.innerWidth <= 1000;
+    const showDetails = isMobile && activeContactId;
+    const showAll = !isMobile;
+
+    sidebar.classList.toggle("hide", showDetails);
+    main.style.display = panel.style.display =
+        showAll || showDetails ? "block" : "none";
+
+    if (showAll) sidebar.classList.remove("hide");
 }
 
 
@@ -195,27 +178,19 @@ function hideContactContent() {
     const panel = document.getElementById("contact-details");
     const sidebar = document.querySelector(".contact-sidebar");
     const main = document.querySelector(".contact-main");
-    if (!panel) return;
+    if (!panel || !main || !sidebar) return;
 
-    panel.classList.remove("is-open");
-    main.classList.remove("is-open");
+    [panel, main].forEach(e => e.classList.remove("is-open"));
+    document.querySelectorAll(".contact-item").forEach(i => i.classList.remove("active"));
 
     if (window.innerWidth <= 1000) {
         sidebar.classList.remove("hide");
         main.style.display = "none";
-        sidebar.style.width = "100%";
-        sidebar.style.display = "block";
+        Object.assign(sidebar.style, { width: "100%", display: "block" });
     }
 
-    document.querySelectorAll(".contact-item").forEach(item => {
-        item.classList.remove("active");
-    });
-
     activeContactId = null;
-
-    setTimeout(() => {
-        panel.innerHTML = "";
-    }, 100);
+    setTimeout(() => (panel.innerHTML = ""), 100);
 }
 
 

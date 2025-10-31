@@ -226,7 +226,7 @@ function showApiSubtaskToEdit(subtask, index, taskId) {
 function svgTemplate(color, contact) {
   return `
       <svg class="initials-svg" width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="21" cy="21" r="20" fill="${color}" stroke="white" stroke-width="2"/>
+        <circle class="circle" cx="21" cy="21" r="20" fill="${color}" stroke="white" stroke-width="2"/>
         <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" font-size="14" fill="white">
           ${contact}
         </text>
