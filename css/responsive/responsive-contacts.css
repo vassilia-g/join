@@ -98,7 +98,7 @@
 
 @media (max-width: 1050px) {
 
-    .contact-main-header {
+  .contact-main-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 16px;
@@ -122,8 +122,8 @@
 }
 
 
-@media (max-width: 1000px){
-    .contact-main-section {
+@media (max-width: 1000px) {
+  .contact-main-section {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -187,7 +187,7 @@
     position: fixed;
   } */
 
-    .sidebar {
+  .sidebar {
     position: relative;
   }
 
@@ -278,24 +278,24 @@
 
   #toast-container {
     top: auto;
-    bottom: 25%; 
+    bottom: 25%;
     left: 50%;
     transform: translateX(-50%);
   }
 
-    .toast {
-        transform: translateY(100%); 
-    }
+  .toast {
+    transform: translateY(100%);
+  }
 
-    .toast.show {
-        transform: translateY(0); 
-    }
+  .toast.show {
+    transform: translateY(0);
+  }
 
 }
 
 @media (max-width: 980px) {
 
-    .popup-contact {
+  .popup-contact {
     width: 680px;
   }
 
@@ -324,21 +324,25 @@
 }
 
 @media (max-width: 720px) {
+  .main {
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
 
-
-    .sidebar {
+  .sidebar {
     position: fixed;
   }
 
-    .contact-main {
-      width: 100%;
+  .contact-main {
+    width: 100%;
   }
 
-    .add-contact-button {
+  .add-contact-button {
     bottom: 100px;
   }
 
-  .contact-main-section{
+  .contact-main-section {
     height: unset;
     margin-top: 96px;
     margin-bottom: 80px;
