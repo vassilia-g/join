@@ -271,19 +271,6 @@ function makePasswordVisible() {
 
 
 /** 
- * Hide password (alternate definition): set masks and icons, set input type to password.
- * (This function duplicates an earlier hidePassword definition; consider consolidating.)
- */
-// function hidePassword() {
-//     const visibilityOffSymbol = document.getElementById('visibility-off');
-//     const visibilityOnSymbol = document.getElementById('visibility-on');
-//     visibilityOnSymbol.classList.add('d-none');
-//     visibilityOffSymbol.classList.remove('d-none');
-//     document.getElementById('input-password').type = 'password';
-// }
-
-
-/** 
  * Return UI to login view, clear form and reset sign-up controls.
  */
 function backtoLogIn() {
