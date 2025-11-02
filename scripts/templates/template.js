@@ -48,7 +48,7 @@ function showHeader(initials = 'GU') {
     return `
         <div class="header-content">
           <p class="header-text">Kanban Project Management Tool</p>
-          <img class="logo-header" src="../assets/imgs/join-logo/Capa 2.svg">
+          <img class="logo-header" src="../assets/imgs/join-logo/capa-2.svg">
           <div class="header-assets">
             <a href="./help.html"><img class="help" src="../assets/icons/help.svg" alt="help-icon"
                 style="width: 20px; height: 20px; margin-right: 22px" /></a>

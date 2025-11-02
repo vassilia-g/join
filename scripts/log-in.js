@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (window.innerWidth <= 733) {
         logoWrapper.classList.add("logo-move-to-top-left");
         setTimeout(() => {
-            logoWeiß.src = "/assets/imgs/join-logo/Capa 2.svg";
+            logoWeiß.src = "/assets/imgs/join-logo/capa-2.svg";
         }, 500);
     } else {
         moveLogoToTopLeft();
