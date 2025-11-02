@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: scripts/board-to-api.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: scripts/board-to-api.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/** 
+ * Check if a subtask was edited in the edit-input, compare with stored value and refresh subtasks UI.
+ * @param {string} taskId - ID of the task containing the subtask
+ * @param {number} subtaskIndex - index of the subtask to check
+ */
+async function checkEditedApiSubtask(taskId, subtaskIndex) {
+  const inputValue = document.getElementById('edit-input').value;
+  try {
+    const response = await fetch(`${BASE_URL}/tasks.json`);
+    const data = await response.json();
+    const task = data[taskId];
+    if (!task) throw new Error(`Task mit ID ${taskId} nicht gefunden`);
+    checkIfSubtaskWasEdited(task, inputValue, subtaskIndex, taskId);
+    getSubtasks(task, taskId);
+  } catch (error) {
+    console.error('Fehler beim Öffnen des Edit-Overlays:', error);
+    alert('Task konnte nicht geladen werden.');
+  }
+}
+
+
+/** 
+ * Delete a subtask from a task in the backend and refresh subtasks UI.
+ * @param {string} taskId - ID of the task
+ * @param {number} subtaskIndex - index of the subtask to delete
+ */
+async function deleteSubtaskFromApi(taskId, subtaskIndex) {
+  try {
+    const response = await fetch(`${BASE_URL}/tasks.json`);
+    const data = await response.json();
+    const task = data[taskId];
+    if (!task) throw new Error(`Task mit ID ${taskId} nicht gefunden`);
+    if (!Array.isArray(task.subtasks)) {
+      return;
+    }
+    task.subtasks.splice(subtaskIndex, 1);
+    await putData(`tasks/${taskId}`, task)
+    getSubtasks(task, taskId);
+  } catch (error) {
+    alert('Subtask konnte nicht gelöscht werden.');
+  }
+}
+
+
+/** 
+ * Read subtasks from the DOM (text + checked state) and push both lists to the backend.
+ * @param {string} taskId - ID of the task to update
+ */
+async function pushSubtasksWithStatus(taskId) {
+  const subtasksList = document.getElementById('selected-subtasks');
+  if (!subtasksList) return;
+  const subtasksData = Array.from(subtasksList.querySelectorAll('li')).map(li => ({
+    text: li.querySelector('p').innerText.trim(),
+    checked: li.querySelector('.checkbox-subtasks')?.classList.contains('checked') || false
+  }));
+
+  try {
+    await putData(`tasks/${taskId}/subtasks`, subtasksData.map(s => s.text));
+    await putData(`tasks/${taskId}/checkedSubtasks`, { subtasks: subtasksData.filter(s => s.checked).map(s => s.text) });
+  } catch (error) {
+    console.error('Fehler beim Pushen der Subtasks:', error);
+  }
+}
+
+
+/** 
+ * Update a task progress bar width according to subtasks done / total.
+ * @param {Object} task - task object containing id, subtasks and checkedSubtasks
+ */
+function updateProgressBar(task) {
+  const progressBar = document.getElementById(`progress-bar-${task.id}`);
+  const total = task.subtasks?.length || 0;
+  const done = task.checkedSubtasks?.subtasks?.length || 0;
+  const getProgress = total > 0 ? (100 * done) / total : 0;
+  progressBar.style.width = `${getProgress}%`;
+}
+
+
+/** 
+ * Apply all pending changes after editing a task (contacts, subtasks, priority) and close overlay.
+ * @param {string} taskId - ID of the edited task
+ */
+async function updateTaskAfterEdit(taskId) {
+  isEditingTask = false;
+  currentTaskId = null;
+  let priorityValue, priorityLevel;
+  if (urgentButton.classList.contains('priority-urgent-active')) {
+    priorityValue = urgentBoardSvg;
+    priorityLevel = 'urgent';
+  } else if (mediumButton.classList.contains('priority-medium-active')) {
+    priorityValue = mediumBoardSvg;
+    priorityLevel = 'medium';
+  } else if (lowButton.classList.contains('priority-low-active')) {
+    priorityValue = lowBoardSvg;
+    priorityLevel = 'low';
+  }
+  await pushCheckedContacts(taskId);
+  await pushSubtasksWithStatus(taskId);
+  await updateTaskWithPriority(priorityLevel, priorityValue, taskId);
+  closeTaskOverlay();
+  subtasks = [];
+}
+
+
+/** 
+ * Push selected contacts arrays to the backend for a task.
+ * Converts arrays to object-indexed payload expected by the backend.
+ * @param {string} taskId - ID of the task
+ */
+async function pushCheckedContacts(taskId) {
+  const { initialsArray, namesArray, colorArray, idArray } = await getContactsFromArray();
+  const data = {
+    contactsInitials: initialsArray,
+    contactsNames: namesArray,
+    contactsColor: colorArray,
+    contactsId: idArray
+  };
+  for (const [key, value] of Object.entries(data)) {
+    const objValue = {};
+    value.forEach((v, i) => objValue[i] = v);
+    const path = `tasks/${taskId}/${key}`;
+    await putData(path, objValue);
+  }
+}
+
+
+/** 
+ * Build an updated task object with priority and other editable fields and send patch to backend.
+ * @param {string} priorityLevel - 'urgent'|'medium'|'low'
+ * @param {string} priorityValue - svg/html representing priority
+ * @param {string} taskId - ID of the task
+ */
+async function updateTaskWithPriority(priorityLevel, priorityValue, taskId) {
+  const updatedTask = {
+    title: document.getElementById('task-title').value,
+    description: document.getElementById('task-description').value,
+    dueDate: document.getElementById('task-due-date').value,
+    category: document.getElementById('input-category').innerText,
+    priorityValue,
+    priorityLevel
+  };
+  await pushUpdatedTaskToApi(updatedTask, taskId);
+}
+
+
+/** 
+ * Send a PATCH request to update task fields on the backend and reload tasks list.
+ * @param {Object} updatedTask - partial task object to PATCH
+ * @param {string} taskId - ID of the task
+ */
+async function pushUpdatedTaskToApi(updatedTask, taskId) {
+  try {
+    const response = await fetch(`${BASE_URL}/tasks/${taskId}.json`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(updatedTask)
+    });
+    if (!response.ok) throw new Error("Fehler beim Speichern der Neuerungen");
+  } catch (error) {
+    console.error('Fehler beim Aktualisieren:', error);
+  }
+  loadTasks();
+}
+
+
+/** 
+ * Extract initials or text content from an SVG string (used to parse contact initials).
+ * @param {string} svgString - svg markup containing a &lt;text> element
+ * @returns {string} extracted text or empty string
+ */
+function extractInitialsFromSvg(svgString) {
+  if (!svgString || typeof svgString !== "string") return "";
+  const match = svgString.match(/&lt;text[^>]*>([\s\S]*?)&lt;\/text>/i);
+  return match ? match[1].trim() : "";
+}
+
+
+/** 
+ * Cancel current editing state and re-open the task overlay for the given task.
+ * Resets editing flags and local subtasks buffer.
+ * @param {string} taskId - ID of the task to reset edits for
+ */
+async function resetTaskChangings(taskId) {
+  openTaskOverlay(taskId);
+  isEditingTask = false;
+  currentTaskId = null;
+  subtasks = [];
+}
+
+
+/** 
+ * Debounced filter helper to avoid excessive API calls while typing.
+ * Uses debounce(fn, wait) defined in board.js.
+ */
+const debouncedFilter = debounce((value) => {
+  filterTasksByText(value);
+}, 200);
+
+
+/** 
+ * Attach debounced input listener to the global inputElement for search/filtering.
+ * Expects inputElement to be defined in scope.
+ */
+inputElement.addEventListener('input', (event) => {
+  debouncedFilter(event.target.value);
+});
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Contact.html">Contact</a></li><li><a href="User.html">User</a></li></ul><h3>Global</h3><ul><li><a href="global.html#BASE_URL">BASE_URL</a></li><li><a href="global.html#SelectedContactsComplete">SelectedContactsComplete</a></li><li><a href="global.html#UserCollection">UserCollection</a></li><li><a href="global.html#addContact">addContact</a></li><li><a href="global.html#addContactOverlay">addContactOverlay</a></li><li><a href="global.html#addSubtask">addSubtask</a></li><li><a href="global.html#allAddTaskScripts">allAddTaskScripts</a></li><li><a href="global.html#allowDrop">allowDrop</a></li><li><a href="global.html#backtoLogIn">backtoLogIn</a></li><li><a href="global.html#changeAddTaskLink">changeAddTaskLink</a></li><li><a href="global.html#changeBoardLink">changeBoardLink</a></li><li><a href="global.html#changeButtonsToDefault">changeButtonsToDefault</a></li><li><a href="global.html#changeContactsLink">changeContactsLink</a></li><li><a href="global.html#changeHelpLink">changeHelpLink</a></li><li><a href="global.html#changeLegalNoticeLink">changeLegalNoticeLink</a></li><li><a href="global.html#changePrivacyPolicyLink">changePrivacyPolicyLink</a></li><li><a href="global.html#changeSidebarLinksStyle">changeSidebarLinksStyle</a></li><li><a href="global.html#changeSummaryLink">changeSummaryLink</a></li><li><a href="global.html#changeSymbols">changeSymbols</a></li><li><a href="global.html#checkArrows">checkArrows</a></li><li><a href="global.html#checkContact">checkContact</a></li><li><a href="global.html#checkContactsLength">checkContactsLength</a></li><li><a href="global.html#checkContentFromTask">checkContentFromTask</a></li><li><a href="global.html#checkEditedApiSubtask">checkEditedApiSubtask</a></li><li><a href="global.html#checkIfEmpty">checkIfEmpty</a></li><li><a href="global.html#checkIfSubtaskWasEdited">checkIfSubtaskWasEdited</a></li><li><a href="global.html#checkSignUpPasswords">checkSignUpPasswords</a></li><li><a href="global.html#clearAllInputFields">clearAllInputFields</a></li><li><a href="global.html#clearBoardContainers">clearBoardContainers</a></li><li><a href="global.html#clearContacts">clearContacts</a></li><li><a href="global.html#clearInputs">clearInputs</a></li><li><a href="global.html#clearSignUpForm">clearSignUpForm</a></li><li><a href="global.html#clearSubtaskInput">clearSubtaskInput</a></li><li><a href="global.html#clearTask">clearTask</a></li><li><a href="global.html#closeOverlay">closeOverlay</a></li><li><a href="global.html#closeTaskOverlay">closeTaskOverlay</a></li><li><a href="global.html#contacts">contacts</a></li><li><a href="global.html#createContact">createContact</a></li><li><a href="global.html#createContactItem">createContactItem</a></li><li><a href="global.html#createElementForTaskArray">createElementForTaskArray</a></li><li><a href="global.html#createLetterHeader">createLetterHeader</a></li><li><a href="global.html#createPlaceholder">createPlaceholder</a></li><li><a href="global.html#createTask">createTask</a></li><li><a href="global.html#dateInput">dateInput</a></li><li><a href="global.html#debounce">debounce</a></li><li><a href="global.html#debouncedFilter">debouncedFilter</a></li><li><a href="global.html#deleteContactById">deleteContactById</a></li><li><a href="global.html#deleteData">deleteData</a></li><li><a href="global.html#deleteEditedSubtask">deleteEditedSubtask</a></li><li><a href="global.html#deleteSubtask">deleteSubtask</a></li><li><a href="global.html#deleteSubtaskFromApi">deleteSubtaskFromApi</a></li><li><a href="global.html#deleteSubtaskFromList">deleteSubtaskFromList</a></li><li><a href="global.html#deleteTask">deleteTask</a></li><li><a href="global.html#deletedContacts">deletedContacts</a></li><li><a href="global.html#disableCategoryEdit">disableCategoryEdit</a></li><li><a href="global.html#disableSignUpButton">disableSignUpButton</a></li><li><a href="global.html#drag">drag</a></li><li><a href="global.html#drop">drop</a></li><li><a href="global.html#dropdownIcon">dropdownIcon</a></li><li><a href="global.html#dropdownMenu">dropdownMenu</a></li><li><a href="global.html#editApiSubtask">editApiSubtask</a></li><li><a href="global.html#editContactOverlay">editContactOverlay</a></li><li><a href="global.html#editSubtask">editSubtask</a></li><li><a href="global.html#editTask">editTask</a></li><li><a href="global.html#enableCreateTaskButton">enableCreateTaskButton</a></li><li><a href="global.html#enableSignUpButton">enableSignUpButton</a></li><li><a href="global.html#eventListenerForInput">eventListenerForInput</a></li><li><a href="global.html#eventListenerForSelectCategory">eventListenerForSelectCategory</a></li><li><a href="global.html#extractInitialsFromSvg">extractInitialsFromSvg</a></li><li><a href="global.html#fillEditContactForm">fillEditContactForm</a></li><li><a href="global.html#filterTasksByText">filterTasksByText</a></li><li><a href="global.html#getAddTaskContent">getAddTaskContent</a></li><li><a href="global.html#getAddTaskInput">getAddTaskInput</a></li><li><a href="global.html#getAllUsers">getAllUsers</a></li><li><a href="global.html#getBoardContainers">getBoardContainers</a></li><li><a href="global.html#getContactDropdown">getContactDropdown</a></li><li><a href="global.html#getContactFromForm">getContactFromForm</a></li><li><a href="global.html#getContactsAndTask">getContactsAndTask</a></li><li><a href="global.html#getContactsFromArray">getContactsFromArray</a></li><li><a href="global.html#getContactsInitials">getContactsInitials</a></li><li><a href="global.html#getData">getData</a></li><li><a href="global.html#getFirstDueDateTask">getFirstDueDateTask</a></li><li><a href="global.html#getHoverEffect">getHoverEffect</a></li><li><a href="global.html#getInitials">getInitials</a></li><li><a href="global.html#getMediumForDefault">getMediumForDefault</a></li><li><a href="global.html#getNewSubtaskToApi">getNewSubtaskToApi</a></li><li><a href="global.html#getOverlayContent">getOverlayContent</a></li><li><a href="global.html#getOverlayContentWithTask">getOverlayContentWithTask</a></li><li><a href="global.html#getPriorityFromTask">getPriorityFromTask</a></li><li><a href="global.html#getPriorityFromTaskApi">getPriorityFromTaskApi</a></li><li><a href="global.html#getRandomColor">getRandomColor</a></li><li><a href="global.html#getSignUpValues">getSignUpValues</a></li><li><a href="global.html#getSortedContacts">getSortedContacts</a></li><li><a href="global.html#getStatusPosition">getStatusPosition</a></li><li><a href="global.html#getSubtaskRef">getSubtaskRef</a></li><li><a href="global.html#getSubtasks">getSubtasks</a></li><li><a href="global.html#getSubtasksFromApi">getSubtasksFromApi</a></li><li><a href="global.html#getTargetColumn">getTargetColumn</a></li><li><a href="global.html#getTaskContacts">getTaskContacts</a></li><li><a href="global.html#getTaskContent">getTaskContent</a></li><li><a href="global.html#getTaskContentFromApi">getTaskContentFromApi</a></li><li><a href="global.html#getTaskDueDate">getTaskDueDate</a></li><li><a href="global.html#getTaskInputs">getTaskInputs</a></li><li><a href="global.html#getTaskPriority">getTaskPriority</a></li><li><a href="global.html#getTaskfromApiForArrayByText">getTaskfromApiForArrayByText</a></li><li><a href="global.html#getTasksCounter">getTasksCounter</a></li><li><a href="global.html#getTasksCounterByPriorityLevel">getTasksCounterByPriorityLevel</a></li><li><a href="global.html#getTasksCounterByStatus">getTasksCounterByStatus</a></li><li><a href="global.html#getUser">getUser</a></li><li><a href="global.html#goToStartpage">goToStartpage</a></li><li><a href="global.html#guestGreeting">guestGreeting</a></li><li><a href="global.html#guestLogIn">guestLogIn</a></li><li><a href="global.html#handleResize">handleResize</a></li><li><a href="global.html#hideContactContent">hideContactContent</a></li><li><a href="global.html#hideDropdownCategories">hideDropdownCategories</a></li><li><a href="global.html#hideDropdownContacts">hideDropdownContacts</a></li><li><a href="global.html#hideOverlay">hideOverlay</a></li><li><a href="global.html#hidePassword">hidePassword</a></li><li><a href="global.html#hideTaskDiv">hideTaskDiv</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initAddTask">initAddTask</a></li><li><a href="global.html#initBoards">initBoards</a></li><li><a href="global.html#initContacts">initContacts</a></li><li><a href="global.html#isContactSelected">isContactSelected</a></li><li><a href="global.html#keepEditedSubtask">keepEditedSubtask</a></li><li><a href="global.html#legalLinks">legalLinks</a></li><li><a href="global.html#loadContacts">loadContacts</a></li><li><a href="global.html#loadContactsWithoutRendering">loadContactsWithoutRendering</a></li><li><a href="global.html#loadScriptOnce">loadScriptOnce</a></li><li><a href="global.html#loadTasks">loadTasks</a></li><li><a href="global.html#logOut">logOut</a></li><li><a href="global.html#makePasswordVisible">makePasswordVisible</a></li><li><a href="global.html#moveLogoToTopLeft">moveLogoToTopLeft</a></li><li><a href="global.html#navLinks">navLinks</a></li><li><a href="global.html#onEditContact">onEditContact</a></li><li><a href="global.html#openAddTaskInstedOverlay">openAddTaskInstedOverlay</a></li><li><a href="global.html#openAddTaskOverlay">openAddTaskOverlay</a></li><li><a href="global.html#openCategories">openCategories</a></li><li><a href="global.html#openDropdownContacts">openDropdownContacts</a></li><li><a href="global.html#openTaskOverlay">openTaskOverlay</a></li><li><a href="global.html#patchData">patchData</a></li><li><a href="global.html#picker">picker</a></li><li><a href="global.html#postData">postData</a></li><li><a href="global.html#pushCheckedContacts">pushCheckedContacts</a></li><li><a href="global.html#pushNewTaskToApi">pushNewTaskToApi</a></li><li><a href="global.html#pushStatusToApi">pushStatusToApi</a></li><li><a href="global.html#pushSubtasksWithStatus">pushSubtasksWithStatus</a></li><li><a href="global.html#pushUpdatedTaskToApi">pushUpdatedTaskToApi</a></li><li><a href="global.html#putData">putData</a></li><li><a href="global.html#refreshBoard">refreshBoard</a></li><li><a href="global.html#removeActiveFromOverlayContact">removeActiveFromOverlayContact</a></li><li><a href="global.html#renderContact">renderContact</a></li><li><a href="global.html#renderContactList">renderContactList</a></li><li><a href="global.html#renderSelectedContactsFromApi">renderSelectedContactsFromApi</a></li><li><a href="global.html#renderSubtasks">renderSubtasks</a></li><li><a href="global.html#renderSubtasksFromTask">renderSubtasksFromTask</a></li><li><a href="global.html#resetDateValidation">resetDateValidation</a></li><li><a href="global.html#resetTaskChangings">resetTaskChangings</a></li><li><a href="global.html#safeFetch">safeFetch</a></li><li><a href="global.html#saveEditedContact">saveEditedContact</a></li><li><a href="global.html#setActiveContact">setActiveContact</a></li><li><a href="global.html#setDefaultToCategoryDropdown">setDefaultToCategoryDropdown</a></li><li><a href="global.html#setDefaultToContactCheckboxes">setDefaultToContactCheckboxes</a></li><li><a href="global.html#setDefaultToContactDropdown">setDefaultToContactDropdown</a></li><li><a href="global.html#showCalender">showCalender</a></li><li><a href="global.html#showFieldWarning">showFieldWarning</a></li><li><a href="global.html#showOverlay">showOverlay</a></li><li><a href="global.html#showOwnContact">showOwnContact</a></li><li><a href="global.html#showPassword">showPassword</a></li><li><a href="global.html#showSelectedContacts">showSelectedContacts</a></li><li><a href="global.html#showSidebarAndHeader">showSidebarAndHeader</a></li><li><a href="global.html#showSignUpContainer">showSignUpContainer</a></li><li><a href="global.html#showSubtaskPick">showSubtaskPick</a></li><li><a href="global.html#showSubtaskPicks">showSubtaskPicks</a></li><li><a href="global.html#showTaskDiv">showTaskDiv</a></li><li><a href="global.html#showTechnicalTaskInInput">showTechnicalTaskInInput</a></li><li><a href="global.html#showToast">showToast</a></li><li><a href="global.html#showUserStoryInInput">showUserStoryInInput</a></li><li><a href="global.html#signUpUser">signUpUser</a></li><li><a href="global.html#standardPasswordSymbol">standardPasswordSymbol</a></li><li><a href="global.html#subtasks">subtasks</a></li><li><a href="global.html#switchStatus">switchStatus</a></li><li><a href="global.html#taskInfoRef">taskInfoRef</a></li><li><a href="global.html#tasks">tasks</a></li><li><a href="global.html#toggleBoxChecked">toggleBoxChecked</a></li><li><a href="global.html#toggleCheckbox">toggleCheckbox</a></li><li><a href="global.html#toggleClasslistForDropdown">toggleClasslistForDropdown</a></li><li><a href="global.html#toggleMobileMenu">toggleMobileMenu</a></li><li><a href="global.html#togglePriorityBtn">togglePriorityBtn</a></li><li><a href="global.html#toggleTaskDivs">toggleTaskDivs</a></li><li><a href="global.html#updateCategoryColor">updateCategoryColor</a></li><li><a href="global.html#updateContactInDatabase">updateContactInDatabase</a></li><li><a href="global.html#updateDayTime">updateDayTime</a></li><li><a href="global.html#updateProgressBar">updateProgressBar</a></li><li><a href="global.html#updateSummaryCounters">updateSummaryCounters</a></li><li><a href="global.html#updateTaskAfterEdit">updateTaskAfterEdit</a></li><li><a href="global.html#updateTaskWithPriority">updateTaskWithPriority</a></li><li><a href="global.html#updateUIAfterAdd">updateUIAfterAdd</a></li><li><a href="global.html#updateUserGreeting">updateUserGreeting</a></li><li><a href="global.html#updateUserName">updateUserName</a></li><li><a href="global.html#users">users</a></li><li><a href="global.html#validateDate">validateDate</a></li><li><a href="global.html#validateSignUpValues">validateSignUpValues</a></li><li><a href="global.html#visibleSignUp">visibleSignUp</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Sun Nov 02 2025 10:53:14 GMT+0100 (Central European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

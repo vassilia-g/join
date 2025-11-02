@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: scripts/board-task-overlay.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: scripts/board-task-overlay.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/** 
+ * Local state and DOM references used by the task overlay module.
+ */
+let deletedContacts = [];
+let boards;
+let searchBarElement = document.querySelector('.board-search-bar');
+let warningText = document.querySelector('.no-task-found-warning');
+
+
+/** 
+ * Initialize board definitions (container + filler) for the four columns.
+ * Returns an array with references used to observe and manage empty-state fillers.
+ */
+function initBoards() {
+  return [
+    { container: document.getElementById('new-task-div'), filler: document.getElementById('to-do-filler') },
+    { container: document.getElementById('new-task-progress-div'), filler: document.getElementById('progress-filler') },
+    { container: document.getElementById('new-task-feedback-div'), filler: document.getElementById('feedback-filler') },
+    { container: document.getElementById('new-task-done-div'), filler: document.getElementById('done-filler') }
+  ];
+}
+
+
+/** 
+ * Set up MutationObservers for each board to toggle its empty-state filler
+ * whenever children are added or removed.
+ */
+document.addEventListener('DOMContentLoaded', () => {
+  boards = initBoards();
+  boards.forEach(board => {
+    const observer = new MutationObserver(mutations => {
+      mutations.forEach(() => {
+        if (board.container.children.length > 0) {
+          board.filler.classList.add('d-none');
+        } else {
+          board.filler.classList.remove('d-none');
+        }
+      });
+    });
+    observer.observe(board.container, { childList: true });
+  });
+});
+
+
+/** 
+ * Fetch a specific task from the backend and open the overlay with its data.
+ * Handles network errors and missing task cases.
+ */
+async function openTaskOverlay(taskId) {
+  try {
+    const response = await fetch(`${BASE_URL}/tasks.json`);
+    if (!response.ok) throw new Error('Fehler beim Laden der Tasks');
+    const data = await response.json();
+    const task = data[taskId];
+    if (!task) {
+      console.warn(`Task mit ID ${taskId} nicht gefunden.`);
+      return;
+    }
+    getOverlayContentWithTask(task, taskId);
+    updateCategoryColor();
+  } catch (error) {
+    console.error('Fehler beim Öffnen des Task-Overlays:', error);
+    alert('Task konnte nicht geladen werden.');
+  }
+}
+
+
+/** 
+ * Inject the task markup into the overlay and animate it visible.
+ * Uses the boardTaskOverlayTemplate to build the content.
+ */
+function getOverlayContentWithTask(task, taskId) {
+  const overlay = document.getElementById('task-overlay');
+  const overlayContent = document.getElementById('task-overlay-content');
+  overlayContent.innerHTML = boardTaskOverlayTemplate(task, taskId);
+  overlay.classList.remove('d-none');
+  overlayContent.classList.remove('d-none');
+  setTimeout(() => {
+    overlay.classList.add('active');
+    overlayContent.classList.add('active');
+  }, 10);
+}
+
+
+/** 
+ * Close the visible task overlay with exit animation and hide afterwards.
+ */
+function closeTaskOverlay() {
+  const overlay = document.getElementById('task-overlay');
+  const overlayContent = document.getElementById('task-overlay-content');
+  overlay.classList.remove('active');
+  overlayContent.classList.remove('active');
+  setTimeout(() => {
+    overlay.classList.add('d-none');
+    overlayContent.classList.add('d-none');
+  }, 500);
+}
+
+
+/** 
+ * Update category label colors for all category elements in the overlay/board.
+ * Specific categories get hardcoded background colors.
+ */
+function updateCategoryColor() {
+  const categoryElements = document.querySelectorAll('.category');
+  categoryElements.forEach(categoryElement => {
+    const categoryText = categoryElement.innerText.trim();
+    if (categoryText === "User Story") {
+      categoryElement.style.backgroundColor = '#0038FF';
+    } else if (categoryText === "Technical Task") {
+      categoryElement.style.backgroundColor = '#1FD7C1';
+    } else {
+      categoryElement.style.backgroundColor = '';
+    }
+  });
+}
+
+
+/** 
+ * Check if the given tasks array is empty and toggle the search/no-results UI.
+ * Also inspects each task's rendered element to toggle visibility of parts
+ * depending on available task data (description, contacts, subtasks).
+ */
+function checkIfEmpty(tasks) {
+  if (tasks.length == 0) {
+    searchBarElement.classList.add('no-task-found');
+    warningText.classList.remove('d-none');
+  } else {
+    searchBarElement.classList.remove('no-task-found');
+    warningText.classList.add('d-none');
+  }
+
+  tasks.forEach(task => {
+    const taskElement = document.querySelector(`[data-task-index="${task.id}"]`);
+    if (!taskElement) return;
+    const taskInfo = taskElement.querySelector('.task-info');
+    const taskContent = taskElement.querySelector('.task-content');
+    const taskStatus = taskElement.querySelector('.task-status');
+    checkContentFromTask(taskInfo, taskContent, taskStatus, task);
+  });
+}
+
+
+/** 
+ * Inspect a single task's data and determine which UI parts should be visible.
+ * Detects presence of description, details (priority/contacts) and subtasks.
+ */
+function checkContentFromTask(taskInfo, taskContent, taskStatus, task) {
+  const hasContent =
+    (typeof task.description === 'string' &amp;&amp; task.description.trim() !== '');
+  const hasDetails =
+    (typeof task.priorityValue === 'string' &amp;&amp; task.priorityValue.trim() !== '') ||
+    (task.contactsInitials &amp;&amp; Object.keys(task.contactsInitials).length > 0);
+  const hasSubtasks = (() => {
+    if (!task.subtasks) return false;
+    if (Array.isArray(task.subtasks)) return task.subtasks.length > 0;
+    if (typeof task.subtasks === 'string') return task.subtasks.trim() !== '';
+    return false;
+  })();
+  toggleTaskDivs(taskInfo, taskContent, taskStatus, hasContent, hasDetails, hasSubtasks)
+}
+
+
+/** 
+ * Show or hide specific sub-elements of a task card based on booleans.
+ */
+function toggleTaskDivs(taskInfo, taskContent, taskStatus, hasContent, hasDetails, hasSubtasks) {
+  if (taskInfo) taskInfo.classList.toggle('d-none', !hasDetails);
+  if (taskContent) taskContent.classList.toggle('d-none', !hasContent);
+  if (taskStatus) taskStatus.classList.toggle('d-none', !hasSubtasks);
+}
+
+
+/** 
+ * Prompt for deletion and remove a task via DELETE API call, then refresh UI.
+ */
+async function deleteTask(taskId) {
+  if (!confirm("Willst du diese Task wirklich löschen?")) return;
+  try {
+    await deleteData(`tasks/${taskId}`);
+    closeTaskOverlay();
+    loadTasks();
+  } catch (error) {
+    alert('Task konnte nicht gelöscht werden.');
+  }
+}
+
+
+/** 
+ * Utility to load a script tag only once. Returns a promise resolved when loaded.
+ */
+function loadScriptOnce(id, src) {
+  return new Promise((resolve, reject) => {
+    if (document.getElementById(id)) return resolve();
+    const s = document.createElement('script');
+    s.id = id;
+    s.src = src;
+    s.onload = () => resolve();
+    s.onerror = () => reject(new Error(`Script ${src} konnte nicht geladen werden`));
+    document.body.appendChild(s);
+  });
+}
+
+
+/** 
+ * Enter edit mode for a task: set flags and fetch edit-ready content into overlay.
+ */
+async function editTask(taskId) {
+  isEditingTask = true;
+  currentTaskId = taskId;
+  const overlay = document.getElementById('task-overlay');
+  const overlayContent = document.getElementById('task-overlay-content');
+  await getTaskContentFromApi(overlay, overlayContent, taskId);
+}
+
+
+/** 
+ * Fetch task data and prepare the add-task form populated with that task's values.
+ * Loads required scripts and initializes UI (priority, contacts, subtasks).
+ */
+async function getTaskContentFromApi(overlay, overlayContent, taskId) {
+  const data = await getData('tasks/');
+  const task = data[taskId];
+  if (!task) throw new Error(`Task mit ID ${taskId} nicht gefunden`);
+  await getAddTaskInput(taskId, overlayContent, task)
+  await allAddTaskScripts();
+  disableCategoryEdit();
+  getTaskPriority(task);
+  getTaskContent(task, taskId);
+  getTaskContacts(task, taskId);
+  overlay.classList.remove('d-none');
+  overlay.classList.add('active');
+}
+
+
+/** 
+ * Disable category editing in the add/edit overlay to prevent changing it while editing.
+ */
+function disableCategoryEdit() {
+  const categoryEdit = document.getElementById('task-category');
+  categoryEdit.onclick = null;
+  categoryEdit.style.cursor = "default";
+}
+
+
+/** 
+ * Load the add-task HTML fragment, clone the form structure and insert into overlay.
+ */
+async function getAddTaskInput(taskId, overlayContent, task) {
+  const htmlResponse = await fetch('../html/add-task.html');
+  const html = await htmlResponse.text();
+  const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = html;
+  const taskContent = tempDiv.querySelector('.create-task');
+  getOverlayContent(overlayContent, taskContent, taskId, task);
+}
+
+
+/** 
+ * If task has contact IDs, render the selected contacts into the edit overlay.
+ */
+async function getTaskContacts(task, taskId) {
+  if (task?.contactsId) {
+    renderSelectedContactsFromApi(task, taskId)
+  } else {
+    return;
+  }
+}
+
+
+/** 
+ * Populate the selected-contacts container from task contact arrays.
+ * Ensures checkedContacts global receives the rendered items for later updates.
+ */
+async function renderSelectedContactsFromApi(task, taskId) {
+  const selectedContacts = document.getElementById('selected-contacts')
+  const { contactsColor = [], contactsInitials = [], contactsNames = [], contactsId = [], contactsEmail = [], contactsPhones = [] } = task;
+  if (contactsColor.length !== contactsInitials.length) console.warn(`⚠️ Unterschiedliche Längen in contactsColor und contactsInitials bei Task ${taskId}`);
+  contactsInitials.forEach((initials, i) => {
+    const contact = {
+      id: contactsId[i],
+      color: contactsColor[i] || '#ccc',
+      initials,
+      name: contactsNames[i],
+      email: contactsEmail[i] || '',
+      phone: contactsPhones[i] || ''
+    };
+    if (!checkedContacts.some(c => c.id === contact.id)) checkedContacts.push(contact);
+    selectedContacts.innerHTML += svgTemplate(contact.color, contact.initials);
+  });
+}
+
+
+/** 
+ * Ensure all add-task related scripts are loaded (used when editing to reuse the form UI).
+ */
+async function allAddTaskScripts() {
+  await loadScriptOnce('add-task-script', '../scripts/add-task.js');
+  await loadScriptOnce('add-task-sub-menu-script', '../scripts/add-task-sub-menus.js');
+  await loadScriptOnce('add-task-template-script', '../scripts/templates/add-task-template.js');
+}
+
+
+/** 
+ * Replace overlayContent with a cloned create-task form and append edit buttons area.
+ */
+function getOverlayContent(overlayContent, taskContent, taskId, task) {
+  overlayContent.innerHTML = '';
+  overlayContent.appendChild(taskContent.cloneNode(true));
+  const innerContainer = document.createElement('div');
+  innerContainer.id = 'edit-task-btn-div';
+  innerContainer.classList.add('edit-extra');
+  overlayContent.appendChild(innerContainer);
+  innerContainer.innerHTML += editandResetTaskBtnTemplate(taskId, task);
+}
+
+
+/** 
+ * Initialize priority button state and attach click handlers to toggle selection.
+ */
+function getTaskPriority(task) {
+  const urgentButton = document.getElementById('urgent-priority-btn');
+  const mediumButton = document.getElementById('medium-priority-btn');
+  const lowButton = document.getElementById('low-priority-btn');
+  getPriorityFromTaskApi(urgentButton, mediumButton, lowButton, task)
+  urgentButton.addEventListener('click', () => togglePriorityBtn(urgentButton));
+  mediumButton.addEventListener('click', () => togglePriorityBtn(mediumButton));
+  lowButton.addEventListener('click', () => togglePriorityBtn(lowButton));
+}
+
+
+/** 
+ * Set the active priority button according to task.priorityLevel.
+ */
+function getPriorityFromTaskApi(urgentButton, mediumButton, lowButton, task) {
+  if (task.priorityLevel === 'urgent') {
+    urgentButton.classList.add('priority-urgent-active');
+    urgentButton.classList.remove('priority-urgent-default');
+  }
+  else if (task.priorityLevel === 'medium') {
+    mediumButton.classList.add('priority-medium-active');
+    mediumButton.classList.remove('priority-medium-default');
+  }
+  else if (task.priorityLevel === 'low') {
+    lowButton.classList.add('priority-low-active');
+    lowButton.classList.remove('priority-low-default');
+  };
+}
+
+
+/** 
+ * Populate add-task inputs (title, description, due date, category) and initialize subtasks UI.
+ */
+function getTaskContent(task, taskId) {
+  document.getElementById('task-title').value = task.title || '';
+  document.getElementById('task-description').value = task.description || '';
+  document.getElementById('task-due-date').value = task.dueDate || '';
+  document.getElementById('input-category').innerText = task.category || '';
+  const newSubtaskInput = document.getElementById('task-subtasks');
+  newSubtaskInput.addEventListener('click', () => showSubtaskPicks(taskId));
+  getSubtasks(task, taskId);
+}
+
+
+/** 
+ * Reveal the subtask action controls (delete/keep) when user focuses the subtask input area.
+ */
+function showSubtaskPicks(taskId) {
+  const subtaskPicks = document.getElementById('delete-or-keep-subtask');
+  const addSubtaskSvg = document.getElementById('add-subtask-svg');
+  subtaskPicks.classList.remove('d-none');
+}
+
+
+/** 
+ * Render the task's subtasks into the selected-subtasks list and mark checked states.
+ */
+function getSubtasks(task, taskId) {
+  const subtasksList = document.getElementById('selected-subtasks');
+  subtasksList.innerHTML = '';
+  if (task?.subtasks?.length > 0) {
+    subtasks.push(...task.subtasks);
+    let checkedSubtasks = task.checkedSubtasks || [];
+    if (!Array.isArray(checkedSubtasks)) {
+      checkedSubtasks = Object.values(checkedSubtasks);
+    }
+    checkedSubtasks = checkedSubtasks.flat();
+    task.subtasks.forEach((subtask, index) => {
+      const isChecked = checkedSubtasks.includes(subtask);
+      const checkboxClass = isChecked ? 'checked' : 'unchecked';
+      const checkboxIcon = isChecked ? checkedBox : uncheckedBox;
+      subtasksList.innerHTML += showApiSubtask(checkboxClass, checkboxIcon, taskId, index, subtask);
+    });
+  }
+}
+
+
+/** 
+ * Read new subtask input and forward to the API add helper.
+ */
+async function getNewSubtaskToApi(taskId) {
+  const subtaskInput = document.getElementById('task-subtasks').value.trim();
+  if (!subtaskInput) {
+    alert('Bitte gib eine Subtask-Beschreibung ein.');
+    return;
+  }
+  await getSubtasksFromApi(subtaskInput, taskId);
+}
+
+
+/** 
+ * Fetch task, append a new subtask and PUT the updated task back to the backend.
+ */
+async function getSubtasksFromApi(subtaskInput, taskId) {
+  try {
+    const response = await fetch(`${BASE_URL}/tasks/${taskId}.json`);
+    const task = await response.json();
+    if (!task) throw new Error(`Task mit ID ${taskId} nicht gefunden`);
+    if (!Array.isArray(task.subtasks)) {
+      task.subtasks = [];
+    }
+    task.subtasks.push(subtaskInput);
+    await putData(`tasks/${taskId}`, task);
+    getSubtasks(task, taskId);
+    document.getElementById('task-subtasks').value = '';
+  } catch (error) {
+    alert('Subtask konnte nicht hinzugefügt werden.');
+  }
+}
+
+
+/** 
+ * Populate the subtask edit UI for a single subtask index so the user can change text.
+ */
+async function editApiSubtask(taskId, subtaskIndex) {
+  const subtasksList = document.getElementById('selected-subtasks');
+  subtasksList.innerHTML = '';
+  try {
+    const response = await fetch(`${BASE_URL}/tasks/${taskId}.json`);
+    const task = await response.json();
+    if (!task || !task.subtasks) return;
+    const subtask = task.subtasks[subtaskIndex];
+    subtasksList.innerHTML += showApiSubtaskToEdit(subtask, subtaskIndex, taskId);
+  } catch (error) {
+    console.error('Fehler beim Laden des Subtasks:', error);
+  }
+}
+
+
+/** 
+ * Compare edited subtask value with the stored one and save if changed.
+ */
+async function checkIfSubtaskWasEdited(task, input, subtaskIndex, taskId) {
+  const oldValue = task.subtasks[subtaskIndex];
+  if (oldValue === input) {
+    return;
+  }
+  task.subtasks[subtaskIndex] = input;
+  try {
+    await putData(`tasks/${taskId}`, task)
+  } catch (error) {
+    alert('Subtask konnte nicht gespeichert werden.');
+  }
+}
+
+
+/** 
+ * Toggle a subtask checkbox visual state and icon between checked/unchecked.
+ */
+function toggleBoxChecked(checkbox) {
+  const isChecked = checkbox.classList.toggle('checked');
+  checkbox.classList.toggle('unchecked', !isChecked);
+  checkbox.innerHTML = isChecked ? checkedBox : uncheckedBox;
+}
+
+
+/** 
+ * Render selected contacts (up to three) and an overflow indicator for a task card.
+ * Builds HTML for selected contacts and forwards to the boardTaskTemplate builder.
+ */
+function checkContactsLength(taskElement, task, taskId) {
+  let selectedContactsComplete = '';
+  if (!task.contactsInitials) task.contactsInitials = [];
+  if (!task.contactsColor) task.contactsColor = [];
+  const displayCount = Math.min(task.contactsInitials.length, 3);
+  for (let i = 0; i &lt; displayCount; i++) {
+    const contact = task.contactsInitials[i];
+    const color = task.contactsColor[i] || '#ccc';
+    const contactSVG = svgTemplate(color, contact);
+    selectedContactsComplete += `&lt;div class="selected-contacts-svg">${contactSVG}&lt;/div>`;
+  }
+  if (task.contactsInitials.length > 3) {
+    const extraInitials = task.contactsInitials.slice(3);
+    selectedContactsComplete += showMoreContacts(extraInitials);
+  }
+  boardTaskTemplate(taskElement, task, taskId, selectedContactsComplete);
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Contact.html">Contact</a></li><li><a href="User.html">User</a></li></ul><h3>Global</h3><ul><li><a href="global.html#BASE_URL">BASE_URL</a></li><li><a href="global.html#SelectedContactsComplete">SelectedContactsComplete</a></li><li><a href="global.html#UserCollection">UserCollection</a></li><li><a href="global.html#addContact">addContact</a></li><li><a href="global.html#addContactOverlay">addContactOverlay</a></li><li><a href="global.html#addSubtask">addSubtask</a></li><li><a href="global.html#allAddTaskScripts">allAddTaskScripts</a></li><li><a href="global.html#allowDrop">allowDrop</a></li><li><a href="global.html#backtoLogIn">backtoLogIn</a></li><li><a href="global.html#changeAddTaskLink">changeAddTaskLink</a></li><li><a href="global.html#changeBoardLink">changeBoardLink</a></li><li><a href="global.html#changeButtonsToDefault">changeButtonsToDefault</a></li><li><a href="global.html#changeContactsLink">changeContactsLink</a></li><li><a href="global.html#changeHelpLink">changeHelpLink</a></li><li><a href="global.html#changeLegalNoticeLink">changeLegalNoticeLink</a></li><li><a href="global.html#changePrivacyPolicyLink">changePrivacyPolicyLink</a></li><li><a href="global.html#changeSidebarLinksStyle">changeSidebarLinksStyle</a></li><li><a href="global.html#changeSummaryLink">changeSummaryLink</a></li><li><a href="global.html#changeSymbols">changeSymbols</a></li><li><a href="global.html#checkArrows">checkArrows</a></li><li><a href="global.html#checkContact">checkContact</a></li><li><a href="global.html#checkContactsLength">checkContactsLength</a></li><li><a href="global.html#checkContentFromTask">checkContentFromTask</a></li><li><a href="global.html#checkEditedApiSubtask">checkEditedApiSubtask</a></li><li><a href="global.html#checkIfEmpty">checkIfEmpty</a></li><li><a href="global.html#checkIfSubtaskWasEdited">checkIfSubtaskWasEdited</a></li><li><a href="global.html#checkSignUpPasswords">checkSignUpPasswords</a></li><li><a href="global.html#clearAllInputFields">clearAllInputFields</a></li><li><a href="global.html#clearBoardContainers">clearBoardContainers</a></li><li><a href="global.html#clearContacts">clearContacts</a></li><li><a href="global.html#clearInputs">clearInputs</a></li><li><a href="global.html#clearSignUpForm">clearSignUpForm</a></li><li><a href="global.html#clearSubtaskInput">clearSubtaskInput</a></li><li><a href="global.html#clearTask">clearTask</a></li><li><a href="global.html#closeOverlay">closeOverlay</a></li><li><a href="global.html#closeTaskOverlay">closeTaskOverlay</a></li><li><a href="global.html#contacts">contacts</a></li><li><a href="global.html#createContact">createContact</a></li><li><a href="global.html#createContactItem">createContactItem</a></li><li><a href="global.html#createElementForTaskArray">createElementForTaskArray</a></li><li><a href="global.html#createLetterHeader">createLetterHeader</a></li><li><a href="global.html#createPlaceholder">createPlaceholder</a></li><li><a href="global.html#createTask">createTask</a></li><li><a href="global.html#dateInput">dateInput</a></li><li><a href="global.html#debounce">debounce</a></li><li><a href="global.html#debouncedFilter">debouncedFilter</a></li><li><a href="global.html#deleteContactById">deleteContactById</a></li><li><a href="global.html#deleteData">deleteData</a></li><li><a href="global.html#deleteEditedSubtask">deleteEditedSubtask</a></li><li><a href="global.html#deleteSubtask">deleteSubtask</a></li><li><a href="global.html#deleteSubtaskFromApi">deleteSubtaskFromApi</a></li><li><a href="global.html#deleteSubtaskFromList">deleteSubtaskFromList</a></li><li><a href="global.html#deleteTask">deleteTask</a></li><li><a href="global.html#deletedContacts">deletedContacts</a></li><li><a href="global.html#disableCategoryEdit">disableCategoryEdit</a></li><li><a href="global.html#disableSignUpButton">disableSignUpButton</a></li><li><a href="global.html#drag">drag</a></li><li><a href="global.html#drop">drop</a></li><li><a href="global.html#dropdownIcon">dropdownIcon</a></li><li><a href="global.html#dropdownMenu">dropdownMenu</a></li><li><a href="global.html#editApiSubtask">editApiSubtask</a></li><li><a href="global.html#editContactOverlay">editContactOverlay</a></li><li><a href="global.html#editSubtask">editSubtask</a></li><li><a href="global.html#editTask">editTask</a></li><li><a href="global.html#enableCreateTaskButton">enableCreateTaskButton</a></li><li><a href="global.html#enableSignUpButton">enableSignUpButton</a></li><li><a href="global.html#eventListenerForInput">eventListenerForInput</a></li><li><a href="global.html#eventListenerForSelectCategory">eventListenerForSelectCategory</a></li><li><a href="global.html#extractInitialsFromSvg">extractInitialsFromSvg</a></li><li><a href="global.html#fillEditContactForm">fillEditContactForm</a></li><li><a href="global.html#filterTasksByText">filterTasksByText</a></li><li><a href="global.html#getAddTaskContent">getAddTaskContent</a></li><li><a href="global.html#getAddTaskInput">getAddTaskInput</a></li><li><a href="global.html#getAllUsers">getAllUsers</a></li><li><a href="global.html#getBoardContainers">getBoardContainers</a></li><li><a href="global.html#getContactDropdown">getContactDropdown</a></li><li><a href="global.html#getContactFromForm">getContactFromForm</a></li><li><a href="global.html#getContactsAndTask">getContactsAndTask</a></li><li><a href="global.html#getContactsFromArray">getContactsFromArray</a></li><li><a href="global.html#getContactsInitials">getContactsInitials</a></li><li><a href="global.html#getData">getData</a></li><li><a href="global.html#getFirstDueDateTask">getFirstDueDateTask</a></li><li><a href="global.html#getHoverEffect">getHoverEffect</a></li><li><a href="global.html#getInitials">getInitials</a></li><li><a href="global.html#getMediumForDefault">getMediumForDefault</a></li><li><a href="global.html#getNewSubtaskToApi">getNewSubtaskToApi</a></li><li><a href="global.html#getOverlayContent">getOverlayContent</a></li><li><a href="global.html#getOverlayContentWithTask">getOverlayContentWithTask</a></li><li><a href="global.html#getPriorityFromTask">getPriorityFromTask</a></li><li><a href="global.html#getPriorityFromTaskApi">getPriorityFromTaskApi</a></li><li><a href="global.html#getRandomColor">getRandomColor</a></li><li><a href="global.html#getSignUpValues">getSignUpValues</a></li><li><a href="global.html#getSortedContacts">getSortedContacts</a></li><li><a href="global.html#getStatusPosition">getStatusPosition</a></li><li><a href="global.html#getSubtaskRef">getSubtaskRef</a></li><li><a href="global.html#getSubtasks">getSubtasks</a></li><li><a href="global.html#getSubtasksFromApi">getSubtasksFromApi</a></li><li><a href="global.html#getTargetColumn">getTargetColumn</a></li><li><a href="global.html#getTaskContacts">getTaskContacts</a></li><li><a href="global.html#getTaskContent">getTaskContent</a></li><li><a href="global.html#getTaskContentFromApi">getTaskContentFromApi</a></li><li><a href="global.html#getTaskDueDate">getTaskDueDate</a></li><li><a href="global.html#getTaskInputs">getTaskInputs</a></li><li><a href="global.html#getTaskPriority">getTaskPriority</a></li><li><a href="global.html#getTaskfromApiForArrayByText">getTaskfromApiForArrayByText</a></li><li><a href="global.html#getTasksCounter">getTasksCounter</a></li><li><a href="global.html#getTasksCounterByPriorityLevel">getTasksCounterByPriorityLevel</a></li><li><a href="global.html#getTasksCounterByStatus">getTasksCounterByStatus</a></li><li><a href="global.html#getUser">getUser</a></li><li><a href="global.html#goToStartpage">goToStartpage</a></li><li><a href="global.html#guestGreeting">guestGreeting</a></li><li><a href="global.html#guestLogIn">guestLogIn</a></li><li><a href="global.html#handleResize">handleResize</a></li><li><a href="global.html#hideContactContent">hideContactContent</a></li><li><a href="global.html#hideDropdownCategories">hideDropdownCategories</a></li><li><a href="global.html#hideDropdownContacts">hideDropdownContacts</a></li><li><a href="global.html#hideOverlay">hideOverlay</a></li><li><a href="global.html#hidePassword">hidePassword</a></li><li><a href="global.html#hideTaskDiv">hideTaskDiv</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initAddTask">initAddTask</a></li><li><a href="global.html#initBoards">initBoards</a></li><li><a href="global.html#initContacts">initContacts</a></li><li><a href="global.html#isContactSelected">isContactSelected</a></li><li><a href="global.html#keepEditedSubtask">keepEditedSubtask</a></li><li><a href="global.html#legalLinks">legalLinks</a></li><li><a href="global.html#loadContacts">loadContacts</a></li><li><a href="global.html#loadContactsWithoutRendering">loadContactsWithoutRendering</a></li><li><a href="global.html#loadScriptOnce">loadScriptOnce</a></li><li><a href="global.html#loadTasks">loadTasks</a></li><li><a href="global.html#logOut">logOut</a></li><li><a href="global.html#makePasswordVisible">makePasswordVisible</a></li><li><a href="global.html#moveLogoToTopLeft">moveLogoToTopLeft</a></li><li><a href="global.html#navLinks">navLinks</a></li><li><a href="global.html#onEditContact">onEditContact</a></li><li><a href="global.html#openAddTaskInstedOverlay">openAddTaskInstedOverlay</a></li><li><a href="global.html#openAddTaskOverlay">openAddTaskOverlay</a></li><li><a href="global.html#openCategories">openCategories</a></li><li><a href="global.html#openDropdownContacts">openDropdownContacts</a></li><li><a href="global.html#openTaskOverlay">openTaskOverlay</a></li><li><a href="global.html#patchData">patchData</a></li><li><a href="global.html#picker">picker</a></li><li><a href="global.html#postData">postData</a></li><li><a href="global.html#pushCheckedContacts">pushCheckedContacts</a></li><li><a href="global.html#pushNewTaskToApi">pushNewTaskToApi</a></li><li><a href="global.html#pushStatusToApi">pushStatusToApi</a></li><li><a href="global.html#pushSubtasksWithStatus">pushSubtasksWithStatus</a></li><li><a href="global.html#pushUpdatedTaskToApi">pushUpdatedTaskToApi</a></li><li><a href="global.html#putData">putData</a></li><li><a href="global.html#refreshBoard">refreshBoard</a></li><li><a href="global.html#removeActiveFromOverlayContact">removeActiveFromOverlayContact</a></li><li><a href="global.html#renderContact">renderContact</a></li><li><a href="global.html#renderContactList">renderContactList</a></li><li><a href="global.html#renderSelectedContactsFromApi">renderSelectedContactsFromApi</a></li><li><a href="global.html#renderSubtasks">renderSubtasks</a></li><li><a href="global.html#renderSubtasksFromTask">renderSubtasksFromTask</a></li><li><a href="global.html#resetDateValidation">resetDateValidation</a></li><li><a href="global.html#resetTaskChangings">resetTaskChangings</a></li><li><a href="global.html#safeFetch">safeFetch</a></li><li><a href="global.html#saveEditedContact">saveEditedContact</a></li><li><a href="global.html#setActiveContact">setActiveContact</a></li><li><a href="global.html#setDefaultToCategoryDropdown">setDefaultToCategoryDropdown</a></li><li><a href="global.html#setDefaultToContactCheckboxes">setDefaultToContactCheckboxes</a></li><li><a href="global.html#setDefaultToContactDropdown">setDefaultToContactDropdown</a></li><li><a href="global.html#showCalender">showCalender</a></li><li><a href="global.html#showFieldWarning">showFieldWarning</a></li><li><a href="global.html#showOverlay">showOverlay</a></li><li><a href="global.html#showOwnContact">showOwnContact</a></li><li><a href="global.html#showPassword">showPassword</a></li><li><a href="global.html#showSelectedContacts">showSelectedContacts</a></li><li><a href="global.html#showSidebarAndHeader">showSidebarAndHeader</a></li><li><a href="global.html#showSignUpContainer">showSignUpContainer</a></li><li><a href="global.html#showSubtaskPick">showSubtaskPick</a></li><li><a href="global.html#showSubtaskPicks">showSubtaskPicks</a></li><li><a href="global.html#showTaskDiv">showTaskDiv</a></li><li><a href="global.html#showTechnicalTaskInInput">showTechnicalTaskInInput</a></li><li><a href="global.html#showToast">showToast</a></li><li><a href="global.html#showUserStoryInInput">showUserStoryInInput</a></li><li><a href="global.html#signUpUser">signUpUser</a></li><li><a href="global.html#standardPasswordSymbol">standardPasswordSymbol</a></li><li><a href="global.html#subtasks">subtasks</a></li><li><a href="global.html#switchStatus">switchStatus</a></li><li><a href="global.html#taskInfoRef">taskInfoRef</a></li><li><a href="global.html#tasks">tasks</a></li><li><a href="global.html#toggleBoxChecked">toggleBoxChecked</a></li><li><a href="global.html#toggleCheckbox">toggleCheckbox</a></li><li><a href="global.html#toggleClasslistForDropdown">toggleClasslistForDropdown</a></li><li><a href="global.html#toggleMobileMenu">toggleMobileMenu</a></li><li><a href="global.html#togglePriorityBtn">togglePriorityBtn</a></li><li><a href="global.html#toggleTaskDivs">toggleTaskDivs</a></li><li><a href="global.html#updateCategoryColor">updateCategoryColor</a></li><li><a href="global.html#updateContactInDatabase">updateContactInDatabase</a></li><li><a href="global.html#updateDayTime">updateDayTime</a></li><li><a href="global.html#updateProgressBar">updateProgressBar</a></li><li><a href="global.html#updateSummaryCounters">updateSummaryCounters</a></li><li><a href="global.html#updateTaskAfterEdit">updateTaskAfterEdit</a></li><li><a href="global.html#updateTaskWithPriority">updateTaskWithPriority</a></li><li><a href="global.html#updateUIAfterAdd">updateUIAfterAdd</a></li><li><a href="global.html#updateUserGreeting">updateUserGreeting</a></li><li><a href="global.html#updateUserName">updateUserName</a></li><li><a href="global.html#users">users</a></li><li><a href="global.html#validateDate">validateDate</a></li><li><a href="global.html#validateSignUpValues">validateSignUpValues</a></li><li><a href="global.html#visibleSignUp">visibleSignUp</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Sun Nov 02 2025 10:53:14 GMT+0100 (Central European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

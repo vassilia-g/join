@@ -1,0 +1,19 @@
+{
+    "source": {
+        "include": [
+            "./script.js",
+            "./scripts"
+        ],
+        "exclude": [
+            "./scripts/templates"
+        ],
+        "includePattern": ".js$",
+        "excludePattern": "(^|\\/|\\\\)_"
+    },
+    "opts": {
+        "destination": "./docs",
+        "recurse": true,
+        "encoding": "utf8"
+    },
+    "plugins": []
+}
