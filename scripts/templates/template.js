@@ -1,7 +1,7 @@
 function showSidebar() {
     return `
     <div class="logo"><a href="./summary.html">
-        <img src="../assets/imgs/join-logo/Logo-white.svg" /></a>
+        <img src="../assets/imgs/join-logo/logo-white.svg" /></a>
     </div>
     <div class="sidebar-nav">
         <a class="nav" href="./summary.html">
@@ -71,7 +71,7 @@ function showHeader(initials = 'GU') {
 function showSidebarBeforeLogin() {
     return `
         <div class="logo">
-            <img src="../assets/imgs/join-logo/Logo-white.svg" />
+            <img src="../assets/imgs/join-logo/logo-white.svg" />
         </div>
         <div class="sidebar-nav">
             <a class="nav" href="../index.html">
