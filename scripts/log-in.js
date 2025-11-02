@@ -208,8 +208,7 @@ function standardPasswordSymbol() {
 
 
 /** 
- * Show "visibility off" icon when input is currently masked.
- * (Note: function name duplicates another later in file.)
+ * Force the password field into masked mode and keep the hide icon visible.
  */
 function hidePassword() {
     const visibilityOffSymbol = document.getElementById('visibility-off');
