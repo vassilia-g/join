@@ -55,8 +55,9 @@
                             <div class="input-container">
                                 <div class="input-group">
                                     <input class="input-add-contact input-name" type="text" id="name" placeholder="Name"
-                                        pattern="^[A-Za-z\u00C4\u00D6\u00DC\u00E4\u00F6\u00FC\u00DF][A-Za-z\u00C4\u00D6\u00DC\u00E4\u00F6\u00FC\u00DF\\s-]+$"
-                                        required>
+                                        pattern="[\p{L}\s]*" required
+                                        oninvalid="setCustomValidity('Bitte nur Buchstaben eingeben ')"
+                                        oninput="this.setCustomValidity('')">
                                 </div>
                                 <div class="input-group">
                                     <input class="input-add-contact input-email" type="email" id="email"
@@ -128,8 +129,9 @@
                             <div class="input-container">
                                 <div class="input-group">
                                     <input id="edit-name" class="input-add-contact input-name" type="text"
-                                        pattern="^[A-Za-z\u00C4\u00D6\u00DC\u00E4\u00F6\u00FC\u00DF][A-Za-z\u00C4\u00D6\u00DC\u00E4\u00F6\u00FC\u00DF\\s-]+$"
-                                        placeholder="Name" required>
+                                        pattern="[\p{L}\s]*" placeholder="Name" required
+                                        oninvalid="setCustomValidity('Bitte nur Buchstaben eingeben ')"
+                                        oninput="this.setCustomValidity('')">
                                 </div>
                                 <div class="input-group">
                                     <input id="edit-email" class="input-add-contact input-email" type="email" id="email"
