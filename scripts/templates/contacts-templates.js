@@ -6,7 +6,7 @@ function contactList(contact) {
     }
     return `
             <div class="contact-content">
-            <div class="contact-avatar" style="background-color:${contact.color}">
+            <div class="contact-avatar no-caret" style="background-color:${contact.color}">
                 ${getInitials(contact.name)}
             </div>
             <div class="contact-info">
@@ -28,7 +28,7 @@ function showContactContent(contact) {
                   <path d="M4.43725 8.66673H19.3333C20.0696 8.66673 20.6666 9.26368 20.6666 10.0001C20.6666 10.7364 20.0696 11.3334 19.3333 11.3334H4.43725L10.6466 17.5427C11.1672 18.0634 11.1672 18.9074 10.6466 19.4281C10.126 19.9487 9.28187 19.9487 8.76125 19.4281L0.747464 11.4143C-0.0335847 10.6332 -0.0335831 9.3669 0.747465 8.58585L8.76125 0.57206C9.28187 0.0514398 10.126 0.0514406 10.6466 0.572061C11.1672 1.09268 11.1672 1.93677 10.6466 2.45739L4.43725 8.66673Z" fill="#29ABE2"/>
                   </svg>
                  </button>
-        <div class="contact-avatar-show" style="background-color:${contact.color}">
+        <div class="contact-avatar-show no-caret" style="background-color:${contact.color}">
          ${getInitials(contact.name || contact.username)}
         </div>
         <div class="contact-info">
@@ -75,7 +75,7 @@ function showOwnContactDetails(user) {
     return `
         <span class="contact-letter">Own Contact Details</span>
         <div id="contact-item" class="contact-content contact-item">
-            <div class="contact-avatar" style="background-color:${user.color}">
+            <div class="contact-avatar no-caret" style="background-color:${user.color}">
                 ${getInitials(user.username)}
             </div>
             <div class="contact-info">

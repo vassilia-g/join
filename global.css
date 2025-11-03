@@ -20,6 +20,22 @@ body {
     font-family: 'Inter';
 }
 
+h1,
+h2,
+h3,
+h4,
+span,
+strong,
+a,
+p
+{
+caret-color: transparent;
+}
+
+.no-caret{
+    caret-color: transparent;
+}
+
 a {
     text-decoration: none;
 }
