@@ -40,6 +40,7 @@ async function signUpUser(form) {
 
     const user = new User(
         null,                    /** id */
+        getRandomColor(),
         values.username,         /** username */
         values.pw,               /** password */
         values.email,            /** email */

@@ -20,6 +20,7 @@ class User {
      */
     async save() {
         const payload = {
+            color: this.color,
             createdAt: this.createdAt || Date.now(),
             username: this.username,
             email: this.email,
@@ -57,8 +58,12 @@ class User {
      */
     static async loadUserByEmail(email) {
         if (!email) return null;
+        const targetEmail = email.trim().toLowerCase();
         const allUsers = await UserCollection.loadAll();
-        return allUsers.find(u => u.email.toLowerCase() === email.toLowerCase()) || null;
+        return allUsers.find(u => {
+            if (typeof u.email !== 'string') return false;
+            return u.email.trim().toLowerCase() === targetEmail;
+        }) || null;
     }
 
 
@@ -96,7 +101,16 @@ class User {
 const UserCollection = {
     async loadAll() {
         const data = await getData("users") || {};
-        return Object.entries(data).map(([key, u]) => new User(key, u.username, u.password, u.email, u.status, u.createdAt));
+        return Object.entries(data).map(([key, u = {}]) => new User(
+            key,
+            u.color ?? null,
+            u.username ?? "",
+            u.password ?? "",
+            u.email ?? "",
+            u.status ?? "active",
+            u.createdAt ?? null,
+            u.phone ?? ""
+        ));
     }
 };
 

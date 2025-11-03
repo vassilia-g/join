@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="/css/contacts.css">
     <link rel="stylesheet" href="/css/responsive/responsive-sidebar-header.css">
     <link rel="stylesheet" href="/css/responsive/responsive-contacts.css">
+    <script src="/scripts/common.js"></script>
     <script src="/scripts/contacts.js"></script>
     <script src="/scripts/backend/api.js"></script>
     <script src="/scripts/backend/contact.js"></script>
@@ -53,8 +54,8 @@
                         <form id="add-contact-form" onsubmit="addContact(event)">
                             <div class="input-container">
                                 <div class="input-group">
-                                    <input class="input-add-contact input-name" type="text" id="name" placeholder="Name" pattern="^[A-Za-zÄÖÜäöüß][A-Za-zÄÖÜäöüß\s-]+$"
-                                        required>
+                                    <input class="input-add-contact input-name" type="text" id="name" placeholder="Name"
+                                        pattern="^[A-Za-zÄÖÜäöüß][A-Za-zÄÖÜäöüß\s-]+$" required>
                                 </div>
                                 <div class="input-group">
                                     <input class="input-add-contact input-email" type="email" id="email"
@@ -125,16 +126,16 @@
                         <form id="edit-contact-form" onsubmit="return saveEditedContact(event)">
                             <div class="input-container">
                                 <div class="input-group">
-                                    <input id="edit-name" class="input-add-contact input-name" type="text" pattern="^[A-Za-zÄÖÜäöüß][A-Za-zÄÖÜäöüß\s-]+$"
-                                        placeholder="Name" required>
+                                    <input id="edit-name" class="input-add-contact input-name" type="text"
+                                        pattern="^[A-Za-zÄÖÜäöüß][A-Za-zÄÖÜäöüß\s-]+$" placeholder="Name" required>
                                 </div>
                                 <div class="input-group">
                                     <input id="edit-email" class="input-add-contact input-email" type="email" id="email"
                                         placeholder="Email" required>
                                 </div>
                                 <div class="input-group">
-                                    <input id="edit-phone" class="input-add-contact input-phone" type="number" id="phone"
-                                        placeholder="Phone" required>
+                                    <input id="edit-phone" class="input-add-contact input-phone" type="number"
+                                        id="phone" placeholder="Phone" required>
                                 </div>
                                 <div id="input-button" class="input-button">
 
