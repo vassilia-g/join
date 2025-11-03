@@ -60,8 +60,12 @@
                                         oninput="this.setCustomValidity('')">
                                 </div>
                                 <div class="input-group">
-                                    <input class="input-add-contact input-email" type="email" id="email"
-                                        placeholder="Email" required>
+                                    <input class="input-add-contact input-email" type="text" id="email"
+                                        placeholder="Email" required
+                                        pattern="^[a-zA-Z0-9._%+\-ÄÖÜäöüß]+@[a-zA-Z0-9.\-ÄÖÜäöüß]+\.[A-Za-zÄÖÜäöüß]{2,}$"
+                                        title="Bitte eine gültige E-Mail-Adresse eingeben (z. B. name@example.de)"
+                                        oninvalid="this.setCustomValidity('Bitte eine gültige E-Mail-Adresse eingeben')"
+                                        oninput="this.setCustomValidity('')">
                                 </div>
                                 <div class="input-group">
                                     <input class="input-add-contact input-phone" type="number" id="phone"
@@ -134,8 +138,12 @@
                                         oninput="this.setCustomValidity('')">
                                 </div>
                                 <div class="input-group">
-                                    <input id="edit-email" class="input-add-contact input-email" type="email" id="email"
-                                        placeholder="Email" required>
+                                    <input id="edit-email" class="input-add-contact input-email" type="text" id="email"
+                                        placeholder="Email" required
+                                        pattern="^[a-zA-Z0-9._%+\-ÄÖÜäöüß]+@[a-zA-Z0-9.\-ÄÖÜäöüß]+\.[A-Za-zÄÖÜäöüß]{2,}$"
+                                        title="Bitte eine gültige E-Mail-Adresse eingeben (z. B. name@example.de)"
+                                        oninvalid="this.setCustomValidity('Bitte eine gültige E-Mail-Adresse eingeben')"
+                                        oninput="this.setCustomValidity('')">
                                 </div>
                                 <div class="input-group">
                                     <input id="edit-phone" class="input-add-contact input-phone" type="number"
