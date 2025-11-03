@@ -74,7 +74,7 @@ function boardTaskOverlayTemplate(task, taskId) {
         <h3 class="overlay-task-title">${task.title || ''}</h3>
       </div>
       <div class="overlay-description">
-        <p class="overlay-task-content">${task.description || ''}</p>
+        <p class="overlay-task-content" style="overflow-wrap: anywhere">${task.description || ''}</p>
       </div>
       <div class="overlay-due-date">
         <h4>Due date:</h4>
