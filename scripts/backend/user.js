@@ -3,8 +3,9 @@
  * @constructor
  * */
 class User {
-    constructor(id, username, password, email, status = "active", createdAt = Date.now(), phone = "") {
+    constructor(id, color, username, password, email, status = "active", createdAt = Date.now(), phone = "") {
         this.id = id || null; /** will be set when saved to backend */
+        this.color = color;
         this.username = username;
         this.password = password;
         this.email = email;
@@ -40,6 +41,7 @@ class User {
         if (!response) return null;
         return new User(
             id,
+            response.color,
             response.username,
             response.password,
             response.email,

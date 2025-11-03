@@ -22,7 +22,7 @@ async function loadContacts() {
             name: c.name?.trim() || "Unbekannt",
             email: c.email || "",
             phone: c.phone || "",
-            color: c.color || getRandomColor()
+            color: c.color || "black",
         }));
 
         renderContactList();
@@ -112,7 +112,7 @@ async function saveEditedContact(event) {
         name: form['edit-name'].value.trim(),
         email: form['edit-email'].value.trim(),
         phone: form['edit-phone'].value.trim(),
-        color: getRandomColor()
+        // color: getRandomColor()
     };
 
     if (id === currentUserId) {
