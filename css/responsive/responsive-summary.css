@@ -125,7 +125,8 @@
     }
 
     .welcome-message h1 {
-        font-size: 48px;
+        font-size: 38px;
+        width: 300px;
     }
 
     .welcome-message h2 {
@@ -175,7 +176,7 @@
     }
 
     .welcome-message h1 {
-        font-size: 32px;
+        font-size: 25px;
     }
 
     .welcome-message h2 {
