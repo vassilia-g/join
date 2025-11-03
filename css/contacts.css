@@ -437,21 +437,31 @@
 .contact-info {
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 .contact-info h2 {
     font-size: 47px;
     font-weight: 500;
     margin: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .contact-info strong {
     font-size: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .contact-email {
     font-size: 16px;
     color: #358CF0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 #contact-details {
