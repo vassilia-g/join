@@ -11,7 +11,7 @@ function contactList(contact) {
             </div>
             <div class="contact-info">
                 <strong class="contact-full-name">${contact.name}</strong>
-                <a href="mailto:${contact.email}" class="contact-email">${contact.email}</a>
+                <span class="contact-email">${contact.email}</span>
             </div>
         </div>
     `;
@@ -80,7 +80,7 @@ function showOwnContactDetails(user) {
             </div>
             <div class="contact-info">
                 <strong>${user.username}</strong>
-                <a href="mailto:${user.email}" class="contact-email">${user.email}</a>
+                <span class="contact-email">${user.email}</span>
             </div>
         </div>
     `;
