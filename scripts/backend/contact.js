@@ -108,15 +108,15 @@ async function saveEditedContact(event) {
     event.preventDefault();
     const form = event.target;
     const id = form.dataset.id;
-    const updatedContact = {
+
+    const contactData = {
         name: form['edit-name'].value.trim(),
         email: form['edit-email'].value.trim(),
-        phone: form['edit-phone'].value.trim(),
-        // color: getRandomColor()
+        phone: form['edit-phone'].value.trim()
     };
 
     if (id === currentUserId) {
-        await User.updateOwnUser(updatedContact);
+        await User.updateOwnUser({ ...contactData, color: getRandomColor() });
         showOwnContact();
         editContactOverlay();
         document.querySelectorAll(".menu-options.show, .menu-toggle.active")
@@ -125,15 +125,29 @@ async function saveEditedContact(event) {
         return;
     }
 
-    // Für normale Kontakte:
-    await updateContactInDatabase(id, updatedContact);
-    await loadContacts();
-    renderContactList();
-    editContactOverlay();
+    try {
+        const response = await fetch(`${BASE_URL}contacts/${id}.json`);
+        if (!response.ok) throw new Error(`Failed to fetch contact ${id}`);
 
-    document.querySelectorAll(".menu-options.show, .menu-toggle.active")
-        .forEach(el => el.classList.remove("show", "active"));
-    showToast("Contact updated");
+        const existingContact = await response.json() || {};
+        const updatedContact = {
+            ...existingContact,
+            ...contactData,
+            color: existingContact?.color ?? getRandomColor()
+        };
+
+        await updateContactInDatabase(id, updatedContact);
+        await loadContacts();
+        renderContactList();
+        editContactOverlay();
+
+        document.querySelectorAll(".menu-options.show, .menu-toggle.active")
+            .forEach(el => el.classList.remove("show", "active"));
+        showToast("Contact updated");
+    } catch (error) {
+        console.error("Error updating contact:", error);
+        showToast("Error updating contact");
+    }
 }
 
 

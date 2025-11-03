@@ -78,7 +78,6 @@ class User {
             ...userData,
             username: updatedContact.name,
             email: updatedContact.email,
-            color: updatedContact.color,
             phone: updatedContact.phone || "",
         };
 
