@@ -202,7 +202,7 @@ input::placeholder {
 }
 
 #contacts-to-select.show {
-    max-height: 280px;
+    max-height: 208px;
     overflow-y: scroll;
 }
 
