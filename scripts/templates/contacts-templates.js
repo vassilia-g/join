@@ -96,7 +96,7 @@ function showInputButtons(contact) {
             </button>`
             : ""
         }
-        <button type="submit" class="save-button">
+        <button id="save-contact-button" type="submit" class="disabled-button" disabled>
             Save
             <svg width="24" height="24" viewBox="0 0 25 24" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
