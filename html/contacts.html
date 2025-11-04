@@ -58,7 +58,7 @@
                                         id="name" placeholder="Name" title="enter your name." required>
                                 </div>
                                 <div class="input-group">
-                                    <input onblur="validateEmail()" class="input-add-contact input-email" type="text"
+                                    <input oninput="validateEmail()" class="input-add-contact input-email" type="text"
                                         id="email" placeholder="Email" required title="enter a valid email address.">
                                 </div>
                                 <div class="input-group">
@@ -127,18 +127,18 @@
                             <div class="input-container">
                                 <div class="input-group">
                                     <input oninput="validateEditName()" id="edit-name"
-                                        class="input-add-contact input-name" type="text"
-                                        placeholder="Name" title="Please enter your name." required>
+                                        class="input-add-contact input-name" type="text" placeholder="Name"
+                                        title="Please enter your name." required>
                                 </div>
                                 <div class="input-group">
-                                    <input onblur="validateEditEmail()" id="edit-email"
+                                    <input oninput="validateEditEmail()" id="edit-email"
                                         class="input-add-contact input-email" type="text" id="email" placeholder="Email"
-                                        required
-                                        title="Please enter a valid email address.">
+                                        required title="Please enter a valid email address.">
                                 </div>
                                 <div class="input-group">
                                     <input id="edit-phone" class="input-add-contact input-phone" type="number"
-                                        id="phone" placeholder="Phone" title="Please enter your telephone number." required>
+                                        id="phone" placeholder="Phone" title="Please enter your telephone number."
+                                        required>
                                 </div>
                                 <div id="input-button" class="input-button">
 
