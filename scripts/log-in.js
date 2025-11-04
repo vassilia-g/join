@@ -1,10 +1,35 @@
+const signUpContainer = document.getElementById("sign-up-container");
+const logInContainer = document.getElementById("log-in-container");
+const registryContainer = document.getElementById("registry-container");
+const errorText = document.getElementById("error-text-password-match");
+const errorEmailExists = document.getElementById('error-email-exists');
+const responsiveRegistryContainer = document.getElementById('responsive-registry-container');
+const signUpButton = document.getElementById("sign-up-form-button");
+const customCheckbox = document.getElementById("custom-checkbox");
+const customCheckedCheckbox = document.getElementById("custom-checked-checkbox");
+const logoWrapper = document.getElementById('logo-wrapper');
+const logoWeiß = document.getElementById('logo-weiß');
+const passwordInput = document.getElementById('input-password');
+const passwordValue = passwordInput.value;
+const lockSymbol = document.getElementById('lock-symbol');
+const signUpForm = document.getElementById("form-sign-up");
+const visibilityOffSymbol = document.getElementById('visibility-off');
+const visibilityOnSymbol = document.getElementById('visibility-on');
+const inputEmail = document.getElementById("input-email");
+const inputPassword = document.getElementById("input-password");
+const redError = document.getElementById("error-email-password-text");
+const overlay = document.getElementById("overlay");
+const successText = document.getElementById("successfully-signed-up")
+const password = document.getElementById("input-sign-up-password");
+const confirmPassword = document.getElementById("input-sign-up-confirm-password");
+
+
 /** 
  * On DOMContentLoaded: adjust logo position for small screens or move logo to top-left.
  * Also swaps logo image on small screens after a short delay.
  */
 document.addEventListener("DOMContentLoaded", () => {
-    const logoWrapper = document.getElementById('logo-wrapper');
-    const logoWeiß = document.getElementById('logo-weiß');
+
     if (window.innerWidth <= 733) {
         logoWrapper.classList.add("logo-move-to-top-left");
         setTimeout(() => {
@@ -46,10 +71,6 @@ document.addEventListener("DOMContentLoaded",
  * Move logo element to top-left with animations and reveal login/registry containers.
  */
 function moveLogoToTopLeft() {
-    const logoWrapper = document.getElementById('logo-wrapper');
-    const logoWeiß = document.getElementById('logo-weiß');
-    const logInContainer = document.getElementById('log-in-container');
-    const registryContainer = document.getElementById('registry-container');
 
     if (logoWrapper) {
         setTimeout(() => {
@@ -66,20 +87,16 @@ function moveLogoToTopLeft() {
  * Show the sign-up form container and hide login/registry UI, reset visible errors.
  */
 function showSignUpContainer() {
-    const signUpContainer = document.getElementById("sign-up-container");
-    const logInContainer = document.getElementById("log-in-container");
-    const registryContainer = document.getElementById("registry-container");
 
     if (signUpContainer) {
-        const errorText = document.getElementById("error-text-password-match");
-        const errorEmailExists = document.getElementById('error-email-exists');
-        const responsiveRegistryContainer = document.getElementById('responsive-registry-container');
         errorText.classList.add('d-none');
         errorEmailExists.classList.add('d-none');
         signUpContainer.classList.remove("d-none");
         logInContainer.classList.add("d-none");
         registryContainer.classList.add("d-none");
         responsiveRegistryContainer.classList.add("d-none");
+    } else {
+        alert.error("Sign up could not be loaded, please try again later.");
     }
 }
 
@@ -88,9 +105,6 @@ function showSignUpContainer() {
  * Enable the sign-up button and toggle checkbox visuals when user accepts terms.
  */
 function enableSignUpButton() {
-    const signUpButton = document.getElementById("sign-up-form-button");
-    const customCheckbox = document.getElementById("custom-checkbox");
-    const customCheckedCheckbox = document.getElementById("custom-checked-checkbox");
 
     if (customCheckbox) {
         signUpButton.disabled = false;
@@ -110,9 +124,6 @@ function enableSignUpButton() {
  * Disable the sign-up button and toggle checkbox visuals when user unchecks acceptance.
  */
 function disableSignUpButton() {
-    const signUpButton = document.getElementById("sign-up-form-button");
-    const customCheckbox = document.getElementById("custom-checkbox");
-    const customCheckedCheckbox = document.getElementById("custom-checked-checkbox");
 
     if (customCheckedCheckbox) {
         signUpButton.disabled = true;
@@ -129,9 +140,7 @@ function disableSignUpButton() {
  */
 function checkSignUpPasswords(event) {
     event.preventDefault();
-    const password = document.getElementById("input-sign-up-password");
-    const confirmPassword = document.getElementById("input-sign-up-confirm-password");
-    const errorText = document.getElementById("error-text-password-match");
+
     if (!(password.value == confirmPassword.value)) {
         errorText.classList.remove("d-none");
     } else {
@@ -140,11 +149,22 @@ function checkSignUpPasswords(event) {
 }
 
 
+function checkSignUpPasswordsOnInput() {
+    if (confirmPassword.value.length > 0) {
+        errorText.classList.remove("d-none")
+    }
+    
+    if (confirmPassword.value === password.value && confirmPassword.value.length > 0) {
+        errorText.classList.add("d-none")
+    }
+}
+
+
 /** 
  * Show a brief overlay animation after successful sign-up and return to login view.
  */
 function visibleSignUp() {
-    const successText = document.getElementById("successfully-signed-up")
+
     setTimeout(() => {
         showOverlay();
         successText.classList.remove("d-none");
@@ -163,7 +183,7 @@ function visibleSignUp() {
  * Reveal the generic overlay element.
  */
 function showOverlay() {
-    const overlay = document.getElementById("overlay");
+
     overlay.classList.remove("d-none");
 }
 
@@ -172,7 +192,7 @@ function showOverlay() {
  * Hide the generic overlay element.
  */
 function hideOverlay() {
-    const overlay = document.getElementById("overlay");
+
     overlay.classList.add("d-none");
 }
 
@@ -181,9 +201,7 @@ function hideOverlay() {
  * Update password input symbols visibility based on input length.
  */
 function changeSymbols() {
-    const passwordInput = document.getElementById('input-password');
-    const passwordValue = passwordInput.value;
-    const lockSymbol = document.getElementById('lock-symbol');
+
 
     if (passwordValue.length >= 1) {
         lockSymbol.classList.add('d-none');
@@ -199,8 +217,7 @@ function changeSymbols() {
  * Reset password visibility icons to default state.
  */
 function standardPasswordSymbol() {
-    const visibilityOffSymbol = document.getElementById('visibility-off');
-    const visibilityOnSymbol = document.getElementById('visibility-on');
+
     visibilityOffSymbol.classList.add('d-none');
     visibilityOnSymbol.classList.add('d-none');
     lockSymbol.classList.remove('d-none');
@@ -211,8 +228,7 @@ function standardPasswordSymbol() {
  * Force the password field into masked mode and keep the hide icon visible.
  */
 function hidePassword() {
-    const visibilityOffSymbol = document.getElementById('visibility-off');
-    const visibilityOnSymbol = document.getElementById('visibility-on');
+
     visibilityOnSymbol.classList.add('d-none');
     visibilityOffSymbol.classList.remove('d-none');
     document.getElementById('input-password').type = 'password';
@@ -227,7 +243,7 @@ function hidePassword() {
  * Show the plain-text password and update icons.
  */
 function showPassword() {
-    const passwordInput = document.getElementById('input-password');
+
     if (passwordInput.type === 'text') {
         visibilityOnSymbol.classList.remove('d-none');
     }
@@ -239,10 +255,6 @@ function showPassword() {
  */
 async function goToStartpage(event) {
     event.preventDefault();
-
-    const inputEmail = document.getElementById("input-email");
-    const inputPassword = document.getElementById("input-password");
-    const redError = document.getElementById("error-email-password-text");
 
     const users = await getAllUsers();
     const user = (users || []).find(u => u.email === inputEmail.value);
@@ -261,8 +273,7 @@ async function goToStartpage(event) {
  * Make password visible: show "visibility on" icon and set input type to text.
  */
 function makePasswordVisible() {
-    const visibilityOffSymbol = document.getElementById('visibility-off');
-    const visibilityOnSymbol = document.getElementById('visibility-on');
+
     visibilityOffSymbol.classList.add('d-none');
     visibilityOnSymbol.classList.remove('d-none');
     document.getElementById('input-password').type = 'text';
@@ -273,13 +284,10 @@ function makePasswordVisible() {
  * Return UI to login view, clear form and reset sign-up controls.
  */
 function backtoLogIn() {
-    const logInContainer = document.getElementById('log-in-container');
+
     logInContainer.classList.remove('d-none');
-    const signUpContainer = document.getElementById('sign-up-container');
     signUpContainer.classList.add('d-none');
-    const registryContainer = document.getElementById('registry-container');
     registryContainer.classList.remove('d-none');
-    const responsiveRegistryContainer = document.getElementById(`responsive-registry-container`);
     responsiveRegistryContainer.classList.remove('d-none');
     disableSignUpButton();
     clearSignUpForm();
@@ -290,7 +298,7 @@ function backtoLogIn() {
  * Reset the sign-up form fields.
  */
 function clearSignUpForm() {
-    const signUpForm = document.getElementById("form-sign-up");
+
     signUpForm.reset();
 }
 
@@ -299,6 +307,7 @@ function clearSignUpForm() {
  * Log in as guest: set guest id in localStorage and redirect to summary.
  */
 function guestLogIn() {
+
     localStorage.setItem("currentUserId", "guest");
     localStorage.setItem('isLoggedIn', 'true');
     window.location.replace("./html/summary.html");
