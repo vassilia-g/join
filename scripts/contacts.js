@@ -19,33 +19,25 @@ function initContacts() {
  */
 function validateName() {
     const input = document.getElementById("name");
-    const allowedRegex = /[^a-zA-ZäöüÄÖÜßàâéèêëîïôùûçÅåØøÆæÑñ\-`' ]+/g;
+    const allowedRegex = /^[a-zA-ZäöüÄÖÜßàâéèêëîïôùûçÅåØøÆæÑñ\-`' ]+$/;
 
-    input.addEventListener("input", () => {
-        const oldValue = input.value;
-        const newValue = oldValue.replace(allowedRegex, "");
-
-        if (oldValue !== newValue) {
-            input.value = newValue;
-            alert("Just letters from a-z and ß, à, â, é, è, ê, ë, î, ï, ô, ù, û, ç, Å, å, Ø, ø, Æ, æ, Ñ, ñ, \, -, `, ' and spaces allowed")
-        }
-    })
+    if (!allowedRegex.test(input.value)) {
+        input.setCustomValidity("Just letters from a-z and ß, à, â, é, è, ê, ë, î, ï, ô, ù, û, ç, Å, å, Ø, ø, Æ, æ, Ñ, ñ, \, -, `, ' and spaces allowed");
+    } else {
+        input.setCustomValidity("");
+    }
 }
 
 
 function validateEditName() {
     const input = document.getElementById("edit-name");
-    const allowedRegex = /[^a-zA-ZäöüÄÖÜßàâéèêëîïôùûçÅåØøÆæÑñ\-`' ]+/g;
+    const allowedRegex = /^[a-zA-ZäöüÄÖÜßàâéèêëîïôùûçÅåØøÆæÑñ\-`' ]+$/;
 
-    input.addEventListener("input", () => {
-        const oldValue = input.value;
-        const newValue = oldValue.replace(allowedRegex, "");
-
-        if (oldValue !== newValue) {
-            input.value = newValue;
-            alert("Just letters from a-z and ß, à, â, é, è, ê, ë, î, ï, ô, ù, û, ç, Å, å, Ø, ø, Æ, æ, Ñ, ñ, \, -, `, ' and spaces allowed")
-        }
-    })
+    if (!allowedRegex.test(input.value)) {
+        input.setCustomValidity("Just letters from a-z and ß, à, â, é, è, ê, ë, î, ï, ô, ù, û, ç, Å, å, Ø, ø, Æ, æ, Ñ, ñ, \, -, `, ' and spaces allowed");
+    } else {
+        input.setCustomValidity("");
+    }
 }
 
 
@@ -58,8 +50,9 @@ function validateEmail() {
     const emailRegex = /^[a-zA-Z0-9]+([._%+-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([.-]?[a-zA-Z0-9]+)*\.[a-zA-Z]{2,}$/;
 
     if (!emailRegex.test(input)) {
-        alert("Please enter a valid email address!");
-        emailInput.value = "";
+        emailInput.setCustomValidity("Please enter a valid email address!");
+    } else {
+        emailInput.setCustomValidity("");
     }
 }
 
@@ -70,8 +63,9 @@ function validateEditEmail() {
     const emailRegex = /^[a-zA-Z0-9]+([._%+-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([.-]?[a-zA-Z0-9]+)*\.[a-zA-Z]{2,}$/;
 
     if (!emailRegex.test(input)) {
-        alert("Please enter a valid email address!");
-        emailInput.value = "";
+        emailInput.setCustomValidity("Please enter a valid email address!");
+    } else {
+        emailInput.setCustomValidity("");
     }
 }
 
