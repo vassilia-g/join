@@ -54,17 +54,16 @@
                         <form id="add-contact-form" onsubmit="addContact(event)">
                             <div class="input-container">
                                 <div class="input-group">
-                                    <input oninput="validateName()" class="input-add-contact input-name" type="text" id="name" placeholder="Name"  title="enter your name."
-                                         required>
+                                    <input oninput="validateName()" class="input-add-contact input-name" type="text"
+                                        id="name" placeholder="Name" title="enter your name." required>
                                 </div>
                                 <div class="input-group">
-                                    <input onblur="validateEmail()" class="input-add-contact input-email" type="text" id="email"
-                                        placeholder="Email" required
-                                        title="enter a valid email address.">
+                                    <input onblur="validateEmail()" class="input-add-contact input-email" type="text"
+                                        id="email" placeholder="Email" required title="enter a valid email address.">
                                 </div>
                                 <div class="input-group">
                                     <input class="input-add-contact input-phone" type="number" id="phone"
-                                        placeholder="Phone"  title="enter your phone number." required>
+                                        placeholder="Phone" title="enter your phone number." required>
                                 </div>
                                 <div class="input-button">
                                     <button type="button" onclick="addContactOverlay()" class="cancel-button">
@@ -127,22 +126,19 @@
                         <form id="edit-contact-form" onsubmit="return saveEditedContact(event)">
                             <div class="input-container">
                                 <div class="input-group">
-                                    <input id="edit-name" class="input-add-contact input-name" type="text"
-                                        pattern="[\p{L}\s]*" placeholder="Name" required
-                                        oninvalid="setCustomValidity('Bitte nur Buchstaben eingeben ')"
-                                        oninput="this.setCustomValidity('')">
+                                    <input oninput="validateEditName()" id="edit-name"
+                                        class="input-add-contact input-name" type="text"
+                                        placeholder="Name" title="Please enter your name." required>
                                 </div>
                                 <div class="input-group">
-                                    <input id="edit-email" class="input-add-contact input-email" type="text" id="email"
-                                        placeholder="Email" required
-                                        pattern="^[a-zA-Z0-9._%+\-ÄÖÜäöüß]+@[a-zA-Z0-9.\-ÄÖÜäöüß]+\.[A-Za-zÄÖÜäöüß]{2,}$"
-                                        title="Bitte eine gültige E-Mail-Adresse eingeben (z. B. name@example.de)"
-                                        oninvalid="this.setCustomValidity('Bitte eine gültige E-Mail-Adresse eingeben')"
-                                        oninput="this.setCustomValidity('')">
+                                    <input onblur="validateEditEmail()" id="edit-email"
+                                        class="input-add-contact input-email" type="text" id="email" placeholder="Email"
+                                        required
+                                        title="Please enter a valid email address.">
                                 </div>
                                 <div class="input-group">
                                     <input id="edit-phone" class="input-add-contact input-phone" type="number"
-                                        id="phone" placeholder="Phone" required>
+                                        id="phone" placeholder="Phone" title="Please enter your telephone number." required>
                                 </div>
                                 <div id="input-button" class="input-button">
 
