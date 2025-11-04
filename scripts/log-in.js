@@ -148,7 +148,9 @@ function checkSignUpPasswords(event) {
     }
 }
 
-
+/** 
+ * Validate sign-up password and confirmation in realtime; show error message aslong they don't match.
+ */
 function checkSignUpPasswordsOnInput() {
     if (confirmPassword.value.length > 0) {
         errorText.classList.remove("d-none");
@@ -160,6 +162,9 @@ function checkSignUpPasswordsOnInput() {
 }
 
 
+/** 
+ * Validate sign-up email in realtime; show error message when email allreday exists.
+ */
 async function checkEmailExistsOnInput() {
      
         const data = await getData("users") || {};
