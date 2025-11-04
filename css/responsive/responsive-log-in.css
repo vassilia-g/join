@@ -192,6 +192,15 @@
     }
 
     .input-email,
+    .input-sign-up-email,
+    .input-password,
+    .input-sign-up-password,
+    .input-sign-up-name,
+    .input-sign-up-confirm-password {
+        align-self: center;
+    }
+
+    .input-email,
     .input-password {
         width: inherit;
         height: 18px;

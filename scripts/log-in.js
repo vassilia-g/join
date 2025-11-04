@@ -22,7 +22,7 @@ const overlay = document.getElementById("overlay");
 const successText = document.getElementById("successfully-signed-up")
 const password = document.getElementById("input-sign-up-password");
 const confirmPassword = document.getElementById("input-sign-up-confirm-password");
-
+const inputSignUpEmail = document.getElementById("input-sign-up-email")
 
 /** 
  * On DOMContentLoaded: adjust logo position for small screens or move logo to top-left.
@@ -151,11 +151,33 @@ function checkSignUpPasswords(event) {
 
 function checkSignUpPasswordsOnInput() {
     if (confirmPassword.value.length > 0) {
-        errorText.classList.remove("d-none")
+        errorText.classList.remove("d-none");
     }
-    
+
     if (confirmPassword.value === password.value && confirmPassword.value.length > 0) {
-        errorText.classList.add("d-none")
+        errorText.classList.add("d-none");
+    }
+}
+
+
+async function checkEmailExistsOnInput() {
+     
+        const data = await getData("users") || {};
+        const users = Object.entries(data).map(([key, u = {}]) => new User(
+            key,
+            u.color ?? null,
+            u.username ?? "",
+            u.password ?? "",
+            u.email ?? "",
+            u.status ?? "active",
+            u.createdAt ?? null,
+            u.phone ?? ""
+    ));
+        const exists = users.some(user => user.email === inputSignUpEmail.value);
+    if (exists) {
+        errorEmailExists.classList.remove("d-none");
+    } else {
+        errorEmailExists.classList.add("d-none")
     }
 }
 
