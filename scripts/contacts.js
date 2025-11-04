@@ -15,6 +15,39 @@ function initContacts() {
 
 
 /** 
+ * Automatic validation for only specific letters for names.
+ */
+function validateName() {
+    const input = document.getElementById("name");
+    const allowedRegex = /[^a-zA-ZäöüÄÖÜßàâéèêëîïôùûçÅåØøÆæÑñ\-`' ]+/g;
+
+    input.addEventListener("input", () => {
+        const oldValue = input.value;
+        const newValue = oldValue.replace(allowedRegex, "");
+
+        if (oldValue !== newValue) {
+            input.value = newValue;
+            alert("Just letters from a-z and ß, à, â, é, è, ê, ë, î, ï, ô, ù, û, ç, Å, å, Ø, ø, Æ, æ, Ñ, ñ, \, -, `, ' and spaces allowed")
+        }
+    })
+}
+
+/** 
+ * Automatic validation for correct email addresses.
+ */
+function validateEmail() {
+    const emailInput = document.getElementById("email");
+    const input = emailInput.value.trim();
+    const emailRegex = /^[a-zA-Z0-9]+([._%+-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([.-]?[a-zA-Z0-9]+)*\.[a-zA-Z]{2,}$/;
+
+    if (!emailRegex.test(input)) {
+        alert("Please enter a valid email address!");
+        emailInput.value = "";
+    }
+}
+
+
+/** 
  * Render current logged-in user's contact in the UI.
  */
 async function showOwnContact() {
