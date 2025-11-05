@@ -439,7 +439,7 @@ function fillEditContactForm(contact) {
     const avatarDiv = document.getElementById("edit-contact-avatar");
     const initials = getInitials(contact.name || contact.username);
     avatarDiv.innerHTML = `
-        <div style="background-color: ${contact.color}; width: 120px; height: 120px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 47px; font-weight: 500;">
+        <div class="edit-avatar" style="background-color: ${contact.color};">
             ${initials}
         </div>
     `;
