@@ -39,7 +39,7 @@ footer {
 .responsive-header {
     width: 100%;
     height: 116px;
-    margin-top: 60px;
+    /* margin-top: 60px; */
     display: flex;
     justify-content: flex-end;
     opacity: 0;
