@@ -56,13 +56,13 @@
                     <form class="form-log-in" action="" onsubmit="goToStartpage(event)">
                         <div id="input-email-container" class="input-email-container">
                             <input onblur="validateEmailInputForLogin()" id="input-email" class="input-email" type="email" placeholder="Email"
-                                autocomplete="username" required>
+                                autocomplete="username">
                             <img class="input-symbol" src="/assets/imgs/symbols/mail.svg" alt="Ein Brief Symbol">
                         </div>
                         <span id="email-error" class="error d-none">Please enter a valid email adress.</span>
                         <div id="input-password-container" class="input-password-container">
                             <input oninput="changeSymbols()" id="input-password" class="input-password" type="password"
-                                placeholder="Password" autocomplete="current-password" required>
+                                placeholder="Password" autocomplete="current-password">
                             <img id="lock-symbol" class="input-symbol" src="/assets/imgs/symbols/lock.svg"
                                 alt="Ein Schloss Symbol">
                             <img onclick="makePasswordVisible()" id="visibility-off" class="input-symbol d-none"
@@ -99,25 +99,24 @@
                     <form id="form-sign-up" class="form-sign-up" action="" onsubmit="checkSignUpPasswords(event)">
 
                         <div id="input-sign-up-name-container" class="input-sign-up-name-container">
-                            <input oninput="validateName()" id="input-sign-up-name" class="input-sign-up-name" type="text" placeholder="Name"
-                                required>
+                            <input oninput="validateName()" id="input-sign-up-name" class="input-sign-up-name" type="text" placeholder="Name">
                             <img class="input-symbol" src="/assets/imgs/symbols/person.svg" alt="Ein Personen Symbol">
                         </div>
                         <div id="input-sign-up-email-container" class="input-sign-up-email-container">
                             <input id="input-sign-up-email" class="input-sign-up-email" oninput="checkEmailExistsOnInput()" onblur="validateEmailInputForLogin()" type="email"
-                                autocomplete="username" placeholder="Email" required>
+                                autocomplete="username" placeholder="Email">
                             <img class="input-symbol" src="/assets/imgs/symbols/mail.svg" alt="Ein Brief Symbol">
                         </div>
                         <span id="email-error-singup" class="error d-none">Please enter a valid email adress.</span>
                         <div id="input-sign-up-password-container" class="input-sign-up-password-container">
                             <input id="input-sign-up-password" class="input-sign-up-password" type="password"
-                                placeholder="Password" autocomplete="current-password" required>
+                                placeholder="Password" autocomplete="current-password">
                             <img class="input-symbol" src="/assets/imgs/symbols/lock.svg" alt="Ein Schloss Symbol">
                         </div>
                         <div id="input-sign-up-confirm-password-container"
                             class="input-sign-up-confirm-password-container">
                             <input id="input-sign-up-confirm-password" class="input-sign-up-confirm-password" oninput="checkSignUpPasswordsOnInput()"
-                                type="password" autocomplete="new-password" placeholder="Confirm Password" required>
+                                type="password" autocomplete="new-password" placeholder="Confirm Password">
                             <img class="input-symbol" src="/assets/imgs/symbols/lock.svg" alt="Ein Schloss Symbol">
                         </div>
                         <span id="error-text-password-match"
