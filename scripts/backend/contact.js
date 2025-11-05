@@ -45,6 +45,12 @@ async function loadContacts() {
 async function addContact(event) {
     event.preventDefault();
 
+    const nameOk = validateName();
+    const emailOk = validateEmail();
+    const phoneOk = validatePhone();
+
+    if (!nameOk || !emailOk || !phoneOk) return;
+
     const form = document.getElementById("add-contact-form");
     if (!form.checkValidity()) return form.reportValidity();
 
@@ -106,49 +112,32 @@ async function createContact(contact) {
  */
 async function saveEditedContact(event) {
     event.preventDefault();
-    const form = event.target;
-    const id = form.dataset.id;
+    if (![validateEditName(), validateEditEmail(), validateEditPhone()].every(Boolean)) return;
 
-    const contactData = {
+    const form = event.target, id = form.dataset.id;
+    const c = {
         name: form['edit-name'].value.trim(),
         email: form['edit-email'].value.trim(),
         phone: form['edit-phone'].value.trim()
     };
 
-    if (id === currentUserId) {
-        await User.updateOwnUser({ ...contactData, color: getRandomColor() });
-        showOwnContact();
-        editContactOverlay();
-        document.querySelectorAll(".menu-options.show, .menu-toggle.active")
-            .forEach(el => el.classList.remove("show", "active"));
-        showToast("Own contact updated");
-        return;
-    }
+    if (id === currentUserId)
+        return await User.updateOwnUser({ ...c, color: getRandomColor() }),
+            showOwnContact(), editContactOverlay(),
+            document.querySelectorAll(".menu-options.show,.menu-toggle.active").forEach(el => el.classList.remove("show", "active")),
+            showToast("Own contact updated");
 
     try {
-        const response = await fetch(`${BASE_URL}contacts/${id}.json`);
-        if (!response.ok) throw new Error(`Failed to fetch contact ${id}`);
-
-        const existingContact = await response.json() || {};
-        const updatedContact = {
-            ...existingContact,
-            ...contactData,
-            color: existingContact?.color ?? getRandomColor()
-        };
-
-        await updateContactInDatabase(id, updatedContact);
-        await loadContacts();
-        renderContactList();
-        editContactOverlay();
-
-        document.querySelectorAll(".menu-options.show, .menu-toggle.active")
-            .forEach(el => el.classList.remove("show", "active"));
+        const r = await fetch(`${BASE_URL}contacts/${id}.json`);
+        if (!r.ok) throw new Error();
+        const existing = await r.json() || {};
+        await updateContactInDatabase(id, { ...existing, ...c, color: existing?.color ?? getRandomColor() });
+        await loadContacts(); renderContactList(); editContactOverlay();
+        document.querySelectorAll(".menu-options.show,.menu-toggle.active").forEach(el => el.classList.remove("show", "active"));
         showToast("Contact updated");
-    } catch (error) {
-        console.error("Error updating contact:", error);
-        showToast("Error updating contact");
-    }
+    } catch (err) { console.error(err); showToast("Error updating contact"); }
 }
+
 
 
 

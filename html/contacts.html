@@ -55,15 +55,18 @@
                             <div class="input-container">
                                 <div class="input-group">
                                     <input oninput="validateName()" class="input-add-contact input-name" type="text"
-                                        id="name" placeholder="Name" title="enter your name." required>
+                                        id="name" placeholder="Name">
+                                    <div id="nameError" class="error-message"></div>
                                 </div>
                                 <div class="input-group">
                                     <input oninput="validateEmail()" class="input-add-contact input-email" type="text"
-                                        id="email" placeholder="Email" required title="enter a valid email address.">
+                                        id="email" placeholder="Email">
+                                    <div id="emailError" class="error-message"></div>
                                 </div>
                                 <div class="input-group">
-                                    <input class="input-add-contact input-phone" type="number" id="phone"
-                                        placeholder="Phone" title="enter your phone number." required>
+                                    <input oninput="validatePhone()" class="input-add-contact input-phone" type="tel"
+                                        id="phone" placeholder="Phone">
+                                    <div id="phoneError" class="error-message"></div>
                                 </div>
                                 <div class="input-button">
                                     <button type="button" onclick="addContactOverlay()" class="cancel-button">
@@ -127,18 +130,18 @@
                             <div class="input-container">
                                 <div class="input-group">
                                     <input oninput="validateEditName()" id="edit-name"
-                                        class="input-add-contact input-name" type="text" placeholder="Name"
-                                        title="Please enter your name." required>
+                                        class="input-add-contact input-name" type="text" placeholder="Name">
+                                    <div id="edit-nameError" class="error-message"></div>
                                 </div>
                                 <div class="input-group">
-                                    <input oninput="validateEditEmail()" id="edit-email"
-                                        class="input-add-contact input-email" type="text" id="email" placeholder="Email"
-                                        required title="Please enter a valid email address.">
+                                    <input oninput="validateEditEmail()" class="input-add-contact input-email"
+                                        type="text" id="edit-email" placeholder="Email">
+                                    <div id="edit-emailError" class="error-message"></div>
                                 </div>
                                 <div class="input-group">
-                                    <input id="edit-phone" class="input-add-contact input-phone" type="number"
-                                        id="phone" placeholder="Phone" title="Please enter your telephone number."
-                                        required>
+                                    <input oninput="validateEditPhone()" class="input-add-contact input-phone"
+                                        type="tel" id="edit-phone" placeholder="Phone">
+                                    <div id="edit-phoneError" class="error-message"></div>
                                 </div>
                                 <div id="input-button" class="input-button">
 

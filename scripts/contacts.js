@@ -17,55 +17,141 @@ function initContacts() {
 /** 
  * Automatic validation for only specific letters for names.
  */
+
 function validateName() {
     const input = document.getElementById("name");
+    const errorDiv = document.getElementById("nameError");
     const allowedRegex = /^[a-zA-ZäöüÄÖÜßàâéèêëîïôùûçÅåØøÆæÑñ\-`' ]+$/;
+    const value = input.value.trim();
 
-    if (!allowedRegex.test(input.value)) {
-        input.setCustomValidity("Just letters from a-z and ß, à, â, é, è, ê, ë, î, ï, ô, ù, û, ç, Å, å, Ø, ø, Æ, æ, Ñ, ñ, \, -, `, ' and spaces allowed");
+    if (value === "") {
+        errorDiv.textContent = "Name is required.";
+        input.classList.add("invalid");
+        return false;
+    } else if (!allowedRegex.test(value)) {
+        errorDiv.textContent = "Only letters from a–z are allowed.";
+        input.classList.add("invalid");
+        return false;
     } else {
-        input.setCustomValidity("");
+        errorDiv.textContent = "";
+        input.classList.remove("invalid");
+        return true;
     }
 }
 
 
 function validateEditName() {
     const input = document.getElementById("edit-name");
+    const errorDiv = document.getElementById("edit-nameError");
     const allowedRegex = /^[a-zA-ZäöüÄÖÜßàâéèêëîïôùûçÅåØøÆæÑñ\-`' ]+$/;
+    const value = input.value.trim();
 
-    if (!allowedRegex.test(input.value)) {
-        input.setCustomValidity("Just letters from a-z and ß, à, â, é, è, ê, ë, î, ï, ô, ù, û, ç, Å, å, Ø, ø, Æ, æ, Ñ, ñ, \, -, `, ' and spaces allowed");
+    if (value === "") {
+        errorDiv.textContent = "Name is required.";
+        input.classList.add("invalid");
+        return false;
+    } else if (!allowedRegex.test(value)) {
+        errorDiv.textContent = "Only letters from a–z are allowed.";
+        input.classList.add("invalid");
+        return false;
     } else {
-        input.setCustomValidity("");
+        errorDiv.textContent = "";
+        input.classList.remove("invalid");
+        return true;
     }
 }
+
 
 
 /** 
  * Automatic validation for correct email addresses.
  */
 function validateEmail() {
-    const emailInput = document.getElementById("email");
-    const input = emailInput.value.trim();
+    const input = document.getElementById("email");
+    const errorDiv = document.getElementById("emailError");
+    const value = input.value.trim();
     const emailRegex = /^[a-zA-Z0-9]+([._%+-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([.-]?[a-zA-Z0-9]+)*\.[a-zA-Z]{2,}$/;
 
-    if (!emailRegex.test(input)) {
-        emailInput.setCustomValidity("Please enter a valid email address!");
+    if (value === "") {
+        errorDiv.textContent = "Email is required.";
+        input.classList.add("invalid");
+        return false;
+    } else if (!emailRegex.test(value)) {
+        errorDiv.textContent = "Please enter a valid email address.";
+        input.classList.add("invalid");
+        return false;
     } else {
-        emailInput.setCustomValidity("");
+        errorDiv.textContent = "";
+        input.classList.remove("invalid");
+        return true;
     }
 }
 
 
 function validateEditEmail() {
-    const emailInput = document.getElementById("edit-email");
-    const input = emailInput.value.trim();
+    const input = document.getElementById("edit-email");
+    const errorDiv = document.getElementById("edit-emailError");
+    const value = input.value.trim();
     const emailRegex = /^[a-zA-Z0-9]+([._%+-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([.-]?[a-zA-Z0-9]+)*\.[a-zA-Z]{2,}$/;
 
-    if (!emailRegex.test(input)) {
-        emailInput.setCustomValidity("Please enter a valid email address!");
+    if (value === "") {
+        errorDiv.textContent = "Email is required.";
+        input.classList.add("invalid");
+        return false;
+    } else if (!emailRegex.test(value)) {
+        errorDiv.textContent = "Please enter a valid email address.";
+        input.classList.add("invalid");
+        return false;
     } else {
-        emailInput.setCustomValidity("");
+        errorDiv.textContent = "";
+        input.classList.remove("invalid");
+        return true;
+    }
+}
+
+/** 
+ * Automatic validation for correct phone numbers.
+ */
+function validatePhone() {
+    const input = document.getElementById("phone");
+    const errorDiv = document.getElementById("phoneError");
+    const value = input.value.trim();
+    const allowedRegex = /^[0-9]+$/;
+
+    if (value === "") {
+        errorDiv.textContent = "Phone number is required.";
+        input.classList.add("invalid");
+        return false;
+    } else if (!allowedRegex.test(value)) {
+        errorDiv.textContent = "Only numbers are allowed.";
+        input.classList.add("invalid");
+        return false;
+    } else {
+        errorDiv.textContent = "";
+        input.classList.remove("invalid");
+        return true;
+    }
+}
+
+
+function validateEditPhone() {
+    const input = document.getElementById("edit-phone");
+    const errorDiv = document.getElementById("edit-phoneError");
+    const value = input.value.trim();
+    const allowedRegex = /^[0-9]+$/;
+
+    if (value === "") {
+        errorDiv.textContent = "Phone number is required.";
+        input.classList.add("invalid");
+        return false;
+    } else if (!allowedRegex.test(value)) {
+        errorDiv.textContent = "Only numbers are allowed.";
+        input.classList.add("invalid");
+        return false;
+    } else {
+        errorDiv.textContent = "";
+        input.classList.remove("invalid");
+        return true;
     }
 }
 
