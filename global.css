@@ -29,7 +29,8 @@ strong,
 a,
 p,
 label,
-button {
+button,
+img {
     caret-color: transparent;
 }
 

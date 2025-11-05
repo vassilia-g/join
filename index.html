@@ -103,7 +103,7 @@
                             <img class="input-symbol" src="/assets/imgs/symbols/person.svg" alt="Ein Personen Symbol">
                         </div>
                         <div id="input-sign-up-email-container" class="input-sign-up-email-container">
-                            <input id="input-sign-up-email" class="input-sign-up-email" oninput="checkEmailExistsOnInput()" onblur="validateEmailInputForLogin()" type="email"
+                            <input id="input-sign-up-email" class="input-sign-up-email" oninput="checkEmailExistsOnInput()" onblur="validateEmailInputForLogin()" 
                                 autocomplete="username" placeholder="Email">
                             <img class="input-symbol" src="/assets/imgs/symbols/mail.svg" alt="Ein Brief Symbol">
                         </div>
@@ -126,6 +126,7 @@
                         <span id="error-email-exists" class="error-email-exists red-colored d-none">
                             This Email already exists
                         </span>
+                        <span id="error-username-and-mail-reqired" class="error-username-and-mail-reqired red-colored d-none">Username and Email are required</span>
                         <span class="accept-policy">
                             <label for="sign-up-checkbox">
                                 <input type="checkbox" name="checkbox" id="sign-up-checkbox" class="sign-up-checkbox">

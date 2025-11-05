@@ -23,8 +23,11 @@ const successText = document.getElementById("successfully-signed-up")
 const password = document.getElementById("input-sign-up-password");
 const confirmPassword = document.getElementById("input-sign-up-confirm-password");
 const inputSignUpEmail = document.getElementById("input-sign-up-email");
+const inputSignUpName = document.getElementById("input-sign-up-name");
 const emailError = document.getElementById("email-error");
 const emailErrorSignUp = document.getElementById("email-error-singup");
+const errorUsernameAndMailRequired= document.getElementById("error-username-and-mail-reqired");
+
 /** 
  * On DOMContentLoaded: adjust logo position for small screens or move logo to top-left.
  * Also swaps logo image on small screens after a short delay.
@@ -146,6 +149,9 @@ function checkSignUpPasswords(event) {
         errorText.classList.remove("d-none");
     } else {
         errorText.classList.add("d-none");
+    }
+    if (inputSignUpEmail.value.trim().length < 1 || inputSignUpName.value.trim().length < 1 ){
+        errorUsernameAndMailRequired.classList.remove("d-none");
     }
 }
 
@@ -303,10 +309,18 @@ inputEmail.addEventListener('input', () => {
 
 
 /** 
- * Removes the error text for invalid email address at sign up when input starts.
+ * Removes the error text for invalid email address and the error text for reqired inputs at sign up when input starts.
  */
 inputSignUpEmail.addEventListener('input', () => {
     emailErrorSignUp.classList.add('d-none');
+    errorUsernameAndMailRequired.classList.add("d-none")
+});
+
+/** 
+ * Removes the error text for reqired inputs at sign up when input starts.
+ */
+inputSignUpName.addEventListener('input', () => {
+errorUsernameAndMailRequired.classList.add("d-none")
 });
 
 
