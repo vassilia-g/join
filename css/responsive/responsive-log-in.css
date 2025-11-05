@@ -241,11 +241,11 @@
         font-size: 16px;
     }
 
-.disabled-sign-up-form-button,
-.enabled-sign-up-form-button{
-    height: 30px;
-    font-size: 16px;
-}
+    .disabled-sign-up-form-button,
+    .enabled-sign-up-form-button {
+        height: 30px;
+        font-size: 16px;
+    }
 
     .log-in-guest-button {
         font-size: 16px;
@@ -349,13 +349,14 @@
         max-width: 265px;
         height: 240px;
         padding: 12px 5px 86px 5px;
-
+        margin-top: 15px;
     }
 
     .sign-up-container {
-        padding: 28px 20px 170px 20px;
+        padding: 28px 20px 190px 20px;
         height: 183px;
-        margin-top: 120px;
+        margin-top: 15px;
+        z-index: 10;
     }
 
     .sign-up-header {
@@ -406,6 +407,7 @@
 
     footer {
         bottom: 25px;
+        z-index: 0;
     }
 
     @keyframes move-to-top-left {
@@ -416,10 +418,10 @@
         }
 
         100% {
-            top: 64px;
-            left: 65.5px;
-            width: 71px;
-            height: 92px;
+            top: 44px;
+            left: 45.5px;
+            width: 41px;
+            height: 62px;
             transform: translate(0, 0);
         }
     }
@@ -628,32 +630,33 @@
     }
 
     .form-log-in {
-    gap: 14px;
-}
+        gap: 14px;
+    }
 
-.input-email-container, .input-password-container{
-    height: 20px;
-}
+    .input-email-container,
+    .input-password-container {
+        height: 20px;
+    }
 
     .log-in-container {
         padding: 15px 65px 54px 65px;
         margin-top: 0px;
-}
+    }
 
-.log-in-header{
-    margin-top: 25px;
-}
+    .log-in-header {
+        margin-top: 25px;
+    }
 
-.registry-container {
-    height: 0px;
-}
+    .registry-container {
+        height: 0px;
+    }
 
 
     .sign-up-container {
         margin-top: 0px;
         padding: 15px 65px 70px 65px;
     }
-      
+
     .input-email-container ::placeholder,
     .input-password-container ::placeholder,
     .input-sign-up-name-container ::placeholder,

@@ -140,7 +140,7 @@ footer {
 .sign-up-container {
     background-color: rgb(255, 255, 255);
     border-radius: 30px;
-    padding: 48px 115px 280px 115px;
+    padding: 48px 115px 310px 115px;
     margin-top: 149px;
     display: flex;
     flex-direction: column;
@@ -223,6 +223,16 @@ h1 {
     border: 1px solid rgb(11, 173, 237);
 }
 
+.error {
+    color: red;
+    font-size: 14px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    padding-left: 20px;
+    align-self: center;
+}
+
 .input-email,
 .input-sign-up-email,
 .input-password,
@@ -279,7 +289,6 @@ h1 {
     align-items: center;
     display: flex;
     place-self: center;
-    z-index: 20;
 }
 
 .overlay {
@@ -289,7 +298,7 @@ h1 {
     background-color: rgba(0, 0, 0, 0.5);
     width: 100%;
     height: 100vh;
-    z-index: 2;
+    z-index: 20;
 }
 
 .from-bottom-to-the-mid {
