@@ -145,7 +145,6 @@ async function getContactDropdown() {
 function getSubtaskRef() {
   const addSubtaskSvgs = document.getElementById('add-subtask-svg');
   addSubtaskSvgs.onclick = null;
-  addSubtaskSvgs.onclick = addSubtask;
 }
 
 

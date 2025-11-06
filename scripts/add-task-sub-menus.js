@@ -70,7 +70,10 @@ function showSubtaskPick() {
  */
 async function addSubtask() {
     const value = subtaskInput.value.trim();
-    if (!value) return;
+    if (!value) {
+        alert("Bitte gib einen Text für die Subtask ein.")
+        return;
+    };
     subtasks.push(value);
     selectedSubtasks.innerHTML = "";
     if (isEditingTask && currentTaskId) {
@@ -163,7 +166,12 @@ function deleteEditedSubtask(index) {
 function keepEditedSubtask(index) {
     let editInput = document.getElementById('edit-input');
     const value = editInput.value.trim();
-    if (!value) return;
+    if (!value) {
+        alert("Bitte gib einen Text für die Subtask ein.");
+        selectedSubtasks.innerHTML = "";
+        renderSubtasks(subtasks);
+        return;
+    };
     subtasks[index] = value;
     selectedSubtasks.innerHTML = "";
     for (let i = 0; i < subtasks.length; i++) {

@@ -4,7 +4,14 @@
  * @param {number} subtaskIndex - index of the subtask to check
  */
 async function checkEditedApiSubtask(taskId, subtaskIndex) {
-  const inputValue = document.getElementById('edit-input').value;
+  const editInput = document.getElementById('edit-input');
+  if (!editInput) return console.error('❌ Kein Edit-Input gefunden.');
+  const inputValue = editInput.value.trim();
+  if (inputValue === "") {
+    alert("Bitte gib einen Text für die Subtask ein.");
+    editInput.focus();
+    return;
+  }
   try {
     const response = await fetch(`${BASE_URL}/tasks.json`);
     const data = await response.json();
