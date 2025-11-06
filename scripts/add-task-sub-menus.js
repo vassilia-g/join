@@ -423,19 +423,24 @@ function showUserStoryInInput() {
  * @param {Element} categorySpan - the actual span containing category text
  */
 function eventListenerForSelectCategory(el, warn, span) {
-  if (el.dataset.listenerAdded) return;
-  const obs = new MutationObserver(() => {
-    const drop = document.getElementById("categories");
-    const open = drop && drop.classList.contains("show");
-    const empty = span?.textContent.trim() === "Select task category";
-    if (!empty) {
-      warn.classList.add("d-none");
-      el.classList.remove("error");
-    } else if (!open) {
-      warn.classList.remove("d-none");
-      el.classList.add("error");
+    if (!el.dataset.observerStarted) {
+        const observer = new MutationObserver(() => {
+            const drop = document.getElementById("categories");
+            const open = drop && drop.classList.contains("show");
+            const empty = span?.textContent.trim() === "Select task category";
+            if (!empty) {
+                warn.classList.add("d-none");
+                el.classList.remove("error");
+            } else if (!open) {
+                warn.classList.remove("d-none");
+                el.classList.add("error");
+            }
+        });
+        function startObserving() {
+            observer.observe(span, { childList: true, characterData: true, subtree: true });
+            el.dataset.observerStarted = "true";
+            el.removeEventListener("click", startObserving);
+        }
+        el.addEventListener("click", startObserving);
     }
-  });
-  obs.observe(span, { childList: true, characterData: true, subtree: true });
-  el.dataset.listenerAdded = "true";
 }
