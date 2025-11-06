@@ -382,7 +382,7 @@ function eventListenerForInput(inputElement, warning) {
 function showTaskDiv() {
   addToBoardDiv.classList.remove('hide');
   addToBoardDiv.classList.add('show');
-
+  createTaskButton.disabled = true;
   setTimeout(() => {
     hideTaskDiv();
   }, 1000)

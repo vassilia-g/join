@@ -67,7 +67,7 @@ input::placeholder {
 
 .warning {
     color: red;
-    font-size: 14px;
+    font-size: 16px;
     margin-top: 5.5rem;
     position: absolute;
     padding-left: 1rem;
@@ -111,6 +111,11 @@ input::placeholder {
 #task-description:focus {
     border-color: var(--color-accent) !important;
     outline: none;
+}
+
+#task-description-label,
+#task-subtasks-label{
+    margin-top: 15px;
 }
 
 .description svg {
@@ -243,6 +248,12 @@ input::placeholder {
 
 .subtask {
     position: relative;
+}
+
+#selected-subtasks {
+    overflow-x: scroll;
+    max-height: 146px;
+    scrollbar-width: thin;
 }
 
 .delete-or-keep-subtask {
