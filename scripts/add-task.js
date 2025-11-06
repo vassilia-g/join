@@ -226,8 +226,8 @@ function clearTask() {
  * Reset priority button visuals to default.
  */
 function changeButtonsToDefault() {
-  mediumButton.classList.remove('priority-medium-active');
-  mediumButton.classList.add('priority-medium-default');
+  mediumButton.classList.add('priority-medium-active');
+  mediumButton.classList.remove('priority-medium-default');
   lowButton.classList.remove('priority-low-active');
   lowButton.classList.add('priority-low-default');
   urgentButton.classList.remove('priority-urgent-active');
