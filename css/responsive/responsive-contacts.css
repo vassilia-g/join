@@ -134,7 +134,8 @@
     display: none;
     width: calc(100% - 232px);
     overflow-y: hidden;
-    padding: 32px 16px 32px 16px;
+    overflow-x: hidden;
+    padding: 10px 8px 32px 8px;
   }
 
   .contact-sidebar.hide {
@@ -143,9 +144,8 @@
 
   .contact-main.is-open {
     display: block;
-    position: absolute;
-    top: 96px;
-    height: calc(100% - 80px);
+    width: 100%;
+    height: 100%;
     background-color: #F6F7F8;
   }
 
@@ -157,7 +157,7 @@
   .contact-sidebar {
     max-width: 100%;
     flex: 1;
-    padding: 24px 16px 24px 16px;
+    padding: 10px 8px 10px 8px;
   }
 
   .contact-sidebar.hide {
@@ -170,7 +170,7 @@
 
   .add-contact-button {
     position: fixed;
-    bottom: 30px;
+    bottom: 16px;
     right: 16px;
     height: 56px;
     width: 56px;
@@ -203,8 +203,8 @@
 
   .menu-toggle {
     position: fixed;
-    bottom: 130px;
-    right: 0px;
+    bottom: 100px;
+    right: 8px;
     height: 56px;
     width: 56px;
     border-radius: 50%;
@@ -414,10 +414,25 @@
     background-color: white;
   }
 
+  .contacts-list {
+    margin-top: 0px;
+  }
+
+  .own-contact {
+    margin-top: 0px;
+  }
+
+    .menu-options {
+    bottom: 90px;
+    right: 6px;
+  }
+
 }
 
 
 @media (max-width: 720px) {
+
+
   .main {
     height: 100vh;
     overflow-y: auto;
@@ -432,22 +447,12 @@
     width: 100%;
   }
 
-  .add-contact-button {
-    bottom: 100px;
-  }
 
   .contact-main-section {
     height: unset;
-    margin-top: 96px;
-    margin-bottom: 80px;
-  }
-
-  .menu-toggle {
-    bottom: 200px;
-  }
-
-  .menu-options {
-    bottom: 192px;
+    position: fixed;
+    top: 96px;
+    bottom: 80px;
   }
 
   .contact-avatar-show {
@@ -472,6 +477,10 @@
 
   .contact-additional-info h4 {
     font-size: 16px;
+  }
+
+    .add-contact-button {
+    bottom: 96px;
   }
 
 }
