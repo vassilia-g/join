@@ -1,32 +1,31 @@
-const signUpContainer = document.getElementById("sign-up-container");
-const logInContainer = document.getElementById("log-in-container");
-const registryContainer = document.getElementById("registry-container");
-const errorText = document.getElementById("error-text-password-match");
-const errorEmailExists = document.getElementById('error-email-exists');
-const responsiveRegistryContainer = document.getElementById('responsive-registry-container');
-const signUpButton = document.getElementById("sign-up-form-button");
+const confirmPassword = document.getElementById("input-sign-up-confirm-password");
 const customCheckbox = document.getElementById("custom-checkbox");
 const customCheckedCheckbox = document.getElementById("custom-checked-checkbox");
-const logoWrapper = document.getElementById('logo-wrapper');
-const logoWeiß = document.getElementById('logo-weiß');
-const passwordInput = document.getElementById('input-password');
-const passwordValue = passwordInput.value;
-const lockSymbol = document.getElementById('lock-symbol');
-const signUpForm = document.getElementById("form-sign-up");
-const visibilityOffSymbol = document.getElementById('visibility-off');
-const visibilityOnSymbol = document.getElementById('visibility-on');
-const inputEmail = document.getElementById("input-email");
-const inputPassword = document.getElementById("input-password");
-const redError = document.getElementById("error-email-password-text");
-const overlay = document.getElementById("overlay");
-const successText = document.getElementById("successfully-signed-up")
-const password = document.getElementById("input-sign-up-password");
-const confirmPassword = document.getElementById("input-sign-up-confirm-password");
-const inputSignUpEmail = document.getElementById("input-sign-up-email");
-const inputSignUpName = document.getElementById("input-sign-up-name");
 const emailError = document.getElementById("email-error");
 const emailErrorSignUp = document.getElementById("email-error-singup");
+const errorEmailExists = document.getElementById('error-email-exists');
 const errorUsernameAndMailRequired= document.getElementById("error-username-and-mail-reqired");
+const errorText = document.getElementById("error-text-password-match");
+const inputEmail = document.getElementById("input-email");
+const inputPassword = document.getElementById("input-password");
+const inputSignUpEmail = document.getElementById("input-sign-up-email");
+const inputSignUpName = document.getElementById("input-sign-up-name");
+const lockSymbol = document.getElementById('lock-symbol');
+const logInContainer = document.getElementById("log-in-container");
+const logoWrapper = document.getElementById('logo-wrapper');
+const logoWeiß = document.getElementById('logo-weiß');
+const overlay = document.getElementById("overlay");
+const password = document.getElementById("input-sign-up-password");
+const registryContainer = document.getElementById("registry-container");
+const responsiveRegistryContainer = document.getElementById('responsive-registry-container');
+const redError = document.getElementById("error-email-password-text");
+const signUpContainer = document.getElementById("sign-up-container");
+const signUpButton = document.getElementById("sign-up-form-button");
+// const passwordInput = document.getElementById('input-password');
+const signUpForm = document.getElementById("form-sign-up");
+const successText = document.getElementById("successfully-signed-up")
+const visibilityOffSymbol = document.getElementById('visibility-off');
+const visibilityOnSymbol = document.getElementById('visibility-on');
 
 /** 
  * On DOMContentLoaded: adjust logo position for small screens or move logo to top-left.
@@ -39,6 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => {
             logoWeiß.src = "/assets/imgs/join-logo/capa-2.svg";
         }, 500);
+        
     } else {
         moveLogoToTopLeft();
     }
@@ -235,9 +235,9 @@ function hideOverlay() {
  * Update password input symbols visibility based on input length.
  */
 function changeSymbols() {
+const inputPasswordValue = inputPassword.value;
 
-
-    if (passwordValue.length >= 1) {
+    if (inputPasswordValue.length > 1) {
         lockSymbol.classList.add('d-none');
         hidePassword();
         showPassword();
@@ -266,8 +266,8 @@ function hidePassword() {
     visibilityOnSymbol.classList.add('d-none');
     visibilityOffSymbol.classList.remove('d-none');
     document.getElementById('input-password').type = 'password';
-    const passwordInput = document.getElementById('input-password');
-    if (passwordInput.type === 'password') {
+    const inputPassword = document.getElementById('input-password');
+    if (inputPassword.type === 'password') {
         visibilityOffSymbol.classList.remove('d-none');
     }
 }
@@ -278,7 +278,7 @@ function hidePassword() {
  */
 function showPassword() {
 
-    if (passwordInput.type === 'text') {
+    if (inputPassword.type === 'text') {
         visibilityOnSymbol.classList.remove('d-none');
     }
 }
@@ -392,7 +392,7 @@ function validateEmailInputForLogin() {
 
     if (!emailRegex.test(input)) {
         emailError.classList.remove('d-none');
-        emailInput.value = "";
+        inputEmail.value = "";
         return false
     }
     emailError.classList.add('d-none');
@@ -409,7 +409,7 @@ function validateEmailInputForSignUp() {
 
     if (!emailRegex.test(input)) {
         emailErrorSignUp.classList.remove('d-none');
-        emailInput.value = "";
+        inputEmail.value = "";
         return false
     }
     emailErrorSignUp.classList.add('d-none');
