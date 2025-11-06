@@ -223,9 +223,14 @@ async function openDropdownContacts() {
  */
 function renderContact(contact) {
     const isChecked = checkedContacts.some(c => c.id === contact.id);
-    if (isChecked) checkedContacts = [...checkedContacts.filter(c => c.id !== contact.id), contact];
+    if (isChecked) {
+        checkedContacts = [
+            ...checkedContacts.filter(c => c.id !== contact.id),
+            contact
+        ];
+    }
     const checkboxSvg = isChecked ? showCheckedCheckbox(contact) : showEmptyCheckbox(contact);
-    return selectedContactsFromTaskTemplate(contact, getInitials(contact.name), checkboxSvg);
+    return selectedContactsFromTaskTemplate(contact, getInitials(contact.name), checkboxSvg, isChecked);
 }
 
 
@@ -340,15 +345,16 @@ function checkContact(contactId) {
  * @param {Object} contact - contact object
  */
 function toggleCheckbox(checkbox, initialsSvg, contact) {
+    const singleContactDiv = checkbox.closest('.single-contact');
     const svg = checkbox.querySelector('svg');
     if (!svg) return console.warn('⚠️ Kein SVG in Checkbox gefunden:', contact.id);
     const isChecked = svg.classList.contains('checked');
-    svg.classList.toggle('checked', !isChecked);
-    initialsSvg.classList.toggle('checked', !isChecked);
     checkbox.innerHTML = isChecked ? showEmptyCheckbox(contact) : showCheckedCheckbox(contact);
+    initialsSvg.classList.toggle('checked', !isChecked);
     checkedContacts = isChecked
         ? checkedContacts.filter(c => c.id !== contact.id)
         : [...checkedContacts.filter(c => c.id !== contact.id), contact];
+        singleContactDiv.classList.toggle('checked', !isChecked);
 }
 
 
@@ -417,19 +423,24 @@ function showUserStoryInInput() {
  * @param {Element} categorySpan - the actual span containing category text
  */
 function eventListenerForSelectCategory(el, warn, span) {
-  if (el.dataset.listenerAdded) return;
-  const obs = new MutationObserver(() => {
-    const drop = document.getElementById("categories");
-    const open = drop && drop.classList.contains("show");
-    const empty = span?.textContent.trim() === "Select task category";
-    if (!empty) {
-      warn.classList.add("d-none");
-      el.classList.remove("error");
-    } else if (!open) {
-      warn.classList.remove("d-none");
-      el.classList.add("error");
+    if (!el.dataset.observerStarted) {
+        const observer = new MutationObserver(() => {
+            const drop = document.getElementById("categories");
+            const open = drop && drop.classList.contains("show");
+            const empty = span?.textContent.trim() === "Select task category";
+            if (!empty) {
+                warn.classList.add("d-none");
+                el.classList.remove("error");
+            } else if (!open) {
+                warn.classList.remove("d-none");
+                el.classList.add("error");
+            }
+        });
+        function startObserving() {
+            observer.observe(span, { childList: true, characterData: true, subtree: true });
+            el.dataset.observerStarted = "true";
+            el.removeEventListener("click", startObserving);
+        }
+        el.addEventListener("click", startObserving);
     }
-  });
-  obs.observe(span, { childList: true, characterData: true, subtree: true });
-  el.dataset.listenerAdded = "true";
 }

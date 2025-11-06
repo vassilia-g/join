@@ -246,6 +246,10 @@ function clearAllInputFields() {
   mediumButton.classList.remove("selected");
   lowButton.classList.remove("selected");
   createTaskButton.disabled = true;
+  let warnings = document.querySelectorAll(".field-warning");
+  warnings.forEach(warning => warning.classList.add('d-none'));
+  let error = document.querySelectorAll(".input-border-size");
+  error.forEach(errors => errors.classList.remove('error'));
 }
 
 
@@ -325,42 +329,27 @@ function enableCreateTaskButton() {
 
 
 /** 
- * Show a field warning for an input or category selection.
+ * Show a field warning for an input or category selection and attach listeners to hide it.
  */
-function showFieldWarning(el) {
-  const wrap = el.closest(".task-label-divs");
-  const warn = wrap?.querySelector(".field-warning");
-  if (!warn) return;
-  if (["INPUT", "TEXTAREA"].includes(el.tagName))
-    return handleTextInputWarning(el, warn);
-  if (el.classList.contains("task-category")) {
-    const span = el.querySelector("#input-category");
-    setTimeout(() => handleCategoryWarning(el, span, warn), 150);
+function showFieldWarning(inputElement) {
+  const wrapper = inputElement.closest(".task-label-divs");
+  const warning = wrapper.querySelector(".field-warning");
+  if (!warning) return;
+  if (inputElement.tagName === "INPUT" || inputElement.tagName === "TEXTAREA") {
+    if (inputElement.value.trim() === "") {
+      warning.classList.remove("d-none");
+      inputElement.classList.add("error");
+      eventListenerForInput(inputElement, warning);
+    }
   }
-}
-
-
-/** 
- * Show a field warning for an input and attach listeners to hide it.
- */
-function handleTextInputWarning(el, warn) {
-  if (!el.value.trim()) {
-    warn.classList.remove("d-none");
-    el.classList.add("error");
-    eventListenerForInput(el, warn);
+  if (inputElement.classList.contains("task-category")) {
+    const categorySpan = inputElement.querySelector("#input-category");
+    if (categorySpan && categorySpan.textContent.trim() === "Select task category") {
+      warning.classList.remove("d-none");
+      inputElement.classList.add("error");
+    }
+    eventListenerForSelectCategory(inputElement, warning, categorySpan);
   }
-}
-
-
-/** 
- * Show a field warning for an input and attach listeners to hide it.
- */
-function handleCategoryWarning(el, span, warn) {
-  const open = document.getElementById("categories")?.classList.contains("show");
-  const empty = span?.textContent.trim() === "Select task category";
-  warn.classList.toggle("d-none", !empty || open);
-  el.classList.toggle("error", empty && !open);
-  eventListenerForSelectCategory(el, warn, span);
 }
 
 
@@ -389,7 +378,7 @@ function eventListenerForInput(inputElement, warning) {
 function showTaskDiv() {
   addToBoardDiv.classList.remove('hide');
   addToBoardDiv.classList.add('show');
-  createTaskButton.disabled = true;
+
   setTimeout(() => {
     hideTaskDiv();
   }, 1000)

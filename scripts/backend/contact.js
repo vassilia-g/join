@@ -80,6 +80,11 @@ async function deleteContactById(id) {
                 updateTask(t, taskId, t.contactsId.indexOf(id));
         }
         await fetch(`${BASE_URL}/contacts/${id}.json`, { method: "DELETE" });
+        const editOverlay = document.getElementById("contact-edit-overlay");
+        if (editOverlay && !editOverlay.classList.contains("d_none")) {
+            editContactOverlay();
+        }
+
         await loadContacts();
         document.getElementById("contact-details").innerHTML = "";
         if (window.innerWidth <= 720) document.querySelector(".contact-sidebar").classList.remove("hide"),

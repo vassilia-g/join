@@ -91,7 +91,7 @@ function showOwnContactDetails(user) {
 function showInputButtons(contact) {
     return `
         ${contact !== currentUserId
-            ? `<button type="button" onclick="deleteContact()" class="delete-button">
+            ? `<button type="button" onclick="deleteContactById('${contact}')" class="delete-button">
                 Delete
             </button>`
             : ""
