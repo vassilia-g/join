@@ -4,7 +4,7 @@ const customCheckedCheckbox = document.getElementById("custom-checked-checkbox")
 const emailError = document.getElementById("email-error");
 const emailErrorSignUp = document.getElementById("email-error-singup");
 const errorEmailExists = document.getElementById('error-email-exists');
-const errorUsernameAndMailRequired= document.getElementById("error-username-and-mail-reqired");
+const errorUsernameAndMailRequired = document.getElementById("error-username-and-mail-reqired");
 const errorText = document.getElementById("error-text-password-match");
 const inputEmail = document.getElementById("input-email");
 const inputPassword = document.getElementById("input-password");
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => {
             logoWeiß.src = "/assets/imgs/join-logo/capa-2.svg";
         }, 500);
-        
+
     } else {
         moveLogoToTopLeft();
     }
@@ -150,7 +150,7 @@ function checkSignUpPasswords(event) {
     } else {
         errorText.classList.add("d-none");
     }
-    if (inputSignUpEmail.value.trim().length < 1 || inputSignUpName.value.trim().length < 1 ){
+    if (inputSignUpEmail.value.trim().length < 1 || inputSignUpName.value.trim().length < 1) {
         errorUsernameAndMailRequired.classList.remove("d-none");
     }
 }
@@ -235,7 +235,7 @@ function hideOverlay() {
  * Update password input symbols visibility based on input length.
  */
 function changeSymbols() {
-const inputPasswordValue = inputPassword.value;
+    const inputPasswordValue = inputPassword.value;
 
     if (inputPasswordValue.length > 1) {
         lockSymbol.classList.add('d-none');
@@ -320,7 +320,7 @@ inputSignUpEmail.addEventListener('input', () => {
  * Removes the error text for reqired inputs at sign up when input starts.
  */
 inputSignUpName.addEventListener('input', () => {
-errorUsernameAndMailRequired.classList.add("d-none")
+    errorUsernameAndMailRequired.classList.add("d-none")
 });
 
 
@@ -388,7 +388,7 @@ function validateName() {
 function validateEmailInputForLogin() {
 
     const input = inputEmail.value.trim();
-    const emailRegex = /^[a-zA-Z0-9]+([._%+-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([.-]?[a-zA-Z0-9]+)*\.[a-zA-Z]{2,}$/;
+    const emailRegex = /^[a-zA-Z0-9äöüÄÖÜ]+([._%+-]?[a-zA-Z0-9äöüÄÖÜ]+)*@[a-zA-Z0-9äöüÄÖÜ]+([.-]?[a-zA-Z0-9äöüÄÖÜ]+)*\.[a-zA-ZäöüÄÖÜ]{2,}$/;;
 
     if (!emailRegex.test(input)) {
         emailError.classList.remove('d-none');
@@ -405,7 +405,7 @@ function validateEmailInputForLogin() {
  */
 function validateEmailInputForSignUp() {
     const input = inputSignUpEmail.value.trim();
-    const emailRegex = /^[a-zA-Z0-9]+([._%+-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([.-]?[a-zA-Z0-9]+)*\.[a-zA-Z]{2,}$/;
+    const emailRegex = /^[a-zA-Z0-9äöüÄÖÜ]+([._%+-]?[a-zA-Z0-9äöüÄÖÜ]+)*@[a-zA-Z0-9äöüÄÖÜ]+([.-]?[a-zA-Z0-9äöüÄÖÜ]+)*\.[a-zA-ZäöüÄÖÜ]{2,}$/;
 
     if (!emailRegex.test(input)) {
         emailErrorSignUp.classList.remove('d-none');
