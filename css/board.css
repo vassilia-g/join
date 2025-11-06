@@ -433,6 +433,7 @@ button {
 
 #task-overlay-content {
     max-width: 1075px;
+    max-height: 90%;
     width: 90%;
     position: fixed;
     top: 50%;
@@ -445,6 +446,10 @@ button {
     transition: transform 0.5s ease;
     z-index: 1001;
     padding: 40px;
+    overflow: hidden;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.25) transparent;
 }
 
 #task-overlay-content.active {

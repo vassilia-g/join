@@ -624,8 +624,9 @@ p#field-requiered-info::before {
 }
 
 #selected-contacts {
-    display: flex;
-    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    padding-top: 1rem;
 }
 
 .single-contact.checked {

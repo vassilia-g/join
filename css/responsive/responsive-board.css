@@ -94,13 +94,31 @@
     }
 
     #task-overlay-content {
-        width: 50%;
+        width: 70%;
+        height: 900px;
     }
 
     .overlay-task-title {
         font-size: 55px;
     }
-
+    #selected-contacts {
+        padding-top: 1rem;
+    }
+    #contact-input-and-dropdown {
+        padding-top: 1rem;
+    }
+    #task-priority-label {
+        padding-bottom: 1rem;
+    }
+    #task-due-date-label {
+        padding-bottom: 1rem;
+    }
+    #task-description-label {
+        padding-bottom: 1rem;
+    }
+    #task-title-label {
+        padding-bottom: 1rem;
+    }
 }
 
 @media (max-width: 1085px) {
@@ -204,6 +222,10 @@
     .overlay-titel h3 {
         font-size: 48px;
     }
+
+    .task-overlay {
+        height: 700px;
+    }
 }
 
 @media (max-width: 680px) {
@@ -297,6 +319,9 @@
     #task-overlay-content .priority-btns svg {
         width: 14px;
         height: 8.51px;
+    }
+    #selected-contacts {
+            grid-template-columns: repeat(7, 1fr);
     }
 }
 
@@ -433,6 +458,10 @@
         width: 20px;
         height: 14.51px;
     }
+
+    #selected-contacts {
+            grid-template-columns: repeat(5, 1fr);
+    }
 }
 
 @media (max-width: 350px) {
@@ -448,10 +477,7 @@
 @media (max-height: 1150px) {
     #task-overlay-content {
         height: 800px;
-        overflow: hidden;
-        overflow-y: auto;
-        scrollbar-width: thin;
-        scrollbar-color: rgba(0, 0, 0, 0.25) transparent;
+
     }
 
     .task-overlay {
@@ -462,7 +488,11 @@
 
 @media (max-height: 1020px) {
     #task-overlay-content {
-        height: 700px;
+        height: 720px;
+        overflow: hidden;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(0, 0, 0, 0.25) transparent;
     }
 
     #overlay-subtasks-details {
@@ -481,7 +511,7 @@
 
 @media (max-height: 910px) {
     #task-overlay-content {
-        height: 650px;
+        height: 550px;
     }
     
     .overlay-selected-contacts {
@@ -585,7 +615,7 @@
 
 @media (max-height: 660px) {
     #task-overlay-content {
-        height: 400px;
+        height: 300px;
     }
 
     #overlay-subtasks-details {
