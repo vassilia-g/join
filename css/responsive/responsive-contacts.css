@@ -501,6 +501,12 @@
 
 }
 
+@media(max-width: 420px) {
+  .input-button {
+    width: 100%;
+  }
+}
+
 @media (max-width: 380px) {
 
   .h2-contacts {
