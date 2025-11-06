@@ -223,9 +223,14 @@ async function openDropdownContacts() {
  */
 function renderContact(contact) {
     const isChecked = checkedContacts.some(c => c.id === contact.id);
-    if (isChecked) checkedContacts = [...checkedContacts.filter(c => c.id !== contact.id), contact];
+    if (isChecked) {
+        checkedContacts = [
+            ...checkedContacts.filter(c => c.id !== contact.id),
+            contact
+        ];
+    }
     const checkboxSvg = isChecked ? showCheckedCheckbox(contact) : showEmptyCheckbox(contact);
-    return selectedContactsFromTaskTemplate(contact, getInitials(contact.name), checkboxSvg);
+    return selectedContactsFromTaskTemplate(contact, getInitials(contact.name), checkboxSvg, isChecked);
 }
 
 
@@ -340,15 +345,16 @@ function checkContact(contactId) {
  * @param {Object} contact - contact object
  */
 function toggleCheckbox(checkbox, initialsSvg, contact) {
+    const singleContactDiv = checkbox.closest('.single-contact');
     const svg = checkbox.querySelector('svg');
     if (!svg) return console.warn('⚠️ Kein SVG in Checkbox gefunden:', contact.id);
     const isChecked = svg.classList.contains('checked');
-    svg.classList.toggle('checked', !isChecked);
-    initialsSvg.classList.toggle('checked', !isChecked);
     checkbox.innerHTML = isChecked ? showEmptyCheckbox(contact) : showCheckedCheckbox(contact);
+    initialsSvg.classList.toggle('checked', !isChecked);
     checkedContacts = isChecked
         ? checkedContacts.filter(c => c.id !== contact.id)
         : [...checkedContacts.filter(c => c.id !== contact.id), contact];
+        singleContactDiv.classList.toggle('checked', !isChecked);
 }
 
 
