@@ -69,7 +69,9 @@ function showSubtaskPick() {
  * When editing an existing task it will render subtasks from the task instead.
  */
 async function addSubtask() {
-    subtasks.push(subtaskInput.value);
+    const value = subtaskInput.value.trim();
+    if (!value) return;
+    subtasks.push(value);
     selectedSubtasks.innerHTML = "";
     if (isEditingTask && currentTaskId) {
         const task = await getData(`tasks/${currentTaskId}`);
@@ -160,10 +162,12 @@ function deleteEditedSubtask(index) {
  */
 function keepEditedSubtask(index) {
     let editInput = document.getElementById('edit-input');
-    subtasks[index] = editInput.value;
+    const value = editInput.value.trim();
+    if (!value) return;
+    subtasks[index] = value;
     selectedSubtasks.innerHTML = "";
-    for (let index = 0; index < subtasks.length; index++) {
-        selectedSubtasks.innerHTML += showSubtask(index);
+    for (let i = 0; i < subtasks.length; i++) {
+        selectedSubtasks.innerHTML += showSubtask(i);
     }
 }
 
