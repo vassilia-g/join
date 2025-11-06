@@ -44,7 +44,19 @@
     top: 30px;
     left: 890px;
   }
+  
+  .popup-container {
+    gap: 0;
+    justify-content: space-between;
+  }
 
+  .create-button {
+    padding: 0;
+  }
+
+  .input-button {
+      width: 330px;
+  }
 
 }
 
@@ -412,6 +424,10 @@
 
   .delete-button {
     background-color: white;
+  }
+
+  .popup-container {
+    justify-content: space-around;
   }
 
 }
