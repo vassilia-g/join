@@ -361,7 +361,6 @@ function getInitials(name) {
 function addContactOverlay() {
     const overlay = document.getElementById("overlay-contact");
     const popup = overlay.querySelector(".popup-contact");
-
     if (overlay.classList.contains("d_none")) {
         clearInputs();
         overlay.classList.remove("d_none");
@@ -372,6 +371,22 @@ function addContactOverlay() {
     } else {
         removeActiveFromOverlayContact(overlay, popup);
     }
+    resetWarnings();
+}
+
+
+/** 
+ * Hide all warning fields and error signals.
+ */
+function resetWarnings() {
+    const warnings = document.querySelectorAll(".input-add-contact");
+    warnings.forEach(warning => {
+        warning.classList.remove('invalid');
+    });
+    const errors = document.querySelectorAll(".error-message");
+    errors.forEach(error => {
+        error.innerHTML = "";
+    });
 }
 
 
