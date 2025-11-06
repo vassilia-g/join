@@ -17,6 +17,10 @@
         padding: 0 0 35px 0;
     }
 
+    .task-label-divs {
+        margin-top: 20px;
+    }
+
     .task-footer {
         padding-bottom: 40px;
     }

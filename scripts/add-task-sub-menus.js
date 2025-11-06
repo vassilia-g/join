@@ -71,7 +71,6 @@ function showSubtaskPick() {
 async function addSubtask() {
     const value = subtaskInput.value.trim();
     if (!value) {
-        alert("Bitte gib einen Text für die Subtask ein.")
         return;
     };
     subtasks.push(value);
@@ -167,7 +166,6 @@ function keepEditedSubtask(index) {
     let editInput = document.getElementById('edit-input');
     const value = editInput.value.trim();
     if (!value) {
-        alert("Bitte gib einen Text für die Subtask ein.");
         selectedSubtasks.innerHTML = "";
         renderSubtasks(subtasks);
         return;

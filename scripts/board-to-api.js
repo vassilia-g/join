@@ -8,7 +8,6 @@ async function checkEditedApiSubtask(taskId, subtaskIndex) {
   if (!editInput) return console.error('❌ Kein Edit-Input gefunden.');
   const inputValue = editInput.value.trim();
   if (inputValue === "") {
-    alert("Bitte gib einen Text für die Subtask ein.");
     editInput.focus();
     return;
   }
