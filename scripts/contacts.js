@@ -439,6 +439,7 @@ function editContactOverlay(user) {
             popup.removeEventListener("transitionend", handler);
         });
     }
+    resetWarnings()
 }
 
 
