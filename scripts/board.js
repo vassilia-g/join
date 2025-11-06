@@ -173,6 +173,10 @@ function closeOverlay() {
   setTimeout(() => {
     overlayRef.classList.add('d-none');
   }, 600);
+  let warnings = document.querySelectorAll(".field-warning");
+  warnings.forEach(warning => warning.classList.add('d-none'));
+  let error = document.querySelectorAll(".input-border-size");
+  error.forEach(errors => errors.classList.remove('error'));
 }
 
 

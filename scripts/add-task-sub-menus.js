@@ -428,7 +428,7 @@ function showUserStoryInInput() {
  */
 function eventListenerForSelectCategory(el, warn, span) {
     if (!el.dataset.observerStarted) {
-        const observer = new MutationObserver(() => {
+        categoryObserver = new MutationObserver(() => {
             const drop = document.getElementById("categories");
             const open = drop && drop.classList.contains("show");
             const empty = span?.textContent.trim() === "Select task category";

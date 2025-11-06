@@ -19,6 +19,7 @@ urgentButton.isActive = false;
 mediumButton.isActive = false;
 lowButton.isActive = false;
 let globalContactsArray = [];
+let categoryObserver = null;
 let checkedContacts = [];
 const addToBoardDiv = document.querySelector('.add-task-to-board-div');
 let selectedPriority = "";
@@ -211,6 +212,7 @@ function togglePriorityBtn(clickedButton) {
  * Clear all task inputs and reset UI to defaults.
  */
 function clearTask() {
+  if (categoryObserver) categoryObserver.disconnect();
   clearAllInputFields();
   changeButtonsToDefault();
   clearContacts();
