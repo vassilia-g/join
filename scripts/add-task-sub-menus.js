@@ -279,11 +279,12 @@ document.onclick = function (event) {
 
 /**
  * Hide the contacts dropdown and restore the compact selected-contacts view after a short delay.
- * @param {Element} contactsToSelect
- * @param {Element} dropdownIcon
- * @param {Element} selectedContacts
  */
-function hideDropdownContacts(contactsToSelect, dropdownIcon, selectedContacts) {
+function hideDropdownContacts() {
+    const contactsToSelect = document.getElementById('contacts-to-select');
+    const dropdownIcon = document.getElementById('dropdown-icon');
+    const selectedContacts = document.getElementById('selected-contacts');
+    if (!contactsToSelect || !dropdownIcon || !selectedContacts) return;
     contactsToSelect.classList.remove('show');
     dropdownIcon.classList.remove("open");
     setTimeout(() => {
@@ -391,6 +392,7 @@ function showTechnicalTaskInInput() {
     categories.classList.remove('show');
     categories.innerHTML = '';
     selectedCategory = "Technical Task";
+    warningField.classList.add('d-none');
     enableCreateTaskButton();
 }
 
@@ -402,6 +404,7 @@ function showUserStoryInInput() {
     categories.classList.remove('show');
     categories.innerHTML = '';
     selectedCategory = "User Story";
+    warningField.classList.add('d-none');
     enableCreateTaskButton();
 }
 
@@ -413,18 +416,20 @@ function showUserStoryInInput() {
  * @param {Element} warning - warning element to toggle
  * @param {Element} categorySpan - the actual span containing category text
  */
-function eventListenerForSelectCategory(inputElement, warning, categorySpan) {
-    if (!inputElement.dataset.listenerAdded) {
-        const observer = new MutationObserver(() => {
-            if (categorySpan.textContent.trim() !== "Select task category") {
-                warning.classList.add("d-none");
-                inputElement.classList.remove("error");
-            } else {
-                warning.classList.remove("d-none");
-                inputElement.classList.add("error");
-            }
-        });
-        observer.observe(categorySpan, { childList: true, characterData: true, subtree: true });
-        inputElement.dataset.listenerAdded = "true";
+function eventListenerForSelectCategory(el, warn, span) {
+  if (el.dataset.listenerAdded) return;
+  const obs = new MutationObserver(() => {
+    const drop = document.getElementById("categories");
+    const open = drop && drop.classList.contains("show");
+    const empty = span?.textContent.trim() === "Select task category";
+    if (!empty) {
+      warn.classList.add("d-none");
+      el.classList.remove("error");
+    } else if (!open) {
+      warn.classList.remove("d-none");
+      el.classList.add("error");
     }
+  });
+  obs.observe(span, { childList: true, characterData: true, subtree: true });
+  el.dataset.listenerAdded = "true";
 }

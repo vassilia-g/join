@@ -43,7 +43,7 @@
               <div class="task-label-divs">
                 <label id="task-title-label">Title</label>
                 <input class="input-border-size" type="text" name="task-title" id="task-title"
-                  placeholder="Enter a title" onclick="showFieldWarning(this)" />
+                  placeholder="Enter a title" onblur="showFieldWarning(this)" />
                 <small class="warning field-warning d-none">This field is required</small>
               </div>
               <div class="task-label-divs description">
@@ -67,10 +67,10 @@
                 <label id="task-due-date-label">Due Date</label>
                 <div class="input-wrapper">
                   <input class="input-border-size" type="text" name="task-due-date" id="task-due-date"
-                    placeholder="dd/mm/yyyy" onclick="showFieldWarning(this)" />
+                    placeholder="dd/mm/yyyy" onblur="showFieldWarning(this)" />
                   <img onclick="showCalender()" class="placeholder-icon" src="/assets/icons/event.svg" alt="" />
                 </div>
-                <small id="date-warning" class="warning d-none">Date must be in the past</small>
+                <small id="date-warning" class="warning d-none">Date must not be in the past</small>
                 <small class="warning field-warning d-none">This field is required</small>
               </div>
             </div>
@@ -91,7 +91,7 @@
                       </g>
                     </svg>
                   </button>
-                  <button id="medium-priority-btn" class="priority-medium-default medium">
+                  <button id="medium-priority-btn" class="priority-medium-active medium">
                     <p>Medium</p>
                     <svg id="medium-svg" viewBox="0 0 20 14.51" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <g>
@@ -143,7 +143,7 @@
               <div class="task-label-divs">
                 <label id="task-category-label">Category</label>
                 <div id="category-input-and-dropdown">
-                  <div onclick="openCategories(), showFieldWarning(this)" id="task-category"
+                  <div onclick="openCategories()" onblur="showFieldWarning(this)" tabindex="0" id="task-category"
                     class="input-border-size task-category">
                     <span id="input-category">Select task category</span>
                     <svg id="dropdown-icon-categories" width="25" height="24" viewBox="0 0 25 24" fill="none"
