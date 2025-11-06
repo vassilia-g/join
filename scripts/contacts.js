@@ -62,7 +62,6 @@ function validateEditName() {
 }
 
 
-
 /** 
  * Automatic validation for correct email addresses.
  */
@@ -92,7 +91,8 @@ function validateEditEmail() {
     const input = document.getElementById("edit-email");
     const errorDiv = document.getElementById("edit-emailError");
     const value = input.value.trim();
-    const emailRegex = /^[a-zA-Z0-9]+([._%+-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([.-]?[a-zA-Z0-9]+)*\.[a-zA-Z]{2,}$/;
+    const emailRegex = /^[a-zA-Z0-9äöüÄÖÜ]+([._%+-]?[a-zA-Z0-9äöüÄÖÜ]+)*@[a-zA-Z0-9äöüÄÖÜ]+([.-]?[a-zA-Z0-9äöüÄÖÜ]+)*\.[a-zA-ZäöüÄÖÜ]{2,}$/;
+
 
     if (value === "") {
         errorDiv.textContent = "Email is required.";
@@ -108,6 +108,7 @@ function validateEditEmail() {
         return true;
     }
 }
+
 
 /** 
  * Automatic validation for correct phone numbers.
