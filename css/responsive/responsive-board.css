@@ -98,6 +98,11 @@
         height: 900px;
     }
 
+    #task-overlay-content.active {
+        display: flex;
+        flex-direction: column;
+    }
+
     .overlay-task-title {
         font-size: 55px;
     }
@@ -190,6 +195,10 @@
     #task-overlay-content {
         width: 60%;
     }
+
+    #task-overlay-content.active {
+        align-items: center;
+    }
 }
 
 
@@ -225,6 +234,10 @@
 
     .task-overlay {
         height: 700px;
+    }
+
+    .overlay-footer {
+        padding-bottom: 1rem;
     }
 }
 
@@ -477,7 +490,10 @@
 @media (max-height: 1150px) {
     #task-overlay-content {
         height: 800px;
+    }
 
+    .overlay-footer {
+        padding-bottom: 1rem;
     }
 
     .task-overlay {
