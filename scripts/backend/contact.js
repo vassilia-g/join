@@ -10,6 +10,9 @@ class Contact {
     }
 }
 
+const json = (r) => r.ok ? r.json() : Promise.reject(r);
+const putJSON = (url, data) =>
+    fetch(url, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
 
 /** 
  * Load all contacts from backend, normalize data and render list.
@@ -70,27 +73,88 @@ async function addContact(event) {
  */
 async function deleteContactById(id) {
     try {
-        const tasks = await (await fetch(`${BASE_URL}/tasks.json`)).json();
-        const updateTask = (task, taskId, i) => ["contactsId", "contactsNames", "contactsInitials", "contactsColor"]
-            .forEach(async key => await fetch(`${BASE_URL}/tasks/${taskId}/${key}.json`, {
-                method: "PUT", body: JSON.stringify(task[key]?.filter((_, j) => j !== i) || [])
-            }));
-        for (const [taskId, t] of Object.entries(tasks || {})) {
-            if (Array.isArray(t.contactsId) && t.contactsId.includes(id))
-                updateTask(t, taskId, t.contactsId.indexOf(id));
-        }
-        await fetch(`${BASE_URL}/contacts/${id}.json`, { method: "DELETE" });
-        const editOverlay = document.getElementById("contact-edit-overlay");
-        if (editOverlay && !editOverlay.classList.contains("d_none")) {
-            editContactOverlay();
-        }
-
+        await updateTasksForDeletedContact(id);
+        await deleteContactRemote(id);
+        closeEditOverlayIfOpen();
+        resetActiveIfDeleted(id);
         await loadContacts();
-        document.getElementById("contact-details").innerHTML = "";
-        if (window.innerWidth <= 720) document.querySelector(".contact-sidebar").classList.remove("hide"),
-            document.querySelector(".contact-main").classList.remove("is-open");
+        clearDetailsAndDeactivate();
+        ensureSidebarOpenOnMobile();
         showToast("Contact deleted");
-    } catch (e) { console.error("Fehler beim Löschen:", e); showToast("Error deleting contact"); }
+    } catch (e) {
+        console.error("Fehler beim Löschen:", e);
+        showToast("Error deleting contact");
+    }
+}
+
+
+/**
+ * Update tasks for a deleted contact by removing the contact from all task arrays.
+ */
+async function updateTasksForDeletedContact(id) {
+    const tasks = await json(await fetch(`${BASE_URL}/tasks.json`));
+    const updates = [];
+
+    for (const [taskId, t] of Object.entries(tasks || {})) {
+        const idx = t?.contactsId?.indexOf(id);
+        if (idx > -1) {
+            for (const key of ["contactsId", "contactsNames", "contactsInitials", "contactsColor"]) {
+                const next = (t[key] || []).filter((_, j) => j !== idx);
+                updates.push(putJSON(`${BASE_URL}/tasks/${taskId}/${key}.json`, next));
+            }
+        }
+    }
+    await Promise.all(updates);
+}
+
+
+/**
+ * DELETE contact from backend by id.
+ */
+const deleteContactRemote = (id) =>
+    fetch(`${BASE_URL}/contacts/${id}.json`, { method: "DELETE" });
+
+
+/**
+ * Close edit overlay if it's open.
+ */
+function closeEditOverlayIfOpen() {
+    const overlay = document.getElementById("contact-edit-overlay");
+    if (overlay && !overlay.classList.contains("d_none")) editContactOverlay();
+}
+
+
+/**
+ * Clear contact details and deactivate the current contact.
+ */
+function clearDetailsAndDeactivate() {
+    document.getElementById("contact-details")?.classList.remove("is-open");
+    const panel = document.getElementById("contact-details");
+    if (panel) panel.innerHTML = "";
+    document.querySelector(".contact-item.active")?.classList.remove("active");
+}
+
+
+/**
+ * Ensure the sidebar is open on mobile devices.
+ */
+function ensureSidebarOpenOnMobile() {
+    if (window.innerWidth <= 1000) {
+        document.querySelector(".contact-sidebar")?.classList.remove("hide");
+        document.querySelector(".contact-main")?.classList.remove("is-open");
+    }
+}
+
+
+/**
+ * Reset active contact UI if the deleted contact was active.
+ */
+function resetActiveIfDeleted(id) {
+    if (String(activeContactId) === String(id)) {
+        resetActiveContactUI();
+    } else {
+        clearDetailsAndDeactivate();
+    }
 }
 
 
@@ -142,8 +206,6 @@ async function saveEditedContact(event) {
         showToast("Contact updated");
     } catch (err) { console.error(err); showToast("Error updating contact"); }
 }
-
-
 
 
 /** 

@@ -254,6 +254,31 @@ function createContactItem(contact, index, sortedContacts) {
 }
 
 
+/**
+ * Reset the UI state related to the active contact.
+ */
+function resetActiveContactUI() {
+    const panel = document.getElementById("contact-details");
+    const sidebar = document.querySelector(".contact-sidebar");
+    const main = document.querySelector(".contact-main");
+
+    document.querySelector(".contact-item.active")?.classList.remove("active");
+    if (panel) {
+        panel.innerHTML = "";
+        panel.classList.remove("is-open");
+        panel.style.display = "";
+    }
+    if (main) {
+        main.classList.remove("is-open");
+        main.style.display = "";
+    }
+    if (window.innerWidth <= 1000) {
+        sidebar?.classList.remove("hide");
+    }
+    activeContactId = null;
+}
+
+
 /** 
  * Toggle active state for a contact and show/hide details panel.
  */
@@ -261,22 +286,21 @@ function setActiveContact(element, contact) {
     const panel = document.getElementById("contact-details");
     const sidebar = document.querySelector(".contact-sidebar");
     const main = document.querySelector(".contact-main");
-    const isActive = element.classList.contains("active");
-
+    const isSameAsActive = String(activeContactId) === String(contact.id);
     document.querySelectorAll(".contact-item").forEach(i => i.classList.remove("active"));
-
-    if (isActive) return hideContactContent(), activeContactId = null;
-
+    if (isSameAsActive && element.classList.contains("active")) {
+        resetActiveContactUI();
+        return;
+    }
     element.classList.add("active");
+    activeContactId = contact.id;
     showContactContent(contact);
-    [panel, main].forEach(e => e.classList.add("is-open"));
-
+    panel.classList.add("is-open");
+    main.classList.add("is-open");
     if (window.innerWidth <= 1000) {
         sidebar.classList.add("hide");
         main.style.display = panel.style.display = "block";
     }
-
-    activeContactId = contact.id;
 }
 
 
