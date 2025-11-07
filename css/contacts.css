@@ -565,9 +565,9 @@
 }
 
 #toast-container {
-    position: absolute;
-    top: 80%;
-    left: 50%;
+    position: fixed;
+    bottom: 20px;
+    left: 900px;
     transform: translateX(-50%);
     z-index: 9999;
 }

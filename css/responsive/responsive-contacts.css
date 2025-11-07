@@ -106,6 +106,10 @@
     border-radius: 10px;
   }
 
+  #toast-container {
+    left: 800px;
+}
+
 }
 
 @media (max-width: 1050px) {
@@ -286,8 +290,8 @@
 
   #toast-container {
     top: auto;
-    bottom: 25%;
-    left: 50%;
+    bottom: 10px;
+    left: 60%;
     transform: translateX(-50%);
   }
 
@@ -499,6 +503,11 @@
     bottom: 96px;
   }
 
+      #toast-container {
+    bottom: 100px;
+    left: 50%;
+  }
+
 }
 
 @media(max-width: 420px) {
@@ -523,4 +532,6 @@
   .toast {
     width: 280px;
   }
+
+
 }
