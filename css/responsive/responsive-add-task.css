@@ -95,6 +95,7 @@
     .add-task-content {
         padding-left: 1rem;
     }
+
     .task-footer {
         padding-bottom: 0;
         padding-top: 5px;
@@ -114,12 +115,22 @@
 }
 
 @media(max-width: 500px) {
-    .priority-btns p{
+    .priority-btns p {
         display: none;
     }
 }
 
+@media (max-width: 540px) {
+    .page-content {
+        height: calc(100vh - 150px) !important;
+    }
+}
+
 @media(max-width: 445px) {
+    .page-content {
+        height: calc(100vh - 175px) !important;
+    }
+
     .priority-btns button {
         font-size: 16px;
         height: auto;
@@ -182,7 +193,17 @@
     }
 }
 
-@media(max-width: 350px) {
+@media (max-width: 375px) {
+    .page-content {
+        height: calc(100vh - 150px) !important;
+    }
+}
+
+@media(max-width: 359px) {
+    .page-content {
+        height: calc(100vh - 175px) !important;
+    }
+
     .task-btns {
         width: 270px;
     }
@@ -212,7 +233,7 @@
     }
 }
 
-@media(max-height: 1320px){
+@media(max-height: 1320px) {
     .title {
         font-size: 32px;
     }
@@ -240,6 +261,7 @@
         height: 38px;
         width: 90px;
     }
+
     #create-task-btn {
         padding-left: 6px;
         padding-right: 6px;
@@ -249,14 +271,15 @@
         height: 38px;
         width: 150px;
     }
+
     .task-footer {
         padding-bottom: 20px;
         margin-bottom: 4px;
     }
 }
 
-@media(max-height: 800px){
-    .sidebar-nav p{
+@media(max-height: 800px) {
+    .sidebar-nav p {
         display: none;
     }
 
