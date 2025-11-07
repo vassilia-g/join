@@ -12,7 +12,6 @@
 .create-task {
     display: flex;
     font-size: 20px;
-    overflow-x: scroll;
 }
 
 .create-task label {
@@ -252,7 +251,7 @@ input::placeholder {
 
 #selected-subtasks {
     overflow-x: hidden;
-    max-height: 140px;
+    max-height: 100px;
     scrollbar-width: thin;
     overflow-y: auto;
 }
