@@ -83,7 +83,8 @@ input::placeholder {
     justify-content: space-between;
     width: 50%;
     height: 376px;
-    align-items: center;
+    /* align-items: center; */
+    align-items: flex-start;
 }
 
 #task-title-label::after {
@@ -365,7 +366,7 @@ input::placeholder {
     display: flex;
     flex-direction: column;
     gap: 24px;
-    padding-left: 2rem;
+    /* padding-left: 2rem; */
     width: 50%;
     border-left: 2px solid #E0E0E0;
     align-items: end;
