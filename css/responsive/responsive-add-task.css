@@ -138,17 +138,17 @@
 
 
 @media(max-height: 800px) {
-    .sidebar-nav p {
+    /* .sidebar-nav p {
         display: none;
-    }
+    } */
 
-    .sidebar {
+    /* .sidebar {
         height: 50px !important;
-    }
+    } */
 
     .nav {
         height: 50px !important;
-        padding: 0 !important;
+        /* padding: 0 !important; */
     }
 
     .main {
