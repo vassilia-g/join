@@ -403,54 +403,37 @@ function openCategories() {
 
 /** Select "Technical Task" as category and update UI state.*/
 function showTechnicalTaskInInput() {
+    let fieldWarning = document
+        .getElementById('task-category-label')
+        .closest('.task-label-divs')
+        .querySelector('.field-warning');
+    let error = document.getElementById('task-category');
+    error.classList.remove('error');
     categoryInput.innerHTML = 'Technical Task';
     dropdownIconCategories.classList.toggle("open");
     categories.classList.remove('show');
     categories.innerHTML = '';
     selectedCategory = "Technical Task";
-    warningField.classList.add('d-none');
+    fieldWarning.classList.add('d-none');
     enableCreateTaskButton();
 }
 
 
 /** Select "User Story" as category and update UI state.*/
 function showUserStoryInInput() {
+    let fieldWarning = document
+        .getElementById('task-category-label')
+        .closest('.task-label-divs')
+        .querySelector('.field-warning');
+    let error = document.getElementById('task-category');
+    error.classList.remove('error');
     categoryInput.innerHTML = 'User Story';
     dropdownIconCategories.classList.toggle("open");
     categories.classList.remove('show');
     categories.innerHTML = '';
     selectedCategory = "User Story";
-    warningField.classList.add('d-none');
+    fieldWarning.classList.add('d-none');
     enableCreateTaskButton();
 }
 
 
-/**
- * Observe category text node for changes to hide/show the validation warning.
- * Adds the observer only once per input element.
- * @param {Element} inputElement - wrapper element for category input
- * @param {Element} warning - warning element to toggle
- * @param {Element} categorySpan - the actual span containing category text
- */
-function eventListenerForSelectCategory(el, warn, span) {
-    if (!el.dataset.observerStarted) {
-        categoryObserver = new MutationObserver(() => {
-            const drop = document.getElementById("categories");
-            const open = drop && drop.classList.contains("show");
-            const empty = span?.textContent.trim() === "Select task category";
-            if (!empty) {
-                warn.classList.add("d-none");
-                el.classList.remove("error");
-            } else if (!open) {
-                warn.classList.remove("d-none");
-                el.classList.add("error");
-            }
-        });
-        function startObserving() {
-            observer.observe(span, { childList: true, characterData: true, subtree: true });
-            el.dataset.observerStarted = "true";
-            el.removeEventListener("click", startObserving);
-        }
-        el.addEventListener("click", startObserving);
-    }
-}

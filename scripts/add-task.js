@@ -338,7 +338,7 @@ function showFieldWarning(inputElement) {
   const warning = wrapper.querySelector(".field-warning");
   if (!warning) return;
   if (inputElement.tagName === "INPUT" || inputElement.tagName === "TEXTAREA") {
-    if (inputElement.value.trim() === "") {
+    if (!inputElement.value.trim()) {
       warning.classList.remove("d-none");
       inputElement.classList.add("error");
       eventListenerForInput(inputElement, warning);
@@ -346,11 +346,12 @@ function showFieldWarning(inputElement) {
   }
   if (inputElement.classList.contains("task-category")) {
     const categorySpan = inputElement.querySelector("#input-category");
-    if (categorySpan && categorySpan.textContent.trim() === "Select task category") {
-      warning.classList.remove("d-none");
-      inputElement.classList.add("error");
-    }
-    eventListenerForSelectCategory(inputElement, warning, categorySpan);
+    if (!categorySpan) return;
+    setTimeout(() => {
+      const text = categorySpan.textContent.trim();
+      warning.classList.toggle("d-none", text !== "Select task category");
+      inputElement.classList.toggle("error", text === "Select task category");
+    }, 300);
   }
 }
 
