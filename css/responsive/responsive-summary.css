@@ -15,6 +15,10 @@
     .second-row {
         gap: 45px;
     }
+
+    .summary-title {
+        font-size: 45px !important;
+    }
 }
 
 @media (min-width: 1100px) and (max-width: 1200px) {
