@@ -99,6 +99,11 @@
         height: 900px;
     }
 
+    .task-overlay {
+        height: 100%;
+        justify-content: space-between;
+    }
+
     #task-overlay-content.active {
         display: flex;
         flex-direction: column;
@@ -197,9 +202,6 @@
         width: 60%;
     }
 
-    #task-overlay-content.active {
-        align-items: center;
-    }
 }
 
 
@@ -491,16 +493,17 @@
 @media (max-height: 1150px) {
     #task-overlay-content {
         height: 800px;
-    }
-
-    .overlay-footer {
-        padding-bottom: 1rem;
+        padding: 20px;
     }
 
     .task-overlay {
         height: 100%;
         justify-content: space-between;
     }
+
+    #overlay-subtasks-details {
+    height: 300px;
+}
 }
 
 @media (max-height: 1020px) {

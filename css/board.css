@@ -594,6 +594,11 @@ button {
     gap: 8px;
 }
 
+#overlay-subtasks-details {
+    height: 400px;
+    overflow-y: auto;
+}
+
 .overlay-svg-div :hover {
     cursor: pointer;
 }
