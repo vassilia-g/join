@@ -708,6 +708,14 @@ button {
     position: relative;
 }
 
+.board-content .task-main-info {
+    padding-right: 16px;
+}
+
+.board-content .task-additional-info {
+        padding-left: 16px;
+}
+
 #task-overlay-content .edit-subtask-container {
     position: absolute;
     padding-right: 0;
