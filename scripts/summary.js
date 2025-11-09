@@ -132,9 +132,7 @@ function updateUserGreeting(welcomeMsg, hour, punctuation) {
 function guestGreeting(userName, isGuest) {
     if (isGuest) {
         userName.classList.add("d-none");
-    } else {
-        userName.classList.remove("d-none");
-    }
+    } 
 }
 
 

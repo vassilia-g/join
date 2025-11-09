@@ -505,7 +505,7 @@
 
 @media (max-height: 1020px) {
     #task-overlay-content {
-        height: 720px;
+        height: 750px;
         overflow: hidden;
         overflow-y: auto;
         scrollbar-width: thin;
