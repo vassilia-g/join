@@ -163,9 +163,13 @@ function validateEditPhone() {
 async function showOwnContact() {
     const ownContactContainer = document.getElementById('own-contact');
     const user = await getUser();
-    if (!user.color) {
-        user.color = "black";
+    if (!user) return;
+
+    const isGuest = localStorage.getItem('currentUserId') === 'guest';
+    if (!isGuest && !user.color) {
+        user.color = 'black';
     }
+
     ownContactContainer.innerHTML = showOwnContactDetails(user);
     const contactItem = document.getElementById('contact-item');
     ownContactContainer.onclick = function () {
