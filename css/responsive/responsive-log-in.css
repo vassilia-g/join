@@ -3,13 +3,8 @@
         font-size: 48px;
     }
 
-    .sign-up-header {
-        width: 100%;
-        gap: 15px;
-    }
-
-    .line,
-    .sign-up-line {
+    .line
+     {
         width: 90px;
         height: 0px;
         border: 2px solid var(--color-accent);
@@ -23,30 +18,15 @@
     }
 
     .input-email-container,
-    .input-password-container,
-    .input-sign-up-name-container,
-    .input-sign-up-email-container,
-    .input-sign-up-password-container,
-    .input-sign-up-confirm-password-container {
+    .input-password-container
+     {
         max-width: 320px;
         width: 100%;
         height: 40px;
     }
 
-    .sign-up-container {
-        padding: 48px 48px 283px 48px;
-    }
-
-    .log-in-container {
-        width: 450px;
-    }
-
     .input-email,
-    .input-sign-up-email,
-    .input-password,
-    .input-sign-up-password,
-    .input-sign-up-name,
-    .input-sign-up-confirm-password {
+    .input-password {
         width: 380px;
         font-size: 18px;
         margin-left: 5px;
@@ -54,11 +34,7 @@
     }
 
     .input-email-container,
-    .input-password-container,
-    .input-sign-up-name-container,
-    .input-sign-up-email-container,
-    .input-sign-up-password-container,
-    .input-sign-up-confirm-password-container {
+    .input-password-container {
         height: 32px;
     }
 }
@@ -144,14 +120,12 @@
 
     .responsive-header {
         width: 100%;
-        height: 250px;
         display: flex;
         justify-content: center;
         opacity: 1;
     }
 
-    .line,
-    .sign-up-line {
+    .line {
         border: 2px solid var(--color-accent);
     }
 
@@ -166,37 +140,28 @@
     }
 
     .log-in-container {
-        margin-top: 100px;
+        width: 350px;
         height: 350px;
-        padding: 12px 0px 85px 0px;
+        padding: 0px 0px 15px 0px;
     }
 
     .input-email-container,
-    .input-password-container,
-    .input-sign-up-name-container,
-    .input-sign-up-email-container,
-    .input-sign-up-password-container,
-    .input-sign-up-confirm-password-container {
+    .input-password-container {
         max-width: 320px;
         width: 100%;
         height: 28px;
     }
 
     .input-email-container ::placeholder,
-    .input-password-container ::placeholder,
-    .input-sign-up-name-container ::placeholder,
-    .input-sign-up-email-container ::placeholder,
-    .input-sign-up-password-container ::placeholder,
-    .input-sign-up-confirm-password-container ::placeholder {
+    .input-password-container ::placeholder
+     {
         font-size: 16px;
     }
 
     .input-email,
-    .input-sign-up-email,
-    .input-password,
-    .input-sign-up-password,
-    .input-sign-up-name,
-    .input-sign-up-confirm-password {
+    
+    .input-password
+    {
         align-self: center;
     }
 
@@ -207,16 +172,7 @@
 
     }
 
-    .input-sign-up-name,
-    .input-sign-up-email,
-    .input-sign-up-password,
-    .input-sign-up-confirm-password {
-        max-width: inherit;
-        width: 100%;
-        height: 24px;
-        border-width: 0px;
-        outline: none;
-    }
+
 
     .log-in-button-container {
         width: 100%;
@@ -227,8 +183,8 @@
         align-items: center;
     }
 
-    .log-in-button,
-    .sign-up-button {
+    .log-in-button
+     {
         width: 125px;
         height: 48px;
         border-radius: 8px;
@@ -241,21 +197,14 @@
         font-size: 16px;
     }
 
-    .disabled-sign-up-form-button,
-    .enabled-sign-up-form-button {
-        height: 30px;
-        font-size: 16px;
-    }
+   
 
     .log-in-guest-button {
         font-size: 16px;
         width: 125px;
     }
 
-    .sign-up-container {
-        margin-top: 150px;
-        height: 230px;
-    }
+   
 
     .registry-button {
         height: 30px;
@@ -264,17 +213,8 @@
 
 @media (max-width: 500px) {
     .log-in-container {
-        padding: 12px 12px 52px 12px;
+        padding: 0px 0px 10px 0px;
         width: 350px;
-    }
-
-    .sign-up-header {
-        gap: 30px;
-    }
-
-    .sign-up-container {
-        padding: 48px 40px 334px 40px;
-        height: 155px;
     }
 
     .form-log-in {
@@ -286,29 +226,16 @@
         max-width: 220px;
     }
 
-    .input-sign-up-name-container,
-    .input-sign-up-email-container,
-    .input-sign-up-password-container,
-    .input-sign-up-confirm-password-container {
-        max-width: 280px;
-    }
-
-    .input-email,
-    .input-password,
-    .input-sign-up-name,
-    .input-sign-up-email,
-    .input-sign-up-password,
-    .input-sign-up-confirm-password {
+    .input-email[type="email"],
+    .input-password {
         max-width: 226px;
         font-size: 18px;
+        display: block;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
 
-    .sign-up-header h1 {
-        font-size: 40px;
-    }
-
-    .line,
-    .sign-up-line {
+    .line {
         width: 77px;
     }
 
@@ -319,11 +246,6 @@
     .arrow-left {
         width: 26px;
         height: 26px;
-    }
-
-    .disabled-sign-up-form-button {
-        width: 102;
-        height: 40px;
     }
 
     .registry-button {
@@ -338,76 +260,22 @@
         letter-spacing: 0%;
     }
 
-    footer {
-        gap: 100px;
-    }
+    
 }
 
 @media (max-width: 415px) {
-
     .log-in-container {
         max-width: 265px;
         height: 240px;
-        padding: 12px 5px 86px 5px;
-        margin-top: 15px;
+        padding: 12px 0px 65px 0px;
     }
 
-    .sign-up-container {
-        padding: 28px 20px 213px 20px;
-        height: 183px;
-        margin-top: 15px;
-        z-index: 10;
-    }
-
-    .sign-up-header {
-        gap: 30px;
-    }
-
-    .line,
-    .sign-up-line {
+    .line {
         width: 56px;
-    }
-
-    .form-sign-up {
-        gap: 10px;
-    }
-
-    .sign-up-form-button-container,
-    .enabled-sign-up-form-button {
-        height: 35px;
-    }
-
-    .input-sign-up-name-container,
-    .input-sign-up-email-container,
-    .input-sign-up-password-container,
-    .input-sign-up-confirm-password-container {
-        max-width: 206px;
-        height: 26px;
-    }
-
-    .input-sign-up-name,
-    .input-sign-up-email,
-    .input-sign-up-password,
-    .input-sign-up-confirm-password {
-        max-width: 170px;
-        font-size: 16px;
     }
 
     .log-in-container h1 {
         font-size: 32px;
-    }
-
-    .sign-up-header h1 {
-        font-size: 32px;
-    }
-
-    .responsive-header {
-        height: 380px;
-    }
-
-    footer {
-        bottom: 25px;
-        z-index: 0;
     }
 
     @keyframes move-to-top-left {
@@ -427,48 +295,8 @@
     }
 }
 
-@media (max-height: 960px) {
-    footer {
-        bottom: 10px;
-        gap: 0px;
-    }
 
-    .responsive-header {
-        height: 106px;
-    }
-}
-
-@media (max-height: 820px) {
-    .responsive-header {
-        height: 80px;
-    }
-}
-
-@media (max-height: 790px) {
-    footer {
-        bottom: 5px;
-        gap: 0px;
-    }
-
-    .responsive-header {
-        height: 75px;
-    }
-
-    .registry-button {
-        height: 30px;
-    }
-
-    .registry-text {
-        font-size: 16px;
-    }
-}
-
-@media (max-width: 1440px) and (max-height: 750px) {
-    .log-in-container {
-        width: 280px;
-        margin-top: 150px;
-    }
-
+@media (max-width: 415px) and (max-height: 600px) {
     @keyframes move-to-top-left {
         0% {
             top: 50%;
@@ -477,192 +305,51 @@
         }
 
         100% {
-            top: 44px;
-            left: 45.5px;
-            width: 51px;
-            height: 72px;
+            top: 14px;
+            left: 15.5px;
+            width: 31px;
+            height: 52px;
             transform: translate(0, 0);
         }
     }
 }
 
-@media (max-width: 960px) and (max-height: 700px) {
-    .log-in-container {
-        margin-top: 80px;
+@media (max-width: 733px) and (max-height: 1800px) {
+    footer{
+    min-height: 85px;
+    height: 250px;
+    justify-content: space-between;
     }
 }
 
-@media (max-width: 960px) and (max-height: 630px) {
-    .log-in-container {
-        margin-top: 80px;
-        max-height: 222px;
-        padding: 25px 115px 85px 115px;
-    }
-
-    .sign-up-container {
-        padding: 25px 115px 130px 115px;
-        margin-top: 80px;
-    }
-
-    .sign-up-container h1 {
-        font-size: 40px;
-    }
-
-    .sign-up-line {
-        width: 75px;
-    }
-
-    .input-sign-up-name-container,
-    .input-sign-up-email-container,
-    .input-sign-up-password-container,
-    .input-sign-up-confirm-password-container {
-        height: 26px;
-    }
-
-    .input-email-container ::placeholder,
-    .input-password-container ::placeholder,
-    .input-sign-up-name-container ::placeholder,
-    .input-sign-up-email-container ::placeholder,
-    .input-sign-up-password-container ::placeholder,
-    .input-sign-up-confirm-password-container ::placeholder {
-        font-size: 16px;
-    }
-
-    .form-sign-up {
-        gap: 12px;
-    }
-
-    .input-main-container {
-        padding-top: 15px;
-    }
-
-    .enabled-sign-up-form-button,
-    .disabled-sign-up-form-button {
-        height: 32px;
-        font-size: 16px;
+@media (max-width: 733px) and (max-height: 1100px) {
+    footer{
+    min-height: 85px;
+    height: 170px;
+    justify-content: space-between;
     }
 }
 
-@media (max-width: 950px) and (max-height: 590px) {
-    .sign-up-container h1 {
-        font-size: 32px;
-    }
-
-    .sign-up-container {
-        margin-top: 32px;
-        padding: 15px 115px 132px 115px
-    }
-
-    .sign-up-line {
-        width: 59px;
-    }
-
-    .sign-up-header {
-        gap: 45px;
-    }
-
-    @keyframes move-to-top-left {
-        0% {
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        100% {
-            top: 24px;
-            left: 25.5px;
-            width: 41px;
-            height: 62px;
-            transform: translate(0, 0);
-        }
-    }
-
-    .accept-policy {
-        padding-top: 0px;
-    }
-
-    .form-sign-up {
-        gap: 7px;
-    }
-
-    .log-in-container {
-        margin-top: 10px;
-        max-height: 190px;
-        padding: 15px 115px 75px 115px;
-    }
-
-    .log-in-guest-button,
-    .log-in-button {
-        height: 32px;
-        font-size: 16px;
-    }
-
-    .log-in-header {
-        margin-top: 30px;
-    }
-
-    .log-in-container h1 {
-        font-size: 32px;
-    }
-
-    .line,
-    .sign-up-line {
-        width: 56px;
-    }
-
-    .privacy-legal-link-container {
-        height: 24px;
+@media (max-width: 733px) and (max-height: 800px) {
+    footer{
+    min-height: 85px;
+    height: 125px;
+    justify-content: space-between;
     }
 }
 
-@media (max-width: 700px) and (max-height: 420px) {
-    .responsive-header {
-        height: 50px;
+@media (max-width: 733px) and (max-height: 660px) {
+    footer{
+    min-height: 85px;
+    height: 100px;
+    justify-content: space-between;
     }
+}
 
-    .log-in-button-container {
-        gap: 5px;
-    }
-
-    .log-in-guest-button,
-    .log-in-button {
-        height: 30px;
-    }
-
-    .form-log-in {
-        gap: 14px;
-    }
-
-    .input-email-container,
-    .input-password-container {
-        height: 20px;
-    }
-
-    .log-in-container {
-        padding: 15px 65px 54px 65px;
-        margin-top: 0px;
-    }
-
-    .log-in-header {
-        margin-top: 25px;
-    }
-
-    .registry-container {
-        height: 0px;
-    }
-
-
-    .sign-up-container {
-        margin-top: 0px;
-        padding: 15px 65px 70px 65px;
-    }
-
-    .input-email-container ::placeholder,
-    .input-password-container ::placeholder,
-    .input-sign-up-name-container ::placeholder,
-    .input-sign-up-email-container ::placeholder,
-    .input-sign-up-password-container ::placeholder,
-    .input-sign-up-confirm-password-container ::placeholder {
-        font-size: 16px;
+@media (max-width: 733px) and (max-height: 575px) {
+    footer{
+    min-height: 85px;
+    height: 85px;
+    justify-content: space-between;
     }
 }

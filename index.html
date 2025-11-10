@@ -56,8 +56,8 @@
 
                     <form class="form-log-in" action="" onsubmit="goToStartpage(event)">
                         <div id="input-email-container" class="input-email-container">
-                            <input onblur="validateEmailInputForLogin()" id="input-email" class="input-email" type="email" placeholder="Email"
-                                autocomplete="username">
+                            <input onblur="validateEmailInputForLogin()" id="input-email" class="input-email"
+                                type="email" placeholder="Email" autocomplete="username">
                             <img class="input-symbol" src="/assets/imgs/symbols/mail.svg" alt="Ein Brief Symbol">
                         </div>
                         <span id="email-error" class="error d-none">Please enter a valid email adress.</span>
@@ -100,11 +100,13 @@
                     <form id="form-sign-up" class="form-sign-up" action="" onsubmit="checkSignUpPasswords(event)">
 
                         <div id="input-sign-up-name-container" class="input-sign-up-name-container">
-                            <input oninput="validateName()" id="input-sign-up-name" class="input-sign-up-name" type="text" placeholder="Name">
+                            <input oninput="validateName()" id="input-sign-up-name" class="input-sign-up-name"
+                                type="text" placeholder="Name">
                             <img class="input-symbol" src="/assets/imgs/symbols/person.svg" alt="Ein Personen Symbol">
                         </div>
                         <div id="input-sign-up-email-container" class="input-sign-up-email-container">
-                            <input id="input-sign-up-email" class="input-sign-up-email" oninput="checkEmailExistsOnInput()" onblur="validateEmailInputForLogin()" 
+                            <input id="input-sign-up-email" class="input-sign-up-email"
+                                oninput="checkEmailExistsOnInput()" onblur="validateEmailInputForLogin()"
                                 autocomplete="username" placeholder="Email">
                             <img class="input-symbol" src="/assets/imgs/symbols/mail.svg" alt="Ein Brief Symbol">
                         </div>
@@ -116,8 +118,9 @@
                         </div>
                         <div id="input-sign-up-confirm-password-container"
                             class="input-sign-up-confirm-password-container">
-                            <input id="input-sign-up-confirm-password" class="input-sign-up-confirm-password" oninput="checkSignUpPasswordsOnInput()"
-                                type="password" autocomplete="new-password" placeholder="Confirm Password">
+                            <input id="input-sign-up-confirm-password" class="input-sign-up-confirm-password"
+                                oninput="checkSignUpPasswordsOnInput()" type="password" autocomplete="new-password"
+                                placeholder="Confirm Password">
                             <img class="input-symbol" src="/assets/imgs/symbols/lock.svg" alt="Ein Schloss Symbol">
                         </div>
                         <span id="error-text-password-match"
@@ -127,7 +130,9 @@
                         <span id="error-email-exists" class="error-email-exists red-colored d-none">
                             This Email already exists
                         </span>
-                        <span id="error-username-and-mail-reqired" class="error-username-and-mail-reqired red-colored d-none">Username and Email are required</span>
+                        <span id="error-username-and-mail-reqired"
+                            class="error-username-and-mail-reqired red-colored d-none">Username and Email are
+                            required</span>
                         <span class="accept-policy">
                             <label for="sign-up-checkbox">
                                 <input type="checkbox" name="checkbox" id="sign-up-checkbox" class="sign-up-checkbox">
@@ -165,6 +170,7 @@
             </footer>
 
         </div>
+
     </div>
 
     <script src="scripts/log-in.js"></script>
