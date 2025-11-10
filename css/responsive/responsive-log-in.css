@@ -296,7 +296,7 @@
 }
 
 
-@media (max-width: 415px) and (max-height: 600px) {
+@media (max-width: 415px) and (max-height: 660px) {
     @keyframes move-to-top-left {
         0% {
             top: 50%;

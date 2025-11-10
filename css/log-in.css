@@ -138,7 +138,9 @@ footer {
 }
 
 .sign-up-container {
-    height: 560px;
+    max-width: 652px;
+    min-width: 235px;
+    height: 590px;
     background-color: rgb(255, 255, 255);
     border-radius: 30px;
     padding: 20px 48px 0px 48px;
