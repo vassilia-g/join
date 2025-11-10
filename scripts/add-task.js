@@ -46,13 +46,11 @@ document.getElementById("task-due-date").addEventListener("input", enableCreateT
  * Initialize flatpickr date picker with configuration and arrow handling.
  */
 const picker = flatpickr("#task-due-date", {
-  
   dateFormat: "d/m/Y",
   allowInput: true,
   minDate: "today",
   locale: "en",
   clickOpens: false,
-
   onReady: checkArrows,
   onChange: checkArrows,
   onMonthChange: checkArrows,

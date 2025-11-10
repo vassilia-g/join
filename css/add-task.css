@@ -626,7 +626,7 @@ p#field-requiered-info::before {
 
 #selected-contacts {
     display: grid;
-    grid-template-columns: repeat(14, 40px);
+    grid-template-columns: repeat(14, 31px);
     padding-top: 1rem;
 }
 
