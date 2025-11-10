@@ -34,6 +34,8 @@ const visibilityOnSymbol = document.getElementById('visibility-on');
 document.addEventListener("DOMContentLoaded", () => {
 
     if (window.innerWidth <= 733) {
+        logoWeiß.offsetHeight;
+        void logoWeiß.offsetWidth;
         logoWrapper.classList.add("logo-move-to-top-left");
         setTimeout(() => {
             logoWeiß.src = "/assets/imgs/join-logo/capa-2.svg";
