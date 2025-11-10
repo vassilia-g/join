@@ -46,6 +46,7 @@ document.getElementById("task-due-date").addEventListener("input", enableCreateT
  * Initialize flatpickr date picker with configuration and arrow handling.
  */
 const picker = flatpickr("#task-due-date", {
+  
   dateFormat: "d/m/Y",
   allowInput: true,
   minDate: "today",
@@ -104,12 +105,14 @@ function showSidebarAndHeader() {
  * Manage flatpickr year navigation arrow visibility.
  */
 function checkArrows(selectedDates, dateStr, instance) {
+  if (!instance || !instance.calendarContainer) {
+    setTimeout(() => checkArrows(selectedDates, dateStr, instance), 50);
+    return;
+  }
   const minDate = instance.config.minDate;
   const currentYear = instance.currentYear;
   const minYear = minDate.getFullYear();
-
   const arrowDown = instance.calendarContainer.querySelector(".arrowDown");
-
   if (arrowDown) {
     if (currentYear <= minYear) {
       arrowDown.style.display = "none";
@@ -117,7 +120,7 @@ function checkArrows(selectedDates, dateStr, instance) {
       arrowDown.style.display = "block";
     }
   }
-};
+}
 
 
 /** 
