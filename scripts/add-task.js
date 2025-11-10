@@ -56,9 +56,11 @@ const picker = flatpickr("#task-due-date", {
   onMonthChange: checkArrows,
   onYearChange: checkArrows,
   onValueUpdate: function(selectedDates, dateStr, instance) {
-    const typed = instance.input.getAttribute('data-typed');
-    if (typed) {
-      instance.input.value = typed;
+    if (!selectedDates || selectedDates.length === 0) {
+      const typed = instance.input.getAttribute('data-typed');
+      if (typed) {
+        instance.input.value = typed;
+      }
     }
   }
 });
@@ -66,6 +68,7 @@ const picker = flatpickr("#task-due-date", {
 dateInput.addEventListener("input", (e) => {
   e.target.setAttribute("data-typed", e.target.value);
 });
+
 
 /** 
  * Initialize add-task module by loading contacts (without rendering).
