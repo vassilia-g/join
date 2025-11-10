@@ -163,7 +163,7 @@
     }
 
     .task-footer {
-        padding-bottom: 0;
+        padding-bottom: 16px;
         padding-top: 5px;
     }
 
@@ -189,9 +189,42 @@
     }
 }
 
+@media(max-width: 680px){
+    #selected-contacts {
+        grid-template-columns: repeat(13, 40px);
+    }
+}
+
+@media(max-width: 620px){
+    #selected-contacts {
+        grid-template-columns: repeat(12, 40px);
+    }
+}
+
+@media(max-width: 585px){
+    #selected-contacts {
+        grid-template-columns: repeat(11, 40px);
+    }
+}
+
+@media(max-width: 540px){
+    #selected-contacts {
+        grid-template-columns: repeat(10, 40px);
+    }
+}
+
 @media(max-width: 500px) {
     .priority-btns p {
         display: none;
+    }
+    #selected-contacts {
+        grid-template-columns: repeat(9, 40px);
+    }
+}
+
+@media(max-width: 450px){
+    #selected-contacts {
+        grid-template-columns: repeat(8, 40px);
     }
 }
 
@@ -220,6 +253,20 @@
 
     #task-description {
         font-size: 16px;
+    }
+}
+
+@media(max-width: 420px) {
+    #selected-contacts{
+        grid-template-columns: repeat(8, 40px);
+    }
+
+}
+
+
+@media(max-width: 405px){
+    #selected-contacts {
+        grid-template-columns: repeat(7, 40px);
     }
 }
 
@@ -291,5 +338,13 @@
 
     .sidebar-nav {
         font-size: 16px;
+    }
+
+    .assign-contacts {
+        font-size: 14px;
+    }
+
+    #selected-contacts {
+        grid-template-columns: repeat(6, 40px);
     }
 }

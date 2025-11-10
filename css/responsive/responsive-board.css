@@ -9,6 +9,11 @@
         height: 1200px;
     }
 
+    .task-main-info {
+        display: flex;
+        align-items: center;
+    }
+
     #new-task-div {
         width: 100%;
     }
