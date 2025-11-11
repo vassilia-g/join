@@ -99,7 +99,7 @@
         height: 838px;
     }
 
-    .add-task-content {
+    #add-task-overlay .add-task-content {
         top: 32px;
         left: 32px
     }
@@ -113,14 +113,34 @@
         overflow-y: auto;
     }
 
+    #add-task-overlay .overlay-close-btn {
+        top: 32px;
+        right: 32px;
+    }
+
+    #add-task-overlay #create-task-btn {
+        width: 163px;
+        font-size: 18px;
+    }
+
+    #add-task-overlay #clear-btn {
+        width: 90px;
+        font-size: 18px;
+    }
+
+    #add-task-overlay .task-footer {
+        margin-bottom: 0;
+    }
+
     #add-task-overlay {
         width: 70%;
         height: 80%;
     }
 
-    .add-task-content {
+    #add-task-overlay .add-task-content {
         width: 100%;
         overflow-y: hidden;
+        height: 94%;
     }
 
     .task-main-info {
@@ -258,6 +278,15 @@
         width: 60%;
     }
 
+    #add-task-overlay .add-task-content {
+        top: 24px;
+        left: 24px;
+    }
+
+    #add-task-overlay .add-task-title {
+        font-size: 51px;
+    }
+
 }
 
 
@@ -277,6 +306,73 @@
         width: 80%;
         /* max-height: 926px; */
         overflow-y: scroll;
+    }
+
+    #add-task-overlay .priority-btns p{
+        display: none;
+    }
+
+    #add-task-overlay #create-task-btn {
+        width: 143px;
+        height: 42px;
+        font-size: 16px;
+        padding: 4px;
+    }
+
+    #add-task-overlay .input-border-size {
+        font-size: 18px;
+    }
+
+    #add-task-overlay #clear-btn {
+        width: 70px;
+        height: 42px;
+        font-size: 16px;
+        padding: 4px;
+    }
+
+    #add-task-overlay .create-task label{
+        font-size: 18px;
+    }
+
+    
+    #add-task-overlay input{
+        width: 420px;
+    }    
+
+    #add-task-overlay textarea{
+        width: 420px;
+    } 
+
+    #add-task-overlay .placeholder-icon {
+        right: 12px;
+    }
+
+    #add-task-overlay .priority-btns {
+        width: 400px;
+    }
+
+    #add-task-overlay .input-border-size {
+        width: 420px;
+    }
+    
+    #add-task-overlay .input-wrapper {
+        width: 420px;
+    }
+
+    #add-task-overlay .add-task-content {
+        align-items: center;
+    }  
+
+    #add-task-overlay h1 {
+        padding-right: 200px;
+    }
+    
+    #add-task-overlay #task-priority-label {
+        margin-left: -8px;
+    }
+
+    #add-task-overlay .task-additional-info {
+        margin-left: -12px;
     }
 }
 
@@ -298,11 +394,61 @@
     .overlay-footer {
         padding-bottom: 1rem;
     }
+
+    #add-task-overlay {
+        left: 80px;
+        top: 100px;
+        width: 80%;
+    }
+
+    #add-task-overlay .add-task-title {
+        font-size: 41px;
+    }
+
+    #add-task-overlay h1 {
+        padding-right: 250px;
+    }
 }
 
 @media (max-width: 680px) {
     .overlay-titel h3 {
         font-size: 44px;
+    }
+
+    #add-task-overlay input{
+        width: 400px;
+    }    
+
+    #add-task-overlay textarea{
+        width: 400px;
+    } 
+
+    #add-task-overlay .placeholder-icon {
+        right: 18px;
+    }
+
+    #add-task-overlay .priority-btns {
+        width: 380px;
+    }
+
+    #add-task-overlay .input-border-size {
+        width: 400px;
+    }
+    
+    #add-task-overlay .input-wrapper {
+        width: 400px;
+    }
+    #add-task-overlay #task-priority-label {
+        margin-left: -10px;
+    }
+
+    #add-task-overlay .task-additional-info {
+        margin-left: -16px;
+    }
+
+    #add-task-overlay .add-task-content {
+        top: 24px;
+        left: 16px;
     }
 }
 
@@ -351,10 +497,54 @@
     }
 }
 
+@media (max-width: 630px) {
+    #add-task-overlay input{
+        width: 360px;
+    }    
+
+    #add-task-overlay textarea{
+        width: 360px;
+    } 
+
+    #add-task-overlay .placeholder-icon {
+        right: 18px;
+    }
+
+    #add-task-overlay .priority-btns {
+        width: 340px;
+    }
+
+    #add-task-overlay .input-border-size {
+        width: 360px;
+    }
+    
+    #add-task-overlay .input-wrapper {
+        width: 360px;
+    }
+
+    #add-task-overlay .priority-btns button {
+        height: 48px;
+    }
+
+    #add-task-overlay #task-assigned-to-label {
+        padding-left: 42px;
+    }
+
+    #add-task-overlay #contact-input-and-dropdown {
+        padding-left: 42px;
+    }
+}
+
 @media (max-width: 580px) {
     #task-overlay-content {
         width: 90%;
     }
+
+    #add-task-overlay {
+        left: 40px;
+        width: 85%;
+    }
+
 }
 
 @media (max-width: 515px) {
@@ -395,6 +585,53 @@
     #selected-contacts {
             grid-template-columns: repeat(7, 1fr);
     }
+    
+    #add-task-overlay .add-task-title{
+        font-size: 31px;
+    }
+
+    #add-task-overlay h1 {
+        padding-right: 180px;
+    }
+
+    #add-task-overlay .overlay-close-btn {
+        top: 12px;
+        right: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+        #add-task-overlay input{
+        width: 320px;
+    }    
+
+    #add-task-overlay textarea{
+        width: 320px;
+    } 
+
+    #add-task-overlay .priority-btns {
+        width: 270px;
+    }
+
+    #add-task-overlay .input-border-size {
+        width: 320px;
+    }
+    
+    #add-task-overlay .input-wrapper {
+        width: 320px;
+    }
+    
+    #add-task-overlay #task-assigned-to-label {
+        padding-left: 72px;
+    }
+
+    #add-task-overlay #contact-input-and-dropdown {
+        padding-left: 72px;
+    }
+    
+    #add-task-overlay .create-task label{
+        font-size: 16px;
+    }
 }
 
 @media (max-width: 450px) {
@@ -428,6 +665,15 @@
     .contact-html-name p {
         font-size: 16px;
     }
+
+    #add-task-overlay h1 {
+        padding-right: 120px;
+    }
+
+    #add-task-overlay  {
+        left: 20px;
+    }
+
 
 }
 
@@ -489,6 +735,39 @@
     #task-overlay-content {
         padding: 20px;
     }
+
+    #add-task-overlay input{
+        width: 270px;
+    }    
+
+    #add-task-overlay textarea{
+        width: 270px;
+    } 
+
+    #add-task-overlay .priority-btns {
+        width: 250px;
+    }
+
+    #add-task-overlay .input-border-size {
+        width: 270px;
+        font-size: 16px;
+    }
+    
+    #add-task-overlay .input-wrapper {
+        width: 270px;
+    }
+    
+    #add-task-overlay #task-assigned-to-label {
+        padding-left: 136px;
+    }
+
+    #add-task-overlay #contact-input-and-dropdown {
+        padding-left: 1px;
+    }
+    
+    #add-task-overlay .create-task label{
+        font-size: 16px;
+    }
 }
 
 @media (max-width: 370px) {
@@ -533,6 +812,39 @@
 
     #selected-contacts {
             grid-template-columns: repeat(5, 1fr);
+    }
+
+    #add-task-overlay .add-task-content{
+        left: 8px;
+    }  
+
+    #add-task-overlay input{
+        width: 250px;
+    }    
+
+    #add-task-overlay textarea{
+        width: 250px;
+    } 
+
+    #add-task-overlay .priority-btns {
+        width: 230px;
+    }
+
+    #add-task-overlay .input-border-size {
+        width: 250px;
+        font-size: 14px;
+    }
+    
+    #add-task-overlay .input-wrapper {
+        width: 250px;
+    }
+    
+    #add-task-overlay #task-assigned-to-label {
+        padding-left: 152px;
+    }
+
+    #add-task-overlay #contact-input-and-dropdown {
+        padding-left: 152px;
     }
 }
 
