@@ -26,7 +26,10 @@ const signUpForm = document.getElementById("form-sign-up");
 const successText = document.getElementById("successfully-signed-up")
 const visibilityOffSymbol = document.getElementById('visibility-off');
 const visibilityOnSymbol = document.getElementById('visibility-on');
-
+const errorTextPasswordLength = document.getElementById("error-text-password-length");
+const errorTextUserName = document.getElementById("error-text-username");
+const errorTextToShortUserName = document.getElementById("error-text-to-short-username");
+const checkBox = document.getElementById("sign-up-checkbox");
 /** 
  * On DOMContentLoaded: adjust logo position for small screens or move logo to top-left.
  * Also swaps logo image on small screens after a short delay.
@@ -111,17 +114,29 @@ function showSignUpContainer() {
  * Enable the sign-up button and toggle checkbox visuals when user accepts terms.
  */
 function enableSignUpButton() {
+    const name = inputSignUpName.value.trim();
+    const email = inputSignUpEmail.value.trim();
+    const pass = password.value.trim();
+    const confirm = confirmPassword.value.trim();
+    const emailRegex = /^(?!.*\.\.)(?!.*\.$)[a-zA-Z0-9äöüÄÖÜ]+([._%+-]?[a-zA-Z0-9äöüÄÖÜ]+)*@[a-zA-Z0-9äöüÄÖÜ]+([.-]?[a-zA-Z0-9äöüÄÖÜ]+)*\.[a-zA-ZäöüÄÖÜ]{2,}$/;
+    const isInvalid =
+        name.length < 2 ||
+        !emailRegex.test(email) ||
+        pass.length < 5 ||
+        pass !== confirm;
 
-    if (customCheckbox) {
+    if (isInvalid) {
+        return
+    } else {
+        checkBox.dispabled = false;
+    }
+    checkBox.disabled = false;
+    if (checkBox.checked) {
         signUpButton.disabled = false;
         signUpButton.classList.remove("disabled-sign-up-form-button");
         signUpButton.classList.add("enabled-sign-up-form-button");
         customCheckbox.classList.add("d-none");
         customCheckedCheckbox.classList.remove("d-none");
-    } else {
-        signUpButton.disabled = true;
-        signUpButton.classList.add("disabled-sign-up-form-button");
-        signUpButton.classList.remove("enabled-sign-up-form-button");
     }
 }
 
@@ -130,68 +145,12 @@ function enableSignUpButton() {
  * Disable the sign-up button and toggle checkbox visuals when user unchecks acceptance.
  */
 function disableSignUpButton() {
-
-    if (customCheckedCheckbox) {
+    if (checkBox.disabled = false) {
         signUpButton.disabled = true;
         signUpButton.classList.add("disabled-sign-up-form-button");
         signUpButton.classList.remove("enabled-sign-up-form-button");
-        customCheckedCheckbox.classList.add("d-none");
         customCheckbox.classList.remove("d-none");
-    }
-}
-
-
-/** 
- * Validate sign-up password and confirmation; show error message when they don't match.
- */
-function checkSignUpPasswords(event) {
-    event.preventDefault();
-
-    if (!(password.value == confirmPassword.value)) {
-        errorText.classList.remove("d-none");
-    } else {
-        errorText.classList.add("d-none");
-    }
-    if (inputSignUpEmail.value.trim().length < 1 || inputSignUpName.value.trim().length < 1) {
-        errorUsernameAndMailRequired.classList.remove("d-none");
-    }
-}
-
-/** 
- * Validate sign-up password and confirmation in realtime; show error message aslong they don't match.
- */
-function checkSignUpPasswordsOnInput() {
-    if (confirmPassword.value.length > 0) {
-        errorText.classList.remove("d-none");
-    }
-
-    if (confirmPassword.value === password.value && confirmPassword.value.length > 0) {
-        errorText.classList.add("d-none");
-    }
-}
-
-
-/** 
- * Validate sign-up email in realtime; show error message when email allreday exists.
- */
-async function checkEmailExistsOnInput() {
-
-    const data = await getData("users") || {};
-    const users = Object.entries(data).map(([key, u = {}]) => new User(
-        key,
-        u.color ?? null,
-        u.username ?? "",
-        u.password ?? "",
-        u.email ?? "",
-        u.status ?? "active",
-        u.createdAt ?? null,
-        u.phone ?? ""
-    ));
-    const exists = users.some(user => user.email === inputSignUpEmail.value);
-    if (exists) {
-        errorEmailExists.classList.remove("d-none");
-    } else {
-        errorEmailExists.classList.add("d-none")
+        customCheckedCheckbox.classList.add("d-none");
     }
 }
 
@@ -200,18 +159,22 @@ async function checkEmailExistsOnInput() {
  * Show a brief overlay animation after successful sign-up and return to login view.
  */
 function visibleSignUp() {
+    if (inputSignUpName.value.trim().length < 2 || inputSignUpEmail.value.trim().length < 6 || password.value.trim().length < 5 || !(password.value.trim() === confirmPassword.value.trim())) {
+        return;
+    } else {
 
-    setTimeout(() => {
-        showOverlay();
-        successText.classList.remove("d-none");
-        successText.classList.add("from-bottom-to-the-mid");
-    }, 500)
-    setTimeout(() => {
-        hideOverlay();
-    }, 2000);
-    setTimeout(() => {
-        backtoLogIn();
-    }, 2000);
+        setTimeout(() => {
+            showOverlay();
+            successText.classList.remove("d-none");
+            successText.classList.add("from-bottom-to-the-mid");
+        }, 500)
+        setTimeout(() => {
+            hideOverlay();
+        }, 2000);
+        setTimeout(() => {
+            backtoLogIn();
+        }, 2000);
+    }
 }
 
 
@@ -283,139 +246,6 @@ function showPassword() {
     if (inputPassword.type === 'text') {
         visibilityOnSymbol.classList.remove('d-none');
     }
-}
-
-
-/** 
- * Removes the error text forwrong email address or password when input starts.
- */
-inputEmail.addEventListener('input', () => {
-    redError.classList.add('d-none');
-});
-
-
-/** 
- * Removes the error text forwrong email address or password when input starts.
- */
-inputPassword.addEventListener('input', () => {
-    redError.classList.add('d-none');
-});
-
-
-/** 
- * Removes the error text for invalid emailaddress at login when input starts.
- */
-inputEmail.addEventListener('input', () => {
-    emailError.classList.add('d-none');
-});
-
-
-/** 
- * Removes the error text for invalid email address and the error text for reqired inputs at sign up when input starts.
- */
-inputSignUpEmail.addEventListener('input', () => {
-    emailErrorSignUp.classList.add('d-none');
-    errorUsernameAndMailRequired.classList.add("d-none")
-});
-
-/** 
- * Removes the error text for reqired inputs at sign up when input starts.
- */
-inputSignUpName.addEventListener('input', () => {
-    errorUsernameAndMailRequired.classList.add("d-none")
-});
-
-
-/** 
- * Removes the error text for wrong password at sign up when input starts.
- */
-password.addEventListener('input', () => {
-    errorText.classList.add('d-none');
-});
-
-
-/** 
- * Validates the email address at log in when blur.
- */
-inputEmail.addEventListener('blur', () => {
-    const input = inputEmail.value.trim();
-    if (input.length === 0) {
-        emailError.classList.add('d-none');
-        return
-    }
-    if (!validateEmailInputForLogin()) {
-        emailError.classList.remove('d-none');
-    } else {
-        emailError.classList.add('d-none');
-    };
-})
-
-
-/** 
- * Validates the email address at sign up when blur.
- */
-inputSignUpEmail.addEventListener('blur', () => {
-    const input = inputSignUpEmail.value.trim();
-    if (input.length === 0) {
-        emailErrorSignUp.classList.add('d-none');
-        return
-    }
-    if (!validateEmailInputForSignUp()) {
-        emailErrorSignUp.classList.remove('d-none');
-    } else {
-        emailErrorSignUp.classList.add('d-none');
-    };
-})
-
-
-/** 
- * Validates the name at sign up while input. removes forbidden character.
- */
-function validateName() {
-    const input = document.getElementById("input-sign-up-name");
-    const allowedRegex = /[^a-zA-ZäöüÄÖÜßàâéèêëîïôùûçÅåØøÆæÑñ\-`' ]+/g;
-
-    input.addEventListener("input", () => {
-        input.value = input.value
-            .replace(allowedRegex, '')
-            .replace(/\s{2,}/g, ' ')
-            .replace(/^\s+/g, '');
-    });
-}
-
-
-/** 
- * Validates the email address at log in.
- */
-function validateEmailInputForLogin() {
-
-    const input = inputEmail.value.trim();
-    const emailRegex = /^[a-zA-Z0-9äöüÄÖÜ]+([._%+-]?[a-zA-Z0-9äöüÄÖÜ]+)*@[a-zA-Z0-9äöüÄÖÜ]+([.-]?[a-zA-Z0-9äöüÄÖÜ]+)*\.[a-zA-ZäöüÄÖÜ]{2,}$/;;
-
-    if (!emailRegex.test(input)) {
-        emailError.classList.remove('d-none');
-        inputEmail.value = "";
-        return false
-    }
-    emailError.classList.add('d-none');
-    return true;
-}
-
-
-/** 
- * Validates the email address at sign up.
- */
-function validateEmailInputForSignUp() {
-    const input = inputSignUpEmail.value.trim();
-    const emailRegex = /^[a-zA-Z0-9äöüÄÖÜ]+([._%+-]?[a-zA-Z0-9äöüÄÖÜ]+)*@[a-zA-Z0-9äöüÄÖÜ]+([.-]?[a-zA-Z0-9äöüÄÖÜ]+)*\.[a-zA-ZäöüÄÖÜ]{2,}$/;
-
-    if (!emailRegex.test(input)) {
-        emailErrorSignUp.classList.remove('d-none');
-        inputEmail.value = "";
-        return false
-    }
-    emailErrorSignUp.classList.add('d-none');
-    return true;
 }
 
 
