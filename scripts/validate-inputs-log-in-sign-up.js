@@ -180,46 +180,12 @@ async function checkEmailExistsOnInput() {
 
 
 /** 
- * Validate sign-up password and confirmation in realtime; show error message aslong they don't match.
- */
-// function checkSignUpPasswordsOnInput() {
-//     if (confirmPassword.value.length > 0) {
-//         errorText.classList.remove("d-none");
-//     }
-
-//     if (confirmPassword.value === password.value && confirmPassword.value.length > 0) {
-//         errorText.classList.add("d-none");
-//     }
-// }
-
-
-/** 
  * Validate sign-up password and confirmation; show error message when they don't match.
  */
-// function checkSignUpPasswords(event) {
-//     event.preventDefault();
-//     if (password.value.trim().length < 5) {
-//         errorTextPasswordLength.classList.remove("d-none");
-//         signUpButton.disabled = true;
-//     } else {
-//         errorTextPasswordLength.classList.add("d-none");
-//         signUpButton.disabled = false;
-//     }
-//     if (password.value.trim() !== confirmPassword.value.trim()) {
-//         errorText.classList.remove("d-none");
-//         signUpButton.disabled = true;
-//     } else {
-//         errorText.classList.add("d-none");
-//         signUpButton.disabled = false;
-//     }
-//     if (inputSignUpEmail.value.trim().length < 6 || inputSignUpName.value.trim().length < 2 && inputSignUpName.value.typeof == "number") {
-//         errorUsernameAndMailRequired.classList.remove("d-none");
-//         signUpButton.disabled = true;
-//     } else {
-//         errorUsernameAndMailRequired.classList.add("d-none");
-//         signUpButton.disabled = false;
-//     }
-// }
+function saveNewUser(event) {
+    event.preventDefault();
+    visibleSignUp();
+}
 
 
 /**

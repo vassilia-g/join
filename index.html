@@ -98,15 +98,18 @@
 
                 </div>
                 <div class="input-main-container">
-                    <form id="form-sign-up" class="form-sign-up" action="" onsubmit="">
+                    <form id="form-sign-up" class="form-sign-up" action="" onsubmit="saveNewUser(event)">
 
                         <div id="input-sign-up-name-container" class="input-sign-up-name-container">
                             <input oninput="validateNameForSignUp()" id="input-sign-up-name" class="input-sign-up-name"
                                 type="text" placeholder="Name">
                             <img class="input-symbol" src="/assets/imgs/symbols/person.svg" alt="Ein Personen Symbol">
                         </div>
-                        <span id="error-text-username" class="error-text-username red-colored d-none">Please enter a valid Username</span>
-                        <span id="error-text-to-short-username" class="error-text-to-short-username red-colored d-none">Username musst be at least 2 chars</span>
+                        <span id="error-text-username" class="error-text-username red-colored d-none">Please enter a
+                            valid Username</span>
+                        <span id="error-text-to-short-username"
+                            class="error-text-to-short-username red-colored d-none">Username musst be at least 2
+                            chars</span>
                         <div id="input-sign-up-email-container" class="input-sign-up-email-container">
                             <input id="input-sign-up-email" class="input-sign-up-email"
                                 oninput="checkEmailExistsOnInput()" onblur="validateEmailInputForLogin()"
@@ -130,7 +133,9 @@
                             class="error-text-password-match password-matters red-colored d-none">
                             Your passwords don't match.
                         </span>
-                        <span id="error-text-password-length" class="error-text-password-length red-colored d-none">Password must be at least 5 chars long</span>
+                        <span id="error-text-password-length"
+                            class="error-text-password-length red-colored d-none">Password must be at least 5 chars
+                            long</span>
                         <span id="error-email-exists" class="error-email-exists red-colored d-none">
                             This Email already exists
                         </span>
@@ -142,7 +147,7 @@
                                 <input type="checkbox" name="checkbox" id="sign-up-checkbox" class="sign-up-checkbox">
                                 <img id="custom-checkbox" class="custom-checkbox"
                                     src="/assets/imgs/symbols/unchecked-checkbox.svg" alt="leere checkbox"
-onclick="enableSignUpButton()">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                    onclick="enableSignUpButton()">
                                 <img id="custom-checked-checkbox" class="custom-checked-checkbox d-none"
                                     src="/assets/imgs/symbols/checked-checkbox.svg" alt="gehakte Checkbox"
                                     onclick="disableSignUpButton()">

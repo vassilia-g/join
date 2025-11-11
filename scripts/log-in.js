@@ -1,3 +1,4 @@
+const checkBox = document.getElementById("sign-up-checkbox");
 const confirmPassword = document.getElementById("input-sign-up-confirm-password");
 const customCheckbox = document.getElementById("custom-checkbox");
 const customCheckedCheckbox = document.getElementById("custom-checked-checkbox");
@@ -6,6 +7,9 @@ const emailErrorSignUp = document.getElementById("email-error-singup");
 const errorEmailExists = document.getElementById('error-email-exists');
 const errorUsernameAndMailRequired = document.getElementById("error-username-and-mail-reqired");
 const errorText = document.getElementById("error-text-password-match");
+const errorTextPasswordLength = document.getElementById("error-text-password-length");
+const errorTextUserName = document.getElementById("error-text-username");
+const errorTextToShortUserName = document.getElementById("error-text-to-short-username");
 const inputEmail = document.getElementById("input-email");
 const inputPassword = document.getElementById("input-password");
 const inputSignUpEmail = document.getElementById("input-sign-up-email");
@@ -26,10 +30,6 @@ const signUpForm = document.getElementById("form-sign-up");
 const successText = document.getElementById("successfully-signed-up")
 const visibilityOffSymbol = document.getElementById('visibility-off');
 const visibilityOnSymbol = document.getElementById('visibility-on');
-const errorTextPasswordLength = document.getElementById("error-text-password-length");
-const errorTextUserName = document.getElementById("error-text-username");
-const errorTextToShortUserName = document.getElementById("error-text-to-short-username");
-const checkBox = document.getElementById("sign-up-checkbox");
 /** 
  * On DOMContentLoaded: adjust logo position for small screens or move logo to top-left.
  * Also swaps logo image on small screens after a short delay.
@@ -128,9 +128,9 @@ function enableSignUpButton() {
     if (isInvalid) {
         return
     } else {
-        checkBox.dispabled = false;
+        checkBox.disabled = false;
+        checkBox.checked = true;
     }
-    checkBox.disabled = false;
     if (checkBox.checked) {
         signUpButton.disabled = false;
         signUpButton.classList.remove("disabled-sign-up-form-button");
@@ -152,6 +152,9 @@ function disableSignUpButton() {
         customCheckbox.classList.remove("d-none");
         customCheckedCheckbox.classList.add("d-none");
     }
+    if (checkBox.checked) {
+        checkBox.checked = false;
+    }
 }
 
 
@@ -159,7 +162,18 @@ function disableSignUpButton() {
  * Show a brief overlay animation after successful sign-up and return to login view.
  */
 function visibleSignUp() {
-    if (inputSignUpName.value.trim().length < 2 || inputSignUpEmail.value.trim().length < 6 || password.value.trim().length < 5 || !(password.value.trim() === confirmPassword.value.trim())) {
+    const name = inputSignUpName.value.trim();
+    const email = inputSignUpEmail.value.trim();
+    const pass = password.value.trim();
+    const confirm = confirmPassword.value.trim();
+    const emailRegex = /^(?!.*\.\.)(?!.*\.$)[a-zA-Z0-9äöüÄÖÜ]+([._%+-]?[a-zA-Z0-9äöüÄÖÜ]+)*@[a-zA-Z0-9äöüÄÖÜ]+([.-]?[a-zA-Z0-9äöüÄÖÜ]+)*\.[a-zA-ZäöüÄÖÜ]{2,}$/;
+    const isInvalid =
+        name.length < 2 ||
+        !emailRegex.test(email) ||
+        pass.length < 5 ||
+        pass !== confirm;
+
+    if (isInvalid) {
         return;
     } else {
 
