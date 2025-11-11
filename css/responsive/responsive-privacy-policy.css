@@ -1,0 +1,28 @@
+@media (max-width: 825px) {
+    .header-text {
+        display: block;
+    }
+
+    .header-content {
+        justify-content: flex-start;
+        margin-left: 25px;
+    }
+
+    .header-text {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 720px) {
+    .sidebar-nav {
+        justify-content: center !important;
+    }
+
+    .header-assets {
+        padding-right: 0;
+    }
+
+    .header-content {
+        justify-content: center;
+    }
+}
