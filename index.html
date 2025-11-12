@@ -61,7 +61,7 @@
                                 type="email" placeholder="Email" autocomplete="username">
                             <img class="input-symbol" src="/assets/imgs/symbols/mail.svg" alt="Ein Brief Symbol">
                         </div>
-                        <span id="email-error" class="error d-none">Please enter a valid email adress.</span>
+                        <span id="email-error" class="error red-colored d-none">Please enter a valid email adress.</span>
                         <div id="input-password-container" class="input-password-container">
                             <input oninput="changeSymbols()" id="input-password" class="input-password" type="password"
                                 placeholder="Password" autocomplete="current-password">
@@ -72,7 +72,7 @@
                             <img onclick="hidePassword()" id="visibility-on" class="input-symbol d-none"
                                 src="/assets/imgs/symbols/visibility.svg" alt="offenes Auge Symbol">
                         </div>
-                        <span id="error-email-password-text" class="password-matters d-none red-colored">Check your
+                        <span id="error-email-password-text" class="error d-none red-colored">Check your
                             email and
                             password.</span>
                         <div class="log-in-button-container">
@@ -105,10 +105,10 @@
                                 type="text" placeholder="Name">
                             <img class="input-symbol" src="/assets/imgs/symbols/person.svg" alt="Ein Personen Symbol">
                         </div>
-                        <span id="error-text-username" class="error-text-username red-colored d-none">Please enter a
+                        <span id="error-text-username" class="error red-colored d-none">Please enter a
                             valid Username</span>
                         <span id="error-text-to-short-username"
-                            class="error-text-to-short-username red-colored d-none">Username musst be at least 2
+                            class="error red-colored d-none">Username musst be at least 2
                             chars</span>
                         <div id="input-sign-up-email-container" class="input-sign-up-email-container">
                             <input id="input-sign-up-email" class="input-sign-up-email"
@@ -116,7 +116,7 @@
                                 autocomplete="username" placeholder="Email">
                             <img class="input-symbol" src="/assets/imgs/symbols/mail.svg" alt="Ein Brief Symbol">
                         </div>
-                        <span id="email-error-singup" class="error d-none">Please enter a valid email adress.</span>
+                        <span id="email-error-singup" class="error red-colored d-none">Please enter a valid email adress.</span>
                         <div id="input-sign-up-password-container" class="input-sign-up-password-container">
                             <input id="input-sign-up-password" class="input-sign-up-password" type="password"
                                 placeholder="Password" autocomplete="current-password">
@@ -130,17 +130,17 @@
                             <img class="input-symbol" src="/assets/imgs/symbols/lock.svg" alt="Ein Schloss Symbol">
                         </div>
                         <span id="error-text-password-match"
-                            class="error-text-password-match password-matters red-colored d-none">
+                            class="error red-colored d-none">
                             Your passwords don't match.
                         </span>
                         <span id="error-text-password-length"
-                            class="error-text-password-length red-colored d-none">Password must be at least 5 chars
+                            class="error red-colored d-none">Password must be at least 5 chars
                             long</span>
-                        <span id="error-email-exists" class="error-email-exists red-colored d-none">
+                        <span id="error-email-exists" class="error red-colored d-none">
                             This Email already exists
                         </span>
                         <span id="error-username-and-mail-reqired"
-                            class="error-username-and-mail-reqired red-colored d-none">Username and Email are
+                            class="error red-colored d-none">Username and Email are
                             required</span>
                         <span class="accept-policy">
                             <label for="sign-up-checkbox">

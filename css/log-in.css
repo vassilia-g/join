@@ -120,7 +120,7 @@ footer {
 .log-in-container {
     max-width: 652px;
     min-width: 270px;
-    max-height: 449px;
+    /* height: 500px; */
     background-color: rgb(255, 255, 255);
     border-radius: 30px;
     padding: 48px 115px 85px 115px;
@@ -135,10 +135,6 @@ footer {
     left: 50%;
     transform: translate(-50%, -50%);
 }
-
-
-
-
 
 h1 {
     line-height: 120%;
@@ -161,7 +157,6 @@ h1 {
 }
 
 .input-main-container {
-    height: 152px;
     padding-top: 32px;
 }
 
@@ -297,11 +292,6 @@ h1 {
 
 .red-colored {
     color: red;
-}
-
-.error-email-exists {
-    font-size: 14px;
-    padding-left: 20px;
 }
 
 .registry-button,
