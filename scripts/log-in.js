@@ -30,6 +30,8 @@ const signUpForm = document.getElementById("form-sign-up");
 const successText = document.getElementById("successfully-signed-up")
 const visibilityOffSymbol = document.getElementById('visibility-off');
 const visibilityOnSymbol = document.getElementById('visibility-on');
+
+
 /** 
  * On DOMContentLoaded: adjust logo position for small screens or move logo to top-left.
  * Also swaps logo image on small screens after a short delay.

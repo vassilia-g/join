@@ -1,22 +1,46 @@
+const allowedRegex = /[^a-zA-ZäöüÄÖÜßàâéèêëîïôùûçÅåØøÆæÑñ\-`' ]+/g;
+const numberRegex = /\d/;
+
 /** 
- * Validates the name at sign up while input.
+ * Validates the name at sign up. When name contains numbers, error text will be showen when blur the field
  */
-function validateNameForSignUp() {
+function validateNameNumberForSignUp() {
     const input = document.getElementById("input-sign-up-name");
-    const allowedRegex = /[^a-zA-ZäöüÄÖÜßàâéèêëîïôùûçÅåØøÆæÑñ\-`' ]+/g;
+    const hasNumber = numberRegex.test(inputSignUpName.value);
+    errorUsernameAndMailRequired.classList.add("d-none", !hasNumber)
+    input.value = input.value.replace(/\s{2,}/g, ' ');
+}
 
-    input.addEventListener("input", () => {
-        input.value = input.value
-            .replace(/\s{2,}/g, ' ')
-    })
 
-    if (input.value.typeof == "number" || allowedRegex.test(input.value)) {
+/** 
+ * valdidates the length of the name when blur the field and check the input contains numbers
+ */
+function validateNameLengthForSignUp() {
+    const input = document.getElementById("input-sign-up-name");
+    checkConditionNumberForSignUpName(input);
+    checkConditionLengthForSignUpName(input)
+}
+
+
+/** 
+ * Validates if there is a number in the name when blur the field
+ */
+function checkConditionNumberForSignUpName(input) {
+    if (typeof input.value === "number" || allowedRegex.test(input.value)) {
         errorTextUserName.classList.remove("d-none");
         signUpButton.disabled = true;
     } else {
         errorTextUserName.classList.add("d-none");
         signUpButton.disabled = false;
+        errorTextToShortUserName.classList.add("d-none");
+        signUpButton.disabled = false;
     }
+}
+
+/** 
+ * Validates if name is shorter than 2 chars.
+ */
+function checkConditionLengthForSignUpName(input) {
     if (input.value.trim().length < 2) {
         errorTextToShortUserName.classList.remove("d-none");
         signUpButton.disabled = true;
@@ -80,7 +104,6 @@ function validateEmailInputForLogin() {
 
     if (!emailRegex.test(input)) {
         emailError.classList.remove('d-none');
-        inputEmail.value = "";
         return false
     }
     emailError.classList.add('d-none');
@@ -123,9 +146,11 @@ inputSignUpEmail.addEventListener('input', () => {
 /** 
  * Removes the error text for reqired inputs at sign up when input starts.
  */
-inputSignUpName.addEventListener('input', () => {
-    errorUsernameAndMailRequired.classList.add("d-none")
-});
+
+// inputSignUpName.addEventListener('input', () => {
+//     const hasNumber = numberRegex.test(inputSignUpName.value);
+//     errorUsernameAndMailRequired.classList.add("d-none", !hasNumber)
+// });
 
 
 /** 
