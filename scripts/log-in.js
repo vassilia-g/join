@@ -26,7 +26,6 @@ const responsiveRegistryContainer = document.getElementById('responsive-registry
 const redError = document.getElementById("error-email-password-text");
 const signUpContainer = document.getElementById("sign-up-container");
 const signUpButton = document.getElementById("sign-up-form-button");
-// const passwordInput = document.getElementById('input-password');
 const signUpForm = document.getElementById("form-sign-up");
 const successText = document.getElementById("successfully-signed-up")
 const visibilityOffSymbol = document.getElementById('visibility-off');
@@ -136,14 +135,15 @@ function enableSignUpButton() {
     } else {
         checkBox.disabled = false;
         checkBox.checked = true;
-    }
-    if (checkBox.checked) {
-        signUpButton.disabled = false;
         signUpButton.classList.remove("disabled-sign-up-form-button");
         signUpButton.classList.add("enabled-sign-up-form-button");
         customCheckbox.classList.add("d-none");
         customCheckedCheckbox.classList.remove("d-none");
     }
+    // if (checkBox.checked) {
+    //     signUpButton.disabled = false;
+        
+    // }
 }
 
 
@@ -151,15 +151,12 @@ function enableSignUpButton() {
  * Disable the sign-up button and toggle checkbox visuals when user unchecks acceptance.
  */
 function disableSignUpButton() {
-    if (checkBox.disabled = false) {
+    if (checkBox.checked = true) {
         signUpButton.disabled = true;
         signUpButton.classList.add("disabled-sign-up-form-button");
         signUpButton.classList.remove("enabled-sign-up-form-button");
         customCheckbox.classList.remove("d-none");
         customCheckedCheckbox.classList.add("d-none");
-    }
-    if (checkBox.checked) {
-        checkBox.checked = false;
     }
 }
 
@@ -308,8 +305,6 @@ function backtoLogIn() {
     signUpContainer.classList.add('d-none');
     registryContainer.classList.remove('d-none');
     responsiveRegistryContainer.classList.remove('d-none');
-    emailError.classList.add("d-none");
-    emailErrorSignUp.classList.add("d-none");
     disableSignUpButton();
     clearSignUpForm();
 }
@@ -321,6 +316,13 @@ function backtoLogIn() {
 function clearSignUpForm() {
 
     signUpForm.reset();
+    emailError.classList.add("d-none");
+    emailErrorSignUp.classList.add("d-none");
+    errorTextToShortUserName.classList.add("d-none");
+    errorTextUserName.classList.add("d-none");
+    errorTextPasswordLength.classList.add("d-none");
+    errorText.classList.add("d-none");
+    errorUsernameAndMailRequired.classList.add("d-none");
 }
 
 function clearLogInForm() {
