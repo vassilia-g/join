@@ -308,6 +308,14 @@
         overflow-y: scroll;
     }
 
+    #add-task-overlay #field-requiered-info {
+        font-size: 12px;
+    }
+
+    #add-task-overlay .task-footer {
+        width: 100%;
+    }
+
     #add-task-overlay .priority-btns p{
         display: none;
     }
@@ -598,6 +606,22 @@
         top: 12px;
         right: 12px;
     }
+
+    #add-task-overlay #create-task-btn p{
+        display: none;
+    }
+
+    #add-task-overlay #create-task-btn {
+        width: 50px;
+    }
+
+    #add-task-overlay #clear-btn p{
+        display: none;
+    }
+
+    #add-task-overlay #clear-btn {
+        width: 50px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -762,7 +786,7 @@
     }
 
     #add-task-overlay #contact-input-and-dropdown {
-        padding-left: 1px;
+        padding-left: 136px;
     }
     
     #add-task-overlay .create-task label{
@@ -846,6 +870,11 @@
     #add-task-overlay #contact-input-and-dropdown {
         padding-left: 152px;
     }
+
+    #add-task-overlay .task-btns {
+        gap: 4px;
+        padding-right: 2rem;
+    }
 }
 
 @media (max-width: 350px) {
@@ -900,6 +929,10 @@
 @media (max-height: 910px) {
     #task-overlay-content {
         height: 550px;
+    }
+
+    #add-task-overlay {
+        height: 75%;
     }
     
     .overlay-selected-contacts {
@@ -978,6 +1011,10 @@
     .overlay-footer {
         margin-top: -0.8rem;
     }
+
+    #add-task-overlay {
+        height: 70%;
+    }
 }
 
 @media (max-height: 710px) {
@@ -1012,5 +1049,29 @@
 
     .overlay-footer {
         margin-top: -1rem;
+    }
+}
+
+@media(max-height: 630px) {
+    #add-task-overlay {
+        height: 65%;
+    }
+    #add-task-overlay .task-footer {
+        padding-bottom: 8px;
+    }
+}
+
+@media(max-height: 530px) {
+    #add-task-overlay {
+        height: 60%;
+    }
+    #add-task-overlay .task-footer {
+        padding-bottom: 12px;
+    }
+}
+
+@media(max-height: 470px) {
+    #add-task-overlay {
+        height: 55%;
     }
 }
