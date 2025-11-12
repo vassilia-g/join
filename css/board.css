@@ -476,6 +476,12 @@ button {
     margin-block-end: 0;
 }
 
+.overlay-subtask-count {
+    height: fit-content;
+    max-height: 300px;
+    overflow: hidden;
+}
+
 .overlay-header {
     display: flex;
     justify-content: space-between;
@@ -664,7 +670,7 @@ button {
     display: flex;
     justify-content: flex-end;
     width: 100%;
-    padding-top: 42px;
+    padding-top: 200px;
 }
 
 .edit-or-reset-btn-div {
