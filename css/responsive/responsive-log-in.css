@@ -70,6 +70,9 @@
         100% {
             opacity: 0;
             visibility: hidden;
+            .logo {
+            src: url(/assets/imgs/join-logo/capa-2.svg);
+    }
         }
     }
 

@@ -34,14 +34,18 @@ const visibilityOnSymbol = document.getElementById('visibility-on');
 
 
 /** 
- * On DOMContentLoaded: adjust logo position for small screens or move logo to top-left.
- * Also swaps logo image on small screens after a short delay.
+ * On DOMContentLoaded: function will be loaded and can be used without new start of the DOM
  */
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", handleLogoMovement)
+window.addEventListener("resize", handleLogoMovement);
+
+
+/**
+ * Calls the function tomove the logo, when windowwill be resized.
+ */
+function handleLogoMovement() {
 
     if (window.innerWidth <= 733) {
-        logoWeiß.offsetHeight;
-        void logoWeiß.offsetWidth;
         logoWrapper.classList.add("logo-move-to-top-left");
         setTimeout(() => {
             logoWeiß.src = "/assets/imgs/join-logo/capa-2.svg";
@@ -50,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
         moveLogoToTopLeft();
     }
-});
+};
 
 
 /** 
