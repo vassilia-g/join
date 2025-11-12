@@ -322,7 +322,10 @@ function getTaskPriority(task) {
   const urgentButton = document.getElementById('urgent-priority-btn');
   const mediumButton = document.getElementById('medium-priority-btn');
   const lowButton = document.getElementById('low-priority-btn');
-  getPriorityFromTaskApi(urgentButton, mediumButton, lowButton, task)
+  getPriorityFromTaskApi(urgentButton, mediumButton, lowButton, task);
+  urgentButton.removeEventListener('click', () => togglePriorityBtn(urgentButton));
+  mediumButton.removeEventListener('click', () => togglePriorityBtn(mediumButton));
+  lowButton.removeEventListener('click', () => togglePriorityBtn(lowButton));
   urgentButton.addEventListener('click', () => togglePriorityBtn(urgentButton));
   mediumButton.addEventListener('click', () => togglePriorityBtn(mediumButton));
   lowButton.addEventListener('click', () => togglePriorityBtn(lowButton));
@@ -332,19 +335,13 @@ function getTaskPriority(task) {
 /** 
  * Set the active priority button according to task.priorityLevel.
  */
-function getPriorityFromTaskApi(urgentButton, mediumButton, lowButton, task) {
-  if (task.priorityLevel === 'urgent') {
-    urgentButton.classList.add('priority-urgent-active');
-    urgentButton.classList.remove('priority-urgent-default');
-  }
-  else if (task.priorityLevel === 'medium') {
-    mediumButton.classList.add('priority-medium-active');
-    mediumButton.classList.remove('priority-medium-default');
-  }
-  else if (task.priorityLevel === 'low') {
-    lowButton.classList.add('priority-low-active');
-    lowButton.classList.remove('priority-low-default');
-  };
+function getPriorityFromTaskApi(urgent, medium, low, task) {
+  const map = {urgent, medium, low};
+  Object.entries(map).forEach(([level, btn]) => {
+    const active = task.priorityLevel === level;
+    btn.classList.toggle(`priority-${level}-active`, active);
+    btn.classList.toggle(`priority-${level}-default`, !active);
+  });
 }
 
 

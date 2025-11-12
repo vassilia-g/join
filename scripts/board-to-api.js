@@ -87,24 +87,19 @@ function updateProgressBar(task) {
  * @param {string} taskId - ID of the edited task
  */
 async function updateTaskAfterEdit(taskId) {
-  isEditingTask = false;
+  isEditingTask = false; 
   currentTaskId = null;
-  let priorityValue, priorityLevel;
-  if (urgentButton.classList.contains('priority-urgent-active')) {
-    priorityValue = urgentBoardSvg;
-    priorityLevel = 'urgent';
-  } else if (mediumButton.classList.contains('priority-medium-active')) {
-    priorityValue = mediumBoardSvg;
-    priorityLevel = 'medium';
-  } else if (lowButton.classList.contains('priority-low-active')) {
-    priorityValue = lowBoardSvg;
-    priorityLevel = 'low';
-  }
+  const ids = {urgent:'urgent',medium:'medium',low:'low'};
+  const btn = Object.entries(ids).find(([k]) =>
+    document.getElementById(`${k}-priority-btn`)
+      .classList.contains(`priority-${k}-active`)) || ['low'];
+  const priorityLevel = btn[0];
+  const svgs = {urgent:urgentBoardSvg,medium:mediumBoardSvg,low:lowBoardSvg};
+  const priorityValue = svgs[priorityLevel];
   await pushCheckedContacts(taskId);
   await pushSubtasksWithStatus(taskId);
   await updateTaskWithPriority(priorityLevel, priorityValue, taskId);
-  closeTaskOverlay();
-  subtasks = [];
+  closeTaskOverlay(); subtasks = [];
 }
 
 
