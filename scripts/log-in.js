@@ -16,6 +16,7 @@ const inputSignUpEmail = document.getElementById("input-sign-up-email");
 const inputSignUpName = document.getElementById("input-sign-up-name");
 const lockSymbol = document.getElementById('lock-symbol');
 const logInContainer = document.getElementById("log-in-container");
+const logInForm = document.getElementById("form-log-in");
 const logoWrapper = document.getElementById('logo-wrapper');
 const logoWeiß = document.getElementById('logo-weiß');
 const overlay = document.getElementById("overlay");
@@ -106,8 +107,7 @@ function showSignUpContainer() {
         logInContainer.classList.add("d-none");
         registryContainer.classList.add("d-none");
         responsiveRegistryContainer.classList.add("d-none");
-    } else {
-        alert.error("Sign up could not be loaded, please try again later.");
+        clearLogInForm()
     }
 }
 
@@ -317,6 +317,11 @@ function backtoLogIn() {
 function clearSignUpForm() {
 
     signUpForm.reset();
+}
+
+function clearLogInForm() {
+
+    logInForm.reset();
 }
 
 
