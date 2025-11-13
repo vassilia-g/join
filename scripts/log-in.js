@@ -136,6 +136,19 @@ function enableSignUpButton() {
     signUpButton.classList.add("enabled-sign-up-form-button");
     customCheckbox.classList.add("d-none");
     customCheckedCheckbox.classList.remove("d-none");
+    disableAllInputs();
+}
+
+
+/** 
+ * Disables all inputs, so nothing can be changed when checkbox is aktivated.
+ */
+function disableAllInputs() {
+
+    inputSignUpName.disabled = true;
+    inputSignUpEmail.disabled = true;
+    password.disabled = true;
+    confirmPassword.disabled = true;
 }
 
 
@@ -150,6 +163,19 @@ function disableSignUpButton() {
         customCheckbox.classList.remove("d-none");
         customCheckedCheckbox.classList.add("d-none");
     }
+    enableAllInputs();
+}
+
+
+/** 
+ * Enables all inputs, so inputs can be changed when checkbox is deaktivated.
+ */
+function enableAllInputs() {
+
+    inputSignUpName.disabled = false;
+    inputSignUpEmail.disabled = false;
+    password.disabled = false;
+    confirmPassword.disabled = false;
 }
 
 
