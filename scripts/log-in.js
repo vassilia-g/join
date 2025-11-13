@@ -32,6 +32,9 @@ const visibilityOffSymbol = document.getElementById('visibility-off');
 const visibilityOnSymbol = document.getElementById('visibility-on');
 
 
+const emailRegex = /^(?!.*\.\.)(?!.*\.$)[a-zA-Z0-9äöüÄÖÜ]+([._%+-]?[a-zA-Z0-9äöüÄÖÜ]+)*@[a-zA-Z0-9äöüÄÖÜ]+([.-]?[a-zA-Z0-9äöüÄÖÜ]+)*\.[a-zA-ZäöüÄÖÜ]{2,}$/;
+
+
 /** 
  * On DOMContentLoaded: function will be loaded and can be used without new start of the DOM
  */
@@ -120,31 +123,19 @@ function showSignUpContainer() {
  * Enable the sign-up button and toggle checkbox visuals when user accepts terms.
  */
 function enableSignUpButton() {
-    const name = inputSignUpName.value.trim();
+    const userName = inputSignUpName.value.trim();
     const email = inputSignUpEmail.value.trim();
     const pass = password.value.trim();
     const confirm = confirmPassword.value.trim();
-    const emailRegex = /^(?!.*\.\.)(?!.*\.$)[a-zA-Z0-9äöüÄÖÜ]+([._%+-]?[a-zA-Z0-9äöüÄÖÜ]+)*@[a-zA-Z0-9äöüÄÖÜ]+([.-]?[a-zA-Z0-9äöüÄÖÜ]+)*\.[a-zA-ZäöüÄÖÜ]{2,}$/;
-    const isInvalid =
-        name.length < 2 ||
-        !emailRegex.test(email) ||
-        pass.length < 5 ||
-        pass !== confirm;
 
-    if (isInvalid) {
-        return
-    } else {
-        checkBox.disabled = false;
-        checkBox.checked = true;
-        signUpButton.classList.remove("disabled-sign-up-form-button");
-        signUpButton.classList.add("enabled-sign-up-form-button");
-        customCheckbox.classList.add("d-none");
-        customCheckedCheckbox.classList.remove("d-none");
-    }
-    // if (checkBox.checked) {
-    //     signUpButton.disabled = false;
-        
-    // }
+    if (userName.length < 2 || !emailRegex.test(email) || pass.length < 5 || pass !== confirm) return;
+
+    checkBox.disabled = false;
+    checkBox.checked = true;
+    signUpButton.classList.remove("disabled-sign-up-form-button");
+    signUpButton.classList.add("enabled-sign-up-form-button");
+    customCheckbox.classList.add("d-none");
+    customCheckedCheckbox.classList.remove("d-none");
 }
 
 

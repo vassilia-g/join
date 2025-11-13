@@ -1,52 +1,43 @@
 const allowedRegex = /[^a-zA-ZäöüÄÖÜßàâéèêëîïôùûçÅåØøÆæÑñ\-`' ]+/g;
 const numberRegex = /\d/;
 
+
+inputSignUpName.addEventListener("input", validateNameNumberForSignUp);
+inputSignUpName.addEventListener("blur", validateNameLengthForSignUp);
+
+
 /** 
  * Validates the name at sign up. When name contains numbers, error text will be showen when blur the field
  */
 function validateNameNumberForSignUp() {
-    const input = document.getElementById("input-sign-up-name");
-    const hasNumber = numberRegex.test(inputSignUpName.value);
-    errorUsernameAndMailRequired.classList.add("d-none", !hasNumber)
-    input.value = input.value.replace(/\s{2,}/g, ' ');
-}
+    const value = inputSignUpName.value.trim();
+    const hasNumber = numberRegex.test(value);
+    const hasInvalidChar = allowedRegex.test(value);
 
-
-/** 
- * valdidates the length of the name when blur the field and check the input contains numbers
- */
-function validateNameLengthForSignUp() {
-    const input = document.getElementById("input-sign-up-name");
-    checkConditionNumberForSignUpName(input);
-    checkConditionLengthForSignUpName(input)
-}
-
-
-/** 
- * Validates if there is a number in the name when blur the field
- */
-function checkConditionNumberForSignUpName(input) {
-    if (typeof input.value === "number" || allowedRegex.test(input.value)) {
+    if (hasNumber || hasInvalidChar) {
         errorTextUserName.classList.remove("d-none");
-        signUpButton.disabled = true;
+        disableSignUpButton();
     } else {
         errorTextUserName.classList.add("d-none");
-        signUpButton.disabled = false;
-        errorTextToShortUserName.classList.add("d-none");
-        signUpButton.disabled = false;
     }
+
+    errorUsernameAndMailRequired.classList.add("d-none", !hasNumber)
+    inputSignUpName.value = value.replace(/\s{2,}/g, ' ');
 }
 
+
 /** 
- * Validates if name is shorter than 2 chars.
+ * valdidates the length of the name when blur the field.
  */
-function checkConditionLengthForSignUpName(input) {
-    if (input.value.trim().length < 2) {
+function validateNameLengthForSignUp() {
+
+    const value = inputSignUpName.value.trim();
+
+    if (value.length < 2) {
         errorTextToShortUserName.classList.remove("d-none");
-        signUpButton.disabled = true;
+        disableSignUpButton();
     } else {
         errorTextToShortUserName.classList.add("d-none");
-        signUpButton.disabled = false;
     }
 }
 
@@ -56,37 +47,30 @@ function checkConditionLengthForSignUpName(input) {
  */
 function validateEmailInputForSignUp() {
     const input = inputSignUpEmail.value.trim();
-    const emailRegex = /^[a-zA-Z0-9äöüÄÖÜ]+([._%+-]?[a-zA-Z0-9äöüÄÖÜ]+)*@[a-zA-Z0-9äöüÄÖÜ]+([.-]?[a-zA-Z0-9äöüÄÖÜ]+)*\.[a-zA-ZäöüÄÖÜ]{2,}$/;
 
     if (!emailRegex.test(input)) {
         emailErrorSignUp.classList.remove('d-none');
         inputEmail.value = "";
-        signUpButton.disabled = true;
+        disableSignUpButton();
         return false
     }
     emailErrorSignUp.classList.add('d-none');
-    signUpButton.disabled = false;
     return true;
 }
 
 
 /** 
- * Validates the email address at sign up when blur.
+ * Validates the email address length at sign up when blur.
  */
 inputSignUpEmail.addEventListener('blur', () => {
     const input = inputSignUpEmail.value.trim();
-    const emailRegex = /^[a-zA-Z0-9äöüÄÖÜ]+([._%+-]?[a-zA-Z0-9äöüÄÖÜ]+)*@[a-zA-Z0-9äöüÄÖÜ]+([.-]?[a-zA-Z0-9äöüÄÖÜ]+)*\.[a-zA-ZäöüÄÖÜ]{2,}$/;
-    if (!emailRegex.test(input)) {
-        emailErrorSignUp.classList.remove('d-none');
-        inputEmail.value = "";
-        signUpButton.disabled = true;
-        return false
-    }
-    if (input.length === 0 || inputSignUpEmail.value === "" || inputSignUpEmail.value.length < 6) {
+
+    if (input.length === 0 || input === "") {
         emailErrorSignUp.classList.add('d-none');
+        disableSignUpButton();
         return false
     }
-    if (!validateEmailInputForSignUp()) {
+    if (!validateEmailInputForSignUp() || input.length < 6) {
         emailErrorSignUp.classList.remove('d-none');
     } else {
         emailErrorSignUp.classList.add('d-none');
@@ -104,6 +88,7 @@ function validateEmailInputForLogin() {
 
     if (!emailRegex.test(input)) {
         emailError.classList.remove('d-none');
+        disableSignUpButton();
         return false
     }
     emailError.classList.add('d-none');
@@ -143,21 +128,12 @@ inputSignUpEmail.addEventListener('input', () => {
     errorUsernameAndMailRequired.classList.add("d-none")
 });
 
-/** 
- * Removes the error text for reqired inputs at sign up when input starts.
- */
-
-// inputSignUpName.addEventListener('input', () => {
-//     const hasNumber = numberRegex.test(inputSignUpName.value);
-//     errorUsernameAndMailRequired.classList.add("d-none", !hasNumber)
-// });
-
 
 /** 
  * Removes the error text for wrong and to short password at sign up when input starts.
  */
 password.addEventListener('input', () => {
-    errorText.classList.add('d-none');
+    errorTextPasswordMatch.classList.add('d-none');
     errorTextPasswordLength.classList.add('d-none');
 });
 
@@ -213,46 +189,34 @@ function saveNewUser(event) {
 }
 
 
+password.addEventListener("input", checkSignUpPasswordsOnInput);
+confirmPassword.addEventListener("input", checkSignUpPasswordsOnInput);
+
+password.addEventListener("blur", checkSignUpPasswordsOnInput);
+confirmPassword.addEventListener("blur", checkSignUpPasswordsOnInput);
+
+
 /**
- * Validate all sign-up inputs (email, username, passwords)
+ * Validate passwords on input at sign-up
  * and show relevant error messages. Enables or disables the sign-up button accordingly.
  */
 function checkSignUpPasswordsOnInput(event) {
     if (event) event.preventDefault();
-
-    let valid = true;
-
-    const name = inputSignUpName.value.trim();
-    const email = inputSignUpEmail.value.trim();
+    // const email = inputSignUpEmail.value.trim();
+    // const userName = inputSignUpName.value.trim();
     const pass = password.value.trim();
     const confirm = confirmPassword.value.trim();
-
-    // Passwortlänge prüfen
+    
     if (pass.length < 5) {
         errorTextPasswordLength.classList.remove("d-none");
-        valid = false;
+        disableSignUpButton();
     } else {
         errorTextPasswordLength.classList.add("d-none");
     }
-
-    // Passwortvergleich prüfen
     if (pass !== confirm && confirm.length > 0) {
-        errorText.classList.remove("d-none");
-        valid = false;
+        errorTextPasswordMatch.classList.remove("d-none");
+        disableSignUpButton();
     } else {
-        errorText.classList.add("d-none");
+        errorTextPasswordMatch.classList.add("d-none");
     }
-
-    // Benutzername & E-Mail prüfen
-    if (name.length < 2 || !isNaN(name) || email.length < 6) {
-        errorUsernameAndMailRequired.classList.remove("d-none");
-        valid = false;
-    } else {
-        errorUsernameAndMailRequired.classList.add("d-none");
-    }
-
-    // Button aktivieren/deaktivieren
-    signUpButton.disabled = !valid;
-
-    return valid;
 }
