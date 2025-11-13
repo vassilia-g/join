@@ -105,6 +105,7 @@ function showSignUpContainer() {
 
     if (signUpContainer) {
         errorText.classList.add('d-none');
+        redError.classList.add('d-none');
         errorEmailExists.classList.add('d-none');
         signUpContainer.classList.remove("d-none");
         logInContainer.classList.add("d-none");
@@ -328,6 +329,7 @@ function clearSignUpForm() {
 function clearLogInForm() {
 
     logInForm.reset();
+    redError.classList.add("d-none");
 }
 
 
