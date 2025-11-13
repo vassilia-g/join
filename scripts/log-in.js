@@ -6,7 +6,7 @@ const emailError = document.getElementById("email-error");
 const emailErrorSignUp = document.getElementById("email-error-singup");
 const errorEmailExists = document.getElementById('error-email-exists');
 const errorUsernameAndMailRequired = document.getElementById("error-username-and-mail-reqired");
-const errorText = document.getElementById("error-text-password-match");
+const errorTextPasswordMatch = document.getElementById("error-text-password-match");
 const errorTextPasswordLength = document.getElementById("error-text-password-length");
 const errorTextUserName = document.getElementById("error-text-username");
 const errorTextToShortUserName = document.getElementById("error-text-to-short-username");
@@ -104,7 +104,7 @@ function moveLogoToTopLeft() {
 function showSignUpContainer() {
 
     if (signUpContainer) {
-        errorText.classList.add('d-none');
+        errorTextPasswordMatch.classList.add('d-none');
         redError.classList.add('d-none');
         errorEmailExists.classList.add('d-none');
         signUpContainer.classList.remove("d-none");
@@ -322,7 +322,7 @@ function clearSignUpForm() {
     errorTextToShortUserName.classList.add("d-none");
     errorTextUserName.classList.add("d-none");
     errorTextPasswordLength.classList.add("d-none");
-    errorText.classList.add("d-none");
+    errorTextPasswordMatch.classList.add("d-none");
     errorUsernameAndMailRequired.classList.add("d-none");
 }
 
