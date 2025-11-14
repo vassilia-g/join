@@ -220,6 +220,7 @@ button {
     right: 64px;
     border: none;
     background-color: transparent;
+    z-index: 1000;
 }
 
 .add-task-content {
