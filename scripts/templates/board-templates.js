@@ -164,7 +164,7 @@ function editandResetTaskBtnTemplate(taskId) {
 
 function showApiSubtask(checkboxClass, checkboxIcon, taskId, subtaskIndex, subtask) {
   return `
-    <div class="subtasks-list-api">
+    <div class="subtasks-list-element">
       <li>
         <div class="checkbox-subtasks ${checkboxClass}" onclick="toggleBoxChecked(this)">
           ${checkboxIcon}

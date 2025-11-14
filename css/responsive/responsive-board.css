@@ -706,6 +706,10 @@
         font-size: 18px;
     }
 
+    #task-overlay-content #selected-subtasks {
+        padding-left: 0;
+    }
+
     #task-overlay-content p {
         font-size: 18px;
     }

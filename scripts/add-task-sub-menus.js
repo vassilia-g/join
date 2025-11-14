@@ -69,6 +69,7 @@ function showSubtaskPick() {
  * When editing an existing task it will render subtasks from the task instead.
  */
 async function addSubtask() {
+    const subtaskInput = document.getElementById('task-subtasks');
     const value = subtaskInput.value.trim();
     if (!value) {
         return;

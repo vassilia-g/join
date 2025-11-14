@@ -353,8 +353,20 @@ function getTaskContent(task, taskId) {
   document.getElementById('task-description').value = task.description || '';
   document.getElementById('task-due-date').value = task.dueDate || '';
   document.getElementById('input-category').innerText = task.category || '';
-  const newSubtaskInput = document.getElementById('task-subtasks');
-  newSubtaskInput.addEventListener('click', () => showSubtaskPicks(taskId));
+
+  // ▼ Subtask Input Events
+  const subtaskInput = document.getElementById('task-subtasks');
+  subtaskInput.onclick = () => showSubtaskPicks(taskId);
+  subtaskInput.onkeyup = (ev) => {
+    if (ev.key === 'Enter') addSubtask();
+  };
+
+  // ▼ Subtask SVG Event (NEU BINDEN!)
+  const addSubtaskSvg = document.getElementById('add-subtask-svg');
+  if (addSubtaskSvg) {
+    addSubtaskSvg.onclick = addSubtask;  
+  }
+
   getSubtasks(task, taskId);
 }
 

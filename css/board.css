@@ -76,7 +76,7 @@ button {
     height: 18px;
 }
 
-#board-add-task-btn {
+.board-add-task-btn {
     border-radius: 10px;
     border: 1px solid var(--color-primary);
     padding: 16px;
@@ -94,7 +94,7 @@ button {
     margin-left: 32px;
 }
 
-#board-add-task-btn svg {
+.board-add-task-btn svg {
     margin-bottom: 2px;
 }
 
@@ -662,8 +662,9 @@ button {
 #task-overlay-content li {
     list-style: none;
     display: grid;
-    grid-template-columns: 0.2fr 2fr 4fr;
+    grid-template-columns: 0.2fr 4fr 2fr;
     padding-top: 8px;
+    max-width: 400px;
 }
 
 #edit-task-btn-div {
