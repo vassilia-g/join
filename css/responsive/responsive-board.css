@@ -188,21 +188,27 @@
     .overlay-task-title {
         font-size: 55px;
     }
+
     #selected-contacts {
         padding-top: 1rem;
     }
+
     #contact-input-and-dropdown {
         padding-top: 1rem;
     }
+
     #task-priority-label {
         padding-bottom: 1rem;
     }
+
     #task-due-date-label {
         padding-bottom: 1rem;
     }
+
     #task-description-label {
         padding-bottom: 1rem;
     }
+
     #task-title-label {
         padding-bottom: 1rem;
     }
@@ -274,6 +280,7 @@
         flex-direction: row;
         gap: 15px;
     }
+
     #task-overlay-content {
         width: 60%;
     }
@@ -316,7 +323,7 @@
         width: 100%;
     }
 
-    #add-task-overlay .priority-btns p{
+    #add-task-overlay .priority-btns p {
         display: none;
     }
 
@@ -338,18 +345,18 @@
         padding: 4px;
     }
 
-    #add-task-overlay .create-task label{
+    #add-task-overlay .create-task label {
         font-size: 18px;
     }
 
-    
-    #add-task-overlay input{
-        width: 420px;
-    }    
 
-    #add-task-overlay textarea{
+    #add-task-overlay input {
         width: 420px;
-    } 
+    }
+
+    #add-task-overlay textarea {
+        width: 420px;
+    }
 
     #add-task-overlay .placeholder-icon {
         right: 12px;
@@ -362,19 +369,19 @@
     #add-task-overlay .input-border-size {
         width: 420px;
     }
-    
+
     #add-task-overlay .input-wrapper {
         width: 420px;
     }
 
     #add-task-overlay .add-task-content {
         align-items: center;
-    }  
+    }
 
     #add-task-overlay h1 {
         padding-right: 200px;
     }
-    
+
     #add-task-overlay #task-priority-label {
         margin-left: -8px;
     }
@@ -423,13 +430,13 @@
         font-size: 44px;
     }
 
-    #add-task-overlay input{
+    #add-task-overlay input {
         width: 400px;
-    }    
+    }
 
-    #add-task-overlay textarea{
+    #add-task-overlay textarea {
         width: 400px;
-    } 
+    }
 
     #add-task-overlay .placeholder-icon {
         right: 18px;
@@ -442,10 +449,11 @@
     #add-task-overlay .input-border-size {
         width: 400px;
     }
-    
+
     #add-task-overlay .input-wrapper {
         width: 400px;
     }
+
     #add-task-overlay #task-priority-label {
         margin-left: -10px;
     }
@@ -506,13 +514,13 @@
 }
 
 @media (max-width: 630px) {
-    #add-task-overlay input{
+    #add-task-overlay input {
         width: 360px;
-    }    
+    }
 
-    #add-task-overlay textarea{
+    #add-task-overlay textarea {
         width: 360px;
-    } 
+    }
 
     #add-task-overlay .placeholder-icon {
         right: 18px;
@@ -525,7 +533,7 @@
     #add-task-overlay .input-border-size {
         width: 360px;
     }
-    
+
     #add-task-overlay .input-wrapper {
         width: 360px;
     }
@@ -590,11 +598,12 @@
         width: 14px;
         height: 8.51px;
     }
+
     #selected-contacts {
-            grid-template-columns: repeat(7, 1fr);
+        grid-template-columns: repeat(7, 1fr);
     }
-    
-    #add-task-overlay .add-task-title{
+
+    #add-task-overlay .add-task-title {
         font-size: 31px;
     }
 
@@ -607,7 +616,7 @@
         right: 12px;
     }
 
-    #add-task-overlay #create-task-btn p{
+    #add-task-overlay #create-task-btn p {
         display: none;
     }
 
@@ -615,7 +624,7 @@
         width: 50px;
     }
 
-    #add-task-overlay #clear-btn p{
+    #add-task-overlay #clear-btn p {
         display: none;
     }
 
@@ -625,13 +634,13 @@
 }
 
 @media (max-width: 480px) {
-        #add-task-overlay input{
+    #add-task-overlay input {
         width: 320px;
-    }    
+    }
 
-    #add-task-overlay textarea{
+    #add-task-overlay textarea {
         width: 320px;
-    } 
+    }
 
     #add-task-overlay .priority-btns {
         width: 270px;
@@ -640,11 +649,11 @@
     #add-task-overlay .input-border-size {
         width: 320px;
     }
-    
+
     #add-task-overlay .input-wrapper {
         width: 320px;
     }
-    
+
     #add-task-overlay #task-assigned-to-label {
         padding-left: 72px;
     }
@@ -652,8 +661,8 @@
     #add-task-overlay #contact-input-and-dropdown {
         padding-left: 72px;
     }
-    
-    #add-task-overlay .create-task label{
+
+    #add-task-overlay .create-task label {
         font-size: 16px;
     }
 }
@@ -694,7 +703,7 @@
         padding-right: 120px;
     }
 
-    #add-task-overlay  {
+    #add-task-overlay {
         left: 20px;
     }
 
@@ -764,13 +773,13 @@
         padding: 20px;
     }
 
-    #add-task-overlay input{
+    #add-task-overlay input {
         width: 270px;
-    }    
+    }
 
-    #add-task-overlay textarea{
+    #add-task-overlay textarea {
         width: 270px;
-    } 
+    }
 
     #add-task-overlay .priority-btns {
         width: 250px;
@@ -780,11 +789,11 @@
         width: 270px;
         font-size: 16px;
     }
-    
+
     #add-task-overlay .input-wrapper {
         width: 270px;
     }
-    
+
     #add-task-overlay #task-assigned-to-label {
         padding-left: 136px;
     }
@@ -792,8 +801,8 @@
     #add-task-overlay #contact-input-and-dropdown {
         padding-left: 136px;
     }
-    
-    #add-task-overlay .create-task label{
+
+    #add-task-overlay .create-task label {
         font-size: 16px;
     }
 }
@@ -839,20 +848,20 @@
     }
 
     #selected-contacts {
-            grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: repeat(5, 1fr);
     }
 
-    #add-task-overlay .add-task-content{
+    #add-task-overlay .add-task-content {
         left: 8px;
-    }  
+    }
 
-    #add-task-overlay input{
+    #add-task-overlay input {
         width: 250px;
-    }    
+    }
 
-    #add-task-overlay textarea{
+    #add-task-overlay textarea {
         width: 250px;
-    } 
+    }
 
     #add-task-overlay .priority-btns {
         width: 230px;
@@ -862,11 +871,11 @@
         width: 250px;
         font-size: 14px;
     }
-    
+
     #add-task-overlay .input-wrapper {
         width: 250px;
     }
-    
+
     #add-task-overlay #task-assigned-to-label {
         padding-left: 152px;
     }
@@ -916,10 +925,6 @@
         scrollbar-color: rgba(0, 0, 0, 0.25) transparent;
     }
 
-    #edit-task-btn-div {
-    padding-top: 160px;
-}
-
     #overlay-subtasks-details {
         height: 70px;
         overflow: hidden;
@@ -942,7 +947,7 @@
     #add-task-overlay {
         height: 75%;
     }
-    
+
     .overlay-selected-contacts {
         overflow: hidden;
         overflow-y: scroll;
@@ -989,15 +994,18 @@
     .overlay-footer {
         margin-top: 0;
     }
+
     .circle {
         height: 20px;
     }
+
     .contact-html-name {
         display: flex;
         flex-direction: column;
         justify-content: center;
     }
-    .overlay-titel h3{
+
+    .overlay-titel h3 {
         font-size: 30px;
     }
 }
@@ -1034,13 +1042,16 @@
         gap: 8px;
 
     }
+
     .contact-html {
         display: flex;
         flex-direction: row;
     }
+
     .overlay-selected-contacts {
         height: 50px;
     }
+
     .contact-html-name {
         display: none;
     }
@@ -1064,6 +1075,7 @@
     #add-task-overlay {
         height: 65%;
     }
+
     #add-task-overlay .task-footer {
         padding-bottom: 8px;
     }
@@ -1073,6 +1085,7 @@
     #add-task-overlay {
         height: 60%;
     }
+
     #add-task-overlay .task-footer {
         padding-bottom: 12px;
     }
