@@ -42,6 +42,16 @@ document.getElementById("task-title").addEventListener("input", enableCreateTask
 document.getElementById("task-due-date").addEventListener("input", enableCreateTaskButton);
 
 
+
+/** 
+ * Open the flatpickr calendar.
+ */
+function showCalender() {
+  picker.open();
+};
+
+
+
 /** 
  * Initialize flatpickr date picker with configuration and arrow handling.
  */
@@ -51,23 +61,16 @@ const picker = flatpickr("#task-due-date", {
   minDate: "today",
   locale: "en",
   clickOpens: false,
-  onReady: checkArrows,
-  onChange: checkArrows,
-  onMonthChange: checkArrows,
-  onYearChange: checkArrows,
-  onValueUpdate: function(selectedDates, dateStr, instance) {
-    if (!selectedDates || selectedDates.length === 0) {
-      const typed = instance.input.getAttribute('data-typed');
-      if (typed) {
-        instance.input.value = typed;
-      }
-    }
-  }
+  onChange : onChange
 });
 
-dateInput.addEventListener("input", (e) => {
-  e.target.setAttribute("data-typed", e.target.value);
-});
+
+/** 
+ * Handle flatpickr year navigation arrows.
+ */
+function onChange(selectedDates, dateStr, instance) {
+  checkArrows(selectedDates, dateStr, instance);
+}
 
 
 /** 
@@ -184,14 +187,6 @@ function resetDateValidation() {
   dateInput.classList.remove("error");
   dateWarning.classList.add("d-none");
 }
-
-
-/** 
- * Open the flatpickr calendar.
- */
-function showCalender() {
-  picker.open();
-};
 
 
 /** 
