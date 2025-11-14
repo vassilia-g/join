@@ -137,7 +137,7 @@ async function getContactDropdown() {
   let { tasksArray, contactsArray } = await getContactsAndTask();
   contactsArray = getContactsInitials(contactsArray);
   const assignContacts = document.getElementById('assign-contacts');
-  assignContacts.onlick = openDropdownContacts;
+
 }
 
 
@@ -173,6 +173,7 @@ function closeOverlay() {
   overlayBackgroundRef.classList.add('d-none');
   setTimeout(() => {
     overlayRef.classList.add('d-none');
+    clearTask();
   }, 600);
   let warnings = document.querySelectorAll(".field-warning");
   warnings.forEach(warning => warning.classList.add('d-none'));

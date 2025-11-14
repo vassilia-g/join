@@ -213,17 +213,6 @@ async function editTask(taskId) {
   await getTaskContentFromApi(overlay, overlayContent, taskId);
 }
 
-/** 
- * Add Eventlistener to close Dropdown by outside Inputfield.
- */
-const overlay = document.getElementById('task-overlay-content'); // Container des geladenen HTML
-overlay.addEventListener('click', (event) => {
-  // Ignoriere Klicks auf das Input-Div oder auf SVG
-  if (event.target.closest('#assign-contacts') || event.target.closest('#dropdown-icon')) return;
-
-  hideDropdownContacts();
-})
-
 
 /** 
  * Fetch task data and prepare the add-task form populated with that task's values.
@@ -268,14 +257,26 @@ async function getAddTaskInput(taskId, overlayContent, task) {
 
 
 /** 
- * If task has contact IDs, render the selected contacts into the edit overlay.
+ * If task has contact IDs, render the selected contacts into the edit overlay and add EventListener.
  */
 async function getTaskContacts(task, taskId) {
   if (task?.contactsId) {
-    renderSelectedContactsFromApi(task, taskId)
-  } else {
+    renderSelectedContactsFromApi(task, taskId);
+  }
+  const overlay = document.getElementById('task-overlay-content');
+  overlay.removeEventListener('click', handleOutsideClickContacts);
+  overlay.addEventListener('click', handleOutsideClickContacts);
+}
+
+
+/** 
+ * Hide Dropdown by clicking outside Dropdown.
+ */
+function handleOutsideClickContacts(event) {
+  if (event.target.closest('#assign-contacts') || event.target.closest('#dropdown-icon')) {
     return;
   }
+  hideDropdownContacts();
 }
 
 
