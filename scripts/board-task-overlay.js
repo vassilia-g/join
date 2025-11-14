@@ -213,6 +213,17 @@ async function editTask(taskId) {
   await getTaskContentFromApi(overlay, overlayContent, taskId);
 }
 
+/** 
+ * Add Eventlistener to close Dropdown by outside Inputfield.
+ */
+const overlay = document.getElementById('task-overlay-content'); // Container des geladenen HTML
+overlay.addEventListener('click', (event) => {
+  // Ignoriere Klicks auf das Input-Div oder auf SVG
+  if (event.target.closest('#assign-contacts') || event.target.closest('#dropdown-icon')) return;
+
+  hideDropdownContacts();
+})
+
 
 /** 
  * Fetch task data and prepare the add-task form populated with that task's values.

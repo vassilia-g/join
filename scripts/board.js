@@ -136,6 +136,8 @@ function getMediumForDefault() {
 async function getContactDropdown() {
   let { tasksArray, contactsArray } = await getContactsAndTask();
   contactsArray = getContactsInitials(contactsArray);
+  const assignContacts = document.getElementById('assign-contacts');
+  assignContacts.onlick = openDropdownContacts;
 }
 
 
