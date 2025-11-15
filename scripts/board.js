@@ -328,9 +328,97 @@ function createElementForTaskArray(tasksArray) {
     taskElement.setAttribute("onclick", `openTaskOverlay('${task.id}')`);
     getTargetColumn(newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv, taskElement, task);
     updateProgressBar(task);
+    const card = taskElement.querySelector('.task') || taskElement;
+    enableTaskDragHandlers(card, task.id);
   });
   updateCategoryColor();
   checkIfEmpty(tasksArray);
+}
+
+
+let touchDrag = null;
+
+
+/**
+ * Enable drag handlers for a task card, supporting both desktop and touch.
+ * @param {HTMLElement} el - Task card element.
+ * @param {string} taskId - ID of the task represented by the card.
+ */
+function enableTaskDragHandlers(el, taskId) {
+  el.draggable = true;
+  el.addEventListener('dragstart', drag);
+  el.addEventListener('pointerdown', e => startTouchDrag(e, taskId));
+  el.addEventListener('touchstart', e => startTouchDrag(e, taskId), { passive: false });
+}
+
+
+/**
+ * Normalize pointer/touch events to a single coordinate object.
+ * @param {PointerEvent|TouchEvent} event - Incoming pointer or touch event.
+ * @returns {{x:number, y:number}} - Client coordinates of the interaction.
+ */
+function getEventPoint(event) {
+  if (event.touches?.length) {
+    return { x: event.touches[0].clientX, y: event.touches[0].clientY };
+  }
+  if (event.changedTouches?.length) {
+    return { x: event.changedTouches[0].clientX, y: event.changedTouches[0].clientY };
+  }
+  return { x: event.clientX, y: event.clientY };
+}
+
+
+/**
+ * Start tracking a touch drag interaction and attach move/end listeners.
+ * @param {PointerEvent|TouchEvent} event - Pointer or touch start event.
+ * @param {string} taskId - ID of the task being dragged.
+ */
+function startTouchDrag(event, taskId) {
+  const isTouch = event.type.startsWith('touch') || event.pointerType === 'touch' || event.pointerType === 'pen';
+  if (!isTouch) return;
+  event.preventDefault();
+  touchDrag = { taskId, element: document.getElementById(taskId), currentZone: null };
+  document.addEventListener('pointermove', moveTouchDrag, { passive: false });
+  document.addEventListener('pointerup', endTouchDrag);
+  document.addEventListener('pointercancel', endTouchDrag);
+  document.addEventListener('touchmove', moveTouchDrag, { passive: false });
+  document.addEventListener('touchend', endTouchDrag);
+  document.addEventListener('touchcancel', endTouchDrag);
+}
+
+
+/**
+ * Update highlight as the finger/stylus moves across drop zones.
+ * @param {PointerEvent|TouchEvent} event - Move event while dragging.
+ */
+function moveTouchDrag(event) {
+  if (!touchDrag) return;
+  event.preventDefault();
+  const { x, y } = getEventPoint(event);
+  const target = document.elementFromPoint(x, y);
+  const zone = target && target.closest('.drop-div');
+  document.querySelectorAll('.drop-div').forEach(div =>
+    div.classList.toggle('drop-target', div === zone)
+  );
+  touchDrag.currentZone = zone;
+}
+
+
+/**
+ * Finish the drag interaction, moving the task into the last hovered column.
+ * @param {PointerEvent|TouchEvent} event - End/cancel event for the drag.
+ */
+async function endTouchDrag(event) {
+  if (touchDrag?.currentZone) {
+    touchDrag.currentZone.appendChild(touchDrag.element);
+    await switchStatus(touchDrag.currentZone, touchDrag.taskId);
+    const placeholder = document.getElementById(`placeholder-${touchDrag.currentZone.id}`);
+    if (placeholder) placeholder.classList.add('d-none');
+  }
+  ['pointermove', 'pointerup', 'pointercancel', 'touchmove', 'touchend', 'touchcancel']
+    .forEach(type => document.removeEventListener(type, type.includes('move') ? moveTouchDrag : endTouchDrag));
+  document.querySelectorAll('.drop-div').forEach(div => div.classList.remove('drop-target'));
+  touchDrag = null;
 }
 
 
