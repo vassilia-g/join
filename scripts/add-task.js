@@ -61,7 +61,8 @@ const picker = flatpickr("#task-due-date", {
   minDate: "today",
   locale: "en",
   clickOpens: false,
-  onChange : onChange
+  onChange : onChange,
+  disableMobile: "true"
 });
 
 
