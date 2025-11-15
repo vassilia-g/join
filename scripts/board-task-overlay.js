@@ -211,6 +211,7 @@ async function editTask(taskId) {
   const overlay = document.getElementById('task-overlay');
   const overlayContent = document.getElementById('task-overlay-content');
   await getTaskContentFromApi(overlay, overlayContent, taskId);
+  initFlatpickr();
 }
 
 
@@ -224,6 +225,7 @@ async function getTaskContentFromApi(overlay, overlayContent, taskId) {
   if (!task) throw new Error(`Task mit ID ${taskId} nicht gefunden`);
   await getAddTaskInput(taskId, overlayContent, task)
   await allAddTaskScripts();
+  initFlatpickr();
   disableCategoryEdit();
   getTaskPriority(task);
   getTaskContent(task, taskId);
@@ -324,6 +326,26 @@ function getOverlayContent(overlayContent, taskContent, taskId, task) {
   innerContainer.classList.add('edit-extra');
   overlayContent.appendChild(innerContainer);
   innerContainer.innerHTML += editandResetTaskBtnTemplate(taskId, task);
+}
+
+
+/** 
+ * Replace flatpickr and add new flatpickr for new DOM-Elements.
+ */
+function initFlatpickr() {
+  const dateInput = overlayContentRef.querySelector('#task-due-date');
+  if (dateInput._flatpickr) {
+    dateInput._flatpickr.destroy();
+}
+  flatpickr(dateInput, {
+  dateFormat: "d/m/Y",
+  allowInput: true,
+  minDate: "today",
+  locale: "en",
+  clickOpens: false,
+  onChange : onChange,
+  disableMobile: "true"
+});
 }
 
 
