@@ -158,8 +158,6 @@ dateInput.addEventListener("input", function (e) {
 });
 
 
-
-
 /** 
  * Validate a dd/mm/yyyy date string and show error if in the past.
  */
