@@ -211,7 +211,6 @@ async function editTask(taskId) {
   const overlay = document.getElementById('task-overlay');
   const overlayContent = document.getElementById('task-overlay-content');
   await getTaskContentFromApi(overlay, overlayContent, taskId);
-  initFlatpickr();
 }
 
 
@@ -225,11 +224,11 @@ async function getTaskContentFromApi(overlay, overlayContent, taskId) {
   if (!task) throw new Error(`Task mit ID ${taskId} nicht gefunden`);
   await getAddTaskInput(taskId, overlayContent, task)
   await allAddTaskScripts();
-  initFlatpickr();
   disableCategoryEdit();
   getTaskPriority(task);
   getTaskContent(task, taskId);
   getTaskContacts(task, taskId);
+  initFlatpickr(overlayContent);
   overlay.classList.remove('d-none');
   overlay.classList.add('active');
 }
@@ -332,20 +331,26 @@ function getOverlayContent(overlayContent, taskContent, taskId, task) {
 /** 
  * Replace flatpickr and add new flatpickr for new DOM-Elements.
  */
-function initFlatpickr() {
+function initFlatpickr(overlayContentRef) {
   const dateInput = overlayContentRef.querySelector('#task-due-date');
+  if (!dateInput) {
+    console.warn("task-due-date not found in overlayContentRef");
+    return;
+  }
+
   if (dateInput._flatpickr) {
     dateInput._flatpickr.destroy();
-}
+  }
+
   flatpickr(dateInput, {
-  dateFormat: "d/m/Y",
-  allowInput: true,
-  minDate: "today",
-  locale: "en",
-  clickOpens: false,
-  onChange : onChange,
-  disableMobile: "true"
-});
+    dateFormat: "d/m/Y",
+    allowInput: true,
+    minDate: "today",
+    locale: "en",
+    clickOpens: false,
+    onChange : onChange,
+    disableMobile: "true"
+  });
 }
 
 
@@ -387,20 +392,15 @@ function getTaskContent(task, taskId) {
   document.getElementById('task-description').value = task.description || '';
   document.getElementById('task-due-date').value = task.dueDate || '';
   document.getElementById('input-category').innerText = task.category || '';
-
-  // ▼ Subtask Input Events
   const subtaskInput = document.getElementById('task-subtasks');
   subtaskInput.onclick = () => showSubtaskPicks(taskId);
   subtaskInput.onkeyup = (ev) => {
     if (ev.key === 'Enter') addSubtask();
   };
-
-  // ▼ Subtask SVG Event (NEU BINDEN!)
   const addSubtaskSvg = document.getElementById('add-subtask-svg');
   if (addSubtaskSvg) {
-    addSubtaskSvg.onclick = addSubtask;  
+    addSubtaskSvg.onclick = () => addSubtask();
   }
-
   getSubtasks(task, taskId);
 }
 
@@ -411,6 +411,7 @@ function getTaskContent(task, taskId) {
 function showSubtaskPicks(taskId) {
   const subtaskPicks = document.getElementById('delete-or-keep-subtask');
   const addSubtaskSvg = document.getElementById('add-subtask-svg');
+  
   subtaskPicks.classList.remove('d-none');
 }
 
