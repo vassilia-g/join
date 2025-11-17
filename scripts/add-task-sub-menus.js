@@ -84,6 +84,8 @@ async function addSubtask() {
     }
     subtaskInput.value = "";
     subtaskPick.classList.add('d-none');
+    console.log(subtasks);
+    
 }
 
 

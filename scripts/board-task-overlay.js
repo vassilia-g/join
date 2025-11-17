@@ -388,6 +388,7 @@ function getPriorityFromTaskApi(urgent, medium, low, task) {
  * Populate add-task inputs (title, description, due date, category) and initialize subtasks UI.
  */
 function getTaskContent(task, taskId) {
+  subtasks.length = 0;
   document.getElementById('task-title').value = task.title || '';
   document.getElementById('task-description').value = task.description || '';
   document.getElementById('task-due-date').value = task.dueDate || '';
@@ -399,8 +400,10 @@ function getTaskContent(task, taskId) {
   };
   const addSubtaskSvg = document.getElementById('add-subtask-svg');
   if (addSubtaskSvg) {
-    addSubtaskSvg.onclick = () => addSubtask();
-  }
+    addSubtaskSvg.replaceWith(addSubtaskSvg.cloneNode(true));
+    const freshSvg = document.getElementById('add-subtask-svg');
+    freshSvg.onclick = () => addSubtask();
+}
   getSubtasks(task, taskId);
 }
 
@@ -411,7 +414,6 @@ function getTaskContent(task, taskId) {
 function showSubtaskPicks(taskId) {
   const subtaskPicks = document.getElementById('delete-or-keep-subtask');
   const addSubtaskSvg = document.getElementById('add-subtask-svg');
-  
   subtaskPicks.classList.remove('d-none');
 }
 
@@ -422,6 +424,7 @@ function showSubtaskPicks(taskId) {
 function getSubtasks(task, taskId) {
   const subtasksList = document.getElementById('selected-subtasks');
   subtasksList.innerHTML = '';
+  subtasks.length = 0;
   if (task?.subtasks?.length > 0) {
     subtasks.push(...task.subtasks);
     let checkedSubtasks = task.checkedSubtasks || [];
@@ -435,40 +438,6 @@ function getSubtasks(task, taskId) {
       const checkboxIcon = isChecked ? checkedBox : uncheckedBox;
       subtasksList.innerHTML += showApiSubtask(checkboxClass, checkboxIcon, taskId, index, subtask);
     });
-  }
-}
-
-
-/** 
- * Read new subtask input and forward to the API add helper.
- */
-async function getNewSubtaskToApi(taskId) {
-  const subtaskInput = document.getElementById('task-subtasks').value.trim();
-  if (!subtaskInput) {
-    alert('Bitte gib eine Subtask-Beschreibung ein.');
-    return;
-  }
-  await getSubtasksFromApi(subtaskInput, taskId);
-}
-
-
-/** 
- * Fetch task, append a new subtask and PUT the updated task back to the backend.
- */
-async function getSubtasksFromApi(subtaskInput, taskId) {
-  try {
-    const response = await fetch(`${BASE_URL}/tasks/${taskId}.json`);
-    const task = await response.json();
-    if (!task) throw new Error(`Task mit ID ${taskId} nicht gefunden`);
-    if (!Array.isArray(task.subtasks)) {
-      task.subtasks = [];
-    }
-    task.subtasks.push(subtaskInput);
-    await putData(`tasks/${taskId}`, task);
-    getSubtasks(task, taskId);
-    document.getElementById('task-subtasks').value = '';
-  } catch (error) {
-    alert('Subtask konnte nicht hinzugefügt werden.');
   }
 }
 
