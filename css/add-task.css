@@ -12,6 +12,7 @@
 .create-task {
     display: flex;
     font-size: 20px;
+    gap: 14px;
 }
 
 .create-task label {
