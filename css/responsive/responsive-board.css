@@ -661,6 +661,10 @@
     .current-board-tasks {
         width: 100%;
     }
+
+    #close-overlay-btn {
+    top: 20px;
+}
 }
 
 @media (max-width: 420px) {

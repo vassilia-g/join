@@ -186,11 +186,22 @@ button {
 
 #close-overlay-btn {
     position: absolute;
-    top: 1rem;
-    right: 2rem;
-    width: 20px;
+    top: 38px;
+    right: 36px;
+    width: 32px;
+    height: 32px;
     background-color: white;
     border: none;
+    padding: 0;
+    margin: 0;
+}
+
+#close-overlay-btn:hover{
+    background-color: rgb(240, 240, 240);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    transition: all 0.1s ease;
 }
 
 
@@ -502,7 +513,11 @@ button {
 .overlay-task-title {
     font-size: 61px;
     line-height: 120%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
+
 
 .overlay-due-date {
     display: flex;
@@ -725,9 +740,9 @@ button {
     position: relative;
 }
 
-.board-content .task-main-info {
+/* .board-content .task-main-info {
     padding-right: 16px;
-}
+} */
 
 .board-content .task-additional-info {
     padding-left: 16px;
