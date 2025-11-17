@@ -791,3 +791,7 @@ button {
 .responsive-button {
     display: none !important;
 }
+
+.create-task {
+    flex-direction: column;
+}
