@@ -90,23 +90,16 @@
 
 @media(max-height: 1050px) {
     #clear-btn {
-        padding-left: 6px;
-        padding-right: 6px;
-        font-size: 18px;
-        padding-top: 0;
-        padding-bottom: 0;
-        height: 38px;
+        padding: 16px 8px;
+        font-size: 20px;
+        height: 56px;
         width: 90px;
     }
 
     #create-task-btn {
-        padding-left: 6px;
-        padding-right: 6px;
-        font-size: 18px;
-        padding-top: 0;
-        padding-bottom: 0;
-        height: 38px;
-        width: 150px;
+        padding: 16px 8px;
+        font-size: 20px;
+        height: 56px;
     }
 
     .task-footer {

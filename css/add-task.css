@@ -475,9 +475,9 @@ p#field-requiered-info::before {
 }
 
 #clear-btn {
-    border-radius: 10px;
+    border-radius: 16px;
     border: 1px solid var(--color-primary);
-    padding: 8px;
+    padding: 16px 8px;
     display: flex;
     align-items: center;
     gap: 4px;
@@ -487,6 +487,7 @@ p#field-requiered-info::before {
     width: 110px;
     box-sizing: border-box;
     justify-content: center;
+    height: 56px;
 }
 
 #clear-btn:hover {
@@ -501,9 +502,9 @@ p#field-requiered-info::before {
 }
 
 #create-task-btn {
-    border-radius: 10px;
+    border-radius: 16px;
     border: 1px solid var(--color-primary);
-    padding: 8px;
+    padding: 16px 8px;
     display: flex;
     align-items: center;
     gap: 4px;

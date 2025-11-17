@@ -153,9 +153,9 @@ button {
     background-color: #FFFFFF;
     border-radius: 30px;
     width: 1116px;
-    height: 870px;
+    height: calc(100vh - 140px);
     z-index: 1000;
-    top: 80px;
+    top: 70px;
     left: 180px;
 }
 
@@ -196,7 +196,7 @@ button {
     margin: 0;
 }
 
-#close-overlay-btn:hover{
+#close-overlay-btn:hover {
     background-color: rgb(240, 240, 240);
     border-radius: 50%;
     width: 32px;
@@ -257,6 +257,7 @@ button {
 
 .task-footer {
     flex: 0;
+    margin-top: 24px;
 }
 
 .current-board-tasks {
@@ -792,6 +793,10 @@ button {
     display: none !important;
 }
 
-.create-task {
-    flex-direction: column;
+.add-task-title {
+    margin-bottom: 24px !important;
+}
+
+#selected-subtasks {
+    max-height: 82px;
 }
