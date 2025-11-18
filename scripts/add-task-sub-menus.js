@@ -47,6 +47,7 @@ addSubtaskSvgs?.addEventListener('click', addSubtask);
 function deleteSubtask() {
     subtaskInput.value = "";
     subtaskPick.classList.add('d-none');
+    
 }
 
 
@@ -125,12 +126,16 @@ function renderSubtasks(list) {
  * Remove a subtask from the local subtasks list and re-render the list.
  * @param {number} index - index of subtask to delete
  */
-function deleteSubtaskFromList(index) {
+async function deleteSubtaskFromList(index) {
     subtasks.splice(index, 1);
     selectedSubtasks.innerHTML = "";
-    for (let index = 0; index < subtasks.length; index++) {
-        selectedSubtasks.innerHTML += showSubtask(index);
+    if (isEditingTask && currentTaskId) {
+        const task = await getData(`tasks/${currentTaskId}`);
+        renderSubtasksFromTask(task, currentTaskId);
+    } else {
+        renderSubtasks(subtasks);
     }
+    console.log(subtasks);
 }
 
 
