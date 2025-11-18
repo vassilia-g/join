@@ -96,6 +96,8 @@ async function addSubtask() {
  * @param {string} taskId - id of the task
  */
 function renderSubtasksFromTask(task, taskId) {
+    const selectedSubtasks = document.getElementById('selected-subtasks');
+    selectedSubtasks.innerHTML = "";
     const checked = Array.isArray(task.checkedSubtasks?.subtasks)
         ? task.checkedSubtasks.subtasks
         : Object.values(task.checkedSubtasks?.subtasks || []);
