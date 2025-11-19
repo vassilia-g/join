@@ -94,9 +94,41 @@ async function getAddTaskContent(overlayContentRef) {
     tempDiv.innerHTML = html;
     const content = tempDiv.querySelector('.add-task-content');
     overlayContentRef.appendChild(content.cloneNode(true));
+    changeClassesAfterInsert(overlayContentRef);
     await loadScriptOnce('add-task-script', '../scripts/add-task.js');
     await loadScriptOnce('add-task-sub-menu-script', '../scripts/add-task-sub-menus.js');
     await loadScriptOnce('add-task-template-script', '../scripts/templates/add-task-template.js');
+  }
+}
+
+function changeClassesAfterInsert(overlayContentRef) {
+  const addTaskContent = overlayContentRef.querySelector('.add-task-content');
+  if (addTaskContent) {
+    addTaskContent.classList.remove('add-task-content');
+    addTaskContent.classList.add('add-task-content-board');
+  }
+  const createTaskDiv = overlayContentRef.querySelector('.create-task');
+  if (createTaskDiv) {
+    createTaskDiv.classList.remove('create-task');
+    createTaskDiv.classList.add('board-create-task');
+  }
+  const addTaskTitle = overlayContentRef.querySelector('.add-task-title');
+  if (addTaskTitle) {
+    addTaskTitle.classList.remove('add-task-title');
+    addTaskTitle.classList.add('board-task-title');
+  }
+  const taskFooter = overlayContentRef.querySelector('.task-footer');
+  if (taskFooter) {
+    taskFooter.classList.remove('task-footer');
+    taskFooter.classList.add('board-footer');
+  }
+  const mainInfo = overlayContentRef.querySelector('.task-main-info');
+  if (mainInfo) {
+    mainInfo.classList.add('task-main-info-board');
+  }
+  const additionalInfo = overlayContentRef.querySelector('.task-additional-info');
+  if (additionalInfo) {
+    additionalInfo.classList.add('task-additional-info-board');
   }
 }
 

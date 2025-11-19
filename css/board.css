@@ -159,6 +159,29 @@ button {
     left: 180px;
 }
 
+#add-task-overlay-content {
+    width: 100%;
+    height: 100%;
+}
+
+.add-task-content-board {
+    height: 100%;
+    box-sizing: border-box;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.board-create-task {
+    display: flex;
+}
+
+.board-footer {
+    display: flex;
+    justify-content: space-between;
+}
+
 #add-task-overlay.hide {
     animation: slideOut 0.75s ease-in forwards;
 }
