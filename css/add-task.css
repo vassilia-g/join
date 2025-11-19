@@ -119,6 +119,10 @@ input::placeholder {
     margin-top: 15px;
 }
 
+#task-subtasks {
+    padding-right: 85px;
+}
+
 .description svg {
     position: absolute;
     bottom: 9px;
@@ -253,7 +257,7 @@ input::placeholder {
 
 #selected-subtasks {
     overflow-x: hidden;
-    max-height: 100px;
+    max-height: 120px;
     scrollbar-width: thin;
     overflow-y: auto;
 }
@@ -297,10 +301,17 @@ input::placeholder {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 24px;
+    height: fit-content;
+    max-width: 380px;
     padding: 5px 5px 5px 40px;
     border-radius: 8px;
     cursor: default;
+}
+
+.subtask-list-element li{
+    overflow-wrap: break-word;
+    word-break: break-word;
+    list-style: none;
 }
 
 .delete-or-edit-icons {

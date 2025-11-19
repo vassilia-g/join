@@ -214,6 +214,17 @@
     .board-search-bar {
         width: 100%;
     }
+    
+    .board-add-task-btn {
+        padding: 12px;
+        width: 180px;
+        font-size: 19px;
+    }
+
+    .board-add-task-btn svg{
+        width: 19px;
+        height: 19px;
+    }
 
     #board-search-input {
         width: 100%;
@@ -294,9 +305,27 @@
     .overlay-titel h3 {
         font-size: 52px;
     }
+
+    .board-add-task-btn {
+        width: 80px;
+        justify-content: center;
+    }
+
+    .board-add-task-btn svg{
+        width: 23px;
+        height: 23px;
+    }
+
+    .board-add-task-btn p{
+        display: none;
+    }
 }
 
 @media (max-width: 760px) {
+    .board-add-task-btn {
+        width: 60px;
+    }
+
     #task-overlay-content {
         overflow-y: scroll;
     }
@@ -616,6 +645,15 @@
 }
 
 @media (max-width: 480px) {
+    .board-add-task-btn {
+        width: 50px;
+    }
+
+    .board-add-task-btn svg{
+        width: 21px;
+        height: 21px;
+    }
+
     #add-task-overlay input {
         width: 320px;
     }

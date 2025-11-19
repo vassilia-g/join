@@ -94,6 +94,7 @@ function closeTaskOverlay() {
     overlay.classList.add('d-none');
     overlayContent.classList.add('d-none');
   }, 500);
+  location.reload();
 }
 
 
