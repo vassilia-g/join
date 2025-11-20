@@ -177,6 +177,19 @@ button {
     display: flex;
 }
 
+.board-create-task.overlay-stacked {
+    flex-direction: column !important;
+    gap: 14px;
+    align-items: stretch;
+    overflow-y: auto;
+}
+
+.board-create-task.overlay-stacked .task-main-info,
+.board-create-task.overlay-stacked .task-additional-info {
+    width: 100% !important;
+    align-items: stretch;
+}
+
 .board-footer {
     display: flex;
     justify-content: space-between;
