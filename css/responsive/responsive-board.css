@@ -113,7 +113,6 @@
         display: none;
     }
 
-
     .board-create-task {
         display: flex;
         flex-direction: column;
