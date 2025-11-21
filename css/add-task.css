@@ -81,11 +81,13 @@ input::placeholder {
 .task-main-info {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    width: 50%;
-    height: 376px;
+    /* justify-content: space-between; */
+    /* width: 50%; */
+    /* height: 376px; */
     /* align-items: center; */
-    align-items: flex-start;
+    /* align-items: flex-start; */
+    gap: 30px;
+    margin-right: 2rem;
 }
 
 #task-title-label::after {
@@ -378,10 +380,10 @@ input::placeholder {
     display: flex;
     flex-direction: column;
     gap: 24px;
-    /* padding-left: 2rem; */
-    width: 50%;
+    padding-left: 2rem;
+    /* width: 50%; */
     border-left: 2px solid #E0E0E0;
-    align-items: end;
+    /* align-items: end; */
 }
 
 .priority-btns {

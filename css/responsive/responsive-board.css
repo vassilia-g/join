@@ -1,8 +1,8 @@
-@media(max-width: 1460px) {
+/* @media(max-width: 1460px) {
     #add-task-overlay {
         width: 1000px;
     }
-}
+} */
 
 @media (max-width: 1375px) {
     .board-content {
@@ -95,10 +95,10 @@
 }
 
 @media (max-width: 1300px) {
-    #add-task-overlay {
+    /* #add-task-overlay {
         width: 80%;
         height: 838px;
-    }
+    } */
 
     #add-task-overlay .add-task-content {
         top: 32px;
@@ -107,7 +107,18 @@
 
 }
 
-@media (max-width: 1220px) {
+@media (max-width: 1285px) {
+
+    #field-requiered-info{
+        display: none;
+    }
+
+
+    .board-create-task {
+        display: flex;
+        flex-direction: column;
+    }
+
     .create-task {
         flex-direction: column;
         align-items: center;
@@ -134,8 +145,9 @@
     }
 
     #add-task-overlay {
-        width: 70%;
-        height: 80%;
+        /* width: 70%; */
+        /* height: 80%; */
+        height: 90%;
     }
 
     #add-task-overlay .add-task-content {
@@ -146,6 +158,8 @@
 
     .task-main-info {
         padding-bottom: 16px;
+        margin-right: 0px;
+        align-items: center;
     }
 
     .board-content .task-additional-info {
@@ -162,10 +176,29 @@
         padding-right: 3rem;
     }
 
+    .board-footer {
+        gap: 40px;
+    }
+
+    .textarea svg {
+        display: none;
+    }
+
+    .add-task-content-board {
+        align-items: center;
+        /* justify-content: center; */
+        display: flex;
+        flex-direction: column;
+    }
+
+    .board-create-task {
+        gap: 14px;
+    }
+
 }
 
 
-@media (max-width: 1200px) {
+/* @media (max-width: 1200px) {
     #task-overlay-content .create-task {
         flex-direction: column;
         gap: 20px;
@@ -208,20 +241,20 @@
     #task-title-label {
         padding-bottom: 1rem;
     }
-}
+} */
 
 @media (max-width: 1085px) {
     .board-search-bar {
         width: 100%;
     }
-    
+
     .board-add-task-btn {
         padding: 12px;
         width: 180px;
         font-size: 19px;
     }
 
-    .board-add-task-btn svg{
+    .board-add-task-btn svg {
         width: 19px;
         height: 19px;
     }
@@ -311,12 +344,12 @@
         justify-content: center;
     }
 
-    .board-add-task-btn svg{
+    .board-add-task-btn svg {
         width: 23px;
         height: 23px;
     }
 
-    .board-add-task-btn p{
+    .board-add-task-btn p {
         display: none;
     }
 }
@@ -649,7 +682,7 @@
         width: 50px;
     }
 
-    .board-add-task-btn svg{
+    .board-add-task-btn svg {
         width: 21px;
         height: 21px;
     }
@@ -702,8 +735,8 @@
     }
 
     #close-overlay-btn {
-    top: 20px;
-}
+        top: 20px;
+    }
 }
 
 @media (max-width: 420px) {
@@ -1019,7 +1052,7 @@
 }
 
 @media (max-height: 900px) and (min-height: 761px) {
-        #task-overlay-content {
+    #task-overlay-content {
         max-height: 550px;
     }
 }
