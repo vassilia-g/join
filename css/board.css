@@ -500,7 +500,7 @@ button {
 }
 
 #task-overlay-content {
-    /* max-width: 525px; */
+    max-width: 525px;
     max-height: 931px;
     /* width: 90%; */
     position: fixed;
