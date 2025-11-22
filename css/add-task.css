@@ -136,6 +136,7 @@ input::placeholder {
     justify-content: space-between;
     background-color: #FFFFFF;
     cursor: pointer;
+    position: relative;
 }
 
 .assign-contacts:hover {

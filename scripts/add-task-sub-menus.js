@@ -278,7 +278,6 @@ function getContactsInitials(contacts) {
 function toggleClasslistForDropdown(contactsToSelect, dropdownIcon, selectedContacts) {
     contactsToSelect.classList.add('show');
     dropdownIcon.classList.add("open");
-    selectedContacts.classList.add('d-none');
 }
 
 
@@ -312,9 +311,6 @@ function hideDropdownContacts() {
     if (!contactsToSelect || !dropdownIcon || !selectedContacts) return;
     contactsToSelect.classList.remove('show');
     dropdownIcon.classList.remove("open");
-    setTimeout(() => {
-        selectedContacts.classList.remove('d-none');
-    }, 200);
 }
 
 
