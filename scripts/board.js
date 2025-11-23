@@ -85,15 +85,15 @@ async function openAddTaskOverlay() {
   window.addEventListener('resize', overlayResizeHandler);
 }
 
-const overlayBreakpoint = 1220;
-let overlayResizeHandler = null;
+// const overlayBreakpoint = 1220;
+// let overlayResizeHandler = null;
 
-function applyOverlayLayout(forceClose = false) {
-  const container = document.querySelector('#add-task-overlay .board-create-task');
-  if (!container) return;
-  const shouldStack = !forceClose && window.innerWidth <= overlayBreakpoint;
-  container.classList.toggle('overlay-stacked', shouldStack);
-}
+// function applyOverlayLayout(forceClose = false) {
+//   const container = document.querySelector('#add-task-overlay .board-create-task');
+//   if (!container) return;
+//   const shouldStack = !forceClose && window.innerWidth <= overlayBreakpoint;
+//   container.classList.toggle('overlay-stacked', shouldStack);
+// }
 
 
 /** 
