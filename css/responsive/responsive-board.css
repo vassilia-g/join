@@ -677,6 +677,12 @@
 }
 
 @media (max-width: 480px) {
+
+    #task-overlay-content{
+        max-width: 340px;
+        padding: 20px;
+    }
+
     .board-add-task-btn {
         width: 50px;
     }
