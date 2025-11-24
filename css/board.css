@@ -473,6 +473,10 @@ button {
     height: 32px !important;
 }
 
+.checkbox-subtasks :hover {
+    cursor: pointer;
+}
+
 .priority {
     display: flex;
     align-items: center;

@@ -3,24 +3,18 @@
  * @param {string} taskId - ID of the task containing the subtask
  * @param {number} subtaskIndex - index of the subtask to check
  */
-async function checkEditedApiSubtask(taskId, subtaskIndex) {
-  const editInput = document.getElementById('edit-input');
-  if (!editInput) return console.error('❌ Kein Edit-Input gefunden.');
-  const inputValue = editInput.value.trim();
-  if (inputValue === "") {
-    editInput.focus();
-    return;
-  }
+async function checkEditedApiSubtask(id, i) {
+  const inp = document.getElementById("edit-input"); if (!inp) return console.error("❌ Kein Edit-Input gefunden.");
+  const val = inp.value.trim(); if (!val) return inp.focus();
   try {
-    const response = await fetch(`${BASE_URL}/tasks.json`);
-    const data = await response.json();
-    const task = data[taskId];
-    if (!task) throw new Error(`Task mit ID ${taskId} nicht gefunden`);
-    checkIfSubtaskWasEdited(task, inputValue, subtaskIndex, taskId);
-    getSubtasks(task, taskId);
-  } catch (error) {
-    console.error('Fehler beim Öffnen des Edit-Overlays:', error);
-    alert('Task konnte nicht geladen werden.');
+    const res = await fetch(`${BASE_URL}/tasks.json`);
+    const data = await res.json();
+    const task = data[id]; if (!task) throw new Error(`Task mit ID ${id} nicht gefunden`);
+    checkIfSubtaskWasEdited(task, val, i, id);
+    getSubtasks(task, id);
+  } catch (e) {
+    console.error("Fehler beim Öffnen des Edit-Overlays:", e);
+    alert("Task konnte nicht geladen werden.");
   }
 }
 

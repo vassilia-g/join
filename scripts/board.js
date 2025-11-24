@@ -211,19 +211,12 @@ function refreshBoard() {
  * Hide overlay with exit animation 
  */
 function closeOverlay() {
-  const overlayRef = document.getElementById('add-task-overlay');
-  overlayRef.classList.remove('show');
-  overlayRef.classList.add('hide');
-  const overlayBackgroundRef = document.getElementById('overlay-background');
-  overlayBackgroundRef.classList.add('d-none');
-  setTimeout(() => {
-    overlayRef.classList.add('d-none');
-    clearTask();
-  }, 600);
-  let warnings = document.querySelectorAll(".field-warning");
-  warnings.forEach(warning => warning.classList.add('d-none'));
-  let error = document.querySelectorAll(".input-border-size");
-  error.forEach(errors => errors.classList.remove('error'));
+  const o = document.getElementById('add-task-overlay');
+  o.classList.remove('show'); o.classList.add('hide');
+  document.getElementById('overlay-background').classList.add('d-none');
+  setTimeout(() => { o.classList.add('d-none'); clearTask(); }, 600);
+  document.querySelectorAll(".field-warning").forEach(w => w.classList.add('d-none'));
+  document.querySelectorAll(".input-border-size").forEach(e => e.classList.remove('error'));
   if (overlayResizeHandler) {
     window.removeEventListener('resize', overlayResizeHandler);
     overlayResizeHandler = null;
@@ -253,11 +246,9 @@ function drag(event) {
  */
 async function drop(event) {
   event.preventDefault();
-
   const taskId = event.dataTransfer.getData("text");
   const draggedElement = document.getElementById(taskId);
   const dropZone = event.currentTarget;
-
   dropZone.appendChild(draggedElement);
   const placeholder = document.getElementById(`placeholder-${dropZone.id}`)
   if (placeholder) placeholder.classList.add('d-none');

@@ -340,24 +340,17 @@ function enableCreateTaskButton() {
 /** 
  * Show a field warning for an input or category selection and attach listeners to hide it.
  */
-function showFieldWarning(inputElement) {
-  const wrapper = inputElement.closest(".task-label-divs");
-  const warning = wrapper.querySelector(".field-warning");
-  if (!warning) return;
-  if (inputElement.tagName === "INPUT" || inputElement.tagName === "TEXTAREA") {
-    if (!inputElement.value.trim()) {
-      warning.classList.remove("d-none");
-      inputElement.classList.add("error");
-      eventListenerForInput(inputElement, warning);
-    }
+function showFieldWarning(el) {
+  const w = el.closest(".task-label-divs")?.querySelector(".field-warning"); if (!w) return;
+  if (["INPUT","TEXTAREA"].includes(el.tagName)) {
+    const empty = !el.value.trim(); w.classList.toggle("d-none", !empty); el.classList.toggle("error", empty);
+    if (empty) eventListenerForInput(el, w);
   }
-  if (inputElement.classList.contains("task-category")) {
-    const categorySpan = inputElement.querySelector("#input-category");
-    if (!categorySpan) return;
+  if (el.classList.contains("task-category")) {
+    const span = el.querySelector("#input-category"); if (!span) return;
     setTimeout(() => {
-      const text = categorySpan.textContent.trim();
-      warning.classList.toggle("d-none", text !== "Select task category");
-      inputElement.classList.toggle("error", text === "Select task category");
+      const missing = span.textContent.trim() === "Select task category";
+      w.classList.toggle("d-none", !missing); el.classList.toggle("error", missing);
     }, 300);
   }
 }

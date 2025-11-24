@@ -130,7 +130,6 @@ function checkIfEmpty(tasks) {
     searchBarElement.classList.remove('no-task-found');
     warningText.classList.add('d-none');
   }
-
   tasks.forEach(task => {
     const taskElement = document.querySelector(`[data-task-index="${task.id}"]`);
     if (!taskElement) return;
@@ -338,11 +337,9 @@ function initFlatpickr(overlayContentRef) {
     console.warn("task-due-date not found in overlayContentRef");
     return;
   }
-
   if (dateInput._flatpickr) {
     dateInput._flatpickr.destroy();
   }
-
   flatpickr(dateInput, {
     dateFormat: "d/m/Y",
     allowInput: true,
