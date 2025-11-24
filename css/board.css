@@ -526,6 +526,10 @@ button {
     transform: translate(-50%, -50%);
 }
 
+.task-overlay-content .create-task{
+    flex-direction: column;
+}
+
 .task-overlay {
     height: fit-content;
     gap: 24px;
