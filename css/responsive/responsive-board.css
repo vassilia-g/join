@@ -470,6 +470,10 @@
     #add-task-overlay h1 {
         padding-right: 250px;
     }
+
+    .task-overlay-content .create-task {
+        max-height: 700px;
+    }
 }
 
 @media (max-width: 680px) {
