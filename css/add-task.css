@@ -619,7 +619,6 @@ p#field-requiered-info::before {
     border-radius: 12px !important;
 }
 
-#contact-input-and-dropdown,
 #category-input-and-dropdown {
     position: relative;
     width: 100%;
