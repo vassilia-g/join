@@ -115,6 +115,12 @@ async function getAddTaskContent(overlayContentRef) {
 }
 
 function changeClassesAfterInsert(overlayContentRef) {
+  changeClassesOfaddTaskContentAndCreateTaskDiv(overlayContentRef);
+  changeClassesOfAddTAskTitleAndTaskFooter(overlayContentRef);
+  changeClassesOfMainInfoAndAdiitionalInfo(overlayContentRef);
+}
+
+function changeClassesOfaddTaskContentAndCreateTaskDiv(overlayContentRef) {
   const addTaskContent = overlayContentRef.querySelector('.add-task-content');
   if (addTaskContent) {
     addTaskContent.classList.remove('add-task-content');
@@ -125,6 +131,9 @@ function changeClassesAfterInsert(overlayContentRef) {
     createTaskDiv.classList.remove('create-task');
     createTaskDiv.classList.add('board-create-task');
   }
+}
+
+function changeClassesOfAddTAskTitleAndTaskFooter(overlayContentRef) {
   const addTaskTitle = overlayContentRef.querySelector('.add-task-title');
   if (addTaskTitle) {
     addTaskTitle.classList.remove('add-task-title');
@@ -135,6 +144,9 @@ function changeClassesAfterInsert(overlayContentRef) {
     taskFooter.classList.remove('task-footer');
     taskFooter.classList.add('board-footer');
   }
+}
+
+function changeClassesOfMainInfoAndAdiitionalInfo(overlayContentRef) {
   const mainInfo = overlayContentRef.querySelector('.task-main-info');
   if (mainInfo) {
     mainInfo.classList.add('task-main-info-board');
