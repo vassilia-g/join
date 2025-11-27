@@ -44,6 +44,7 @@ let currentSvg = uncheckedBox;
 const currentPage = window.location.pathname.split('/').pop();
 let isEditingTask = false;
 let currentEditTaskId = null;
+let overlayResizeHandler = null;
 
 
 /** 
@@ -52,6 +53,7 @@ let currentEditTaskId = null;
 function openAddTaskInstedOverlay() {
   const overlayBackground = document.getElementById('overlay-background');
   const content = document.getElementById('add-task-overlay');
+  if (!overlayBackground || !content) return;
   if (window.innerWidth < 1360) {
     overlayBackground.style.display = "none";
     content.style.display = "none";
@@ -59,6 +61,16 @@ function openAddTaskInstedOverlay() {
   } else {
     overlayBackground.style.display = "flex";
     content.style.display = "flex";
+  }
+}
+
+
+/**
+ * Lazily create the resize handler used while the add-task overlay is open.
+ */
+function ensureOverlayResizeHandler() {
+  if (!overlayResizeHandler) {
+    overlayResizeHandler = () => openAddTaskInstedOverlay();
   }
 }
 
@@ -80,7 +92,8 @@ async function openAddTaskOverlay() {
   getContactDropdown();
   getSubtaskRef();
   refreshBoard()
-  window.addEventListener('resize', overlayResizeHandler);
+  ensureOverlayResizeHandler();
+  if (overlayResizeHandler) window.addEventListener('resize', overlayResizeHandler);
 }
 
 
