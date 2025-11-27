@@ -449,10 +449,13 @@ function moveTouchDrag(event) {
  * @param {PointerEvent|TouchEvent} event - End/cancel event for the drag.
  */
 async function endTouchDrag(event) {
-  if (touchDrag?.currentZone) {
-    touchDrag.currentZone.appendChild(touchDrag.element);
-    await switchStatus(touchDrag.currentZone, touchDrag.taskId);
-    const placeholder = document.getElementById(`placeholder-${touchDrag.currentZone.id}`);
+  const dropZone = touchDrag?.currentZone;
+  const draggedElement = touchDrag?.element;
+  const draggedTaskId = touchDrag?.taskId;
+  if (dropZone && draggedElement && draggedTaskId) {
+    dropZone.appendChild(draggedElement);
+    await switchStatus(dropZone, draggedTaskId);
+    const placeholder = document.getElementById(`placeholder-${dropZone.id}`);
     if (placeholder) placeholder.classList.add('d-none');
   }
   ['pointermove', 'pointerup', 'pointercancel', 'touchmove', 'touchend', 'touchcancel']
