@@ -151,6 +151,11 @@ function checkContentFromTask(taskInfo, taskContent, taskStatus, task) {
   const hasDetails =
     (typeof task.priorityValue === 'string' && task.priorityValue.trim() !== '') ||
     (task.contactsInitials && Object.keys(task.contactsInitials).length > 0);
+  /**
+   * Determine whether the task has at least one subtask entry (array or string).
+   * Handles different payload structures coming from the backend.
+   * @returns {boolean} true when subtasks exist, otherwise false.
+   */
   const hasSubtasks = (() => {
     if (!task.subtasks) return false;
     if (Array.isArray(task.subtasks)) return task.subtasks.length > 0;

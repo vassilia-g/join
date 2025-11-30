@@ -6,6 +6,10 @@ function getRandomColor() {
     return colors[Math.floor(Math.random() * colors.length)];
 }
 
+/**
+ * Enable the edit-contact save button once the form has been modified.
+ * Removes disabled styling and re-enables the button for submission.
+ */
 const enableEditContactSaveButton = () => {
     const saveContactButton = document.getElementById('save-contact-button');
     if (!saveContactButton) return;
@@ -14,6 +18,11 @@ const enableEditContactSaveButton = () => {
     saveContactButton.classList.add('save-button');
 };
 
+/**
+ * Listen for input or change events inside the edit contact form.
+ * When any field changes we enable the save button so the user can persist edits.
+ * @param {Event} event - DOM input/change event bubbling from the form.
+ */
 const onEditContactFormMutation = (event) => {
     const target = event.target;
     if (!target?.closest) return;

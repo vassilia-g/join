@@ -39,7 +39,11 @@ function validateName() {
     }
 }
 
-
+/**
+ * Validate the name field inside the edit-contact form.
+ * Ensures the input is non-empty and only contains allowed alphabetic characters.
+ * @returns {boolean} true when the input is valid, otherwise false.
+ */
 function validateEditName() {
     const input = document.getElementById("edit-name");
     const errorDiv = document.getElementById("edit-nameError");
@@ -86,7 +90,10 @@ function validateEmail() {
     }
 }
 
-
+/**
+ * Validate the email field inside the edit-contact form using the same pattern as creation.
+ * @returns {boolean} true when the input is a valid email, otherwise false.
+ */
 function validateEditEmail() {
     const input = document.getElementById("edit-email");
     const errorDiv = document.getElementById("edit-emailError");
@@ -134,7 +141,10 @@ function validatePhone() {
     }
 }
 
-
+/**
+ * Validate the phone field inside the edit-contact form to allow only digits.
+ * @returns {boolean} true when the phone number is valid, otherwise false.
+ */
 function validateEditPhone() {
     const input = document.getElementById("edit-phone");
     const errorDiv = document.getElementById("edit-phoneError");
@@ -571,6 +581,10 @@ function toggleMobileMenu(btn) {
     if (!isOpen) {
         menu.classList.add("show");
 
+        /**
+         * Close the context menu when clicking outside the button or menu element.
+         * @param {MouseEvent} event - Click event used to determine if the menu should close.
+         */
         function closeOnOutsideClick(event) {
             if (!menu.contains(event.target) && event.target !== btn) {
                 menu.classList.remove("show");

@@ -343,6 +343,10 @@ function clearSignUpForm() {
     errorUsernameAndMailRequired.classList.add("d-none");
 }
 
+/**
+ * Reset the login form inputs and hide the generic error label.
+ * Called whenever we return to the login screen so the user starts fresh.
+ */
 function clearLogInForm() {
 
     logInForm.reset();

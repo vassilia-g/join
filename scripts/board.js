@@ -115,12 +115,20 @@ async function getAddTaskContent(overlayContentRef) {
   }
 }
 
+/**
+ * Adjust class names of the injected add-task markup so it matches the board overlay styling.
+ * @param {HTMLElement} overlayContentRef - Container that now holds the cloned add-task content.
+ */
 function changeClassesAfterInsert(overlayContentRef) {
   changeClassesOfaddTaskContentAndCreateTaskDiv(overlayContentRef);
   changeClassesOfAddTAskTitleAndTaskFooter(overlayContentRef);
   changeClassesOfMainInfoAndAdiitionalInfo(overlayContentRef);
 }
 
+/**
+ * Replace the generic add-task layout classes with board-specific variants.
+ * @param {HTMLElement} overlayContentRef - Container used to query the relevant elements.
+ */
 function changeClassesOfaddTaskContentAndCreateTaskDiv(overlayContentRef) {
   const addTaskContent = overlayContentRef.querySelector('.add-task-content');
   if (addTaskContent) {
@@ -134,6 +142,10 @@ function changeClassesOfaddTaskContentAndCreateTaskDiv(overlayContentRef) {
   }
 }
 
+/**
+ * Update the add-task title and footer blocks so they inherit board-specific styles.
+ * @param {HTMLElement} overlayContentRef - Container used to query the cloned DOM nodes.
+ */
 function changeClassesOfAddTAskTitleAndTaskFooter(overlayContentRef) {
   const addTaskTitle = overlayContentRef.querySelector('.add-task-title');
   if (addTaskTitle) {
@@ -147,6 +159,10 @@ function changeClassesOfAddTAskTitleAndTaskFooter(overlayContentRef) {
   }
 }
 
+/**
+ * Apply board specific classes to the main and additional info containers within the overlay.
+ * @param {HTMLElement} overlayContentRef - Container used to look up the info sections.
+ */
 function changeClassesOfMainInfoAndAdiitionalInfo(overlayContentRef) {
   const mainInfo = overlayContentRef.querySelector('.task-main-info');
   if (mainInfo) {
