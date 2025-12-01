@@ -1,7 +1,7 @@
 @media (max-width: 825px) {
-    .header-text {
+    /* .header-text {
         display: block;
-    }
+    } */
 
     .header-content {
         justify-content: flex-start;
@@ -23,6 +23,8 @@
     }
 
     .header-content {
-        justify-content: center;
+        /* justify-content: center; */
+        justify-content: space-between;
+        margin-left: 0px;
     }
 }
