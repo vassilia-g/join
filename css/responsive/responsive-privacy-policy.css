@@ -1,4 +1,10 @@
 @media (max-width: 825px) {
+    .title {
+        font-size: 32px;
+    }
+}
+
+@media (max-width: 825px) {
     /* .header-text {
         display: block;
     } */

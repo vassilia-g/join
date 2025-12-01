@@ -1,3 +1,9 @@
+@media (max-width: 825px) {
+    .title {
+        font-size: 32px;
+    }
+}
+
 @media (max-width: 350px) {
     .sidebar-nav {
         font-size: 16px;
