@@ -4,7 +4,7 @@
     } */
 
     .header-content {
-        justify-content: flex-start;
+        /* justify-content: flex-start; */
         margin-left: 25px;
     }
 
@@ -18,13 +18,15 @@
         justify-content: center !important;
     }
 
-    .header-assets {
-        padding-right: 0;
-    }
-
     .header-content {
         /* justify-content: center; */
         justify-content: space-between;
         margin-left: 0px;
+    }
+}
+
+@media (max-width: 350px) {
+    .sidebar-nav {
+        font-size: 16px;
     }
 }

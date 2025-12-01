@@ -3,9 +3,3 @@
     display: flex;
     justify-content: space-between;
 }
-
-@media (max-width: 350px) {
-    .sidebar-nav {
-        font-size: 16px;
-    }
-}
