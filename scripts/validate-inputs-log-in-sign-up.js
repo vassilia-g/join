@@ -2,6 +2,9 @@ const allowedRegex = /[^a-zA-ZäöüÄÖÜßàâéèêëîïôùûçÅåØøÆæ
 const numberRegex = /\d/;
 
 
+/** 
+ * adds event listeners to validate name at sign up in realtime and on blur
+ */
 inputSignUpName.addEventListener("input", validateNameNumberForSignUp);
 inputSignUpName.addEventListener("blur", validateNameLengthForSignUp);
 
@@ -189,6 +192,9 @@ function saveNewUser(event) {
 }
 
 
+/** 
+ * 
+ */
 password.addEventListener("input", checkSignUpPasswordsOnInput);
 confirmPassword.addEventListener("input", checkSignUpPasswordsOnInput);
 
