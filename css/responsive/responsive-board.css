@@ -687,6 +687,30 @@
         padding: 20px;
     }
 
+    .task-overlay {
+        padding: 4px;
+    }
+
+        #task-overlay-content .input-border-size {
+        width: 290px;
+    }
+
+    #task-overlay-content .task-label-divs {
+        width: 290px;
+    }
+
+    #task-overlay-content .input-wrapper {
+        width: 290px;
+    }
+
+    #task-overlay-content #task-description {
+        width: 290px;
+    }
+
+    #task-overlay-content .priority-btns {
+        width: 290px;
+    }
+
     .board-add-task-btn {
         width: 50px;
     }
