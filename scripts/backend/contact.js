@@ -10,12 +10,14 @@ class Contact {
     }
 }
 
+
 /**
  * Resolve successful fetch responses as JSON or reject with the original response.
  * @param {Response} r - Fetch response object to inspect.
  * @returns {Promise<any>} Parsed JSON payload or a rejected promise for error cases.
  */
 const json = (r) => r.ok ? r.json() : Promise.reject(r);
+
 
 /**
  * Convenience helper to send PUT requests with a JSON body.
@@ -25,6 +27,7 @@ const json = (r) => r.ok ? r.json() : Promise.reject(r);
  */
 const putJSON = (url, data) =>
     fetch(url, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
+
 
 /** 
  * Load all contacts from backend, normalize data and render list.
