@@ -439,5 +439,3 @@ function showUserStoryInInput() {
     fieldWarning.classList.add('d-none');
     enableCreateTaskButton();
 }
-
-

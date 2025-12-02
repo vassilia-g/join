@@ -62,6 +62,7 @@ async function getAllUsers() {
     return await UserCollection.loadAll();
 }
 
+
 /** 
  * Global submit handler: intercept sign-up form submission 
  */
@@ -73,5 +74,3 @@ document.addEventListener("submit", async (event) => {
         }
     }
 });
-
-

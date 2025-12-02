@@ -201,4 +201,3 @@ const debouncedFilter = debounce((value) => {
 inputElement.addEventListener('input', (event) => {
   debouncedFilter(event.target.value);
 });
-
