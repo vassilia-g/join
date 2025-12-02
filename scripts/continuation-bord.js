@@ -7,10 +7,10 @@ function createElementForTaskArray(tasksArray) {
     const taskElement = document.createElement('div');
     checkContactsLength(taskElement, task, task.id);
     taskElement.setAttribute("data-task-index", task.id);
-    taskElement.setAttribute("onclick", `openTaskOverlay('${task.id}')`);
     getTargetColumn(newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv, taskElement, task);
     updateProgressBar(task);
     const card = taskElement.querySelector('.task') || taskElement;
+    card.addEventListener("click", () => openTaskOverlay(task.id), { capture: true });
     enableTaskDragHandlers(card, task.id);
   });
   updateCategoryColor();
@@ -26,11 +26,19 @@ let touchDrag = null;
  * @param {HTMLElement} el - Task card element.
  * @param {string} taskId - ID of the task represented by the card.
  */
-function enableTaskDragHandlers(el, taskId) {
-  el.draggable = true;
-  el.addEventListener('dragstart', drag);
-  el.addEventListener('pointerdown', e => startTouchDrag(e, taskId));
-  el.addEventListener('touchstart', e => startTouchDrag(e, taskId), { passive: false });
+function enableTaskDragHandlers(card, taskId) {
+  let startX = 0, startY = 0, dragging = false;
+  card.addEventListener("pointerdown", e => {
+    startX = e.clientX; startY = e.clientY; dragging = false;
+    card.setPointerCapture(e.pointerId);
+  });
+  card.addEventListener("pointermove", e => {
+    if (Math.abs(e.clientX - startX) > 5 || Math.abs(e.clientY - startY) > 5) dragging = true;
+  });
+  card.addEventListener("pointerup", e => {
+    card.releasePointerCapture(e.pointerId);
+    if (!dragging) openTaskOverlay(taskId);
+  });
 }
 
 
