@@ -14,156 +14,74 @@ function initContacts() {
 }
 
 
-/** 
- * Automatic validation for only specific letters for names.
+/**
+ * Validation rules for contact form fields.
  */
-
-function validateName() {
-    const input = document.getElementById("name");
-    const errorDiv = document.getElementById("nameError");
-    const allowedRegex = /^[a-zA-ZäöüÄÖÜßàâéèêëîïôùûçÅåØøÆæÑñ\-`' ]+$/;
-    const value = input.value.trim();
-
-    if (value === "") {
-        errorDiv.textContent = "Name is required.";
-        input.classList.add("invalid");
-        return false;
-    } else if (!allowedRegex.test(value)) {
-        errorDiv.textContent = "Only letters from a–z are allowed.";
-        input.classList.add("invalid");
-        return false;
-    } else {
-        errorDiv.textContent = "";
-        input.classList.remove("invalid");
-        return true;
+const validationRules = {
+    name: {
+        regex: /^[a-zA-ZäöüÄÖÜßàâéèêëîïôùûçÅåØøÆæÑñ\-`' ]+$/,
+        emptyMsg: "Name is required.",
+        invalidMsg: "Only letters from a–z are allowed."
+    },
+    email: {
+        regex: /^[a-zA-Z0-9äöüÄÖÜ]+([._%+-]?[a-zA-Z0-9äöüÄÖÜ]+)*@[a-zA-Z0-9äöüÄÖÜ]+([.-]?[a-zA-Z0-9äöüÄÖÜ]+)*\.[a-zA-ZäöüÄÖÜ]{2,}$/,
+        emptyMsg: "Email is required.",
+        invalidMsg: "Please enter a valid email address."
+    },
+    phone: {
+        regex: /^[0-9]+$/,
+        emptyMsg: "Phone number is required.",
+        invalidMsg: "Only numbers are allowed."
     }
-}
+};
+
 
 /**
- * Validate the name field inside the edit-contact form.
- * Ensures the input is non-empty and only contains allowed alphabetic characters.
- * @returns {boolean} true when the input is valid, otherwise false.
+ * Validate a single input field based on its data-validate attribute.
  */
-function validateEditName() {
-    const input = document.getElementById("edit-name");
-    const errorDiv = document.getElementById("edit-nameError");
-    const allowedRegex = /^[a-zA-ZäöüÄÖÜßàâéèêëîïôùûçÅåØøÆæÑñ\-`' ]+$/;
+function validateField(input) {
+    const { validate: type, error: errorId } = input.dataset;
+    const rule = validationRules[type];
+    const errorDiv = document.getElementById(errorId);
     const value = input.value.trim();
 
-    if (value === "") {
-        errorDiv.textContent = "Name is required.";
-        input.classList.add("invalid");
-        return false;
-    } else if (!allowedRegex.test(value)) {
-        errorDiv.textContent = "Only letters from a–z are allowed.";
-        input.classList.add("invalid");
-        return false;
-    } else {
-        errorDiv.textContent = "";
-        input.classList.remove("invalid");
-        return true;
-    }
-}
+    if (!rule || !errorDiv) return true;
 
+    const msg = value === "" ? rule.emptyMsg :
+        !rule.regex.test(value) ? rule.invalidMsg : "";
+
+    errorDiv.textContent = msg;
+    input.classList.toggle("invalid", !!msg);
+    return !msg;
+}
 
 /** 
- * Automatic validation for correct email addresses.
+ * Validate all fields in a form that have data-validate attributes.
  */
-function validateEmail() {
-    const input = document.getElementById("email");
-    const errorDiv = document.getElementById("emailError");
-    const value = input.value.trim();
-    const emailRegex = /^[a-zA-Z0-9äöüÄÖÜ]+([._%+-]?[a-zA-Z0-9äöüÄÖÜ]+)*@[a-zA-Z0-9äöüÄÖÜ]+([.-]?[a-zA-Z0-9äöüÄÖÜ]+)*\.[a-zA-ZäöüÄÖÜ]{2,}$/;
+function validateForm(form) {
+    const inputs = form.querySelectorAll("[data-validate]");
+    let isValid = true;
 
-    if (value === "") {
-        errorDiv.textContent = "Email is required.";
-        input.classList.add("invalid");
-        return false;
-    } else if (!emailRegex.test(value)) {
-        errorDiv.textContent = "Please enter a valid email address.";
-        input.classList.add("invalid");
-        return false;
-    } else {
-        errorDiv.textContent = "";
-        input.classList.remove("invalid");
-        return true;
-    }
+    inputs.forEach(input => {
+        if (!validateField(input)) {
+            isValid = false;
+        }
+    });
+
+    return isValid;
 }
-
-/**
- * Validate the email field inside the edit-contact form using the same pattern as creation.
- * @returns {boolean} true when the input is a valid email, otherwise false.
- */
-function validateEditEmail() {
-    const input = document.getElementById("edit-email");
-    const errorDiv = document.getElementById("edit-emailError");
-    const value = input.value.trim();
-    const emailRegex = /^[a-zA-Z0-9äöüÄÖÜ]+([._%+-]?[a-zA-Z0-9äöüÄÖÜ]+)*@[a-zA-Z0-9äöüÄÖÜ]+([.-]?[a-zA-Z0-9äöüÄÖÜ]+)*\.[a-zA-ZäöüÄÖÜ]{2,}$/;
-
-
-    if (value === "") {
-        errorDiv.textContent = "Email is required.";
-        input.classList.add("invalid");
-        return false;
-    } else if (!emailRegex.test(value)) {
-        errorDiv.textContent = "Please enter a valid email address.";
-        input.classList.add("invalid");
-        return false;
-    } else {
-        errorDiv.textContent = "";
-        input.classList.remove("invalid");
-        return true;
-    }
-}
-
 
 /** 
- * Automatic validation for correct phone numbers.
+ * Handle add contact form submission with validation.
  */
-function validatePhone() {
-    const input = document.getElementById("phone");
-    const errorDiv = document.getElementById("phoneError");
-    const value = input.value.trim();
-    const allowedRegex = /^[0-9]+$/;
+function handleAddContact(event) {
+    event.preventDefault();
+    const form = event.target;
 
-    if (value === "") {
-        errorDiv.textContent = "Phone number is required.";
-        input.classList.add("invalid");
-        return false;
-    } else if (!allowedRegex.test(value)) {
-        errorDiv.textContent = "Only numbers are allowed.";
-        input.classList.add("invalid");
-        return false;
-    } else {
-        errorDiv.textContent = "";
-        input.classList.remove("invalid");
-        return true;
-    }
-}
+    if (!validateForm(form)) return false;
 
-/**
- * Validate the phone field inside the edit-contact form to allow only digits.
- * @returns {boolean} true when the phone number is valid, otherwise false.
- */
-function validateEditPhone() {
-    const input = document.getElementById("edit-phone");
-    const errorDiv = document.getElementById("edit-phoneError");
-    const value = input.value.trim();
-    const allowedRegex = /^[0-9]+$/;
-
-    if (value === "") {
-        errorDiv.textContent = "Phone number is required.";
-        input.classList.add("invalid");
-        return false;
-    } else if (!allowedRegex.test(value)) {
-        errorDiv.textContent = "Only numbers are allowed.";
-        input.classList.add("invalid");
-        return false;
-    } else {
-        errorDiv.textContent = "";
-        input.classList.remove("invalid");
-        return true;
-    }
+    addContact(event);
+    return false;
 }
 
 
