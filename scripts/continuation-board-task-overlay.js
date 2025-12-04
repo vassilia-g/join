@@ -36,25 +36,21 @@ function showSubtaskPicks(taskId) {
  * Render the task's subtasks into the selected-subtasks list and mark checked states.
  */
 function getSubtasks(task, taskId) {
-  const subtasksList = document.getElementById('selected-subtasks');
-  subtasksList.innerHTML = '';
+  const list = document.getElementById('selected-subtasks');
+  list.innerHTML = '';
   subtasks.length = 0;
-  if (task?.subtasks?.length > 0) {
+  if (task?.subtasks?.length) {
     subtasks.push(...task.subtasks);
-    let checkedSubtasks = task.checkedSubtasks || [];
-    if (!Array.isArray(checkedSubtasks)) {
-      checkedSubtasks = Object.values(checkedSubtasks);
-    }
-    checkedSubtasks = checkedSubtasks.flat();
-    task.subtasks.forEach((subtask, index) => {
-      const isChecked = checkedSubtasks.includes(subtask);
-      const checkboxClass = isChecked ? 'checked' : 'unchecked';
-      const checkboxIcon = isChecked ? checkedBox : uncheckedBox;
-      subtasksList.innerHTML += showApiSubtask(checkboxClass, checkboxIcon, taskId, index, subtask);
+    let checked = task.checkedSubtasks || [];
+    if (!Array.isArray(checked)) checked = Object.values(checked);
+    checked = checked.flat();
+    task.subtasks.forEach((s, i) => {
+      const c = checked.includes(s);
+      list.innerHTML += showApiSubtask(c ? 'checked' : 'unchecked',
+        c ? checkedBox : uncheckedBox, taskId, i, s);
     });
   }
 }
-
 
 /** 
  * Populate the subtask edit UI for a single subtask index so the user can change text.

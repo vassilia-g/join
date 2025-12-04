@@ -231,24 +231,18 @@ function clearBoardContainers(...containers) {
 /** 
  * Fetch tasks, filter by text and render filtered array 
  */
-async function getTaskfromApiForArrayByText(text, newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv) {
+async function getTaskfromApiForArrayByText(text, d, p, f, done) {
   try {
     const data = await getData('tasks');
-    const tasksArray = data ? Object.entries(data).map(([taskId, task]) => {
-      task.id = taskId;
-      return task;
-    }) : [];
-    const query = (text || '').toString().trim().toLowerCase();
-    const filtered = query === ''
-      ? tasksArray
-      : tasksArray.filter(t => {
-        const title = (t.title || '').toLowerCase();
-        const description = (t.description || '').toLowerCase();
-        return title.includes(query) || description.includes(query);
-      });
-    createElementForTaskArray(filtered, newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv);
-  } catch (error) {
-    console.error('Fehler beim Laden der Tasks:', error);
+    const tasks = data ? Object.entries(data).map(([id, t]) => ({ ...t, id })) : [];
+    const q = (text || '').trim().toLowerCase();
+    const filtered = !q ? tasks : tasks.filter(t =>
+      (t.title || '').toLowerCase().includes(q) ||
+      (t.description || '').toLowerCase().includes(q)
+    );
+    createElementForTaskArray(filtered, d, p, f, done);
+  } catch (e) {
+    console.error('Fehler beim Laden der Tasks:', e);
   }
 }
 
