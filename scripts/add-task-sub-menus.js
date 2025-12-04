@@ -72,9 +72,7 @@ function showSubtaskPick() {
 async function addSubtask() {
     const subtaskInput = document.getElementById('task-subtasks');
     const value = subtaskInput.value.trim();
-    if (!value) {
-        return;
-    };
+    if (!value) return;
     subtasks.push(value);
     selectedSubtasks.innerHTML = "";
     if (isEditingTask && currentTaskId) {

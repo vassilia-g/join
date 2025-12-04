@@ -109,6 +109,14 @@
 
 @media (max-width: 1285px) {
 
+    #task-overlay-content {
+        padding: 30px;
+    }
+
+    #task-overlay-content .create-task {
+        padding: 5px;
+    }
+
     #field-requiered-info{
         display: none;
     }
