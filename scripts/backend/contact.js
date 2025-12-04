@@ -62,15 +62,13 @@ async function loadContacts() {
  */
 async function addContact(event) {
     event.preventDefault();
-
-    const nameOk = validateName();
-    const emailOk = validateEmail();
-    const phoneOk = validatePhone();
-
-    if (!nameOk || !emailOk || !phoneOk) return;
-
     const form = document.getElementById("add-contact-form");
-    if (!form.checkValidity()) return form.reportValidity();
+    if (!validateForm(form)) return;
+
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+    }
 
     try {
         const contact = getContactFromForm(form);
@@ -195,31 +193,19 @@ async function createContact(contact) {
  * Save edited contact data (own user or normal contact) and refresh UI.
  */
 async function saveEditedContact(event) {
-    event.preventDefault();
-    if (![validateEditName(), validateEditEmail(), validateEditPhone()].every(Boolean)) return;
-
-    const form = event.target, id = form.dataset.id;
-    const c = {
-        name: form['edit-name'].value.trim(),
-        email: form['edit-email'].value.trim(),
-        phone: form['edit-phone'].value.trim()
-    };
-
+    event.preventDefault(); const form = event.target; if (!validateForm(form)) return;
+    const id = form.dataset.id, c = { name: form['edit-name'].value.trim(), email: form['edit-email'].value.trim(), phone: form['edit-phone'].value.trim() };
     if (id === currentUserId)
         return await User.updateOwnUser({ ...c, color: getRandomColor() }),
             showOwnContact(), editContactOverlay(),
             document.querySelectorAll(".menu-options.show,.menu-toggle.active").forEach(el => el.classList.remove("show", "active")),
-            showToast("Own contact updated");
-
-    try {
-        const r = await fetch(`${BASE_URL}contacts/${id}.json`);
-        if (!r.ok) throw new Error();
-        const existing = await r.json() || {};
-        await updateContactInDatabase(id, { ...existing, ...c, color: existing?.color ?? getRandomColor() });
-        await loadContacts(); renderContactList(); editContactOverlay();
-        document.querySelectorAll(".menu-options.show,.menu-toggle.active").forEach(el => el.classList.remove("show", "active"));
-        showToast("Contact updated");
-    } catch (err) { console.error(err); showToast("Error updating contact"); }
+            showToast("Own contact updated"); try {
+                const r = await fetch(`${BASE_URL}contacts/${id}.json`); if (!r.ok) throw new Error(); const existing = await r.json() || {};
+                await updateContactInDatabase(id, { ...existing, ...c, color: existing.color ?? getRandomColor() });
+                await loadContacts(); renderContactList(); editContactOverlay();
+                document.querySelectorAll(".menu-options.show,.menu-toggle.active").forEach(el => el.classList.remove("show", "active"));
+                showToast("Contact updated");
+            } catch (err) { console.error(err); showToast("Error updating contact"); }
 }
 
 
