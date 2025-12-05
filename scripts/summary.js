@@ -17,30 +17,65 @@ function dropdownMenu() {
  * Update all summary counters and due date display 
  */
 async function updateSummaryCounters() {
-    let toDoCounter = document.getElementById('to-do-counter');
-    let doneCounter = document.getElementById('done-counter');
-    let tasksInBoardCounter = document.getElementById('tasks-in-board-counter');
-    let tasksInProgressCounter = document.getElementById('tasks-in-progress-counter');
-    let awaitingFeedbackCounter = document.getElementById('awaiting-feedback-counter');
-    let urgentCounter = document.getElementById('urgent-counter');
-    let dueDate = document.getElementById('due-date');
+    const refs = getSummaryCounterRefs();
+    const taskArray = await loadSummaryTasks();
+    await updateSummaryCounterValues(refs, taskArray);
+    await updateSummaryDueDate(refs.dueDate, taskArray);
+}
 
-    /**
-     * Get tasks 
-     */
+
+/**
+ * Collect DOM references for summary counters.
+ */
+function getSummaryCounterRefs() {
+    return {
+        toDo: document.getElementById('to-do-counter'),
+        done: document.getElementById('done-counter'),
+        tasksInBoard: document.getElementById('tasks-in-board-counter'),
+        inProgress: document.getElementById('tasks-in-progress-counter'),
+        awaitingFeedback: document.getElementById('awaiting-feedback-counter'),
+        urgent: document.getElementById('urgent-counter'),
+        dueDate: document.getElementById('due-date')
+    };
+}
+
+
+/**
+ * Fetch tasks and convert them into an array.
+ */
+async function loadSummaryTasks() {
     const allTasks = await tasks;
-    const taskArray = Object.keys(allTasks).map(key => allTasks[key]);
+    if (!allTasks) return [];
+    return Object.keys(allTasks).map(key => allTasks[key]);
+}
 
-    /** Update counters */
-    tasksInBoardCounter.innerHTML = await getTasksCounter(taskArray);
-    toDoCounter.innerHTML = await getTasksCounterByStatus(taskArray, "toDo");
-    doneCounter.innerHTML = await getTasksCounterByStatus(taskArray, "done");
-    tasksInProgressCounter.innerHTML = await getTasksCounterByStatus(taskArray, "inProgress");
-    awaitingFeedbackCounter.innerHTML = await getTasksCounterByStatus(taskArray, "awaitingFeedback");
-    urgentCounter.innerHTML = await getTasksCounterByPriorityLevel(taskArray, "urgent");
 
+/**
+ * Update the numeric summary counters.
+ */
+async function updateSummaryCounterValues(refs, taskArray) {
+    if (!refs) return;
+    refs.tasksInBoard.innerHTML = await getTasksCounter(taskArray);
+    const statusRefs = {
+        toDo: refs.toDo,
+        done: refs.done,
+        inProgress: refs.inProgress,
+        awaitingFeedback: refs.awaitingFeedback
+    };
+    for (const [status, el] of Object.entries(statusRefs)) {
+        el.innerHTML = await getTasksCounterByStatus(taskArray, status);
+    }
+    refs.urgent.innerHTML = await getTasksCounterByPriorityLevel(taskArray, "urgent");
+}
+
+
+/**
+ * Update due date display based on first urgent task.
+ */
+async function updateSummaryDueDate(dueDateElement, taskArray) {
+    if (!dueDateElement) return;
     const firstDueDateTask = await getFirstDueDateTask(taskArray);
-    dueDate.innerHTML = await getTaskDueDate(firstDueDateTask);
+    dueDateElement.innerHTML = await getTaskDueDate(firstDueDateTask);
 }
 
 
