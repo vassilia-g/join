@@ -4,6 +4,12 @@
     }
 } */
 
+@media (min-width: 1880px) {
+    #task-overlay-content {
+        left: 30%;
+    }
+}
+
 @media (max-width: 1375px) {
     .board-content {
         width: 100%;
