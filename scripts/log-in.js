@@ -137,6 +137,7 @@ function enableSignUpButton() {
     customCheckbox.classList.add("d-none");
     customCheckedCheckbox.classList.remove("d-none");
     disableAllInputs();
+    signUpButton.disabled = false;
 }
 
 
@@ -197,8 +198,15 @@ function visibleSignUp() {
     if (isInvalid) {
         return;
     } else {
+checkIfIsValid();
+}
 
-        setTimeout(() => {
+
+/** 
+ * checks if all inputs are valid to show success overlay.
+ */
+function checkIfIsValid() {
+     setTimeout(() => {
             showOverlay();
             successText.classList.remove("d-none");
             successText.classList.add("from-bottom-to-the-mid");
