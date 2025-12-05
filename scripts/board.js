@@ -265,11 +265,14 @@ function allowDrop(event) {
 }
 
 
-/** 
+/**
  * Set drag data when drag starts 
  */
 function drag(event) {
-  event.dataTransfer.setData("text", event.target.id);
+  const taskId = event.currentTarget?.id || event.target.id;
+  if (!taskId) return;
+  event.dataTransfer.setData("text", taskId);
+  event.dataTransfer.effectAllowed = "move";
 }
 
 

@@ -10,6 +10,10 @@ function createElementForTaskArray(tasksArray) {
     getTargetColumn(newTaskDiv, newTaskProgressDiv, newTaskFeedbackDiv, newTaskDoneDiv, taskElement, task);
     updateProgressBar(task);
     const card = taskElement.querySelector('.task') || taskElement;
+    card.id = card.id || task.id;
+    card.setAttribute('draggable', 'true');
+    card.addEventListener('dragstart', drag);
+    card.addEventListener('touchstart', e => startTouchDrag(e, task.id), { passive: false });
     card.addEventListener("click", () => openTaskOverlay(task.id), { capture: true });
     enableTaskDragHandlers(card, task.id);
   });
@@ -29,6 +33,7 @@ let touchDrag = null;
 function enableTaskDragHandlers(card, taskId) {
   let startX = 0, startY = 0, dragging = false;
   card.addEventListener("pointerdown", e => {
+    startTouchDrag(e, taskId);
     startX = e.clientX; startY = e.clientY; dragging = false;
     card.setPointerCapture(e.pointerId);
   });
@@ -65,7 +70,7 @@ function getEventPoint(event) {
  */
 function startTouchDrag(event, taskId) {
   const isTouch = event.type.startsWith('touch') || event.pointerType === 'touch' || event.pointerType === 'pen';
-  if (!isTouch) return;
+  if (!isTouch || touchDrag) return;
   event.preventDefault();
   touchDrag = { taskId, element: document.getElementById(taskId), currentZone: null };
   document.addEventListener('pointermove', moveTouchDrag, { passive: false });
