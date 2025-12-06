@@ -208,11 +208,8 @@ confirmPassword.addEventListener("blur", checkSignUpPasswordsOnInput);
  */
 function checkSignUpPasswordsOnInput(event) {
     if (event) event.preventDefault();
-    // const email = inputSignUpEmail.value.trim();
-    // const userName = inputSignUpName.value.trim();
     const pass = password.value.trim();
     const confirm = confirmPassword.value.trim();
-    
     if (pass.length < 5) {
         errorTextPasswordLength.classList.remove("d-none");
         disableSignUpButton();
@@ -222,7 +219,5 @@ function checkSignUpPasswordsOnInput(event) {
     if (pass !== confirm && confirm.length > 0) {
         errorTextPasswordMatch.classList.remove("d-none");
         disableSignUpButton();
-    } else {
-        errorTextPasswordMatch.classList.add("d-none");
-    }
+    } else {errorTextPasswordMatch.classList.add("d-none");}
 }

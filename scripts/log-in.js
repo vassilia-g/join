@@ -77,7 +77,6 @@ document.addEventListener("DOMContentLoaded",
             input.addEventListener("focus", () => {
                 input.parentElement.classList.add("active-border-color");
             });
-
             input.addEventListener("blur", () => {
                 input.parentElement.classList.remove("active-border-color");
             });
@@ -127,9 +126,7 @@ function enableSignUpButton() {
     const email = inputSignUpEmail.value.trim();
     const pass = password.value.trim();
     const confirm = confirmPassword.value.trim();
-
     if (userName.length < 2 || !emailRegex.test(email) || pass.length < 5 || pass !== confirm) return;
-
     checkBox.disabled = false;
     checkBox.checked = true;
     signUpButton.classList.remove("disabled-sign-up-form-button");
@@ -145,7 +142,6 @@ function enableSignUpButton() {
  * Disables all inputs, so nothing can be changed when checkbox is aktivated.
  */
 function disableAllInputs() {
-
     inputSignUpName.disabled = true;
     inputSignUpEmail.disabled = true;
     password.disabled = true;
@@ -297,7 +293,6 @@ function showPassword() {
  */
 async function goToStartpage(event) {
     event.preventDefault();
-
     const users = await getAllUsers();
     const user = (users || []).find(u => u.email === inputEmail.value);
     if (user && user.password === inputPassword.value) {

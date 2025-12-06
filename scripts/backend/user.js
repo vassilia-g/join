@@ -72,20 +72,15 @@ class User {
      */
     static async updateOwnUser(updatedContact) {
         const userId = localStorage.getItem("currentUserId");
-        if (!userId) {
-            console.error("Kein User eingeloggt.");
-            return;
-        }
+        if (!userId) {return console.error("Kein User eingeloggt.");}
         const response = await fetch(`${BASE_URL}users/${userId}.json`);
         const userData = await response.json();
-
         const updatedUser = {
             ...userData,
             username: updatedContact.name,
             email: updatedContact.email,
             phone: updatedContact.phone || "",
         };
-
         await fetch(`${BASE_URL}users/${userId}.json`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },

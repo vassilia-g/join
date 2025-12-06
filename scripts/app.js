@@ -37,7 +37,6 @@ async function signUpUser(form) {
     const values = getSignUpValues(form);
     const errorEmailExists = document.getElementById('error-email-exists');
     if (!await validateSignUpValues(values)) return;
-
     const user = new User(
         null,                    /** id */
         getRandomColor(),
@@ -47,11 +46,9 @@ async function signUpUser(form) {
         'active',                /** status */
         Date.now()               /** createdAt */
     );
-
     await user.save();
     errorEmailExists.classList.add('d-none');
-    visibleSignUp();
-    return true;
+    visibleSignUp(); return true;
 }
 
 

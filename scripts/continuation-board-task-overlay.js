@@ -111,10 +111,10 @@ function checkContactsLength(taskElement, task, taskId) {
     const color = task.contactsColor[i] || '#ccc';
     const contactSVG = svgTemplate(color, contact);
     selectedContactsComplete += `<div class="selected-contacts-svg">${contactSVG}</div>`;
-  }
+  } 
   if (task.contactsInitials.length > 3) {
     const extraInitials = task.contactsInitials.slice(3);
     selectedContactsComplete += showMoreContacts(extraInitials);
-  }
+}
   boardTaskTemplate(taskElement, task, taskId, selectedContactsComplete);
 }

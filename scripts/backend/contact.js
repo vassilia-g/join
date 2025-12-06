@@ -37,23 +37,16 @@ async function loadContacts() {
         const res = await fetch(BASE_URL + "contacts.json");
         contacts = Object.entries(await res.json() || {}).map(([id, c]) => ({
             id,
-            name: c.name?.trim() || "Unbekannt",
-            email: c.email || "",
-            phone: c.phone || "",
-            color: c.color || "black",
+            name: c.name?.trim() || "Unbekannt", email: c.email || "", phone: c.phone || "", color: c.color || "black",
         }));
-
         renderContactList();
         if (!activeContactId) return;
         const active = contacts.find(c => c.id === activeContactId);
         if (active) {
             showContactContent(active);
-            document.querySelector(`.contact-item[data-id="${activeContactId}"]`)
-                ?.classList.add("active");
+            document.querySelector(`.contact-item[data-id="${activeContactId}"]`)?.classList.add("active");
         }
-    } catch (err) {
-        console.error("Fehler beim Laden:", err);
-    }
+    } catch (err) {console.error("Fehler beim Laden:", err);}
 }
 
 
@@ -64,12 +57,10 @@ async function addContact(event) {
     event.preventDefault();
     const form = document.getElementById("add-contact-form");
     if (!validateForm(form)) return;
-
     if (!form.checkValidity()) {
         form.reportValidity();
         return;
     }
-
     try {
         const contact = getContactFromForm(form);
         const { name: newId } = await createContact(contact);

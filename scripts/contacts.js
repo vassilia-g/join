@@ -44,12 +44,9 @@ function validateField(input) {
     const rule = validationRules[type];
     const errorDiv = document.getElementById(errorId);
     const value = input.value.trim();
-
     if (!rule || !errorDiv) return true;
-
     const msg = value === "" ? rule.emptyMsg :
         !rule.regex.test(value) ? rule.invalidMsg : "";
-
     errorDiv.textContent = msg;
     input.classList.toggle("invalid", !!msg);
     return !msg;
@@ -61,13 +58,11 @@ function validateField(input) {
 function validateForm(form) {
     const inputs = form.querySelectorAll("[data-validate]");
     let isValid = true;
-
     inputs.forEach(input => {
         if (!validateField(input)) {
             isValid = false;
         }
     });
-
     return isValid;
 }
 
@@ -77,9 +72,7 @@ function validateForm(form) {
 function handleAddContact(event) {
     event.preventDefault();
     const form = event.target;
-
     if (!validateForm(form)) return false;
-
     addContact(event);
     return false;
 }
@@ -92,12 +85,8 @@ async function showOwnContact() {
     const ownContactContainer = document.getElementById('own-contact');
     const user = await getUser();
     if (!user) return;
-
     const isGuest = localStorage.getItem('currentUserId') === 'guest';
-    if (!isGuest && !user.color) {
-        user.color = 'black';
-    }
-
+    if (!isGuest && !user.color) {user.color = 'black';}
     ownContactContainer.innerHTML = showOwnContactDetails(user);
     const contactItem = document.getElementById('contact-item');
     ownContactContainer.onclick = function () {
@@ -128,18 +117,14 @@ function showSidebarAndHeader() {
 function renderContactList() {
     const list = document.getElementById("contact-list");
     list.innerHTML = "";
-
     const sortedContacts = getSortedContacts();
-
     let currentLetter = "";
     sortedContacts.forEach((contact, index) => {
         const firstLetter = contact.name.charAt(0).toUpperCase();
-
         if (firstLetter !== currentLetter) {
             currentLetter = firstLetter;
             list.appendChild(createLetterHeader(currentLetter));
         }
-
         const contactDiv = createContactItem(contact, index, sortedContacts);
         list.appendChild(contactDiv);
     });
@@ -177,11 +162,9 @@ function createContactItem(contact, index, sortedContacts) {
     div.className = "contact-item";
     div.setAttribute("data-id", contact.id);
     div.innerHTML = contactList(contact);
-
     div.onclick = () => {
         setActiveContact(div, sortedContacts[index]);
     };
-
     return div;
 }
 
@@ -193,20 +176,10 @@ function resetActiveContactUI() {
     const panel = document.getElementById("contact-details");
     const sidebar = document.querySelector(".contact-sidebar");
     const main = document.querySelector(".contact-main");
-
     document.querySelector(".contact-item.active")?.classList.remove("active");
-    if (panel) {
-        panel.innerHTML = "";
-        panel.classList.remove("is-open");
-        panel.style.display = "";
-    }
-    if (main) {
-        main.classList.remove("is-open");
-        main.style.display = "";
-    }
-    if (window.innerWidth <= 1000) {
-        sidebar?.classList.remove("hide");
-    }
+    if (panel) { panel.innerHTML = ""; panel.classList.remove("is-open"); panel.style.display = "";}
+    if (main) {main.classList.remove("is-open"); main.style.display = "";}
+    if (window.innerWidth <= 1000) {sidebar?.classList.remove("hide");}
     activeContactId = null;
 }
 
@@ -244,11 +217,9 @@ function handleResize() {
     const main = document.querySelector(".contact-main");
     const panel = document.getElementById("contact-details");
     if (!sidebar || !main || !panel) return;
-
     const isMobile = window.innerWidth <= 1000;
     const showDetails = isMobile && activeContactId;
     const showAll = !isMobile;
-
     sidebar.classList.toggle("hide", showDetails);
     main.style.display = panel.style.display =
         showAll || showDetails ? "block" : "none";
@@ -278,16 +249,13 @@ function hideContactContent() {
     const sidebar = document.querySelector(".contact-sidebar");
     const main = document.querySelector(".contact-main");
     if (!panel || !main || !sidebar) return;
-
     [panel, main].forEach(e => e.classList.remove("is-open"));
     document.querySelectorAll(".contact-item").forEach(i => i.classList.remove("active"));
-
     if (window.innerWidth <= 1000) {
         sidebar.classList.remove("hide");
         main.style.display = "none";
         Object.assign(sidebar.style, { width: "100%", display: "block" });
     }
-
     activeContactId = null;
     setTimeout(() => (panel.innerHTML = ""), 100);
 }
