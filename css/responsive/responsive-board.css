@@ -634,6 +634,7 @@
 @media (max-width: 480px) {
 
     #task-overlay-content {
+        max-width: 290px !important;
         padding: 20px;
     }
 
