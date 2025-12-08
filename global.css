@@ -56,11 +56,8 @@ p {
 
 :root {
     --color-primary: #2a3647;
-    /* main color */
     --color-secondary: #091931;
-    /* main color hover */
     --color-accent: #29abe2;
-    /* accents color */
 }
 
 .content {

@@ -81,11 +81,6 @@ input::placeholder {
 .task-main-info {
     display: flex;
     flex-direction: column;
-    /* justify-content: space-between; */
-    /* width: 50%; */
-    /* height: 376px; */
-    /* align-items: center; */
-    /* align-items: flex-start; */
     gap: 30px;
     margin-right: 2rem;
 }
@@ -311,7 +306,7 @@ input::placeholder {
     cursor: default;
 }
 
-.subtask-list-element li{
+.subtask-list-element li {
     overflow-wrap: break-word;
     word-break: break-word;
     list-style: none;
@@ -382,9 +377,7 @@ input::placeholder {
     flex-direction: column;
     gap: 24px;
     padding-left: 2rem;
-    /* width: 50%; */
     border-left: 2px solid #E0E0E0;
-    /* align-items: end; */
 }
 
 .priority-btns {

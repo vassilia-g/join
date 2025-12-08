@@ -86,7 +86,7 @@ async function showOwnContact() {
     const user = await getUser();
     if (!user) return;
     const isGuest = localStorage.getItem('currentUserId') === 'guest';
-    if (!isGuest && !user.color) {user.color = 'black';}
+    if (!isGuest && !user.color) { user.color = 'black'; }
     ownContactContainer.innerHTML = showOwnContactDetails(user);
     const contactItem = document.getElementById('contact-item');
     ownContactContainer.onclick = function () {
@@ -177,9 +177,9 @@ function resetActiveContactUI() {
     const sidebar = document.querySelector(".contact-sidebar");
     const main = document.querySelector(".contact-main");
     document.querySelector(".contact-item.active")?.classList.remove("active");
-    if (panel) { panel.innerHTML = ""; panel.classList.remove("is-open"); panel.style.display = "";}
-    if (main) {main.classList.remove("is-open"); main.style.display = "";}
-    if (window.innerWidth <= 1000) {sidebar?.classList.remove("hide");}
+    if (panel) { panel.innerHTML = ""; panel.classList.remove("is-open"); panel.style.display = ""; }
+    if (main) { main.classList.remove("is-open"); main.style.display = ""; }
+    if (window.innerWidth <= 1000) { sidebar?.classList.remove("hide"); }
     activeContactId = null;
 }
 
@@ -277,11 +277,12 @@ function toggleContactDetails(ui, isMobile) {
 }
 
 
-// attach resize handler after DOM is ready to avoid null elements
+/**
+ * attach resize handler after DOM is ready to avoid null elements
+ */
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('resize', handleResize);
-        // run once to initialize correct layout
         handleResize();
     });
 } else {

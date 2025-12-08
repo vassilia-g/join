@@ -239,11 +239,6 @@
         justify-content: center;
     }
 
-    /* .nav svg {
-        width: 24px;
-        height: 24px;
-    } */
-
     .priority-btns button {
         padding: 12px 5px;
     }
@@ -268,12 +263,6 @@
         font-size: 16px;
     }
 }
-
-/* @media (max-width: 375px) {
-    .page-content {
-        height: calc(100vh - 150px) !important;
-    }
-} */
 
 @media(max-width: 359px) {
     .task-btns {

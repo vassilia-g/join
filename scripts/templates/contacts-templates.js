@@ -2,7 +2,6 @@ const currentUserId = localStorage.getItem("currentUserId");
 
 function contactList(contact) {
     if (!contact.color) {
-        // contact.color = getRandomColor();
         contact.color = "black";
     }
     return `

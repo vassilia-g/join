@@ -38,13 +38,13 @@ async function signUpUser(form) {
     const errorEmailExists = document.getElementById('error-email-exists');
     if (!await validateSignUpValues(values)) return;
     const user = new User(
-        null,                    /** id */
+        null,
         getRandomColor(),
-        values.username,         /** username */
-        values.pw,               /** password */
-        values.email,            /** email */
-        'active',                /** status */
-        Date.now()               /** createdAt */
+        values.username,
+        values.pw,
+        values.email,
+        'active',
+        Date.now()
     );
     await user.save();
     errorEmailExists.classList.add('d-none');
