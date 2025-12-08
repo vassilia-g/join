@@ -135,7 +135,6 @@
     .create-task {
         flex-direction: column;
         align-items: center;
-        overflow-y: auto;
     }
 
     #add-task-overlay .overlay-close-btn {
@@ -485,9 +484,6 @@
         padding-right: 250px;
     }
 
-    .task-overlay-content .create-task {
-        max-height: 700px;
-    }
 }
 
 @media (max-width: 680px) {
@@ -699,6 +695,10 @@
     #task-overlay-content{
         /* max-width: 340px; */
         padding: 20px;
+    }
+
+    .create-task .input-border-size {
+        font-size: 18px;
     }
 
     .task-overlay {
