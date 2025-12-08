@@ -188,23 +188,59 @@ function resetActiveContactUI() {
  * Toggle active state for a contact and show/hide details panel.
  */
 function setActiveContact(element, contact) {
-    const panel = document.getElementById("contact-details");
-    const sidebar = document.querySelector(".contact-sidebar");
-    const main = document.querySelector(".contact-main");
-    const isSameAsActive = String(activeContactId) === String(contact.id);
-    document.querySelectorAll(".contact-item").forEach(i => i.classList.remove("active"));
-    if (isSameAsActive && element.classList.contains("active")) {
+    const ui = getContactLayoutElements();
+    if (!ui.panel || !ui.main || !ui.sidebar) return;
+    const sameContact = isSameActiveContact(element, contact);
+    deactivateAllContacts();
+    if (sameContact) {
         resetActiveContactUI();
         return;
     }
+    activateContact(element, contact, ui);
+}
+
+
+/**
+ * Collect frequently used DOM nodes for contact layouts.
+ */
+function getContactLayoutElements() {
+    const panel = document.getElementById("contact-details");
+    const sidebar = document.querySelector(".contact-sidebar");
+    const main = document.querySelector(".contact-main");
+    return { panel, sidebar, main };
+}
+
+
+/**
+ * Determine if the clicked contact is already the active one.
+ */
+function isSameActiveContact(element, contact) {
+    const isSameId = String(activeContactId) === String(contact.id);
+    return isSameId && element.classList.contains("active");
+}
+
+
+/**
+ * Remove the active state from every contact list entry.
+ */
+function deactivateAllContacts() {
+    document.querySelectorAll(".contact-item")
+        .forEach(i => i.classList.remove("active"));
+}
+
+
+/**
+ * Activate the selected contact and handle responsive behavior.
+ */
+function activateContact(element, contact, ui) {
     element.classList.add("active");
     activeContactId = contact.id;
     showContactContent(contact);
-    panel.classList.add("is-open");
-    main.classList.add("is-open");
+    ui.panel.classList.add("is-open");
+    ui.main.classList.add("is-open");
     if (window.innerWidth <= 1000) {
-        sidebar.classList.add("hide");
-        main.style.display = panel.style.display = "block";
+        ui.sidebar.classList.add("hide");
+        ui.main.style.display = ui.panel.style.display = "block";
     }
 }
 
@@ -213,18 +249,31 @@ function setActiveContact(element, contact) {
  * Handle resize events to adapt sidebar/main layout responsively.
  */
 function handleResize() {
-    const sidebar = document.querySelector(".contact-sidebar");
-    const main = document.querySelector(".contact-main");
-    const panel = document.getElementById("contact-details");
-    if (!sidebar || !main || !panel) return;
+    const ui = getContactLayoutElements();
+    if (!ui.panel || !ui.main || !ui.sidebar) return;
     const isMobile = window.innerWidth <= 1000;
-    const showDetails = isMobile && activeContactId;
-    const showAll = !isMobile;
-    sidebar.classList.toggle("hide", showDetails);
-    main.style.display = panel.style.display =
-        showAll || showDetails ? "block" : "none";
+    toggleSidebarForResize(ui.sidebar, isMobile);
+    toggleContactDetails(ui, isMobile);
+}
 
-    if (showAll) sidebar.classList.remove("hide");
+
+/**
+ * Toggle sidebar visibility depending on viewport width and selection.
+ */
+function toggleSidebarForResize(sidebar, isMobile) {
+    const shouldHide = isMobile && activeContactId;
+    sidebar.classList.toggle("hide", shouldHide);
+    if (!isMobile) sidebar.classList.remove("hide");
+}
+
+
+/**
+ * Show or hide the contact details panel when resizing.
+ */
+function toggleContactDetails(ui, isMobile) {
+    const shouldShow = !isMobile || (isMobile && activeContactId);
+    const display = shouldShow ? "block" : "none";
+    ui.main.style.display = ui.panel.style.display = display;
 }
 
 
