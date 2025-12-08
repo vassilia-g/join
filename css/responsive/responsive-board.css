@@ -949,7 +949,9 @@
     .task-overlay {
         justify-content: space-between;
     }
-
+    #task-overlay-content {
+        max-height: 830px;
+    }
 }
 
 @media (max-height: 1020px) {
