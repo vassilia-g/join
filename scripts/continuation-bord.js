@@ -31,42 +31,79 @@ const LONG_PRESS_DELAY = 350;
  * @param {string} taskId - ID of the task represented by the card.
  */
 function enableTaskDragHandlers(card, taskId) {
-  let startX = 0, startY = 0, dragging = false, longPressTimeout = null;
-  const clearLongPressTimeout = () => {
-    if (longPressTimeout) {
-      clearTimeout(longPressTimeout);
-      longPressTimeout = null;
-    }
-  };
+  const state = createPointerDragState();
+  card.addEventListener("pointerdown", e => handlePointerDown(e, card, taskId, state));
+  card.addEventListener("pointermove", e => handlePointerMove(e, state));
+  card.addEventListener("pointerup", e => handlePointerUp(e, card, taskId, state));
+  card.addEventListener("pointercancel", e => handlePointerCancel(e, state));
+}
 
-  card.addEventListener("pointerdown", e => {
-    startX = e.clientX;
-    startY = e.clientY;
-    dragging = false;
-    clearLongPressTimeout();
-    if (isTouchLikeEvent(e)) {
-      longPressTimeout = setTimeout(() => {
-        dragging = true;
-        startTouchDrag(e, taskId);
-        longPressTimeout = null;
-      }, LONG_PRESS_DELAY);
-    }
-    card.setPointerCapture(e.pointerId);
-  });
-  card.addEventListener("pointermove", e => {
-    if (Math.abs(e.clientX - startX) > 5 || Math.abs(e.clientY - startY) > 5) {
-      dragging = true;
-      if (isTouchLikeEvent(e)) clearLongPressTimeout();
-    }
-  });
-  card.addEventListener("pointerup", e => {
-    card.releasePointerCapture(e.pointerId);
-    if (isTouchLikeEvent(e)) clearLongPressTimeout();
-    if (!dragging && !touchDrag) openTaskOverlay(taskId);
-  });
-  card.addEventListener("pointercancel", e => {
-    if (isTouchLikeEvent(e)) clearLongPressTimeout();
-  });
+
+/**
+ * Prepare reusable drag state for pointer handlers.
+ */
+function createPointerDragState() {
+  return { startX: 0, startY: 0, dragging: false, longPressTimeout: null };
+}
+
+
+/**
+ * Handle pointerdown by scheduling long-press drag initialization.
+ */
+function handlePointerDown(event, card, taskId, state) {
+  state.startX = event.clientX;
+  state.startY = event.clientY;
+  state.dragging = false;
+  clearLongPressTimeout(state);
+  if (isTouchLikeEvent(event)) {
+    state.longPressTimeout = setTimeout(() => {
+      state.dragging = true;
+      startTouchDrag(event, taskId);
+      state.longPressTimeout = null;
+    }, LONG_PRESS_DELAY);
+  }
+  card.setPointerCapture(event.pointerId);
+}
+
+
+/**
+ * Abort pending long-press if user moves finger beyond threshold.
+ */
+function handlePointerMove(event, state) {
+  if (Math.abs(event.clientX - state.startX) > 5 ||
+    Math.abs(event.clientY - state.startY) > 5) {
+    state.dragging = true;
+    if (isTouchLikeEvent(event)) clearLongPressTimeout(state);
+  }
+}
+
+
+/**
+ * Release capture and open modal when no drag occurred.
+ */
+function handlePointerUp(event, card, taskId, state) {
+  card.releasePointerCapture(event.pointerId);
+  if (isTouchLikeEvent(event)) clearLongPressTimeout(state);
+  if (!state.dragging && !touchDrag) openTaskOverlay(taskId);
+}
+
+
+/**
+ * Cleanup helper for pointer cancel events.
+ */
+function handlePointerCancel(event, state) {
+  if (isTouchLikeEvent(event)) clearLongPressTimeout(state);
+}
+
+
+/**
+ * Clear the pending long-press timeout if it exists.
+ */
+function clearLongPressTimeout(state) {
+  if (state.longPressTimeout) {
+    clearTimeout(state.longPressTimeout);
+    state.longPressTimeout = null;
+  }
 }
 
 
