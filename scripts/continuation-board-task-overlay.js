@@ -1,24 +1,21 @@
 /** 
  * Populate add-task inputs (title, description, due date, category) and initialize subtasks UI.
  */
-function getTaskContent(task, taskId) {
-  subtasks.length = 0;
-  document.getElementById('task-title').value = task.title || '';
-  document.getElementById('task-description').value = task.description || '';
-  document.getElementById('task-due-date').value = task.dueDate || '';
-  document.getElementById('input-category').innerText = task.category || '';
-  const subtaskInput = document.getElementById('task-subtasks');
-  subtaskInput.onclick = () => showSubtaskPicks(taskId);
-  subtaskInput.onkeyup = (ev) => {
-    if (ev.key === 'Enter') addSubtask();
-  };
-  const addSubtaskSvg = document.getElementById('add-subtask-svg');
-  if (addSubtaskSvg) {
-    addSubtaskSvg.replaceWith(addSubtaskSvg.cloneNode(true));
-    const freshSvg = document.getElementById('add-subtask-svg');
-    freshSvg.onclick = () => addSubtask();
-}
-  getSubtasks(task, taskId);
+function getTaskContent(t,id){
+  subtasks.length=0;
+  document.getElementById('task-title').value=t.title||'';
+  document.getElementById('task-description').value=t.description||'';
+  document.getElementById('task-due-date').value=t.dueDate||'';
+  document.getElementById('input-category').innerText=t.category||'';
+  const s=document.getElementById('task-subtasks');
+  s.onclick=()=>showSubtaskPicks(id);
+  s.onkeyup=e=>{if(e.key==='Enter')addSubtask()};
+  const a=document.getElementById('add-subtask-svg');
+  if(a){
+    a.replaceWith(a.cloneNode(true));
+    document.getElementById('add-subtask-svg').onclick=()=>addSubtask();
+  }
+  getSubtasks(t,id);
 }
 
 

@@ -307,26 +307,20 @@ function createPlaceholder(zone) {
 /** 
  * Add hover/drag UI feedback and placeholder management for drop zones 
  */
-function getHoverEffect() {
-  document.querySelectorAll('.drop-div').forEach((zone) => {
-    let placeholder;
-    zone.addEventListener('dragover', (e) => {
+function getHoverEffect(){
+  document.querySelectorAll('.drop-div').forEach(z=>{
+    let p;
+    z.addEventListener('dragover',e=>{e.preventDefault();if(!p)p=createPlaceholder(z);});
+    z.addEventListener('dragleave',e=>{if(!z.contains(e.relatedTarget)&&p)p.remove(),p=null;});
+    z.addEventListener('drop',async e=>{
       e.preventDefault();
-      if (!placeholder) placeholder = createPlaceholder(zone);
-    });
-    zone.addEventListener('dragleave', (e) => {
-      if (!zone.contains(e.relatedTarget) && placeholder) placeholder.remove(), placeholder = null;
-    });
-    zone.addEventListener('drop', async (e) => {
-      e.preventDefault();
-      const el = document.getElementById(e.dataTransfer.getData("text"));
-      if (placeholder) placeholder.remove();
-      zone.appendChild(el);
-      await switchStatus(zone, el.id);
+      const el=document.getElementById(e.dataTransfer.getData("text"));
+      if(p)p.remove();
+      z.appendChild(el);
+      await switchStatus(z,el.id);
     });
   });
 }
-
 
 /** 
  * Map drop zone id to task status and push update 
@@ -335,17 +329,13 @@ async function switchStatus(dropZone, taskId) {
   let newStatus;
   switch (dropZone.id) {
     case "new-task-div":
-      newStatus = "toDo";
-      break;
+      newStatus = "toDo"; break;
     case "new-task-progress-div":
-      newStatus = "inProgress";
-      break;
+      newStatus = "inProgress"; break;
     case "new-task-feedback-div":
-      newStatus = "awaitingFeedback";
-      break;
+      newStatus = "awaitingFeedback"; break;
     case "new-task-done-div":
-      newStatus = "done";
-      break;
+      newStatus = "done"; break;
     default:
       newStatus = "toDo";
   }

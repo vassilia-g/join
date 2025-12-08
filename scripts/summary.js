@@ -117,13 +117,10 @@ async function getFirstDueDateTask(allTasks) {
  */
 async function getTaskDueDate(task) {
     if (!task || !task.dueDate) return '-';
-
     const parsed = new Date(task.dueDate);
-
     if (isNaN(parsed.getTime())) {
         return String(task.dueDate);
     }
-
     return parsed.toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' });
 }
 
@@ -139,7 +136,6 @@ async function updateDayTime() {
     const punctuation = isGuest ? "!" : ",";
     const now = new Date();
     const hour = now.getHours();
-
     guestGreeting(userName, isGuest);
     updateUserGreeting(welcomeMsg, hour, punctuation);
 }
@@ -177,13 +173,11 @@ function guestGreeting(userName, isGuest) {
 async function updateUserName() {
     try {
         const el = document.getElementById('user-name');
-
         const user = await getUser();
         if (!user) {
             el.textContent = "User";
             return;
         }
-
         el.textContent = user.username || "User";
     } catch (err) {
         console.error("[updateUserName] Fehler:", err);

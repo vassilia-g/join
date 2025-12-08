@@ -16,14 +16,12 @@ function validateNameNumberForSignUp() {
     const value = inputSignUpName.value.trim();
     const hasNumber = numberRegex.test(value);
     const hasInvalidChar = allowedRegex.test(value);
-
     if (hasNumber || hasInvalidChar) {
         errorTextUserName.classList.remove("d-none");
         disableSignUpButton();
     } else {
         errorTextUserName.classList.add("d-none");
     }
-
     errorUsernameAndMailRequired.classList.add("d-none", !hasNumber)
     inputSignUpName.value = value.replace(/\s{2,}/g, ' ');
 }
@@ -33,9 +31,7 @@ function validateNameNumberForSignUp() {
  * valdidates the length of the name when blur the field.
  */
 function validateNameLengthForSignUp() {
-
     const value = inputSignUpName.value.trim();
-
     if (value.length < 2) {
         errorTextToShortUserName.classList.remove("d-none");
         disableSignUpButton();
@@ -50,7 +46,6 @@ function validateNameLengthForSignUp() {
  */
 function validateEmailInputForSignUp() {
     const input = inputSignUpEmail.value.trim();
-
     if (!emailRegex.test(input)) {
         emailErrorSignUp.classList.remove('d-none');
         inputEmail.value = "";
@@ -67,7 +62,6 @@ function validateEmailInputForSignUp() {
  */
 inputSignUpEmail.addEventListener('blur', () => {
     const input = inputSignUpEmail.value.trim();
-
     if (input.length === 0 || input === "") {
         emailErrorSignUp.classList.add('d-none');
         disableSignUpButton();
@@ -162,17 +156,10 @@ inputEmail.addEventListener('blur', () => {
  * Validate sign-up email in realtime; show error message when email allreday exists.
  */
 async function checkEmailExistsOnInput() {
-
     const data = await getData("users") || {};
     const users = Object.entries(data).map(([key, u = {}]) => new User(
-        key,
-        u.color ?? null,
-        u.username ?? "",
-        u.password ?? "",
-        u.email ?? "",
-        u.status ?? "active",
-        u.createdAt ?? null,
-        u.phone ?? ""
+        key, u.color ?? null, u.username ?? "", u.password ?? "",
+        u.email ?? "", u.status ?? "active", u.createdAt ?? null, u.phone ?? ""
     ));
     const exists = users.some(user => user.email === inputSignUpEmail.value);
     if (exists) {

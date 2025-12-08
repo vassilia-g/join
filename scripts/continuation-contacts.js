@@ -64,22 +64,14 @@ function clearInputs() {
 function editContactOverlay(user) {
     const overlay = document.getElementById("contact-edit-overlay");
     const popup = overlay.querySelector(".popup-contact");
-
     if (overlay.classList.contains("d_none")) {
         overlay.classList.remove("d_none");
-        setTimeout(() => {
-            overlay.classList.add("active");
-            popup.classList.add("active");
-        }, 10);
-        const inputBtn = document.getElementById('input-button');
-        inputBtn.innerHTML = showInputButtons(user);
+        setTimeout(() => { overlay.classList.add("active"); popup.classList.add("active");}, 10);
+        document.getElementById("input-button").innerHTML=showInputButtons(user);
     } else {
         overlay.classList.remove("active");
         popup.classList.remove("active");
-
-        popup.addEventListener("transitionend", function handler() {
-            overlay.classList.add("d_none");
-            popup.removeEventListener("transitionend", handler);
+        popup.addEventListener("transitionend", function handler() { overlay.classList.add("d_none"); popup.removeEventListener("transitionend", handler);
         });
     }
     resetWarnings()
