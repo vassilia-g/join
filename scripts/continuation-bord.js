@@ -13,7 +13,6 @@ function createElementForTaskArray(tasksArray) {
     card.id = card.id || task.id;
     card.setAttribute('draggable', 'true');
     card.addEventListener('dragstart', drag);
-    card.addEventListener('touchstart', e => startTouchDrag(e, task.id), { passive: false });
     card.addEventListener("click", () => openTaskOverlay(task.id), { capture: true });
     enableTaskDragHandlers(card, task.id);
   });
@@ -23,6 +22,7 @@ function createElementForTaskArray(tasksArray) {
 
 
 let touchDrag = null;
+const LONG_PRESS_DELAY = 350;
 
 
 /**
@@ -31,18 +31,41 @@ let touchDrag = null;
  * @param {string} taskId - ID of the task represented by the card.
  */
 function enableTaskDragHandlers(card, taskId) {
-  let startX = 0, startY = 0, dragging = false;
+  let startX = 0, startY = 0, dragging = false, longPressTimeout = null;
+  const clearLongPressTimeout = () => {
+    if (longPressTimeout) {
+      clearTimeout(longPressTimeout);
+      longPressTimeout = null;
+    }
+  };
+
   card.addEventListener("pointerdown", e => {
-    startTouchDrag(e, taskId);
-    startX = e.clientX; startY = e.clientY; dragging = false;
+    startX = e.clientX;
+    startY = e.clientY;
+    dragging = false;
+    clearLongPressTimeout();
+    if (isTouchLikeEvent(e)) {
+      longPressTimeout = setTimeout(() => {
+        dragging = true;
+        startTouchDrag(e, taskId);
+        longPressTimeout = null;
+      }, LONG_PRESS_DELAY);
+    }
     card.setPointerCapture(e.pointerId);
   });
   card.addEventListener("pointermove", e => {
-    if (Math.abs(e.clientX - startX) > 5 || Math.abs(e.clientY - startY) > 5) dragging = true;
+    if (Math.abs(e.clientX - startX) > 5 || Math.abs(e.clientY - startY) > 5) {
+      dragging = true;
+      if (isTouchLikeEvent(e)) clearLongPressTimeout();
+    }
   });
   card.addEventListener("pointerup", e => {
     card.releasePointerCapture(e.pointerId);
-    if (!dragging) openTaskOverlay(taskId);
+    if (isTouchLikeEvent(e)) clearLongPressTimeout();
+    if (!dragging && !touchDrag) openTaskOverlay(taskId);
+  });
+  card.addEventListener("pointercancel", e => {
+    if (isTouchLikeEvent(e)) clearLongPressTimeout();
   });
 }
 
@@ -69,9 +92,8 @@ function getEventPoint(event) {
  * @param {string} taskId - ID of the task being dragged.
  */
 function startTouchDrag(event, taskId) {
-  const isTouch = event.type.startsWith('touch') || event.pointerType === 'touch' || event.pointerType === 'pen';
-  if (!isTouch || touchDrag) return;
-  event.preventDefault();
+  if (!isTouchLikeEvent(event) || touchDrag) return;
+  if (event.cancelable) event.preventDefault();
   touchDrag = { taskId, element: document.getElementById(taskId), currentZone: null };
   document.addEventListener('pointermove', moveTouchDrag, { passive: false });
   document.addEventListener('pointerup', endTouchDrag);
@@ -117,6 +139,14 @@ async function endTouchDrag(event) {
     .forEach(type => document.removeEventListener(type, type.includes('move') ? moveTouchDrag : endTouchDrag));
   document.querySelectorAll('.drop-div').forEach(div => div.classList.remove('drop-target'));
   touchDrag = null;
+}
+
+
+/**
+ * Determine whether the event originates from a touch or pen interaction.
+ */
+function isTouchLikeEvent(event) {
+  return event.type?.startsWith('touch') || event.pointerType === 'touch' || event.pointerType === 'pen';
 }
 
 
