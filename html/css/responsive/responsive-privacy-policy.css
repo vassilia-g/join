@@ -1,0 +1,32 @@
+@media (max-width: 825px) {
+    .title {
+        font-size: 32px;
+    }
+}
+
+@media (max-width: 825px) {
+    .header-content {
+        margin-left: 25px;
+    }
+
+    .header-text {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 720px) {
+    .sidebar-nav {
+        justify-content: center !important;
+    }
+
+    .header-content {
+        justify-content: space-between;
+        margin-left: 0px;
+    }
+}
+
+@media (max-width: 350px) {
+    .sidebar-nav {
+        font-size: 16px;
+    }
+}

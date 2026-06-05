@@ -1,0 +1,537 @@
+@media (max-width: 1380px) {
+
+  .contact-main-header {
+    gap: 20px;
+  }
+
+  .contact-main {
+    padding: 100px 24px 20px 24px;
+  }
+
+}
+
+@media (max-width: 1280px) {
+
+  .h1-contacts {
+    font-size: 52px;
+  }
+
+  .p-header-contact {
+    font-size: 20px;
+  }
+
+  .contact-info h2 {
+    font-size: 34px;
+  }
+
+  .popup-leftside {
+    width: 340px;
+  }
+
+  .popup-rightside {
+    width: calc(100% - 340px);
+  }
+
+  .popup-contact {
+    width: 940px;
+  }
+
+  .input-add-contact {
+    width: 330px;
+  }
+
+  .close-button {
+    top: 30px;
+    left: 890px;
+  }
+  
+  .popup-container {
+    gap: 0;
+    justify-content: space-between;
+  }
+
+  .create-button {
+    padding: 0;
+  }
+
+  .input-button {
+      width: 330px;
+  }
+
+}
+
+@media (max-width: 1190px) {
+
+  .contact-sidebar {
+    max-width: 400px;
+    padding: 24px;
+  }
+
+  .contact-main {
+    padding: 40px 24px 20px 24px;
+  }
+
+}
+
+@media (max-width: 1140px) {
+
+  .h1-contacts {
+    font-size: 40px;
+  }
+
+  .p-header-contact {
+    font-size: 16px;
+  }
+
+  .contact-info h2 {
+    font-size: 24px;
+  }
+
+  .contact-avatar-show {
+    width: 70px;
+    height: 70px;
+    font-size: 24px;
+  }
+
+  .contact-info strong {
+    font-size: 16px;
+  }
+
+  .contact-sidebar {
+    padding: 24px;
+  }
+
+  .contact-item {
+    padding: 10px 8px;
+    border-radius: 10px;
+  }
+
+  #toast-container {
+    left: 800px;
+}
+
+}
+
+@media (max-width: 1050px) {
+
+  .contact-main-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    height: auto;
+  }
+
+  .h1-contacts {
+    font-size: 47px;
+  }
+
+  .contact-main-header .p-header-contact {
+    order: 2;
+    font-size: 20px;
+  }
+
+  .contact-main-header .line {
+    order: 3;
+    height: 3px;
+    width: 90px;
+  }
+}
+
+
+@media (max-width: 1000px) {
+  .contact-main-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .contact-main {
+    display: none;
+    width: calc(100% - 232px);
+    overflow-y: hidden;
+    overflow-x: hidden;
+    padding: 10px 8px 32px 8px;
+  }
+
+  .contact-sidebar.hide {
+    display: none;
+  }
+
+  .contact-main.is-open {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: #F6F7F8;
+  }
+
+  .contact-details.is-open {
+    display: block;
+    width: 100%;
+  }
+
+  .contact-sidebar {
+    max-width: 100%;
+    flex: 1;
+    padding: 10px 8px 10px 8px;
+  }
+
+  .contact-sidebar.hide {
+    display: none !important;
+  }
+
+  .contacts-list {
+    height: 100%;
+  }
+
+  .add-contact-button {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    height: 56px;
+    width: 56px;
+    border-radius: 50%;
+    padding: 0;
+    justify-content: center;
+    gap: 0;
+    font-size: 0;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    z-index: 2000;
+  }
+
+  .sidebar {
+    position: relative;
+  }
+
+  .add-contact-button svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .desktop-only {
+    display: none;
+  }
+
+  .mobile-only {
+    display: block;
+    position: relative;
+  }
+
+  .menu-toggle {
+    position: fixed;
+    bottom: 100px;
+    right: 8px;
+    height: 56px;
+    width: 56px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: white;
+    font-size: 24px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    z-index: 2000;
+  }
+
+  .menu-toggle:hover {
+    background-color: var(--color-accent);
+    box-shadow: 0px 4px 4px rgb(182, 182, 182);
+    transition: all 0.1s ease;
+  }
+
+  .menu-options {
+    position: fixed;
+    bottom: 120px;
+    right: -4px;
+    background: #fff;
+    border-radius: 20px 20px 0px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 116px;
+    height: 100px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    z-index: 2100;
+    transform: translateX(120%);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  .menu-options button {
+    background: none;
+    border: none;
+    padding: 10px 15px;
+    text-align: left;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  .menu-options button:hover {
+    background: #f0f0f0;
+  }
+
+  .menu-options.show {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  .back-button {
+    display: block;
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: -100px;
+    right: 0px;
+  }
+
+  #toast-container {
+    top: auto;
+    bottom: 10px;
+    left: 60%;
+    transform: translateX(-50%);
+  }
+
+  .toast {
+    transform: translateY(100%);
+  }
+
+  .toast.show {
+    transform: translateY(0);
+  }
+
+    .popup-contact {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 150%);
+    border-radius: 28px;
+    width: 90%;
+    height: auto;
+    flex-direction: column;
+    max-width: 400px;
+  }
+
+  .popup-contact.active {
+    transform: translate(-50%, -50%);
+  }
+
+   .popup-leftside img {
+    display: none;
+  }
+
+  .popup-leftside {
+    width: 100%;
+    height: 272px;
+    border-radius: 28px 28px 0px 0px;
+    padding: 0px 24px 0px 24px;
+  }
+
+  .popup-leftside p {
+    font-size: 20px;
+  }
+
+  .h2-contacts {
+    font-size: 47px;
+  }
+
+  .profile-picture {
+    position: absolute;
+    top: 221px;
+    width: 100px;
+    height: 100px;
+  }
+
+  .edit-avatar{
+  width: 100px;
+  height: 100px;
+  font-size: 39px;
+}
+
+  .close-button {
+    top: 16px;
+    right: 16px;
+    left: auto;
+  }
+
+  .close-button svg {
+    fill: white;
+  }
+
+  .popup-rightside {
+    width: 100%;
+    height: 392px;
+    padding: 0;
+  }
+
+  .overlay-contact {
+    z-index: 2003;
+  }
+
+    .cancel-button {
+    display: none;
+  }
+
+  .input-add-contact {
+    width: 100%;
+  }
+
+  .input-button {
+    justify-content: center;
+  }
+
+  .input-container {
+    gap: 15px;
+    width: 100%;
+    padding: 0px 24px;
+  }
+
+  .create-button {
+    width: 202px;
+    height: 51px;
+  }
+
+    .input-group {
+    width: 100%;
+  }
+
+  .close-button:hover {
+    background-color: var(--color-accent);
+  }
+
+  .contact-info strong {
+    font-size: 20px;
+    font-weight: 400;
+  }
+
+  .contact-email {
+    font-size: 16px;
+  }
+
+  .contact-additional-info h3 {
+    margin-bottom: 20px;
+  }
+
+    #add-contact-form {
+    margin-top: 70px;
+    width: 100%;
+    display: flex;
+  }
+
+  #edit-contact-form {
+    margin-top: 70px;
+    width: 100%;
+    display: flex;
+  }
+
+  .delete-button {
+    background-color: white;
+  }
+
+  .popup-container {
+    justify-content: space-around;
+  }
+
+  .contacts-list {
+    margin-top: 0px;
+  }
+
+  .own-contact {
+    margin-top: 0px;
+  }
+
+    .menu-options {
+    bottom: 90px;
+    right: 6px;
+  }
+
+}
+
+
+@media (max-width: 720px) {
+
+
+  .main {
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .sidebar {
+    position: fixed;
+  }
+
+  .contact-main {
+    width: 100%;
+  }
+
+
+  .contact-main-section {
+    height: unset;
+    position: fixed;
+    top: 96px;
+    bottom: 80px;
+  }
+
+  .contact-avatar-show {
+    width: 80px;
+    height: 80px;
+    font-size: 27px;
+    font-weight: 400;
+  }
+
+  .contact-info h2 {
+    font-size: 36px;
+    font-weight: 700;
+  }
+
+  .show-contact-template {
+    gap: 20px;
+  }
+
+  .contact-additional-info h3 {
+    font-size: 20px;
+  }
+
+  .contact-additional-info h4 {
+    font-size: 16px;
+  }
+
+    .add-contact-button {
+    bottom: 96px;
+  }
+
+      #toast-container {
+    bottom: 100px;
+    left: 50%;
+  }
+
+}
+
+@media(max-width: 420px) {
+  .input-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 380px) {
+
+  .h2-contacts {
+    font-size: 36px;
+  }
+
+  .popup-leftside p {
+    font-size: 16px;
+  }
+  .sidebar-nav {
+    font-size: 16px;
+  }
+
+  .toast {
+    width: 280px;
+  }
+
+
+}

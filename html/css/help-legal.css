@@ -1,0 +1,35 @@
+.title {
+    margin: 0;
+    font-size: 61px;
+    font-weight: 700;
+
+    margin-bottom: 30px;
+}
+
+.headline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.text-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.instructions {
+    display: flex;
+    gap: 35px;
+}
+
+.instruction-title {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+@media (max-width: 350px) {
+    .sidebar-nav {
+        font-size: 16px;
+    }
+}

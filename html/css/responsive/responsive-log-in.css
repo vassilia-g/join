@@ -1,0 +1,348 @@
+@media (max-width: 1440px) {
+    h1 {
+        font-size: 48px;
+    }
+
+    .line
+     {
+        width: 90px;
+        height: 0px;
+        border: 2px solid var(--color-accent);
+        margin-top: 4px;
+        border-radius: 3px;
+    }
+
+    .arrow-left {
+        width: 28px;
+        height: 28px;
+    }
+
+    .input-email-container,
+    .input-password-container
+     {
+        max-width: 320px;
+        width: 100%;
+        height: 40px;
+    }
+
+    .input-email,
+    .input-password {
+        width: 380px;
+        font-size: 18px;
+        margin-left: 5px;
+        align-self: end;
+    }
+
+    .input-email-container,
+    .input-password-container {
+        height: 32px;
+    }
+}
+
+@media (max-width: 733px) {
+
+    .mobile-overlay {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: var(--color-primary);
+        z-index: 0;
+        opacity: 0;
+        animation: overlay-fade 0.9s ease-in-out forwards;
+    }
+
+    @keyframes overlay-fade {
+        0% {
+            opacity: 1;
+        }
+
+        80% {
+            opacity: 1;
+        }
+
+        90% {
+            opacity: 0.3;
+        }
+
+        100% {
+            opacity: 0;
+            visibility: hidden;
+            .logo {
+            src: url(/assets/imgs/join-logo/capa-2.svg);
+    }
+        }
+    }
+
+    .logo-weiß {
+        display: block !important;
+        opacity: 1;
+        z-index: 5;
+    }
+
+    .logo {
+        display: none;
+    }
+
+    .logo-move-to-top-left {
+        animation: move-to-top-left 930ms ease-in-out forwards;
+        animation-timing-function: linear;
+    }
+
+    @keyframes move-to-top-left {
+        0% {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        70% {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        100% {
+            top: 34px;
+            left: 35.5px;
+            width: 71px;
+            height: 92px;
+            transform: translate(0, 0);
+        }
+    }
+
+    .log-in-header {
+        width: 100%;
+        margin-top: 60px;
+        display: flex;
+        justify-content: flex-end;
+        opacity: 0;
+    }
+
+    .responsive-header {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        opacity: 1;
+    }
+
+    .line {
+        border: 2px solid var(--color-accent);
+    }
+
+    .responsive-registry-container {
+        width: 100%;
+        height: 49px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 35px;
+        opacity: 1;
+    }
+
+    .log-in-container {
+        width: 350px;
+        padding: 30px 48px 20px 48px;
+    }
+
+    .input-email-container,
+    .input-password-container {
+        max-width: 320px;
+        width: 100%;
+        height: 28px;
+    }
+
+    .input-email-container ::placeholder,
+    .input-password-container ::placeholder
+     {
+        font-size: 16px;
+    }
+
+    .input-email,
+    
+    .input-password
+    {
+        align-self: center;
+    }
+
+    .input-email,
+    .input-password {
+        width: inherit;
+        height: 18px;
+
+    }
+
+    .log-in-button-container {
+        width: 100%;
+        height: 74px;
+        gap: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .log-in-button
+     {
+        width: 125px;
+        height: 48px;
+        border-radius: 8px;
+        background-color: var(--color-primary);
+        color: white;
+        font-size: 21px;
+        line-height: 120%;
+        letter-spacing: 0%;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .log-in-guest-button {
+        font-size: 16px;
+        width: 125px;
+    }
+
+    .registry-button {
+        height: 30px;
+    }
+}
+
+@media (max-width: 500px) {
+    .log-in-container {
+        padding: 30px 0px 20px 0px;
+        width: 350px;
+    }
+
+    .form-log-in {
+        align-items: center;
+    }
+
+    .input-email-container,
+    .input-password-container {
+        max-width: 220px;
+    }
+
+    .input-email[type="email"],
+    .input-password {
+        max-width: 226px;
+        font-size: 18px;
+        display: block;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .line {
+        width: 77px;
+    }
+
+    .log-in-container h1 {
+        font-size: 40px;
+    }
+
+    .arrow-left {
+        width: 26px;
+        height: 26px;
+    }
+
+    .registry-button {
+        width: 88px;
+        height: 30px;
+    }
+
+    .registry-text {
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 120%;
+        letter-spacing: 0%;
+    }
+}
+
+@media (max-width: 415px) {
+    .log-in-container {
+        max-width: 265px;
+    }
+
+    .line {
+        width: 56px;
+    }
+
+    .log-in-container h1 {
+        font-size: 32px;
+    }
+}
+
+@media (max-width: 375px) and (max-height: 668px) {
+    @keyframes move-to-top-left {
+        0% {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        100% {
+            top: 4px;
+            left: 5.5px;
+            width: 31px;
+            height: 52px;
+            transform: translate(0, 0);
+        }
+    }
+}
+
+@media (max-width: 415px) and (max-height: 770px) {
+    @keyframes move-to-top-left {
+        0% {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        100% {
+            top: 14px;
+            left: 15.5px;
+            width: 31px;
+            height: 52px;
+            transform: translate(0, 0);
+        }
+    }
+}
+
+@media (max-width: 733px) and (max-height: 1800px) {
+    footer{
+    min-height: 85px;
+    height: 250px;
+    justify-content: space-between;
+    }
+}
+
+@media (max-width: 733px) and (max-height: 1100px) {
+    footer{
+    min-height: 85px;
+    height: 170px;
+    justify-content: space-between;
+    }
+}
+
+@media (max-width: 733px) and (max-height: 800px) {
+    footer{
+    min-height: 85px;
+    height: 125px;
+    justify-content: space-between;
+    }
+}
+
+@media (max-width: 733px) and (max-height: 660px) {
+    footer{
+    min-height: 85px;
+    height: 100px;
+    justify-content: space-between;
+    }
+}
+
+@media (max-width: 733px) and (max-height: 575px) {
+    footer{
+    min-height: 85px;
+    height: 85px;
+    justify-content: space-between;
+    }
+}

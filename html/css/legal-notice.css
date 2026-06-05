@@ -1,0 +1,13 @@
+.title {
+    margin: 0;
+    font-size: 61px;
+    font-weight: 700;
+
+    margin-bottom: 30px;
+}
+
+.headline {
+    flex-direction: row;
+    display: flex;
+    justify-content: space-between;
+}

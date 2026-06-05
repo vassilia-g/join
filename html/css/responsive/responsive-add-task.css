@@ -1,0 +1,303 @@
+@media(max-height: 1320px) {
+    .title {
+        font-size: 45px;
+    }
+
+    .add-task-title {
+        margin-bottom: 5px !important;
+    }
+
+    .task-additional-info {
+        gap: 12px;
+    }
+
+    .task-label-divs {
+        margin-top: 12px;
+    }
+}
+
+@media(max-width: 1310px) {
+    .create-task {
+        flex-direction: column;
+
+    }
+
+    .task-additional-info {
+        border: none;
+        width: 100%;
+        align-items: center;
+        padding: 0 0 117px 0;
+    }
+
+    .task-main-info {
+        width: 100%;
+        align-items: center;
+        padding: 0 0 35px 0;
+    }
+
+    .task-label-divs {
+        margin-top: 20px;
+    }
+
+    .task-footer {
+        padding-bottom: 40px;
+    }
+
+    .task-additional-info {
+        align-items: start;
+    }
+
+    .task-main-info {
+        align-items: start;
+    }
+
+    .input-border-size {
+        width: 90%;
+    }
+
+    .input-wrapper {
+        width: 90%;
+    }
+
+    .textarea {
+        width: 90%;
+    }
+
+    #task-description {
+        width: 100%;
+    }
+
+    .priority-btns {
+        width: 90%;
+    }
+
+    .task-label-divs {
+        width: 100%;
+    }
+
+    #contacts-to-select {
+        width: 90%;
+    }
+
+    .delete-or-keep-subtask {
+        right: 92px;
+    }
+
+    #selected-subtasks {
+        width: 90%;
+    }
+}
+
+@media(max-height: 1050px) {
+    #clear-btn {
+        padding: 16px 8px;
+        font-size: 20px;
+        height: 56px;
+        width: 90px;
+    }
+
+    #create-task-btn {
+        padding: 16px 8px;
+        font-size: 20px;
+        height: 56px;
+    }
+
+    .task-footer {
+        padding-bottom: 20px;
+        margin-bottom: 4px;
+    }
+}
+
+@media(max-width: 975px) {
+    .delete-or-keep-subtask {
+        right: 80px;
+    }
+}
+
+@media(max-width: 875px) {
+    .header-text {
+        margin-left: 40px;
+    }
+
+    .task-footer {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .delete-or-keep-subtask {
+        right: 64px;
+    }
+}
+
+
+@media (max-height: 800px) {
+    .sidebar-nav {
+        align-items: center;
+    }
+
+    .nav {
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 0 12px !important;
+    }
+
+    .nav svg {
+        flex-shrink: 0;
+        width: 30px;
+        height: 30px;
+    }
+}
+
+@media (max-width: 720px) {
+    .add-task-content {
+        padding-left: 1rem;
+    }
+
+    .task-footer {
+        padding-bottom: 16px;
+        padding-top: 5px;
+    }
+
+    #clear-btn {
+        width: 100px;
+        height: 40px;
+        font-size: 17px;
+    }
+
+    #create-task-btn {
+        width: 170px;
+        height: 40px !important;
+        font-size: 17px;
+    }
+
+    .page-content {
+        height: calc(100vh - 150px) !important;
+        padding: 60px 16px 12px 16px !important;
+    }
+
+    .title {
+        font-size: 45px;
+    }
+}
+
+@media(max-width: 680px) {
+    #selected-contacts {
+        grid-template-columns: repeat(13, 31px);
+    }
+}
+
+
+@media(max-width: 500px) {
+    .priority-btns p {
+        display: none;
+    }
+
+    #selected-contacts {
+        grid-template-columns: repeat(11, 31px);
+    }
+}
+
+
+@media(max-width: 445px) {
+    .priority-btns button {
+        font-size: 16px;
+        height: auto;
+        padding: 18px 10px;
+    }
+
+    .priority-btns button svg {
+        width: 16px;
+    }
+
+    .textarea svg {
+        display: none;
+    }
+
+    .delete-or-keep-subtask {
+        right: 51px;
+    }
+
+    .input-border-size {
+        font-size: 16px;
+    }
+
+    #task-description {
+        font-size: 16px;
+    }
+}
+
+@media(max-width: 450px) {
+    #selected-contacts {
+        grid-template-columns: repeat(9, 31px);
+    }
+}
+
+@media(max-width: 395px) {
+    .nav {
+        justify-content: center;
+    }
+
+    .priority-btns button {
+        padding: 12px 5px;
+    }
+
+    .assign-contacts {
+        font-size: 16px;
+    }
+
+    .task-category {
+        font-size: 16px;
+    }
+
+    .task-label-divs {
+        font-size: 16px;
+    }
+
+    .input-border-size::placeholder {
+        font-size: 16px;
+    }
+
+    #task-description::placeholder {
+        font-size: 16px;
+    }
+}
+
+@media(max-width: 359px) {
+    .task-btns {
+        width: 270px;
+    }
+
+    #clear-btn {
+        font-size: 16px;
+    }
+
+    #create-task-btn {
+        font-size: 16px;
+    }
+
+    .title {
+        font-size: 40px;
+    }
+
+    .add-task-to-board-div {
+        width: 270px;
+    }
+
+    .priority-btns button {
+        flex-direction: column;
+    }
+
+    .sidebar-nav {
+        font-size: 16px;
+    }
+
+    .assign-contacts {
+        font-size: 14px;
+    }
+
+    #selected-contacts {
+        grid-template-columns: repeat(7, 31px);
+    }
+}
